@@ -1,0 +1,45 @@
+import Vue from 'vue'
+import App from './App.vue';
+import store from './store'
+import router from './router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import VueAuth from '@websanova/vue-auth'
+import messages from './utils/validator/pt_BR';
+import VeeValidate, {Validator} from 'vee-validate';
+import {apiUrl, facebookClientId, googleClientId} from './config'
+import VueSweetAlert from 'vue-sweetalert'
+
+// Router
+Vue.router = router
+
+Vue.use(VueAxios, axios)
+Vue.axios.defaults.baseURL = apiUrl;
+Vue.use(VueAuth, {
+    auth: require('./plugins/auth-driver/bearer'),
+    http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
+    router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+    rolesVar: 'role',
+    facebookOauth2Data: {
+        clientId: facebookClientId
+    },
+    googleOauth2Data: {
+        clientId: googleClientId
+    },
+});
+
+Validator.updateDictionary({
+    pt_BR: {
+        messages
+    }
+});
+
+Vue.use(VeeValidate, {locale: 'pt_BR'});
+
+Vue.use(VueSweetAlert)
+
+// Start
+var component = App;
+component.router = Vue.router;
+component.store = store
+new Vue(component).$mount('#root');

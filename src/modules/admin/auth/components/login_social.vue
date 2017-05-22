@@ -1,0 +1,82 @@
+<template>
+    <div class="container text-center">
+        <div class="main">
+            <div class="row">
+                <div class="col-md-12">
+                    <div v-show="code && type">
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                        <h1>Autenticando com <strong>{{ type }}</strong>.</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import {mapActions, mapGetters} from 'vuex'
+    import {capitalize} from 'lodash'
+
+    export default {
+        name: 'login-social',
+        data() {
+            return {
+                context: 'oauth2 context',
+                code: this.$route.query.code,
+                type: this.$route.params.type
+            };
+        },
+        mounted() {
+            if (this.code) {
+                this.$auth.oauth2({
+                    code: true,
+                    provider: this.type,
+                    params: {
+                        code: this.code,
+                        user_email: this.currentUser ? this.currentUser.email : null,
+                        user_id: this.currentUser ? this.currentUser.id : null
+                    },
+                    success: function (response) {
+
+                        this.authSetToken(response.data.token) // this is a Vuex action
+                        this.authSetUser(response.data.user) // this is a Vuex action
+
+                        this.$router.push({path: '/dashboard'})
+                    },
+                    error: function (error) {
+                        console.log('error ' + this.context);
+
+                        if (this.isLogged) {
+                            this.$swal('Ops!', 'Não é possivel utilizar esta conta do ' + capitalize(this.type) + ', isto pode significar que a conta já esteja em uso no sistema. Desconecte-se e faça login utilizando o ' + capitalize(this.type) + '.', 'error')
+                            this.$router.push({path: '/dashboard/profile'})
+                        }
+                    }
+                });
+            }
+        },
+        computed: {
+            /**
+             * Map the getters from Vuex to this component.
+             */
+            ...mapGetters(['currentUser', 'isLogged']),
+        },
+        methods: {
+            /**
+             * Map the actions from Vuex to this component.
+             */
+            ...mapActions(['authSetToken', 'authSetUser']),
+        }
+    }
+</script>
+
+<style scoped>
+    .main {
+        position: absolute;
+        width: 500px;
+        height: 100px;
+        top: 50%;
+        left: 50%;
+        margin-top: -50px;
+        margin-left: -250px;
+    }
+</style>
