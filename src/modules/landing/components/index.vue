@@ -12,7 +12,7 @@
 
        <div class="group-tags">
            <div class="tag" v-for="item in items" v-if="item[0].category === 'Frutas'">
-               <Tags v-bind:name="item[0].name" />
+               <Tag v-bind:name="item[0].name" />
            </div>
        </div>
 
@@ -22,7 +22,7 @@
 <script>
     import { mapGetters } from 'vuex'
     import Event from '../../../models/Event.js'
-    import Tags from './Tags.vue'
+    import Tag from './Tag.vue'
 
 
     console.log(Event)
@@ -71,7 +71,7 @@
             },
         },
         components: {
-            'Tags': Tags
+            'Tag': Tag
         }
     }
 </script>

@@ -10,7 +10,7 @@
 
 <script>
 export default {
-    name: 'Tags',
+    name: 'Tag',
     props:{
         name: ''
     }
