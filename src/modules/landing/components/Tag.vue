@@ -2,7 +2,7 @@
     <div>
         <input :id="category+index" class="checkbox" type="checkbox" :value="name">
         <label class="tag" @click="setCheckboxOnLabelClick(category+index)">
-            <span>{{ name }} - {{ category }}</span>
+            <span>{{ name }}</span>
         </label>
     </div>
 
@@ -20,7 +20,6 @@ export default {
         setCheckboxOnLabelClick: function(id) {
             const el = document.getElementById(id)
             el.click()
-            console.log(el)
         }
     }
 }
