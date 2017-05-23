@@ -4977,6 +4977,10 @@ sweetalert2@^6.4.2:
   version "6.6.1"
   resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-6.6.1.tgz#7c48a4617dcd664dcd5fe7f81e6cc9ba272ab581"
 
+swiper@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-3.4.2.tgz#39d6b410b1a39833e1f72d3b72999df5f5e38392"
+
 tapable@^0.2.5, tapable@~0.2.5:
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-0.2.6.tgz#206be8e188860b514425375e6f1ae89bfb01fd8d"

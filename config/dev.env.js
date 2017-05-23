@@ -3,7 +3,7 @@ var prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  API_URL: '"http://api.endpoint.here"',
-  FACEBOOK_CLIENT_ID: '"FACEBOOK_CLIENT_ID"',
-  GOOGLE_CLIENT_ID: '"GOOGLE_CLIENT_ID"',
+  API_URL: '"http://maisbartenders.dev/api"',
+  FACEBOOK_CLIENT_ID: '"262783620860879"',
+  GOOGLE_CLIENT_ID: '"78576259068-946rmqo5lr86v1hekodh2v6qsjpm9p23.apps.googleusercontent.com"',
 })
