@@ -11,8 +11,12 @@
        </div>
 
        <div class="group-tags">
-           <div class="tag" v-for="item in items" v-if="item[0].category === 'Frutas'">
-               <Tag v-bind:name="item[0].name" />
+           <div class="tag" v-for="(item, index) in items" v-if="item[0].category === 'Frutas'">
+               <Tag
+                    v-bind:index="index"
+                    v-bind:name="item[0].name"
+                    v-bind:category="item[0].category"
+               />
            </div>
        </div>
 

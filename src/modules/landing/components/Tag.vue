@@ -1,8 +1,8 @@
 <template lang="html">
     <div>
-        <input class="checkbox" type="checkbox" :value="name">
-        <label class="tag">
-            <span>{{ name }}</span>
+        <input :id="category+index" class="checkbox" type="checkbox" :value="name">
+        <label class="tag" @click="setCheckboxOnLabelClick(category+index)">
+            <span>{{ name }} - {{ category }}</span>
         </label>
     </div>
 
@@ -11,8 +11,17 @@
 <script>
 export default {
     name: 'Tag',
-    props:{
-        name: ''
+    props: {
+        name: '',
+        category: '',
+        index: ''
+    },
+    methods: {
+        setCheckboxOnLabelClick: function(id) {
+            const el = document.getElementById(id)
+            el.click()
+            console.log(el)
+        }
     }
 }
 </script>
