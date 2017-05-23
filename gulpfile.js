@@ -19,7 +19,8 @@ elixir(function(mix) {
         './assets/flatly/css/bootstrap.css',
         './assets/css/custom.css',
         './node_modules/izitoast/dist/css/iziToast.css',
-        './node_modules/font-awesome/css/font-awesome.css'
+        './node_modules/font-awesome/css/font-awesome.css',
+        '../../../node_modules/swiper/dist/css/swiper.css',
 	], './static/build/css/vendor.css');
 
 	mix.scripts([
