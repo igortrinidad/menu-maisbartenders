@@ -1,47 +1,32 @@
 <template>
    <div class="container">
 
-       <div class="main text-center">
+       <div class="text-center">
 
-           <img src="static/assets/logo.png" width="120">
-           <h1 class="">We Planner Vue Starter</h1>
+           <h1>We Planner Vue Starter</h1>
 
            <p v-if="isLogged">Olá <strong>{{currentUser.name}}</strong>, bem vindo.</p>
 
-
-           <!-- Swiper -->
-            <div>
-                <div class="swiper-container gallery-top">
-                    <div class="swiper-wrapper">
-                        <!-- Alterar objetos -->
-                        <div class="swiper-slide" v-for="photo in service.photos">
-                            <img :src="photo.photo_url" width="100%"/>
-                        </div>
-
-                    </div>
-                    <div class="swiper-pagination"></div>
-
-                    <!-- Add Arrows -->
-                    <div class="swiper-button-next swiper-button-white"></div>
-                    <div class="swiper-button-prev swiper-button-white"></div>
-                </div>
-
-                <div class="swiper-container gallery-thumbs">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="photo in service.photos">
-                            <img :src="photo.photo_url" width="100%"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
            <router-link class="btn btn-success" to="/dashboard" v-if="isLogged">Go to Dashboard</router-link>
        </div>
+
+       <div class="group-tags">
+           <div v-for="item in items" v-if="item[0].category === 'Frutas'">
+               <Tags v-bind:name="item[0].name" />
+           </div>
+       </div>
+
    </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
+    import Event from '../../../models/Event.js'
+    import Tags from './Tags.vue'
+
+
+    console.log(Event)
+
 
     var Swiper = require('swiper')
 
@@ -49,7 +34,8 @@
         name: 'landing',
         data () {
             return {
-
+                drinks: Event.drinks,
+                items: Event.drinks.map((drink) => drink.items)
             }
         },
         computed:{
@@ -81,23 +67,16 @@
                     galleryThumbs.params.control = galleryTop;
 
                 }, 200)
-                
+
             },
+        },
+        components: {
+            'Tags': Tags
         }
     }
 </script>
 
 <style scoped>
-    .main {
-        position: absolute;
-        width: 500px;
-        height: 300px;
-        top: 50%;
-        left: 50%;
-        margin-top: -150px;
-        margin-left: -250px;
-    }
-
     .m-t-30{
         margin-top: 30px;
     }
@@ -122,7 +101,5 @@
     .gallery-thumbs .swiper-slide-active {
         opacity: 1;
     }
-    
+
 </style>
-
-
