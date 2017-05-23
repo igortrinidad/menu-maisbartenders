@@ -1,8 +1,8 @@
 <template lang="html">
     <div>
+        <input class="checkbox" type="checkbox" :value="name">
         <label class="tag">
             <span>{{ name }}</span>
-            <input type="checkbox" :value="name">
         </label>
     </div>
 
@@ -18,4 +18,28 @@ export default {
 </script>
 
 <style scoped>
+
+.tag {
+    cursor: pointer;
+    display: flex;
+    background: #dedede;
+    padding: 7px 14px;
+    text-align: center;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.checkbox{
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.checkbox:checked + label {
+    background: #4b2c50;
+    color: #fff;
+}
+
+
 </style>

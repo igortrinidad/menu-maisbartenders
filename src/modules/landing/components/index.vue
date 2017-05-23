@@ -11,7 +11,7 @@
        </div>
 
        <div class="group-tags">
-           <div v-for="item in items" v-if="item[0].category === 'Frutas'">
+           <div class="tag" v-for="item in items" v-if="item[0].category === 'Frutas'">
                <Tags v-bind:name="item[0].name" />
            </div>
        </div>
@@ -77,6 +77,15 @@
 </script>
 
 <style scoped>
+    .group-tags{
+        display: flex;
+        flex-flow: row wrap;
+        align-content: left;
+        justify-content: left;
+    }
+    .tag{
+        padding: 10px;
+    }
     .m-t-30{
         margin-top: 30px;
     }
