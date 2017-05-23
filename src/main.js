@@ -15,6 +15,32 @@ Vue.router = router
 
 Vue.use(VueAxios, axios)
 Vue.axios.defaults.baseURL = apiUrl;
+
+Vue.axios.interceptors.response.use(function (response) {
+
+    return response;
+
+}, function (error) {
+
+    const { response } = error
+
+    // If token is expired not provided or invalid, bad request, internal server error then redirect to login.
+    if ([401, 400, 403,  500].indexOf(response.status) > -1) {
+
+        //set token and user as null
+        store.dispatch('authSetToken', '')
+        store.dispatch('authSetUser', '')
+
+        //redirect
+        router.push({ name: 'auth.login' })
+
+        errorNotify('Ops!', 'Ocorreu um erro ao processar sua requisição.')
+    }
+
+    //return  response error
+    return Promise.reject(response);
+});
+
 Vue.use(VueAuth, {
     auth: require('./plugins/auth-driver/bearer'),
     http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
