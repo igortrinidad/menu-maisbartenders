@@ -51,14 +51,23 @@
                </div>
 
                <!-- Drinks -->
-               <div class="drinks" v-if="displayDrinks">
-                    <Carousel :perPage="1">
-                        <Slide v-for="(drink, index) in drinks" :key="index">
-                            Prioridade: {{ drink.priority }}
-                            <img :src="drink.photo_url" :alt="drink.name">
-
-                        </Slide>
-                    </Carousel>
+               <div class="wrapper-drinks" v-if="displayDrinks">
+                   <div class="cols" >
+                       <div class="col">
+                           <div class="drinks" >
+                               <Carousel :perPage="1" :paginationActiveColor="'#222'" :paginationColor="'#777'">
+                                   <Slide v-for="(drink, index) in drinks" v-if="" :key="index">
+                                       <div class="drink">
+                                           <span class="priority">
+                                               <i class="fa fa-star" v-for="n in drink.priority"></i>
+                                           </span>
+                                           <img :src="drink.photo_url" :alt="drink.name" @click="modal()">
+                                       </div>
+                                   </Slide>
+                               </Carousel>
+                           </div>
+                       </div>
+                   </div>
                </div>
 
            </div>
@@ -131,6 +140,10 @@
             console.log()
         },
         methods: {
+
+            modal: function() {
+                alert('ampliar a imagem com outras informações')
+            },
 
             displayFilteredDrinks: function() {
                 this.displayDrinks = true;
@@ -288,12 +301,32 @@
 }
 
 .drinks{
-    padding: 0 10px;
+    padding: 10px;
+    background: #ededed;
+    border-radius: 5px;
+    box-shadow: 3px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.drink {
+    width: 100%
 }
 
 .drinks img{
-    width: 250px;
+    max-width: 250px;
     height: auto;
+    max-height: 250px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.priority{
+    display: block;
+}
+.priority i {
+    color: #4b2c50;
+    margin: 0 5px;
 }
 
 </style>
