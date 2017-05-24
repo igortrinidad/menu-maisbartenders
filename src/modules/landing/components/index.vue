@@ -14,8 +14,8 @@
            <h3 class="title-filter">{{ items.label }}</h3>
            <div class="group-tags">
                <div class="tag-container" v-for="(item, index) in items.items">
-                   <input :id="'frutas'+index" class="checkbox" type="checkbox" :value="item">
-                   <label class="tag" @click="setCheckboxOnLabelClick('frutas'+index)">
+                   <input :id="item+index" class="checkbox" type="checkbox" :value="item">
+                   <label class="tag" @click="setCheckboxOnLabelClick(item+index)">
                        <span>{{ item }}</span>
                    </label>
                </div>
