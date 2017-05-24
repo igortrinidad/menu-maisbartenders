@@ -21,6 +21,8 @@ export default {
             const el = document.getElementById(id)
             el.click()
         }
+    },
+    mounted() {
     }
 }
 </script>

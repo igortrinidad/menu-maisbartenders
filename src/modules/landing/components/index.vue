@@ -10,54 +10,18 @@
            <router-link class="btn btn-success" to="/dashboard" v-if="isLogged">Go to Dashboard</router-link>
        </div>
 
-       <div class="filter">
-           <h3 class="title-filter">Frutas</h3>
+       <div class="filter-step" v-for="items in itemsCategoriesOrdereds">
+           <h3 class="title-filter">{{ items.label }}</h3>
            <div class="group-tags">
-               <div class="tag" v-for="(item, index) in items" v-if="item[0].category === 'Frutas'">
-                   <Tag
-                        v-bind:index="index"
-                        v-bind:name="item[0].name"
-                        v-bind:category="item[0].category"
-                   />
+               <div class="tag-container" v-for="(item, index) in items.items">
+                   <input :id="'frutas'+index" class="checkbox" type="checkbox" :value="item">
+                   <label class="tag" @click="setCheckboxOnLabelClick('frutas'+index)">
+                       <span>{{ item }}</span>
+                   </label>
                </div>
            </div>
        </div>
-       <div class="filter">
-           <h3 class="title-filter">Bebidas</h3>
-           <div class="group-tags">
-               <div class="tag" v-for="(item, index) in items" v-if="item[1].category === 'Bebidas'">
-                   <Tag
-                        v-bind:index="index"
-                        v-bind:name="item[1].name"
-                        v-bind:category="item[1].category"
-                   />
-               </div>
-           </div>
-       </div>
-       <div class="filter">
-           <h3 class="title-filter">Apresentação</h3>
-           <div class="group-tags">
-               <div class="tag" v-for="(presentation, index) in presentations">
-                   <Tag
-                        v-bind:index="index"
-                        v-bind:name="presentation.name"
-                        v-bind:category="presentation.slug"
-                   />
-               </div>
-           </div>
-       </div>
-       <div class="filter">
-           <h3 class="title-filter">Estilo</h3>
-           <div class="group-tags">
-               <div class="tag" v-for="(style, index) in styles">
-                   <Tag
-                        v-bind:index="index"
-                        v-bind:name="style.name"
-                        v-bind:category="style.slug"
-                   />
-               </div>
-           </div>
-       </div>
+
    </div>
 </template>
 
@@ -66,30 +30,74 @@
     import Event from '../../../models/Event.js'
     import Tag from './Tag.vue'
 
-
-    console.log(Event)
-
-
     var Swiper = require('swiper')
 
     export default {
         name: 'landing',
         data () {
             return {
+
                 mainEvent: Event,
                 drinks: Event.drinks,
-                items: Event.drinks.map((drink) => drink.items),
-                presentations: [{name: 'Taça Martini', slug: 'taca-martini'}, {name: 'Long Drink', slug: 'long-drink' }, {name: 'On the rocks', slug: 'on-the-rocks'}, {name: 'Canequinha', slug: 'canequinha'}],
-                styles: [{name: 'Suquinho (sem álcool)', slug: 'suquinho'}, {name: 'Leve', slug: 'leve' }, {name: 'No Jeiro', slug: 'no-jeito'}, {name: 'Coice de Mula (forte)', slug: 'coice-de-mula'}]
+                // items: Event.drinks.map((drink) => drink.items),
+                itemsCategoriesOrdereds: {
+
+                    fruitsAndIngredients: {
+                        label: 'Frutas & Ingredientes',
+                        items: this.getItemsByCategory('frutas')
+                    },
+
+                    drinks: {
+                        label: 'Bedidas',
+                        items: this.getItemsByCategory('bebidas')
+                    },
+
+                    presentations: {
+                        label: 'Apresentações',
+                        items: _.chain(Event.drinks)
+                            .map((drink) => drink.presentation.toUpperCase())
+                            .reduce((a,b) => { if(a.indexOf(b)<0)a.push(b);return a }
+                            ,[])
+                            .value(),
+                    },
+
+                    styles: {
+                        label: 'Estilos',
+                        items: _.chain(Event.drinks)
+                            .map((drink) => drink.style.toUpperCase())
+                            .reduce((a,b) => { if(a.indexOf(b)<0)a.push(b);return a }
+                            ,[])
+                            .value(),
+                    }
+                }
             }
         },
         computed:{
-            /**
-             * Map the getters from Vuex to this component.
-             */
+            // Map the getters from Vuex to this component.
+
             ...mapGetters(['currentUser', 'isLogged']),
         },
+        mounted(){
+            console.log()
+        },
         methods: {
+
+            setCheckboxOnLabelClick: function(id) {
+                const el = document.getElementById(id)
+                el.click()
+            },
+
+            getItemsByCategory: function(category) {
+                return _.chain(Event.drinks)
+                    .map((drink) => drink.items.map((item) => {
+                        if(item.category.toLowerCase() === category) return item.name
+                    }))
+                    .flatten()
+                    .filter((item) => item !== undefined)
+                    .reduce((a,b) => { if(a.indexOf(b)<0)a.push(b);return a }
+                    ,[])
+                    .value()
+            },
 
             //Confirmar se deve ser rodado toda vez que a lista mudar...
             initSwiper: function(){
@@ -122,6 +130,29 @@
 </script>
 
 <style scoped>
+    .tag {
+        cursor: pointer;
+        display: flex;
+        background: #dedede;
+        padding: 7px 14px;
+        text-align: center;
+        width: 100%;
+        border-radius: 5px;
+        text-transform: uppercase;
+    }
+
+    .checkbox{
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .checkbox:checked + label {
+        background: #4b2c50;
+        color: #fff;
+    }
+
     .group-tags{
         display: flex;
         flex-flow: row wrap;
@@ -132,7 +163,7 @@
         padding: 10px;
         text-transform: uppercase;
     }
-    .tag{
+    .tag-container{
         padding: 10px;
     }
     .m-t-30{
