@@ -37,36 +37,6 @@ export default {
 			photo_url: 'https://maisbartenders.com.br/img/portfolio/Mais_Bartenders_TRINIDAD.JPG'
 		},
 		{
-			name: 'Trinidad',
-			description: 'Um drink muito top!',
-			priority: 5,
-			items: [
-				{
-					name: 'Morango',
-					category: 'Frutas',
-
-				},
-				{
-					name: 'Gin',
-					category: 'Bebidas',
-
-				},
-				{
-					name: 'Espuma de jabuticaba',
-					category: 'Ingredientes',
-
-				},
-				{
-					name: 'Pimenta do reino',
-					category: 'Ingredientes',
-
-				}
-			],
-			presentation: 'Taça Martini',
-			style: 'No Jeito',
-			photo_url: 'https://maisbartenders.com.br/img/portfolio/Mais_Bartenders_TRINIDAD.JPG'
-		},
-		{
 			name: 'Moscow Mule',
 			description: 'O melhor Moscow do Brasil!',
 			priority: 5,
@@ -139,7 +109,7 @@ export default {
 			],
 			presentation: 'On the rocks',
 			style: 'No jeito',
-			photo_url: ''
+			photo_url: 'http://3.bp.blogspot.com/-WbHXEo3HDWM/TzK-gGSaKYI/AAAAAAAAXqU/E2Ylyh8xWao/s1600/caip.png'
 		},
 	]
 }
