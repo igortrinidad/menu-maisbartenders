@@ -38,6 +38,7 @@
 
                 mainEvent: Event,
                 drinks: Event.drinks,
+                filter: [],
                 // items: Event.drinks.map((drink) => drink.items),
                 itemsCategoriesOrdereds: {
 
@@ -83,7 +84,21 @@
 
             setCheckboxOnLabelClick: function(id) {
                 const el = document.getElementById(id)
-                el.click()
+                if (!el.checked) {
+                    el.click()
+                    this.filter.push(el.value)
+                    console.log(this.filter)
+                } else {
+                    el.click()
+                    let post
+                    this.filter.forEach((item, index) => {
+                        if (item === el.value) {
+                            post = index
+                        }
+                    })
+                    this.filter.splice(post, 1)
+                    console.log(this.filter)
+                }
             },
 
             getItemsByCategory: function(category) {
