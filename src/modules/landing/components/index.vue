@@ -28,7 +28,6 @@
 <script>
     import { mapGetters } from 'vuex'
     import Event from '../../../models/Event.js'
-    import Tag from './Tag.vue'
 
     var Swiper = require('swiper')
 
@@ -122,9 +121,6 @@
                 }, 200)
 
             },
-        },
-        components: {
-            'Tag': Tag
         }
     }
 </script>
