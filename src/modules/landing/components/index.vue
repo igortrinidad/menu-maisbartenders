@@ -52,30 +52,13 @@
 
                <!-- Drinks -->
                <div class="drinks" v-if="displayDrinks">
-                   <div>
-                        <div class="swiper-container gallery-top">
-                            <div class="swiper-wrapper">
-                                <!-- Alterar objetos -->
-                                <div class="swiper-slide" v-for="photo in drinkPhotos">
-                                    <img :src="photo" width="100%"/>
-                                </div>
+                    <Carousel :perPage="1">
+                        <Slide v-for="(drink, index) in drinks" :key="index">
 
-                            </div>
-                            <div class="swiper-pagination"></div>
+                            <img :src="drink.photo_url" :alt="drink.name">
 
-                            <!-- Add Arrows -->
-                            <div class="swiper-button-next swiper-button-white"></div>
-                            <div class="swiper-button-prev swiper-button-white"></div>
-                        </div>
-
-                        <div class="swiper-container gallery-thumbs">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide" v-for="photo in drinkPhotos">
-                                    <img :src="photo" width="100%"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </Slide>
+                    </Carousel>
                </div>
 
            </div>
@@ -85,7 +68,7 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import swiper from 'swiper'
+    import { Carousel, Slide } from 'vue-carousel'
     import Event from '../../../models/Event.js'
 
     var Swiper = require('swiper')
@@ -141,7 +124,6 @@
             ...mapGetters(['currentUser', 'isLogged']),
         },
         mounted(){
-            console.log(Swiper)
         },
         methods: {
 
@@ -203,7 +185,13 @@
                 }, 200)
 
             },
+        },
+
+        components: {
+            'Carousel': Carousel,
+            'Slide': Slide
         }
+
     }
 </script>
 
@@ -292,6 +280,15 @@
 }
 .gallery-thumbs .swiper-slide-active {
     opacity: 1;
+}
+
+.drinks{
+    padding: 0 10px;
+}
+
+.drinks img{
+    width: 250px;
+    height: auto;
 }
 
 </style>
