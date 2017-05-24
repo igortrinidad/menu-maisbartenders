@@ -54,7 +54,7 @@
                <div class="drinks" v-if="displayDrinks">
                     <Carousel :perPage="1">
                         <Slide v-for="(drink, index) in drinks" :key="index">
-
+                            Prioridade: {{ drink.priority }}
                             <img :src="drink.photo_url" :alt="drink.name">
 
                         </Slide>
@@ -79,7 +79,11 @@
             return {
 
                 mainEvent: Event,
-                drinks: Event.drinks,
+                drinks: Event.drinks.sort((a, b) => {
+                    if (a.priority < b.priority) return 1
+                    if (a.priority > b.priority) return -1
+                    return 0
+                }),
                 filter: [],
                 displayDrinks: false,
                 drinkPhotos: _.chain(Event.drinks)
@@ -124,6 +128,7 @@
             ...mapGetters(['currentUser', 'isLogged']),
         },
         mounted(){
+            console.log()
         },
         methods: {
 
