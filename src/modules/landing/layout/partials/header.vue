@@ -77,6 +77,11 @@
 }
 .navbar-nav li:first-child{ margin-right: 20px }
 
+@media (max-width: 768px) {
+    .navbar-nav li {text-align: right; display: block;}
+    .navbar-nav li:first-child{ margin-right: 0 }
+}
+
 .navbar-toggle{ display: none; }
 
 .navbar-brand{ color: #fff; font-size: 1.2rem}

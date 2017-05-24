@@ -20,12 +20,14 @@ a{
 }
 
 .full {
-    height: 100vh;
+    min-height: calc(100vh - 64px);
     width: 100%;
     overflow: hidden;
     position: relative;
     display: flex;
     align-items: center;
+    padding: 20px 0;
+    margin-top: 64px;
 }
 
 .full .container {
@@ -39,13 +41,12 @@ a{
 
 .button{
     border: none;
-    padding: 20px 7px;
+    padding: 13px 15px;
     border-radius: 5px;
     font-size: 1.5rem;
     text-transform: uppercase;
     text-align: center;
     max-width: 200px;
-    min-width: 200px;
     font-weight: bold;
     font-family: "Montserrat";
     margin: 0 auto;
