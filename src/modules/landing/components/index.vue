@@ -52,11 +52,30 @@
 
                <!-- Drinks -->
                <div class="drinks" v-if="displayDrinks">
-                   <div class="cols">
-                       <div class="col" v-for="drink in drinks">
-                           <img :src="drink.photo_url" alt="">
-                       </div>
-                   </div>
+                   <div>
+                        <div class="swiper-container gallery-top">
+                            <div class="swiper-wrapper">
+                                <!-- Alterar objetos -->
+                                <div class="swiper-slide" v-for="photo in drinkPhotos">
+                                    <img :src="photo" width="100%"/>
+                                </div>
+
+                            </div>
+                            <div class="swiper-pagination"></div>
+
+                            <!-- Add Arrows -->
+                            <div class="swiper-button-next swiper-button-white"></div>
+                            <div class="swiper-button-prev swiper-button-white"></div>
+                        </div>
+
+                        <div class="swiper-container gallery-thumbs">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide" v-for="photo in drinkPhotos">
+                                    <img :src="photo" width="100%"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                </div>
 
            </div>
@@ -66,6 +85,7 @@
 
 <script>
     import { mapGetters } from 'vuex'
+    import swiper from 'swiper'
     import Event from '../../../models/Event.js'
 
     var Swiper = require('swiper')
@@ -79,6 +99,9 @@
                 drinks: Event.drinks,
                 filter: [],
                 displayDrinks: false,
+                drinkPhotos: _.chain(Event.drinks)
+                    .map((drink) => drink.photo_url)
+                    .value(),
                 // items: Event.drinks.map((drink) => drink.items),
                 itemsCategoriesOrdereds: {
 
@@ -118,7 +141,7 @@
             ...mapGetters(['currentUser', 'isLogged']),
         },
         mounted(){
-            console.log()
+            console.log(Swiper)
         },
         methods: {
 
@@ -249,5 +272,26 @@
 
 .button.inline{ display: inline; }
 .button.inline.margin{ margin-right: 10px; }
+
+
+/* Swiper */
+
+.gallery-top {
+    height: 80%;
+    width: 100%;
+}
+.gallery-thumbs {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
+.gallery-thumbs .swiper-slide {
+    width: 200px;
+    height: 100px;
+    opacity: 0.4;
+}
+.gallery-thumbs .swiper-slide-active {
+    opacity: 1;
+}
 
 </style>
