@@ -4,7 +4,7 @@ export default {
 	name: 'João e Joana',
 	url: 'joana-joao',
 	greeting: 'Sejam bem vindos ao nosso casamento',
-	event_photo_url: '',
+	event_photo_url: 'https://maisbartenders.com.br/img/header-bg.jpg',
 	drinks: [
 		{
 			name: 'Trinidad',

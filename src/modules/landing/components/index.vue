@@ -1,27 +1,37 @@
 <template>
-   <div class="container">
+   <div>
+       <div class="full">
+           <div class="background"><img :src="mainEvent.event_photo_url" alt=""></div>
+           <div class="container">
+               <div class="text-center">
+                   <h1 class="main-title text-center montserrat"><strong>Menu</strong> Bartenders</h1>
 
-       <div class="text-center">
-
-           <h1>Menu Bartenders - {{ mainEvent.name }}</h1>
-
-           <p v-if="isLogged">Olá <strong>{{currentUser.name}}</strong>, bem vindo.</p>
-
-           <router-link class="btn btn-success" to="/dashboard" v-if="isLogged">Go to Dashboard</router-link>
-       </div>
-
-       <div class="filter-step" v-for="items in itemsCategoriesOrdereds">
-           <h3 class="title-filter">{{ items.label }}</h3>
-           <div class="group-tags">
-               <div class="tag-container" v-for="(item, index) in items.items">
-                   <input :id="item+index" class="checkbox" type="checkbox" :value="item">
-                   <label class="tag" @click="setCheckboxOnLabelClick(item+index)">
-                       <span>{{ item }}</span>
-                   </label>
+                   <p class="greeting montserrat" v-if="isLogged">Olá <strong>{{currentUser.name}}</strong>, {{ mainEvent.greeting }}.
+                       <br> <small>{{ mainEvent.name }}</small>
+                   </p>
                </div>
+
+               <button class="button" type="button">Confira</button>
+
+               <router-link class="btn btn-success" to="/dashboard" v-if="isLogged">Go to Dashboard</router-link>
            </div>
        </div>
 
+       <div class="full">
+           <div class="container">
+               <div class="filter-step" v-for="items in itemsCategoriesOrdereds">
+                   <h3 class="title-filter">{{ items.label }}</h3>
+                   <div class="group-tags">
+                       <div class="tag-container" v-for="(item, index) in items.items">
+                           <input :id="item+index" class="checkbox" type="checkbox" :value="item">
+                           <label class="tag" @click="setCheckboxOnLabelClick(item+index)">
+                               <span>{{ item }}</span>
+                           </label>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
    </div>
 </template>
 
@@ -141,65 +151,7 @@
 </script>
 
 <style scoped>
-    .tag {
-        cursor: pointer;
-        display: flex;
-        background: #dedede;
-        padding: 7px 14px;
-        text-align: center;
-        width: 100%;
-        border-radius: 5px;
-        text-transform: uppercase;
-    }
 
-    .checkbox{
-        visibility: hidden;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-
-    .checkbox:checked + label {
-        background: #4b2c50;
-        color: #fff;
-    }
-
-    .group-tags{
-        display: flex;
-        flex-flow: row wrap;
-        align-content: left;
-        justify-content: left;
-    }
-    .title-filter{
-        padding: 10px;
-        text-transform: uppercase;
-    }
-    .tag-container{
-        padding: 10px;
-    }
-    .m-t-30{
-        margin-top: 30px;
-    }
-
-    /*
-    Swiper
-    */
-    .gallery-top {
-        height: 80%;
-        width: 100%;
-    }
-    .gallery-thumbs {
-        height: 20%;
-        box-sizing: border-box;
-        padding: 10px 0;
-    }
-    .gallery-thumbs .swiper-slide {
-        width: 200px;
-        height: 100px;
-        opacity: 0.4;
-    }
-    .gallery-thumbs .swiper-slide-active {
-        opacity: 1;
-    }
+@import "index.css";
 
 </style>
