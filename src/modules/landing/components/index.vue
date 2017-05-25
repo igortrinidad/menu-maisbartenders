@@ -112,7 +112,7 @@
             meta: [
                 { itemprop: 'name', content: 'Content Title' },
                 { itemprop: 'description', content: 'Content Title' },
-                { property: 'fb:app_id', content: '123456789' }
+                { property: 'fb:app_id', content: '123456789' },
                 { property: 'og:url', content: 'http://menu.maisbartenders.com.br' },
                 { property: 'og:title', content: 'Content Title' },
                 { property: 'og:image', c: 'https://maisbartenders.com.br/img/header-bg.jpg' },
