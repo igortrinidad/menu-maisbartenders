@@ -107,7 +107,7 @@
         name: 'landing',
         head: {
             title: {
-              inner: 'It will be a pleasure'
+              inner: 'Teste do negocio'
             },
             meta: [
                 { itemprop: 'name', content: 'Content Title' },
