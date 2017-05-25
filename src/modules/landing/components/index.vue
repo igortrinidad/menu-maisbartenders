@@ -1,77 +1,91 @@
 <template>
    <div>
-       <div class="full centered">
-           <div class="background"><img :src="mainEvent.event_photo_url" alt=""></div>
-           <div class="container">
-               <div class="text-center">
-                   <h1 class="main-title text-center montserrat"><strong>Menu</strong> Bartenders</h1>
+    
+        <header class="header-greeting" v-bind:style="{ backgroundImage: bg}">
+            <div class="container" >
+                <div class="intro-text">
+                    <div class="intro-lead-in">Olá <strong>{{currentUser.name}}</strong></div>
+                    <div class="intro-heading">{{ mainEvent.greeting }}</div>
+                    <a href="#items" class="page-scroll btn btn-xl">Escolham seus drinks preferidos</a>
+                </div>
+            </div>
+        </header>
 
-                   <p class="greeting montserrat" v-if="isLogged">Olá <strong>{{currentUser.name}}</strong>, {{ mainEvent.greeting }}.
-                       <br> <small>{{ mainEvent.name }}</small>
-                   </p>
-               </div>
+        <section id="items">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading m-b-30">Quais ingredientes você gostaria em seu drink?</h2>
 
-               <button class="button" type="button">Confira</button>
+                        <div v-for="category in itemsCategoriesOrdereds">
+                            <h4 class="section-heading">{{category.label}}</h4>
 
-               <router-link class="btn btn-success" to="/dashboard" v-if="isLogged">Go to Dashboard</router-link>
-           </div>
-       </div>
+                            <span v-for="item in category.items">
+                                <button class="btn btn-filter inline tag" :class="{'btn-xl' : itemsSelecteds.indexOf(item) > -1}" @click="addItem(item)">{{item}}</button>
+                            </span>
+                            
+                            <br>
+                            <br>
+                        </div>
+                        
+                        <p class="m-t-30 text-muted">
+                            Clique em procurar para selecionarmos as melhores receitas para você.
+                        </p>
 
-       <div class="full">
-           <div class="container">
+                        <a href="#drinks" class="page-scroll btn inline btn-xl m-t-30">Procurar drinks</a>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </section>
 
-               <!-- Opções de filtro -->
-               <div class="filter-step" v-for="items in itemsCategoriesOrdereds">
-                   <h3 class="title-filter montserrat">{{ items.label }}</h3>
-                   <div class="cols">
-                       <div class="col" v-for="(item, index) in items.items">
-                           <input :id="item+index" class="checkbox" type="checkbox" :value="item">
-                           <label class="button tag" @click="setCheckboxOnLabelClick(item+index)">
-                               <span>{{ item }}</span>
-                           </label>
-                       </div>
-                   </div>
-               </div>
 
-               <!-- Escolhas do usuario -->
-               <div class="choises" v-if="filter.length">
-                   <div class="cols">
-                       <div class="col">
-                           <h3>Selecionados:
-                               <span v-for="(item, index) in filter">{{ item }}<span v-if="index !== filter.length-1">, </span><span v-if="index === filter.length-1">.</span></span>
-                           </h3>
-                       </div>
-                   </div>
-                   <div class="cols">
-                       <div class="col">
-                           <button class="button inline margin" type="button" @click="displayFilteredDrinks()">Exbir drinks</button>
-                           <button class="button inline" type="button" @click="displayFilteredDrinks()">Todos</button>
-                       </div>
-                   </div>
-               </div>
+        <section id="drinks">
+            
+            <!-- Swiper -->
+            <div class="swiper-row">
+                <div class="swiper-container gallery-top">
+                    <div class="swiper-wrapper">
 
-               <!-- Drinks -->
-               <div class="wrapper-drinks" v-if="displayDrinks">
-                   <div class="cols" >
-                       <div class="col">
-                           <div class="drinks" >
-                               <Carousel :perPage="1" :paginationActiveColor="'#222'" :paginationColor="'#777'">
-                                   <Slide v-for="(drink, index) in drinks" v-if="" :key="index">
-                                       <div class="drink">
-                                           <span class="priority">
-                                               <i class="fa fa-star" v-for="n in drink.priority"></i>
-                                           </span>
-                                           <img :src="drink.photo_url" :alt="drink.name" @click="modal()">
-                                       </div>
-                                   </Slide>
-                               </Carousel>
-                           </div>
-                       </div>
-                   </div>
-               </div>
+                        <div class="swiper-slide " v-for="(drink, index) in drinks" v-if="" :key="index">
+                            <h4 class="text-center stars">
+                                <span class="">
+                                    <i class="fa fa-star fa-2x"></i>
+                                    <i class="fa fa-star fa-2x"></i>
+                                    <i class="fa fa-star fa-2x"></i>
+                                    <i class="fa fa-star fa-2x"></i>
+                                </span>
+                            </h4>
+                            <h2 class="text-center">
+                                {{drink.name}}
+                            </h2>
+                            <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
+                            <div class="text-center">
+                                <button class="btn btn-default m-b-20">Salvar drink</button>
+                                <button class="btn btn-default m-b-20">Compartilhar no facebook</button>
+                            </div>
+                            <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                        </div>
 
-           </div>
-       </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+
+                    <!-- Add Arrows -->
+                    <div class="swiper-button-next swiper-button-white"></div>
+                    <div class="swiper-button-prev swiper-button-white"></div>
+                </div>
+
+                <div class="swiper-container gallery-thumbs">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="(drink, index) in drinks" v-if="" :key="index">
+                            <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
    </div>
 </template>
 
@@ -86,58 +100,63 @@
         name: 'landing',
         data () {
             return {
-
+                bg: 'url(https://maisbartenders.com.br/img/header-bg.jpg)',
                 mainEvent: Event,
                 drinks: Event.drinks.sort((a, b) => {
                     if (a.priority < b.priority) return 1
                     if (a.priority > b.priority) return -1
                     return 0
                 }),
-                filter: [],
+                itemsSelecteds: [],
                 displayDrinks: false,
                 drinkPhotos: _.chain(Event.drinks)
                     .map((drink) => drink.photo_url)
                     .value(),
                 // items: Event.drinks.map((drink) => drink.items),
-                itemsCategoriesOrdereds: {
-
-                    fruitsAndIngredients: {
-                        label: 'Frutas & Ingredientes',
-                        items: this.getItemsByCategory('frutas')
-                    },
-
-                    drinks: {
-                        label: 'Bedidas',
-                        items: this.getItemsByCategory('bebidas')
-                    },
-
-                    presentations: {
-                        label: 'Apresentações',
-                        items: _.chain(Event.drinks)
-                            .map((drink) => drink.presentation.toUpperCase())
-                            .reduce((a,b) => { if(a.indexOf(b)<0)a.push(b);return a }
-                            ,[])
-                            .value(),
-                    },
-
-                    styles: {
-                        label: 'Estilos',
-                        items: _.chain(Event.drinks)
-                            .map((drink) => drink.style.toUpperCase())
-                            .reduce((a,b) => { if(a.indexOf(b)<0)a.push(b);return a }
-                            ,[])
-                            .value(),
-                    }
-                }
             }
         },
         computed:{
             // Map the getters from Vuex to this component.
 
             ...mapGetters(['currentUser', 'isLogged']),
+
+            itemsCategoriesOrdereds: function(){
+                return {
+                        fruitsAndIngredients: {
+                            label: 'Frutas & Ingredientes',
+                            items: this.getItemsByCategory('frutas')
+                        },
+
+                        drinks: {
+                            label: 'Bedidas',
+                            items: this.getItemsByCategory('bebidas')
+                        },
+
+                        presentations: {
+                            label: 'Apresentações',
+                            items: _.chain(Event.drinks)
+                                .map((drink) => drink.presentation.toUpperCase())
+                                .reduce((a,b) => { if(a.indexOf(b)<0)a.push(b);return a }
+                                ,[])
+                                .value(),
+                        },
+
+                        styles: {
+                            label: 'Estilos',
+                            items: _.chain(Event.drinks)
+                                .map((drink) => drink.style.toUpperCase())
+                                .reduce((a,b) => { if(a.indexOf(b)<0)a.push(b);return a }
+                                ,[])
+                                .value(),
+                        }
+                    }
+            },
+
         },
         mounted(){
             console.log()
+
+            this.initSwiper();
         },
         methods: {
 
@@ -145,8 +164,21 @@
                 alert('ampliar a imagem com outras informações')
             },
 
+            addItem: function(item){
+                let that = this
+                
+                var index = this.itemsSelecteds.indexOf(item);
+                if(index > -1){
+                    this.itemsSelecteds.splice(index,1)
+                } else {
+                    this.itemsSelecteds.push(item)
+                }
+            },
+
             displayFilteredDrinks: function() {
                 this.displayDrinks = true;
+
+                this.initSwiper();
             },
 
             setCheckboxOnLabelClick: function(id) {
@@ -215,70 +247,38 @@
 
 <style scoped>
 
-.background{
-    width: 100%;
-    height: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
+.header-greeting{
+    text-align: center;
+    background-attachment: scroll;
+    background-position: center center;
+    background-repeat: none;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
 }
 
-.main-title{
-    margin: 0;
-    color: #222;
-    font-size: 3rem;
-    font-weight: normal;
-    margin-bottom: 20px
+header .intro-text .intro-heading{
+    font-size: 40px;
 }
 
-.button {
-    background: #e5d647;
-    color: #fff;
-    box-shadow:3px 1px 1px rgba(0, 0, 0, .1);
-}
-.button:focus{ background:#4b2c50; }
-
-.greeting {
-    font-size: 1rem;
-    font-style: italic;
-    color: #222;
-    background: rgba(255, 255, 255, .7);
-    max-width: 320px;
-    margin: 0 auto;
-    display: block;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 3px 2px 2px rgba(0, 0, 0, 0.1);
+.swiper-row{
+    margin: 50px;
 }
 
 .tag {
-    font-size: 1rem;
-    background: #dedede;
-    color: #323232;
+    font-size: 1.4rem;
+    margin: 7px;
 }
 
-.checkbox{
-    visibility: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
+.stars{
+    color: #fed136;
 }
 
-.checkbox:checked + label {
-    background: #4b2c50;
-    color: #fff;
+.drink-desc{
+    display: block;
+    height: 60px;
 }
-
-.title-filter{
-    padding: 10px;
-    text-transform: uppercase;
-    color: #323232;
-}
-
-.button.inline{ display: inline; }
-.button.inline.margin{ margin-right: 10px; }
-
 
 /* Swiper */
 
@@ -298,27 +298,6 @@
 }
 .gallery-thumbs .swiper-slide-active {
     opacity: 1;
-}
-
-.drinks{
-    padding: 10px;
-    background: #ededed;
-    border-radius: 5px;
-    box-shadow: 3px 2px 2px rgba(0, 0, 0, 0.1);
-}
-
-.drink {
-    width: 100%
-}
-
-.drinks img{
-    max-width: 250px;
-    height: auto;
-    max-height: 250px;
-    display: block;
-    margin: 0 auto;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .priority{

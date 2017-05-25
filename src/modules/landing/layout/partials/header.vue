@@ -1,30 +1,41 @@
 <template>
-    <nav class="navbar">
-        <div class="container-fluid">
-
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" id="navbar-menu-button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-
-                <div class="navbar-brand"><router-link to="/">Menu <strong>Bartenders</strong></router-link></div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll close-navbar-mb mb-brand" @click="closeMenu()" href="#eventos">Mais Bartenders</a>
+                    </li>
+                </ul>
+                
             </div>
 
-            <div class="navbar-nav" id="bs-example-navbar-collapse-2">
-                <ul>
-                    <router-link  tag="li" to="/cadastro" exact>
-                        <a>Cadastre-se</a>
-                    </router-link>
-                    <router-link  tag="li" to="/login" exact>
-                        <a>Login</a>
-                    </router-link>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a class="close-navbar-mb" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll close-navbar-mb" @click="closeMenu()" href="#eventos">Eventos</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll close-navbar-mb" @click="closeMenu()" href="#drinks">Cardápio completo</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll close-navbar-mb" @click="closeMenu()" href="#contato">Contato</a>
+                    </li>
+                    
                 </ul>
             </div>
-
+            <!-- /.navbar-collapse -->
         </div>
+        <!-- /.container-fluid -->
     </nav>
 </template>
 
@@ -39,53 +50,30 @@
 
         },
         methods:{
+            closeMenu: function(){
 
+                if(window.innerWidth <= 768){
+                    $('#navbar-menu-button').click();
+                    
+                }
+            },
         }
     }
 </script>
 
 <style scoped>
+    .mb-brand{
+        margin: 0px 0 0 15px;
+        font-size: 20px;
+    }
 
-.navbar {
-    min-height: 64px;
-    width: 100%;
-    background: #222;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-    font-family: 'montserrat'
-}
+    @media(max-width:768px){
+        .mb-brand{
+            margin: 10px 0 0 15px;
+        }
 
-.container-fluid{
-    width: 100%;
-    padding: 0 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 64px;
-}
-
-.navbar-nav{
-
-}
-.navbar-nav li {
-    list-style: none;
-    color: #fff;
-    display: inline-block;
-    font-size: .9rem
-}
-.navbar-nav li:first-child{ margin-right: 20px }
-
-@media (max-width: 768px) {
-    .navbar-nav li {text-align: right; display: block;}
-    .navbar-nav li:first-child{ margin-right: 0 }
-}
-
-.navbar-toggle{ display: none; }
-
-.navbar-brand{ color: #fff; font-size: 1.2rem}
-
-.navbar-header, .navbar-nav{ align-self:  center; }
-
+        .navbar-default .navbar-toggle {
+            margin-top: 20px;
+        }
+    }
 </style>

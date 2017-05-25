@@ -63,7 +63,7 @@ export default {
 		},
 		{
 			name: 'Di Souza',
-			description: 'Um drink excelente para começar o dia!',
+			description: 'Um drink excelente para começar o dia que é muito refrescante e refresca quando esta calor...!',
 			priority: 5,
 			items: [
 				{
