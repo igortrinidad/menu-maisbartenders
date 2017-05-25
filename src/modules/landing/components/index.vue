@@ -83,6 +83,15 @@
                     </div>
                 </div>
             </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <a href="#drinks" class="page-scroll btn inline btn-xl m-t-30" @click="clearFilter()" v-if="displayDrinks">Mostrar todos</a>
+
+                    </div>
+                </div>
+            </div>
         </section>
 
    </div>
@@ -193,6 +202,10 @@
                     .some(item => this.itemsSelecteds.includes(item))
                     .value()
                 )
+            },
+
+            clearFilter: function() {
+                this.itemsSelecteds = []
             },
 
             getItemsByCategory: function(category) {
