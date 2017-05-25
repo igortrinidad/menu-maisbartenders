@@ -1,6 +1,6 @@
 <template>
    <div>
-    
+
         <header class="header-greeting" v-bind:style="{ backgroundImage: bg}">
             <div class="container" >
                 <div class="intro-text">
@@ -21,40 +21,39 @@
                             <h4 class="section-heading">{{category.label}}</h4>
 
                             <span v-for="item in category.items">
-                                <button class="btn btn-filter inline tag" :class="{'btn-xl' : itemsSelecteds.indexOf(item) > -1}" @click="addItem(item)">{{item}}</button>
+                                <button class="btn btn-filter inline tag" :class="{'btn-xl' : itemsSelecteds.indexOf(item) > -1}" @click="addItem(item)">
+                                    {{ item }}
+                                </button>
                             </span>
-                            
+
                             <br>
                             <br>
                         </div>
-                        
+
                         <p class="m-t-30 text-muted">
                             Clique em procurar para selecionarmos as melhores receitas para você.
                         </p>
 
-                        <a href="#drinks" class="page-scroll btn inline btn-xl m-t-30">Procurar drinks</a>
-                        
+                        <a href="#drinks" class="page-scroll btn inline btn-xl m-t-30" @click="displayDrinks = true">Procurar drinks</a>
+
                     </div>
                 </div>
             </div>
-            
+
         </section>
 
 
         <section id="drinks">
-            
+
             <!-- Swiper -->
             <div class="swiper-row">
                 <div class="swiper-container gallery-top">
                     <div class="swiper-wrapper">
 
-                        <div class="swiper-slide " v-for="(drink, index) in drinks" v-if="" :key="index">
+                        <div class="swiper-slide " v-for="(drink, index) in drinks" v-if="applyFilter(drink) && displayDrinks" :key="index">
                             <h4 class="text-center stars">
                                 <span class="">
-                                    <i class="fa fa-star fa-2x"></i>
-                                    <i class="fa fa-star fa-2x"></i>
-                                    <i class="fa fa-star fa-2x"></i>
-                                    <i class="fa fa-star fa-2x"></i>
+                                    <i class="fa fa-star fa-2x" v-for="n in drink.priority"></i>
                                 </span>
                             </h4>
                             <h2 class="text-center">
@@ -65,7 +64,7 @@
                                 <button class="btn btn-default m-b-20">Salvar drink</button>
                                 <button class="btn btn-default m-b-20">Compartilhar no facebook</button>
                             </div>
-                            <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                            <img class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
                         </div>
 
                     </div>
@@ -78,7 +77,7 @@
 
                 <div class="swiper-container gallery-thumbs">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="(drink, index) in drinks" v-if="" :key="index">
+                        <div class="swiper-slide" v-for="(drink, index) in drinks" v-if="applyFilter(drink) && displayDrinks" :key="index">
                             <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
                         </div>
                     </div>
@@ -154,19 +153,13 @@
 
         },
         mounted(){
-            console.log()
 
-            this.initSwiper();
         },
         methods: {
 
-            modal: function() {
-                alert('ampliar a imagem com outras informações')
-            },
-
             addItem: function(item){
                 let that = this
-                
+
                 var index = this.itemsSelecteds.indexOf(item);
                 if(index > -1){
                     this.itemsSelecteds.splice(index,1)
@@ -175,29 +168,21 @@
                 }
             },
 
-            displayFilteredDrinks: function() {
-                this.displayDrinks = true;
+            // displayFilteredDrinks: function() {
+            //     this.displayDrinks = true;
+            //     this.initSwiper();
+            // },
 
-                this.initSwiper();
-            },
-
-            setCheckboxOnLabelClick: function(id) {
-                const el = document.getElementById(id)
-                if (!el.checked) {
-                    el.click()
-                    this.filter.push(el.value)
-                    console.log(this.filter)
-                } else {
-                    el.click()
-                    let post
-                    this.filter.forEach((item, index) => {
-                        if (item === el.value) {
-                            post = index
-                        }
-                    })
-                    this.filter.splice(post, 1)
-                    console.log(this.filter)
-                }
+            applyFilter: function(drink) {
+                // console.log( drink.items.map((item) => item) )
+                this.initSwiper()
+                if (!this.itemsSelecteds.length) return true
+                return (
+                    _.chain(drink.items)
+                    .map((i) => i.name)
+                    .some(item => this.itemsSelecteds.includes(item))
+                    .value()
+                )
             },
 
             getItemsByCategory: function(category) {
@@ -278,6 +263,11 @@ header .intro-text .intro-heading{
 .drink-desc{
     display: block;
     height: 60px;
+}
+
+
+.drink-photo{
+  max-height: 300px
 }
 
 /* Swiper */
