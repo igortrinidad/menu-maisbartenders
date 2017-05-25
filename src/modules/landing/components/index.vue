@@ -62,7 +62,7 @@
                             <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
                             <div class="text-center">
                                 <button class="btn btn-default m-b-20">Salvar drink</button>
-                                <button class="btn btn-default m-b-20">Compartilhar no facebook</button>
+                                <button class="btn btn-default m-b-20" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
                             </div>
                             <img class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
                         </div>
@@ -156,6 +156,15 @@
 
         },
         methods: {
+
+            openShareFacebook: function(drink){
+                let that = this
+
+                var url = 'https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/' + drink.id + '/Não%20vejo%20a%20hora%20de%20chegar%20o%20' + that.mainEvent.name + '%20para%20experimentar%20o%20drink%20' + drink.name + '!&picture=' + drink.photo_url + '&display=popup';
+
+                window.open(url,'_blank');
+
+            },
 
             addItem: function(item){
                 let that = this
