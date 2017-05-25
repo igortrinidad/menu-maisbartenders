@@ -120,7 +120,6 @@
                 drinkPhotos: _.chain(Event.drinks)
                     .map((drink) => drink.photo_url)
                     .value(),
-                // items: Event.drinks.map((drink) => drink.items),
             }
         },
         computed:{
@@ -187,13 +186,7 @@
                 }
             },
 
-            // displayFilteredDrinks: function() {
-            //     this.displayDrinks = true;
-            //     this.initSwiper();
-            // },
-
             applyFilter: function(drink) {
-                // console.log( drink.items.map((item) => item) )
                 this.initSwiper()
                 if (!this.itemsSelecteds.length) return true
                 return (
@@ -220,7 +213,7 @@
                     .value()
             },
 
-            //Confirmar se deve ser rodado toda vez que a lista mudar...
+            // must be called when drink filter is applied in applyFilter method for exemple
             initSwiper: function(){
 
                 setTimeout(function(){
