@@ -63,7 +63,7 @@
                             <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
                             <div class="text-center">
                                 <button class="btn btn-default m-b-20">Salvar drink</button>
-                                <a target="_blank" href="https://www.facebook.com/dialog/share?app_id=210359702307953&amp;href=https://maisbartenders.com.br&amp;picture=https://maisbartenders.com.br/img/header-bg.jpg&amp;quote='Esse é somente um teste de algo super legal que estamos preparando para você!'&amp;display=popup" class="btn btn-default m-b-20">Compartilhar no facebook</a>
+                                <button class="btn btn-default m-b-20" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
                             </div>
                             <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
                         </div>
@@ -94,30 +94,10 @@
     import { Carousel, Slide } from 'vue-carousel'
     import Event from '../../../models/Event.js'
 
-    import Vue from 'vue'
-    import VueRouter from 'vue-router'
-    import VueHead from 'vue-head'
-
-    Vue.use(VueHead)
-    Vue.use(VueRouter)
-
     var Swiper = require('swiper')
 
     export default {
         name: 'landing',
-        head: {
-            title: {
-              inner: 'Teste do negocio'
-            },
-            meta: [
-                { itemprop: 'name', content: 'Content Title' },
-                { itemprop: 'description', content: 'Content Title' },
-                { property: 'fb:app_id', content: '123456789' },
-                { property: 'og:url', content: 'http://menu.maisbartenders.com.br' },
-                { property: 'og:title', content: 'Content Title' },
-                { property: 'og:image', c: 'https://maisbartenders.com.br/img/header-bg.jpg' },
-            ]
-        },
         data () {
             return {
                 bg: 'url(https://maisbartenders.com.br/img/header-bg.jpg)',
@@ -182,6 +162,15 @@
 
             modal: function() {
                 alert('ampliar a imagem com outras informações')
+            },
+
+            openShareFacebook: function(drink){
+                let that = this
+            
+                var url = 'https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/' + drink.id + '/Não%20vejo%20a%20hora%20de%20chegar%20o%20' + that.mainEvent.name + '%20para%20experimentar%20o%20drink%20' + drink.name + '!&picture=' + drink.photo_url + '&display=popup';
+
+                window.open(url,'_blank');
+                
             },
 
             addItem: function(item){

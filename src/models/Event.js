@@ -7,6 +7,7 @@ export default {
 	event_photo_url: 'https://maisbartenders.com.br/img/header-bg.jpg',
 	drinks: [
 		{
+			id: 1,
 			name: 'Trinidad',
 			description: 'Um drink muito top!',
 			priority: 5,
@@ -37,6 +38,7 @@ export default {
 			photo_url: 'https://maisbartenders.com.br/img/portfolio/Mais_Bartenders_TRINIDAD.JPG'
 		},
 		{
+			id: 1,
 			name: 'Moscow Mule',
 			description: 'O melhor Moscow do Brasil!',
 			priority: 5,
@@ -62,6 +64,7 @@ export default {
 			photo_url: 'https://instagram.fplu4-1.fna.fbcdn.net/t51.2885-15/s750x750/sh0.08/e35/17595854_430075987339773_5640327486068752384_n.jpg'
 		},
 		{
+			id: 1,
 			name: 'Di Souza',
 			description: 'Um drink excelente para começar o dia que é muito refrescante e refresca quando esta calor...!',
 			priority: 5,
@@ -92,6 +95,7 @@ export default {
 			photo_url: 'https://maisbartenders.com.br/img/portfolio/di_souza2.JPG'
 		},
 		{
+			id: 1,
 			name: 'Caipi fruta de Kiwi',
 			description: 'Refrescante!',
 			priority: 2,
