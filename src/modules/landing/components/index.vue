@@ -153,19 +153,15 @@
 
         },
         mounted(){
-
-            this.initSwiper();
-
         },
         methods: {
 
             openShareFacebook: function(drink){
                 let that = this
-            
+
                 var url = 'https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/' + drink.id + '/Não%20vejo%20a%20hora%20de%20chegar%20o%20' + that.mainEvent.name + '%20para%20experimentar%20o%20drink%20' + drink.name + '!&picture=' + drink.photo_url + '&display=popup&mobile_iframe=true';
 
                 window.open(url,'_blank');
-                
             },
 
             addItem: function(item){
@@ -176,6 +172,9 @@
                     this.itemsSelecteds.splice(index,1)
                 } else {
                     this.itemsSelecteds.push(item)
+                }
+                if (!this.itemsSelecteds.length) {
+                    this.displayDrinks = false
                 }
             },
 
@@ -261,6 +260,12 @@ header .intro-text .intro-heading{
 .swiper-row{
     margin: 50px;
 }
+.btn.tag:hover,
+.btn.tag:focus{color:#2c3e50;}
+
+.btn.btn-xl.tag:hover,
+.btn.btn-xl.tag:focus{color:#fff;}
+
 
 .tag {
     font-size: 1.4rem;
