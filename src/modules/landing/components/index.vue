@@ -156,6 +156,25 @@
         mounted(){
             console.log()
 
+
+            window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '210359702307953',
+              xfbml      : true,
+              version    : 'v2.9'
+            });
+            FB.AppEvents.logPageView();
+          };
+
+          (function(d, s, id){
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement(s); js.id = id;
+             js.src = "//connect.facebook.net/en_US/sdk.js";
+             fjs.parentNode.insertBefore(js, fjs);
+           }(document, 'script', 'facebook-jssdk'));
+
+
             this.initSwiper();
         },
         methods: {
@@ -167,12 +186,21 @@
             openShareFacebook: function(drink){
                 let that = this
             
-                var url = 'https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/' + drink.id + '/Não%20vejo%20a%20hora%20de%20chegar%20o%20' + that.mainEvent.name + '%20para%20experimentar%20o%20drink%20' + drink.name + '!&picture=' + drink.photo_url + '&display=popup';
+                var url = 'http://maisbartenders.com.br/opengraph/drinks/' + drink.id + '/Não%20vejo%20a%20hora%20de%20chegar%20o%20' + that.mainEvent.name + '%20para%20experimentar%20o%20drink%20' + drink.name + '!';
 
-                window.open(url,'_blank');
-                
+                FB.ui({
+                  method: 'share',
+                  href: url,
+                  mobile_iframe: true,
+                  picture: drink.photo_url,
+                }, function(response){});
             },
 
+            HandleResult: function(){
+                let that = this
+            
+                alert('Acho que deu');
+            },
             addItem: function(item){
                 let that = this
                 
