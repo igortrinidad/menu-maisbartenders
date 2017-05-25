@@ -63,7 +63,7 @@
                             <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
                             <div class="text-center">
                                 <button class="btn btn-default m-b-20">Salvar drink</button>
-                                <button class="btn btn-default m-b-20">Compartilhar no facebook</button>
+                                <a target="_blank" href="https://www.facebook.com/dialog/share?app_id=210359702307953&amp;href=https://maisbartenders.com.br&amp;picture=https://maisbartenders.com.br/img/header-bg.jpg&amp;quote='Esse é somente um teste de algo super legal que estamos preparando para você!'&amp;display=popup" class="btn btn-default m-b-20">Compartilhar no facebook</a>
                             </div>
                             <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
                         </div>
@@ -94,10 +94,27 @@
     import { Carousel, Slide } from 'vue-carousel'
     import Event from '../../../models/Event.js'
 
+    import Vue from 'vue'
+    import VueRouter from 'vue-router'
+    import VueHead from 'vue-head'
+
+    Vue.use(VueHead)
+    Vue.use(VueRouter)
+
     var Swiper = require('swiper')
 
     export default {
         name: 'landing',
+        head: {
+            title: {
+              inner: 'It will be a pleasure'
+            },
+            meta: [
+                { itemprop: 'name', content: 'Content Title' },
+                { itemprop: 'description', content: 'Content Title' },
+                { property: 'fb:app_id', content: '123456789' }
+            ]
+        },
         data () {
             return {
                 bg: 'url(https://maisbartenders.com.br/img/header-bg.jpg)',
