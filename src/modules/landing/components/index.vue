@@ -99,7 +99,6 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import { Carousel, Slide } from 'vue-carousel'
     import Event from '../../../models/Event.js'
 
     var Swiper = require('swiper')
@@ -236,13 +235,7 @@
                 }, 200)
 
             },
-        },
-
-        components: {
-            'Carousel': Carousel,
-            'Slide': Slide
         }
-
     }
 </script>
 
