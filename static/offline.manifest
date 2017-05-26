@@ -3,4 +3,8 @@ CACHE MANIFEST
 CACHE:
 /static/build/css/vendor.css
 /static/build/css/agency.css
+/static/assets/header-bg.jpg
+
 /static/build/js/vendor.js
+/app.js
+/static/build/js/services/register.js

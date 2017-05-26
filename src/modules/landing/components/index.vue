@@ -107,7 +107,7 @@
         name: 'landing',
         data () {
             return {
-                bg: 'url(https://maisbartenders.com.br/img/header-bg.jpg)',
+                bg: 'url(../../../../static/assets/header-bg.jpg)',
                 mainEvent: Event,
                 drinks: Event.drinks.sort((a, b) => {
                     if (a.priority < b.priority) return 1
