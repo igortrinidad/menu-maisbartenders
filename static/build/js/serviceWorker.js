@@ -26,9 +26,9 @@ self.addEventListener('install', function() {
 // fetch application files
 self.addEventListener('fetch', function(event) {
     let order = event.request
-    console.log('fetching')
     let promisseResponse = chace.match(order).then(response => {
         return response ? response : fetch(order)
     })
+    console.log(event);
     event.respondWith(promisseResponse)
 })
