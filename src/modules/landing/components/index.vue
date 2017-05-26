@@ -44,45 +44,48 @@
 
 
         <section id="drinks">
+            <div class="container">
 
-            <!-- Swiper -->
-            <div class="swiper-row">
-                <div class="swiper-container gallery-top">
-                    <div class="swiper-wrapper">
+                <!-- Swiper -->
+                <div class="swiper-row">
+                    <div class="swiper-container gallery-top">
+                        <div class="swiper-wrapper">
 
-                        <div class="swiper-slide " v-for="(drink, index) in drinks" v-if="applyFilter(drink) && displayDrinks" :key="index">
-                            <h4 class="text-center stars">
-                                <span class="">
-                                    <i class="fa fa-star fa-2x" v-for="n in drink.priority"></i>
-                                </span>
-                            </h4>
-                            <h2 class="text-center">
-                                {{drink.name}}
-                            </h2>
-                            <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
-                            <div class="text-center">
-                                <button class="btn btn-default m-b-20">Salvar drink</button>
-                                <button class="btn btn-default m-b-20" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
+                            <div class="swiper-slide " v-for="(drink, index) in drinks" v-if="applyFilter(drink) && displayDrinks" :key="index">
+                                <h4 class="text-center stars">
+                                    <span class="">
+                                        <i class="fa fa-star fa-2x" v-for="n in drink.priority"></i>
+                                    </span>
+                                </h4>
+                                <h2 class="text-center">
+                                    {{drink.name}}
+                                </h2>
+                                <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
+                                <div class="text-center">
+                                    <button class="btn btn-default m-b-20">Salvar drink</button>
+                                    <button class="btn btn-default m-b-20" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
+                                </div>
+                                <img class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
                             </div>
-                            <img class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
+
                         </div>
+                        <div class="swiper-pagination"></div>
 
+                        <!-- Add Arrows -->
+                        <div class="swiper-button-next swiper-button-white"></div>
+                        <div class="swiper-button-prev swiper-button-white"></div>
                     </div>
-                    <div class="swiper-pagination"></div>
 
-                    <!-- Add Arrows -->
-                    <div class="swiper-button-next swiper-button-white"></div>
-                    <div class="swiper-button-prev swiper-button-white"></div>
-                </div>
-
-                <div class="swiper-container gallery-thumbs">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="(drink, index) in drinks" v-if="applyFilter(drink) && displayDrinks" :key="index">
-                            <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                    <div class="swiper-container gallery-thumbs">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide" v-for="(drink, index) in drinks" v-if="applyFilter(drink) && displayDrinks" :key="index">
+                                <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <div class="container">
                 <div class="row">
@@ -282,7 +285,7 @@ header .intro-text .intro-heading{
 
 
 .drink-photo{
-  max-height: 300px
+  max-height: 350px
 }
 
 /* Swiper */
