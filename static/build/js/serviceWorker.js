@@ -5,9 +5,22 @@ let files = [
     // css files
     '/static/build/css/vendor.css',
     '/static/build/css/agency.css',
+    '/static/build/fonts/fontawesome.css',
+    '/static/build/fonts/montserrat.css',
+    '/static/build/fonts/robotoslab.css',
 
     // static images
     '/static/assets/header-bg.jpg',
+
+    // fonts
+    '/static/build/fonts/montserrat/Montserrat-Bold.ttf',
+    '/static/build/fonts/montserrat/Montserrat-Light.ttf',
+    '/static/build/fonts/montserrat/Montserrat-Regular.ttf',
+    '/static/build/fonts/robotoslab/RobotoSlab-Bold.ttf',
+    '/static/build/fonts/robotoslab/RobotoSlab-Light.ttf',
+    '/static/build/fonts/robotoslab/RobotoSlab-Regular.ttf',
+    '/static/build/fonts/robotoslab/RobotoSlab-Thin.ttf',
+
 
     // js files
     '/static/build/js/vendor.js',
@@ -17,7 +30,6 @@ let files = [
 
 // install application
 self.addEventListener('install', function() {
-    console.log('installing')
     caches.open('ceep-files').then(cache => {
         cache.addAll(files)
     })
