@@ -10,7 +10,7 @@ export default {
 			id: 1,
 			name: 'Trinidad',
 			description: 'Um drink muito top!',
-			priority: 5,
+			priority: 3,
 			items: [
 				{
 					name: 'Morango',
@@ -41,7 +41,7 @@ export default {
 			id: 1,
 			name: 'Moscow Mule',
 			description: 'O melhor Moscow do Brasil!',
-			priority: 5,
+			priority: 4,
 			items: [
 				{
 					name: 'Refrigerante artesanal de gengibre',
@@ -67,7 +67,7 @@ export default {
 			id: 1,
 			name: 'Di Souza',
 			description: 'Um drink excelente para começar o dia que é muito refrescante e refresca quando esta calor...!',
-			priority: 5,
+			priority: 2,
 			items: [
 				{
 					name: 'Abacaxi',
@@ -98,7 +98,7 @@ export default {
 			id: 1,
 			name: 'Caipi fruta de Kiwi',
 			description: 'Refrescante!',
-			priority: 2,
+			priority: 1,
 			items: [
 				{
 					name: 'Kiwi',

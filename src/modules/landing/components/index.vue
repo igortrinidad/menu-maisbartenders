@@ -112,16 +112,8 @@
             return {
                 bg: 'url(../../../../static/assets/header-bg.jpg)',
                 mainEvent: Event,
-                drinks: Event.drinks.sort((a, b) => {
-                    if (a.priority < b.priority) return 1
-                    if (a.priority > b.priority) return -1
-                    return 0
-                }),
                 itemsSelecteds: [],
                 displayDrinks: false,
-                drinkPhotos: _.chain(Event.drinks)
-                    .map((drink) => drink.photo_url)
-                    .value(),
             }
         },
         computed:{
@@ -161,8 +153,14 @@
                     }
             },
 
+            drinks: function(){
+                return _.orderBy(Event.drinks, 'priority', 'desc');
+            },
+
         },
         mounted(){
+
+            //this.getEvent();
         },
         methods: {
 
@@ -237,6 +235,26 @@
 
                 }, 200)
 
+            },
+
+            getEvent: function(){
+                let that = this
+                    
+                //that.$route.params.place_slug
+
+                that.$http.get('/events/show/joana-e-joao')
+                    .then(function (response) {
+
+                        //that.$set('event', response)
+
+                        console.log(response);
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        that.$router.push({name: 'landing.404'})
+                    });
+                
             },
         }
     }
