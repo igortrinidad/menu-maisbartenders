@@ -1,5 +1,6 @@
 import Index from './components/index.vue'
 import EventShow from './events/show.vue'
+import EventList from './events/list.vue'
 import DrinkShow from './drinks/show.vue'
 import DrinkList from './drinks/list.vue'
 import appLayout from './layout/main'
@@ -25,6 +26,12 @@ export default [
                 name: 'landing.events.show',
                 path: '/evento/:event_slug',
                 component: EventShow,
+                meta: { requiresAuth: false },
+            },
+            {
+                name: 'landing.events.list',
+                path: '/eventos',
+                component: EventList,
                 meta: { requiresAuth: false },
             },
             {

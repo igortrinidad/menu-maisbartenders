@@ -22,13 +22,23 @@
                         <a class="close-navbar-mb" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll close-navbar-mb" @click="closeMenu()" href="#eventos">Eventos</a>
+                        <router-link
+                            :to="{name: 'landing.events.list'}"
+                            class="close-navbar-mb"
+                            @click="closeMenu()">
+                        Eventos
+                        </router-link>
                     </li>
                     <li>
-                        <a class="page-scroll close-navbar-mb" @click="closeMenu()" href="#drinks">Cardápio completo</a>
+                        <router-link
+                            :to="{name: 'landing.drinks.list'}"
+                            class="close-navbar-mb"
+                            @click="closeMenu()">
+                        Cardápio Mais Bartenders
+                        </router-link>
                     </li>
                     <li>
-                        <a class="page-scroll close-navbar-mb" @click="closeMenu()" href="#contato">Contato</a>
+                        <a class="close-navbar-mb" @click="closeMenu()" href="https://maisbartenders.com.br">Site</a>
                     </li>
                     
                 </ul>
