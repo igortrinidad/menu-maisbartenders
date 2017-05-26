@@ -1,7 +1,8 @@
 <template>
    <div>
 
-        <header class="header-greeting" v-bind:style="{ backgroundImage: event.photo_url}">
+    <div class="" v-if="eventFound">
+        <header class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
             <div class="container" >
                 <div class="intro-text">
                     <div class="intro-lead-in"><strong>{{event.name}}</strong></div>
@@ -39,9 +40,7 @@
                     </div>
                 </div>
             </div>
-
         </section>
-
 
         <section id="drinks">
             <div class="container">
@@ -96,6 +95,19 @@
                 </div>
             </div>
         </section>
+    </div>
+
+    <div class="" v-if="!eventFound">
+        <header class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
+            <div class="container" >
+                <div class="intro-text">
+                    <div class="intro-heading">:(</div>
+                    <div class="intro-heading">Não localizamos o evento informado</div>
+                    <a href="#items" class="page-scroll btn btn-xl">Conheça o cardápio Mais Bartenders</a>
+                </div>
+            </div>
+        </header>
+    </div>
 
    </div>
 </template>
@@ -107,10 +119,10 @@
     var Swiper = require('swiper')
 
     export default {
-        name: 'landing',
+        name: 'show-event',
         data () {
             return {
-                bg: 'url(../../../../static/assets/header-bg.jpg)',
+                eventFound: true,
                 event: eventObj,
                 itemsSelecteds: [],
                 displayDrinks: false,
@@ -120,7 +132,9 @@
             // Map the getters from Vuex to this component.
 
             ...mapGetters(['currentUser', 'isLogged']),
-
+            eventBackground: function(){
+                return 'url(' + this.event.photo_url + ')';
+            },
             itemsCategoriesOrdereds: function(){
                 return {
                         fruitsAndIngredients: {
@@ -238,16 +252,16 @@
                     
                 //that.$route.params.place_slug
 
-                that.$http.get('/events/show/joana-e-joao')
+                that.$http.get('/events/show/' + that.$route.params.event_slug)
                     .then(function (response) {
 
                         that.event = response.data;
-                        console.log(response);
+                        that.eventFound = true
 
                     })
                     .catch(function (error) {
                         console.log(error)
-                        that.$router.push({name: 'landing.404'})
+                        that.eventFound = false;
                     });
                 
             },
