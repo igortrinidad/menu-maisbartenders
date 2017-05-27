@@ -5,9 +5,9 @@
         <header class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
             <div class="container" >
                 <div class="intro-text">
-                    <div class="intro-lead-in"><strong>{{event.name}}</strong></div>
-                    <div class="intro-heading">{{ event.greeting }}</div>
-                    <a href="#items" class="page-scroll btn btn-xl">Escolham seus drinks preferidos</a>
+                    <div class="intro-lead-in"><strong class="distac">{{event.name}}</strong></div>
+                    <div class="intro-lead-in distac f-700">{{ event.greeting }}</div>
+                    <a href="#items" class="page-scroll btn btn-xl">Escolher drinks</a>
                 </div>
             </div>
         </header>
@@ -61,8 +61,13 @@
                                 </h2>
                                 <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
                                 <div class="text-center">
-                                    <button class="btn btn-default m-b-20">Salvar drink</button>
-                                    <button class="btn btn-default m-b-20" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
+                                    <div class="row">
+                                        <div class="col-md-12 col-xs-12 text-right">
+                                            <button class="btn btn-default m-b-20 btn-drink-action">Salvar drink</button>
+                                            <button class="btn btn-default m-b-20 btn-drink-action" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                                 <img class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
                             </div>
@@ -315,6 +320,21 @@ header .intro-text .intro-heading{
   max-height: 350px
 }
 
+.distac{
+    
+    -webkit-text-shadow: 3px 6px 15px rgba(255,255,255,0.5);
+    -moz-text-shadow: 3px 6px 15px rgba(255,255,255,0.5);
+    text-shadow: 3px 6px 15px rgba(255,255,255,.5),3px 6px 15px rgba(255,255,255,.5);
+}
+
+.event-name{
+    font-size: 1em;
+}
+
+.event-desc{
+    font-size: 0.8em;
+}
+
 /* Swiper */
 
 .gallery-top {
@@ -345,6 +365,13 @@ header .intro-text .intro-heading{
 .priority i {
     color: #4b2c50;
     margin: 0 5px;
+}
+
+@media(max-width: 768px){
+    .btn-drink-action{
+        font-size: 12px;
+        padding: 5px;
+    }
 }
 
 

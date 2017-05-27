@@ -9,7 +9,7 @@
                 </button>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll close-navbar-mb mb-brand" @click="closeMenu()" href="#eventos">Mais Bartenders</a>
+                        <a class="page-scroll close-navbar-mb mb-brand" @click="closeMenu()" href="https://menu.maisbartenders.com.br">Mais Bartenders</a>
                     </li>
                 </ul>
                 
