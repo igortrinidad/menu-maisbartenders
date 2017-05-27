@@ -45,47 +45,51 @@
         <section id="drinks">
             <div class="container">
 
-                <!-- Swiper -->
-                <div class="swiper-row">
-                    <div class="swiper-container gallery-top">
-                        <div class="swiper-wrapper">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+                        <!-- Swiper -->
+                        <div class="swiper-row">
+                            <div class="swiper-container gallery-top">
+                                <div class="swiper-wrapper">
 
-                            <div class="swiper-slide " v-for="(drink, index) in drinks" key="index">
-                                <h4 class="text-center stars">
-                                    <span class="">
-                                        <i class="fa fa-star fa-2x" v-for="n in drink.priority"></i>
-                                    </span>
-                                </h4>
-                                <h2 class="text-center">
-                                    {{drink.name}}
-                                </h2>
-                                <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
-                                <div class="text-center">
-                                    <div class="row">
-                                        <div class="col-md-12 col-xs-12 text-right">
-                                            <button class="btn btn-default m-b-20 btn-drink-action">Salvar drink</button>
-                                            <button class="btn btn-default m-b-20 btn-drink-action" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
+                                    <div class="swiper-slide " v-for="(drink, index) in drinks" key="index">
+                                        <h4 class="text-center stars">
+                                            <span class="">
+                                                <i class="fa fa-star fa-2x" v-for="n in drink.priority"></i>
+                                            </span>
+                                        </h4>
+                                        <h2 class="text-center">
+                                            {{drink.name}}
+                                        </h2>
+                                        <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
+                                        <div class="text-center">
+                                            <div class="row">
+                                                <div class="col-md-12 col-xs-12 text-right">
+                                                    <button class="btn btn-default m-b-20 btn-drink-action">Salvar drink</button>
+                                                    <button class="btn btn-default m-b-20 btn-drink-action" data-toggle="modal" data-target="#modalSharePhrase" @click="interactions.drinkSelected = drink">Compartilhar no facebook</button>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
+                                        <img class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
                                     </div>
-                                    
+
                                 </div>
-                                <img class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                                <div class="swiper-pagination"></div>
+
+                                <!-- Add Arrows -->
+                                <div class="swiper-button-next swiper-button-white"></div>
+                                <div class="swiper-button-prev swiper-button-white"></div>
                             </div>
 
-                        </div>
-                        <div class="swiper-pagination"></div>
-
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next swiper-button-white"></div>
-                        <div class="swiper-button-prev swiper-button-white"></div>
-                    </div>
-
-                    <div class="swiper-container gallery-thumbs">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide" v-for="(drink, index) in drinks">
-                                <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                            <div class="swiper-container gallery-thumbs">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" v-for="(drink, index) in drinks">
+                                        <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -114,12 +118,32 @@
         </header>
     </div>
 
+    <!-- MODAL FRASE FACEBOOK -->
+    <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Escolha uma frase</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="phrase" v-for="phrase in phrases" @click="interactions.phraseSelected = phrase">{{phrase}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" @click="openShareFacebook(drink)" :disabled="!interactions.phraseSelected">Compartilhar no facebook</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
    </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
     import eventObj from '../../../models/Event.js'
+    import drinkObj from '../../../models/Drink.js'
 
     var Swiper = require('swiper')
 
@@ -127,6 +151,10 @@
         name: 'show-event',
         data () {
             return {
+                interactions: {
+                    phraseSelected: '',
+                    drinkSelected: drinkObj,
+                },
                 eventFound: true,
                 event: eventObj,
                 itemsSelecteds: [],
@@ -174,18 +202,47 @@
                 return _.orderBy(drinks_filtereds, 'priority', 'desc');
             },
 
+            phrases: function(){
+                let that = this
+            
+                var phrases = [];
+
+                var phrase1 =  `Não vejo a hora de chegar o ${that.event.name} para experimentar o drink ${that.interactions.drinkSelected.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `Vou tomar vários drinks ${that.interactions.drinkSelected.name} no ${that.event.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `Ja tenho meu drink preferido no ${that.event.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `O ${that.interactions.drinkSelected.name} vai ser meu primeiro drink no ${that.event.name}!`;
+                phrases.push(phrase1);
+
+                return phrases
+                
+            },
+
         },
         mounted(){
             this.getEvent();
         },
+
+        filters: {
+            addSpaceOnUrl: function(value){
+                let that = this
+                return value;
+            },
+        },
         methods: {
 
-            openShareFacebook: function(drink){
+            openShareFacebook: function(){
                 let that = this
 
-                var url = 'https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/' + drink.id + '/Não%20vejo%20a%20hora%20de%20chegar%20o%20' + that.event.name + '%20para%20experimentar%20o%20drink%20' + drink.name + '!&picture=' + drink.photo_url + '&display=popup&mobile_iframe=true';
+                var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}&picture=${that.interactions.drinkSelected.photo_url}&display=popup&mobile_iframe=true`;
 
                 window.open(url,'_blank');
+                window.open(`https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}`,'_blank');
             },
 
             addItem: function(item){
@@ -293,9 +350,6 @@ header .intro-text .intro-heading{
     font-size: 40px;
 }
 
-.swiper-row{
-    margin: 50px;
-}
 .btn.tag:hover,
 .btn.tag:focus{color:#2c3e50;}
 
@@ -312,18 +366,8 @@ header .intro-text .intro-heading{
     color: #fed136;
 }
 
-.drink-desc{
-    display: block;
-    height: 60px;
-}
-
-
-.drink-photo{
-  max-height: 350px
-}
 
 .distac{
-    
     -webkit-text-shadow: 3px 6px 15px rgba(255,255,255,0.5);
     -moz-text-shadow: 3px 6px 15px rgba(255,255,255,0.5);
     text-shadow: 3px 6px 15px rgba(255,255,255,.5),3px 6px 15px rgba(255,255,255,.5);
@@ -338,6 +382,14 @@ header .intro-text .intro-heading{
 }
 
 /* Swiper */
+
+.drink-desc{
+    display: block;
+    height: 60px;
+}
+.drink-photo{
+  max-height: 500px
+}
 
 .gallery-top {
     height: 80%;
@@ -357,8 +409,8 @@ header .intro-text .intro-heading{
     opacity: 1;
 }
 
-.swiper-button-prev, .swiper-button-next{
-    bottom: 20%;
+.swiper-button-prev, .swiper-button-next {
+    top: 67%;
 }
 
 .priority{
@@ -374,7 +426,29 @@ header .intro-text .intro-heading{
         font-size: 12px;
         padding: 5px;
     }
+
+    .swiper-button-prev, .swiper-button-next {
+        top: 75%;
+    }
 }
 
+/* END SWIPER */
+
+
+.phrase{
+    display: block;
+    border-radius: 4px;
+    background-color: #A6A19D;
+    padding: 5px 10px 5px 10px;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.phrase:hover{
+        -webkit-box-shadow: 3px 3px 15px rgba(0,0,0,0.2);
+    -moz-box-shadow: 3px 3px 15px rgba(0,0,0,0.2);
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.2);
+}
 
 </style>
