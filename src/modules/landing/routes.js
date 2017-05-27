@@ -1,4 +1,6 @@
-import Index from './components/index.vue'
+import ShowHome from './home/show.vue'
+import AuthLogin from './auth/login.vue'
+import AuthSignup from './auth/signup.vue'
 import EventShow from './events/show.vue'
 import EventList from './events/list.vue'
 import DrinkShow from './drinks/show.vue'
@@ -17,9 +19,21 @@ export default [
         meta: {requiresAuth: true},
         children: [
             {
-                name: 'landing.index',
+                name: 'landing.home.show',
                 path: '',
-                component: Index,
+                component: ShowHome,
+                meta: { requiresAuth: false },
+            },
+            {
+                name: 'landing.auth.login',
+                path: '/login',
+                component: AuthLogin,
+                meta: { requiresAuth: false },
+            },
+            {
+                name: 'landing.auth.signup',
+                path: '/cadstre-se',
+                component: AuthSignup,
                 meta: { requiresAuth: false },
             },
             {

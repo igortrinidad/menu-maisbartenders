@@ -23,3 +23,14 @@
         }
     }
 </script>
+
+<style>
+    
+    @media(max-width:768px){
+        .btn{
+            font-size: 13px;
+            font-weight: 400;
+        }
+    }
+
+</style>

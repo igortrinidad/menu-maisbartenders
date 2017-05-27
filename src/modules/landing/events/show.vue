@@ -53,11 +53,6 @@
                                 <div class="swiper-wrapper">
 
                                     <div class="swiper-slide " v-for="(drink, index) in drinks" key="index">
-                                        <h4 class="text-center stars">
-                                            <span class="">
-                                                <i class="fa fa-star fa-2x" v-for="n in drink.priority"></i>
-                                            </span>
-                                        </h4>
                                         <h2 class="text-center">
                                             {{drink.name}}
                                         </h2>
@@ -135,7 +130,6 @@
                     :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" @click="openShareFacebook()" :disabled="!interactions.phraseSelected">Compartilhar no facebook</button>
                 </div>
             </div>
@@ -239,7 +233,13 @@
 
         },
         mounted(){
+            var that = this
+
             this.getEvent();
+            
+            this.$nextTick(()=>{
+                that.initPageScroll()
+            })
         },
 
         filters: {
@@ -342,6 +342,19 @@
                         that.eventFound = false;
                     });
                 
+            },
+
+            initPageScroll: function(){
+                let that = this
+            
+                $('a.page-scroll').bind('click', function(event) {
+                    var $anchor = $(this);
+
+                    $('html, body').stop().animate({
+                        scrollTop: $($anchor.attr('href')).offset().top
+                    }, 1500, 'easeInOutExpo');
+                    event.preventDefault();
+                });
             },
         }
     }

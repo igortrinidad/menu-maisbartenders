@@ -31,10 +31,17 @@
                                 </h2>
                                 <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
                                 <div class="text-center">
+                                    <router-link
+                                        :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}"
+                                        class="btn btn-default m-b-20">
+                                    Visualizar
+                                    </router-link>
                                     <button class="btn btn-default m-b-20">Salvar drink</button>
-                                    <button class="btn btn-default m-b-20" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
+                                    <button class="btn btn-default m-b-20 facebook" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
                                 </div>
-                                <img class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                                
+                                <img  to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}" class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                                
                             </div>
 
                         </div>

@@ -12,15 +12,25 @@
                     <thead>
                         <tr>
                             <th>Nome do evento</th>
+                            <th>Url</th>
                             <th>Data</th>
+                            <th class="text-center">Visualizar página</th>
                             <th class="text-center">Salvar offline</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="event in events">
                             <td>{{event.name}}</td>
+                            <td>{{event.url}}</td>
                             <td>{{event.date}}</td>
-                            <td class="text-center"><button class="btn btn-sm btn-primary">Salvar no dispositivo</button></td>
+                            <td class="text-center">
+                                <router-link
+                                    :to="{name: 'landing.events.show', params: {event_slug: event.url}}"
+                                    class="btn btn-sm btn-info">
+                                Visualizar
+                                </router-link>
+                            </td>
+                            <td class="text-center"><button class="btn btn-sm btn-info">Salvar no dispositivo</button></td>
                         </tr>
                     </tbody>
                 </table>

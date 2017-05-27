@@ -29,7 +29,7 @@
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
                             class="btn inline btn-xl m-t-30">
-                        Conheça o cardápio Mais Bartenders
+                        Ir para cardápio Mais Bartenders completo
                         </router-link>
                     </div>
                 </div>
@@ -76,7 +76,13 @@
 
         },
         mounted(){
+            var that = this
+            
             this.getEvent();
+
+            this.$nextTick(()=>{
+                that.initPageScroll()
+            })
         },
         methods: {
 
@@ -106,6 +112,19 @@
                         //that.$router.push({name: 'landing.404'})
                     });
                 
+            },
+
+            initPageScroll: function(){
+                let that = this
+            
+                $('a.page-scroll').bind('click', function(event) {
+                    var $anchor = $(this);
+
+                    $('html, body').stop().animate({
+                        scrollTop: $($anchor.attr('href')).offset().top
+                    }, 1500, 'easeInOutExpo');
+                    event.preventDefault();
+                });
             },
         }
     }

@@ -9,7 +9,7 @@
                 </button>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll close-navbar-mb mb-brand" @click="closeMenu()" href="https://menu.maisbartenders.com.br">Mais Bartenders</a>
+                        <a class="page-scroll close-navbar-mb mb-brand" @click="closeMenu()">Mais Bartenders</a>
                     </li>
                 </ul>
                 
@@ -20,6 +20,14 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="hidden">
                         <a class="close-navbar-mb" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <router-link
+                            :to="{name: 'landing.home.show'}"
+                            class="close-navbar-mb"
+                            @click="closeMenu()">
+                        Home
+                        </router-link>
                     </li>
                     <li>
                         <router-link
@@ -37,8 +45,34 @@
                         Cardápio Mais Bartenders
                         </router-link>
                     </li>
+
                     <li>
-                        <a class="close-navbar-mb" @click="closeMenu()" href="https://maisbartenders.com.br">Site</a>
+                        <router-link
+                            :to="{name: 'landing.auth.login'}"
+                            class="close-navbar-mb"
+                            @click="closeMenu()">
+                        Login
+                        </router-link>
+                    </li>
+
+                    <li>
+                        <router-link
+                            :to="{name: 'landing.auth.signup'}"
+                            class="close-navbar-mb"
+                            @click="closeMenu()">
+                        Cadastre-se
+                        </router-link>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nome user <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a>Meu perfil</a>
+                                <a>Meus drinks</a>
+                            </li>
+
+                        </ul>
                     </li>
                     
                 </ul>
