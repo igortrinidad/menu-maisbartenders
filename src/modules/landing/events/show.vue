@@ -169,6 +169,8 @@
                 var drinks_filtereds = that.event.drinks.filter( function(drink){
                     return that.applyFilter(drink)
                 })
+
+                that.initSwiper();
                 return _.orderBy(drinks_filtereds, 'priority', 'desc');
             },
 
