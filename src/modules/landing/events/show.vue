@@ -126,12 +126,17 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Escolha uma frase</h4>
                 </div>
-                <div class="modal-body">
-                    <p class="phrase" v-for="phrase in phrases" @click="interactions.phraseSelected = phrase">{{phrase}}</p>
+                <div class="modal-body p-25">
+
+                    <p>Escolha uma frase e compartilhe a felicidade que você esta em participar dessa festa linda.</p>
+                    <br>
+
+                    <p class="phrase" v-for="(phrase, index) in phrases" @click="interactions.phraseSelected = phrase" 
+                    :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" @click="openShareFacebook(drink)" :disabled="!interactions.phraseSelected">Compartilhar no facebook</button>
+                    <button type="button" class="btn btn-primary" @click="openShareFacebook()" :disabled="!interactions.phraseSelected">Compartilhar no facebook</button>
                 </div>
             </div>
         </div>
@@ -207,6 +212,9 @@
             
                 var phrases = [];
 
+                var phrase1 =  `Keep calm e toma um ${that.interactions.drinkSelected.name} no ${that.event.name}!`;
+                phrases.push(phrase1);
+
                 var phrase1 =  `Não vejo a hora de chegar o ${that.event.name} para experimentar o drink ${that.interactions.drinkSelected.name}!`;
                 phrases.push(phrase1);
 
@@ -217,6 +225,12 @@
                 phrases.push(phrase1);
 
                 var phrase1 =  `O ${that.interactions.drinkSelected.name} vai ser meu primeiro drink no ${that.event.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `O ${that.event.name} vai ser a melhor festa da vida!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `Ninguém me segura no ${that.event.name}!`;
                 phrases.push(phrase1);
 
                 return phrases
@@ -242,7 +256,7 @@
                 var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}&picture=${that.interactions.drinkSelected.photo_url}&display=popup&mobile_iframe=true`;
 
                 window.open(url,'_blank');
-                window.open(`https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}`,'_blank');
+
             },
 
             addItem: function(item){
@@ -438,7 +452,7 @@ header .intro-text .intro-heading{
 .phrase{
     display: block;
     border-radius: 4px;
-    background-color: #A6A19D;
+    background-color: #E5E5E5;
     padding: 5px 10px 5px 10px;
     font-size: 17px;
     font-weight: 500;
@@ -449,6 +463,10 @@ header .intro-text .intro-heading{
         -webkit-box-shadow: 3px 3px 15px rgba(0,0,0,0.2);
     -moz-box-shadow: 3px 3px 15px rgba(0,0,0,0.2);
     box-shadow: 3px 3px 15px rgba(0,0,0,0.2);
+}
+
+.phraseSelected{
+    background-color: #FED136;
 }
 
 </style>
