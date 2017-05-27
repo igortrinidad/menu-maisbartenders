@@ -6,7 +6,7 @@
                 <div class="container" >
                     <div class="intro-text">
                         <div class="intro-heading">Cardápio interativo Mais Bartenders</div>
-                        <a href="#drinks" class="page-scroll btn btn-xl">Conheça os drinks Mais Bartenders</a>
+                        <a href="#drinks" class="page-scroll btn btn-xl">Veja o cardápio</a>
                     </div>
                 </div>
             </header>
@@ -21,15 +21,10 @@
                         <div class="swiper-wrapper">
 
                             <div class="swiper-slide " v-for="(drink, index) in drinks" key="index">
-                                <h4 class="text-center stars">
-                                    <span class="">
-                                        <i class="fa fa-star fa-2x" v-for="n in drink.priority"></i>
-                                    </span>
-                                </h4>
                                 <h2 class="text-center">
                                     {{drink.name}}
                                 </h2>
-                                <h4 class="text-muted text-center  drink-desc">{{drink.description}}</h4>
+                                <h4 class="text-muted text-center  drink-description">{{drink.description}}</h4>
                                 <div class="text-center">
                                     <router-link
                                         :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}"
@@ -170,82 +165,5 @@
 </script>
 
 <style scoped>
-
-.header-greeting{
-    text-align: center;
-    background-attachment: scroll;
-    background-position: center center;
-    background-repeat: none;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-}
-
-header .intro-text .intro-heading{
-    font-size: 40px;
-}
-
-.swiper-row{
-    margin: 50px;
-}
-.btn.tag:hover,
-.btn.tag:focus{color:#2c3e50;}
-
-.btn.btn-xl.tag:hover,
-.btn.btn-xl.tag:focus{color:#fff;}
-
-
-.tag {
-    font-size: 1.4rem;
-    margin: 7px;
-}
-
-.stars{
-    color: #fed136;
-}
-
-.drink-desc{
-    display: block;
-    height: 60px;
-}
-
-
-.drink-photo{
-  max-height: 350px
-}
-
-/* Swiper */
-
-.gallery-top {
-    height: 80%;
-    width: 100%;
-}
-.gallery-thumbs {
-    height: 20%;
-    box-sizing: border-box;
-    padding: 10px 0;
-}
-.gallery-thumbs .swiper-slide {
-    width: 200px;
-    height: 100px;
-    opacity: 0.4;
-}
-.gallery-thumbs .swiper-slide-active {
-    opacity: 1;
-}
-
-.swiper-button-prev, .swiper-button-next{
-    bottom: 20%;
-}
-
-.priority{
-    display: block;
-}
-.priority i {
-    color: #4b2c50;
-    margin: 0 5px;
-}
-
 
 </style>

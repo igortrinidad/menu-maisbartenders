@@ -44,7 +44,11 @@
                     <div class="intro-text">
                         <div class="intro-heading">:(</div>
                         <div class="intro-heading">Não localizamos seu drink</div>
-                        <a href="#items" class="page-scroll btn btn-xl">Conheça o cardápio Mais Bartenders</a>
+                        <router-link
+                            :to="{name: 'landing.drinks.list'}"
+                            class="btn btn-info ">
+                        Ir para cardápio Mais Bartenders
+                        </router-link>
                     </div>
                 </div>
             </header>
@@ -77,7 +81,7 @@
         },
         mounted(){
             var that = this
-            
+
             this.getEvent();
 
             this.$nextTick(()=>{
@@ -131,82 +135,6 @@
 </script>
 
 <style scoped>
-
-.header-greeting{
-    text-align: center;
-    background-attachment: scroll;
-    background-position: center center;
-    background-repeat: none;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-}
-
-header .intro-text .intro-heading{
-    font-size: 40px;
-}
-
-.swiper-row{
-    margin: 50px;
-}
-.btn.tag:hover,
-.btn.tag:focus{color:#2c3e50;}
-
-.btn.btn-xl.tag:hover,
-.btn.btn-xl.tag:focus{color:#fff;}
-
-
-.tag {
-    font-size: 1.4rem;
-    margin: 7px;
-}
-
-.stars{
-    color: #fed136;
-}
-
-.drink-desc{
-    display: block;
-    height: 60px;
-}
-
-
-.drink-photo{
-  max-height: 350px
-}
-
-/* Swiper */
-
-.gallery-top {
-    height: 80%;
-    width: 100%;
-}
-.gallery-thumbs {
-    height: 20%;
-    box-sizing: border-box;
-    padding: 10px 0;
-}
-.gallery-thumbs .swiper-slide {
-    width: 200px;
-    height: 100px;
-    opacity: 0.4;
-}
-.gallery-thumbs .swiper-slide-active {
-    opacity: 1;
-}
-
-.swiper-button-prev, .swiper-button-next{
-    bottom: 20%;
-}
-
-.priority{
-    display: block;
-}
-.priority i {
-    color: #4b2c50;
-    margin: 0 5px;
-}
 
 
 </style>
