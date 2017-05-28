@@ -74,18 +74,32 @@
     <section id="contact">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
                     <h2 class="section-heading">Contato</h2>
                     <h4 class="m-t-30 m-b-30">Contrate agora essa novidade para sua festa</h4>
-
-                    <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl inline" href="https://api.whatsapp.com/send?phone=+553182134820&text=Olá Mais Bartenders, tudo bem?" target="_blank">Envie um WhatsApp agora</a>
-                    <br><br>
+                    
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="https://api.whatsapp.com/send?phone=+553182134820&text=Olá Mais Bartenders, tudo bem?" target="_blank">Envie um WhatsApp agora</a>
+                        </div>
+                    </div>
+                    <br>
                     <p class="text-description">ou clique para ligar</p>
                     <br>
 
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12 m-b-10">
+                            <a title="Clique para ligar!" class="btn btn-xl btn-block inline" href="tel:31 3296-5673">31 3296-5673 <i class="fa fa-phone"></i></a>
+                        </div>
+
+                        <div class="col-md-12 col-xs-12">
+                             <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="tel:31 98213-4820">31 98213-4820 <i class="fa fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+
                     <span style="font-size:19px">
-                        <a title="Clique para ligar!" class="btn btn-xl inline" href="tel:31 3296-5673">31 3296-5673 <i class="fa fa-phone"></i></a>
-                        <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl inline" href="tel:31 98213-4820">31 98213-4820 <i class="fa fa-whatsapp"></i></a>
+                        
+                       
                     </span>
 
                 </div>

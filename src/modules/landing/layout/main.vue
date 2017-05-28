@@ -32,6 +32,11 @@
     font-size: 30px;
 }
 
+.btn-xl{
+    color:#777777;
+    font-weight: 500;
+}
+
 .event-greeting{
     font-family: 'Lobster Two', cursive;
     font-size: 25px;
