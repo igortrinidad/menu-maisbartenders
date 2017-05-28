@@ -34,7 +34,7 @@
                         <input class="form-control" v-model="user.password">
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-xl btn-primary">Editar</button>
+                        <button class="btn btn-xl btn-primary">Salvar</button>
                     </div>
                 </div>
 
