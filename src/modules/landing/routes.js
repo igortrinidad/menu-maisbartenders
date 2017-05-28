@@ -6,6 +6,8 @@ import EventList from './events/list.vue'
 import DrinkShow from './drinks/show.vue'
 import DrinkList from './drinks/list.vue'
 import appLayout from './layout/main'
+import UserShow from './user/show'
+import UserPreferences from './user/preferences'
 
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_operator
 // Thus a new array is created, containing all objects that match the routes.
@@ -58,6 +60,20 @@ export default [
                 name: 'landing.drinks.list',
                 path: '/cardapio-mais-bartenders',
                 component: DrinkList,
+                meta: { requiresAuth: false },
+            },
+
+            {
+                name: 'landing.user.show',
+                path: '/perfil',
+                component: UserShow,
+                meta: { requiresAuth: false },
+            },
+
+            {
+                name: 'landing.user.preferences',
+                path: '/preferencias',
+                component: UserPreferences,
                 meta: { requiresAuth: false },
             },
         ]

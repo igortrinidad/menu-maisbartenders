@@ -124,6 +124,38 @@
                 </div>
             </div>
         </section>
+
+        <section id="comments">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12">
+
+                        <h2>Comentários</h2>
+                        <small>Compartilhe um drink preferido e seus compartilhamentos serão exibidos aqui na página do {{event.name}}</small>
+
+                        <span v-for="(comment, index) in event.comments">
+                        <div class="row">
+
+                            <span class="interactions m-10">
+                                <div class="row">
+                                    <div class="col-md-1 col-xs-3">
+                                        <img src="http://bootdey.com/img/Content/avatar/avatar6.png" class="img-circle" width="60px">
+                                    </div>
+                                    <div class="col-md-11 col-xs-9">
+                                        <br>
+                                        <span class="comment-user-name">{{comment.user.name}}</span>
+                                    </div>
+                                </div>
+                                <p class="m-t-10">{{comment.phrase}}</p>
+                                <span class="text-right comment-date">Criado em: {{comment.created_at}}</span>
+                            </span>
+                            
+                        </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <div class="" v-if="!eventFound">
@@ -274,7 +306,7 @@
         mounted(){
             var that = this
 
-            this.getEvent();
+            //this.getEvent();
 
             this.$nextTick(()=>{
                 $('html, body').stop().animate({
@@ -415,6 +447,13 @@
 .btn-tag{
     background-color: #C0C0C0;
     color: #2C3E50;
+}
+
+
+.comment-date{
+    font-weight: 400;
+    margin-top: -80px;
+    font-size: 12px;
 }
 
 </style>

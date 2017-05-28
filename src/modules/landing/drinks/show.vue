@@ -152,6 +152,7 @@
                 $('html, body').stop().animate({
                     scrollTop: $('#header-drink').offset().top
                 }, 500, 'easeInOutExpo');
+                that.initPageScroll()
             })
         },
         methods: {
@@ -183,6 +184,18 @@
                         //that.$router.push({name: 'landing.404'})
                     });
                 
+            },
+            initPageScroll: function(){
+                let that = this
+            
+                $('a.page-scroll').bind('click', function(event) {
+                    var $anchor = $(this);
+
+                    $('html, body').stop().animate({
+                        scrollTop: $($anchor.attr('href')).offset().top
+                    }, 1500, 'easeInOutExpo');
+                    event.preventDefault();
+                });
             },
 
         }

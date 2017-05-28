@@ -37,6 +37,15 @@
     font-weight: 500;
 }
 
+    .interactions{
+        display: block;
+        border-radius: 4px;
+        background-color: #E5E5E5;
+        padding: 5px 10px 5px 10px;
+        font-size: 17px;
+        font-weight: 500;
+    }
+
 .event-greeting{
     font-family: 'Lobster Two', cursive;
     font-size: 25px;

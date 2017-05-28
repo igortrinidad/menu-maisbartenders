@@ -62,9 +62,17 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nome user <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a>Meu perfil</a>
-                                <a>Meus drinks</a>
+                            <li @click="closeMenu()">
+                                <router-link
+                                    :to="{name: 'landing.user.show'}"
+                                    class="close-navbar-mb">
+                                Meu perfil
+                                </router-link>
+                                <router-link
+                                    :to="{name: 'landing.user.preferences'}"
+                                    class="close-navbar-mb">
+                                Meus drinks
+                                </router-link>
                             </li>
 
                         </ul>
