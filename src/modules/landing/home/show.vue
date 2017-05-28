@@ -1,22 +1,30 @@
 <template>
    <div>
 
-    <header class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
-        <div class="container" >
-            <div class="intro-text text-center">
-                <div class="intro-lead-in">Bem vindo ao Cardápio Interativo</div>
-                <div class="intro-heading">Mais Bartenders</div>
-                <a href="#about" class="page-scroll btn btn-xl">Saiba mais</a>
+    <div>
+        <header id="header-home" class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
+            <div class="container" >
+                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                    <div class="intro-text">
+                        <span class="text-box">
+                            <span class="event-name">
+                                Cardápio Interativo Mais Bartenders
+                            </span>
+                        </span>
+                        <br>
+                        <a href="#about" class="page-scroll btn btn-xl m-t-30">Saiba mais</a>
+                    </div>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
+    </div>
 
     <section id="about">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Sobre</h2>
-                    <h4 class="text-muted m-t-30">O<span class="text-selected"> Cardápio Interativo </span>é uma ferramenta exclusiva criada pela<span class="text-selected"> Mais Bartenders </span>para quebrar as barreiras do atendimento e interação entre seus convidados e o bar de seu evento.</h4>
+                    <p class=" text-description m-t-30">O<span class="text-selected"> Cardápio Interativo </span>é uma exclusiva ferramenta criada pela<span class="text-selected"> Mais Bartenders </span>para quebrar a barreira de interação de você e seus convidados com sua festa. Levando a <span class="text-selected">experiência</span> e socialização do evento a um nível totalmente novo.</p>
                 </div>
             </div>
         </div>
@@ -27,11 +35,36 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Como funciona</h2>
-                    <h4 class=" text-muted m-t-30">Ao contratar os serviços de drinks Mais Bartenders, nós disponibilizamos uma página<span class="text-selected"> exclusiva e personalizada </span>para o cardápio de seu evento.</h4>
+                    <p class="text-description m-t-30">Ao contratar os serviços de drinks Mais Bartenders, nós criamos uma página<span class="text-selected"> exclusiva e personalizada </span>para seu evento. <a href="https://menu.maisbartenders.com.br/evento/joana-e-joao" target="_blank">Veja um exemplo</a></p>
 
-                    <h4 class=" text-muted m-t-30">E aí começa a brincadeira: você terá uma URL única de seu evento, um endereço fixo (<a href="https://menu.maisbartenders.com.br/evento/joana-e-joao" target="_blank">Veja um exemplo</a>) para enviar para seus convidados conhecerem e interagirem com o cardápio, com os drinks e com seu evento antes, durante e mesmo depois da festa.</h4>
+                    <p class="text-description m-t-30">
+                        E aí começa a brincadeira: você poderá enviar para seus convidados conhecerem e interagirem com o cardápio mesmo antes da festa.
+                    </p>
+                    <p class="text-description m-t-30">
+                        Seus convidados vão conhecer os drinks incluídos em sua proposta, salvar as receitas que mais gostaram e compartilhar no facebook com frases criativas - aumentando ainda mais a <span class="text-selected">expectativa</span> para o grande dia.
+                    </p>
 
-                    <h4 class=" text-muted m-t-30">Você e seus convidados vão poder compartilhar em suas redes sociais os drinks que mais gostaram, salvarem suas preferências para pedirem no grande dia e muito mais.</h4>
+                    <img class="m-t-30 m-b-30" src="https://media.giphy.com/media/vQqeT3AYg8S5O/giphy.gif" >
+                    
+                    <p class="text-description m-t-30">
+                        Mas ainda não acabou!
+                    </p>
+
+                    <p class="text-description m-t-30">
+                        A experiência do Cardápio Interativo acontece também na festa. Seus convidados que não conheceram o <span class="text-selected">Cardápio Interativo</span> antes do grande dia, poderão acessar o seu <span class="text-selected">Cardápio Interativo</span> mesmo do local do evento e interagirem da mesma forma. Imagina isso!
+                    </p>
+
+                    <p class="text-description m-t-30">
+                        É muito legal não é mesmo?
+                    </p>
+                    
+                    <img class="m-t-30 m-b-30 img-gif" src="https://media.giphy.com/media/QMkPpxPDYY0fu/giphy.gif" />
+
+                    <p class="text-description m-t-30">
+                        Entre em contato agora e tenha um <span class="text-selected">Cardápio Interativo</span> também em sua festa! :)
+                    </p>
+                        
+                    <a href="#contact" class="page-scroll btn btn-xl">Contato</a>
 
                 </div>
             </div>
@@ -43,11 +76,11 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Contato</h2>
-                    <h4 class=" text-muted m-t-30 m-b-30">Contrate agora essa novidade para sua festa!</h4>
+                    <h4 class="m-t-30 m-b-30">Contrate agora essa novidade para sua festa</h4>
 
                     <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl inline" href="https://api.whatsapp.com/send?phone=+553182134820&text=Olá Mais Bartenders, tudo bem?" target="_blank">Envie um WhatsApp agora</a>
                     <br><br>
-                    <p>ou clique para ligar</p>
+                    <p class="text-description">ou clique para ligar</p>
                     <br>
 
                     <span style="font-size:19px">
@@ -86,6 +119,9 @@
         mounted(){
             var that = this
             this.$nextTick(()=>{
+                $('html, body').stop().animate({
+                    scrollTop: $('#header-home').offset().top
+                }, 500, 'easeInOutExpo');
                 that.initPageScroll()
             })
         },
@@ -109,8 +145,12 @@
 <style scoped>
 
     .text-selected{
-        background-color: #FED136;
+
         font-size: 22px;
+    }
+
+    .img-gif{
+        max-width: 90%;
     }
 
     #contact{

@@ -25,7 +25,59 @@
 </script>
 
 <style>
-    
+
+.event-name{
+    font-family: 'Lobster Two', cursive;
+    text-transform: none;
+    font-size: 30px;
+}
+
+.event-greeting{
+    font-family: 'Lobster Two', cursive;
+    font-size: 25px;
+}
+
+.text-box{
+    padding: 20px !important;
+    background-color: rgba(255,255,255,0.9);
+    display: block;
+}
+
+.phrase{
+    display: block;
+    border-radius: 4px;
+    background-color: #E5E5E5;
+    padding: 5px 10px 5px 10px;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.phrase:hover{
+    -webkit-box-shadow: 3px 3px 15px rgba(0,0,0,0.2);
+    -moz-box-shadow: 3px 3px 15px rgba(0,0,0,0.2);
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.2);
+}
+
+.phraseSelected{
+    background-color: #FED136;
+}
+
+
+@media (min-width: 768px){
+    header .intro-text {
+        padding-top: 200px;
+        padding-bottom: 200px;
+    }
+}
+@media (max-width: 768px){
+
+    header .intro-text {
+        padding-top: 100px;
+        padding-bottom: 50px;
+    }
+}
+
     @media(max-width:768px){
         .btn{
             font-size: 13px;
@@ -47,19 +99,26 @@
         }
 
         .btn-drink-action{
-            font-size: 12px;
+            font-size: 11px;
             padding: 5px;
         }
 
         .swiper-button-prev, .swiper-button-next{
-            top: 75%;
+            top: 22%;
         }
     }
 
     @media(min-width:769px){
             .swiper-button-prev, .swiper-button-next{
-            top: 65%;
+            top: 33%;
         }
+    }
+
+    .text-description{
+        color: #777777;
+        font-size: 18px;
+        line-height: 1.4;
+        font-family: 'Lato', sans-serif;
     }
 
     .drink-photo{
@@ -87,6 +146,13 @@
         max-height: 100px;
     }
 
+    .drink-ingredients{
+        display: block;
+        height: 150px;
+        max-height: 150px;
+        font-size: 16px;
+    }
+
     /* Swiper */
 
     .gallery-top {
@@ -106,7 +172,6 @@
     .gallery-thumbs .swiper-slide-active {
         opacity: 1;
     }
-
 
 
     .priority{

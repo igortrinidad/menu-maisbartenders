@@ -1,12 +1,19 @@
 <template>
    <div>
 
-        <div class="" >
-            <header class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
+        <div>
+            <header id="header-drinks" class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
                 <div class="container" >
-                    <div class="intro-text">
-                        <div class="intro-heading">Cardápio interativo Mais Bartenders</div>
-                        <a href="#drinks" class="page-scroll btn btn-xl">Veja o cardápio</a>
+                    <div class="col-md-6 col-md-offset-3 col-xs-12">
+                        <div class="intro-text">
+                            <span class="text-box">
+                                <span class="event-name">
+                                    Cardápio Interativo Mais Bartenders
+                                </span>
+                            </span>
+                            <br>
+                            <a href="#drinks" class="page-scroll btn btn-xl m-t-30">Ver cardápio</a>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -17,44 +24,56 @@
 
                 <!-- Swiper -->
                 <div class="swiper-row">
-                    <div class="swiper-container gallery-top">
+                    <div class="swiper-container gallery-top" ref="swiper">
                         <div class="swiper-wrapper">
 
-                            <div class="swiper-slide " v-for="(drink, index) in drinks" key="index">
-                                <h2 class="text-center">
-                                    {{drink.name}}
-                                </h2>
-                                <h4 class="text-muted text-center  drink-description">{{drink.description}}</h4>
-                                <div class="text-center">
+                            <div class="swiper-slide" v-for="(drink, index) in drinks" key="index">
+
+                                <div class="text-right">
                                     <router-link
                                         :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}"
-                                        class="btn btn-default m-b-20">
+                                        class="btn btn-default btn-sm m-b-10 btn-drink-action">
                                     Visualizar
                                     </router-link>
-                                    <button class="btn btn-default m-b-20">Salvar drink</button>
-                                    <button class="btn btn-default m-b-20 facebook" @click="openShareFacebook(drink)">Compartilhar no facebook</button>
+                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action">Salvar drink</button>
+                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no facebook</button>
                                 </div>
-                                
-                                <img  to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}" class="drink-photo" :src="drink.photo_url" :alt="drink.name" width="100%"/>
-                                
+                            
+                                <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+
+                                <div class="text-center">
+                                    <h2 class="section-heading m-b-30">{{drink.name}}</h2>
+                                    <p class="m-t-30 text-muted">
+                                        <strong class="f-20">{{drink.description}}</strong><br>
+                                    </p>
+                                    <h3 class="m-b-10">Ingredientes</h3>
+                                    <p class="m-t-10 text-muted drink-ingredients">
+                                        <span v-for="item in drink.items">
+                                            <strong>{{item.name}}</strong><br>
+                                        </span>
+                                    </p>
+                                </div>
+                        
                             </div>
-
                         </div>
-                        <div class="swiper-pagination"></div>
 
+                        <div class="swiper-pagination"></div>
                         <!-- Add Arrows -->
                         <div class="swiper-button-next swiper-button-white"></div>
                         <div class="swiper-button-prev swiper-button-white"></div>
                     </div>
-
-                    <div class="swiper-container gallery-thumbs">
+                    
+                     <h3 class="m-b-10 text-center">Confira outras opções</h3>
+                
+                    <div class="swiper-container gallery-thumbs" ref="swiperthumbs">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide" v-for="(drink, index) in drinks">
                                 <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
+
             </div>
 
         </section>
@@ -71,6 +90,28 @@
             </header>
         </div>
 
+        <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Escolha uma frase</h4>
+                    </div>
+                    <div class="modal-body p-25">
+
+                        <p>Escolha uma frase e compartilhe o drink em seu Facebook.</p>
+                        <br>
+
+                        <p class="phrase" v-for="(phrase, index) in phrases" @click="interactions.phraseSelected = phrase" 
+                        :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="openShareFacebook()" :disabled="!interactions.phraseSelected">Compartilhar no facebook</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
    </div>
 </template>
 
@@ -82,6 +123,10 @@
         name: 'show-drink',
         data () {
             return {
+                interactions: {
+                    phraseSelected: '',
+                    drinkSelected: drinkObj,
+                },
                 drinkFound: true,
                 drinks: [],
             }
@@ -91,41 +136,60 @@
 
             ...mapGetters(['currentUser', 'isLogged']),
 
+            phrases: function(){
+                let that = this
+            
+                var phrases = [];
+
+                var phrase1 =  `Keep calm e toma um ${that.interactions.drinkSelected.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `Quero muito um ${that.interactions.drinkSelected.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `Eu preciso de um drink ${that.interactions.drinkSelected.name} agora!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `Tudo que eu preciso é sombra e um ${that.interactions.drinkSelected.name}.`;
+                phrases.push(phrase1);
+
+                return phrases
+                
+            },
+
         },
         mounted(){
+            var that = this
             this.getDrinks();
 
-
-            $(function() {
-                $('a.page-scroll').bind('click', function(event) {
-                    var $anchor = $(this);
-
-                    $('html, body').stop().animate({
-                        scrollTop: $($anchor.attr('href')).offset().top
-                    }, 1500, 'easeInOutExpo');
-                    event.preventDefault();
-                });
-            });
+            this.$nextTick(()=>{
+                $('html, body').stop().animate({
+                    scrollTop: $('#header-drinks').offset().top
+                }, 1500, 'easeInOutExpo');
+                that.initPageScroll()
+            })
         },
         methods: {
 
-            openShareFacebook: function(drink){
+            openShareFacebook: function(){
                 let that = this
 
-                var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${drink.id}/Quero%20muito%20experimentar%o%20drink%20Drink%20${drink.name}.&display=popup&mobile_iframe=true`;
+                var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}&picture=${that.interactions.drinkSelected.photo_url}&display=popup&mobile_iframe=true`;
 
                 window.open(url,'_blank');
+
             },
 
             initSwiper: function(){
+                var that = this;
 
                 setTimeout(function(){
-                    var galleryTop = new Swiper('.gallery-top', {
+                    var galleryTop = new Swiper(that.$refs.swiper, {
                         nextButton: '.swiper-button-next',
                         prevButton: '.swiper-button-prev',
                         spaceBetween: 10,
                     });
-                    var galleryThumbs = new Swiper('.gallery-thumbs', {
+                    var galleryThumbs = new Swiper(that.$refs.swiperthumbs, {
                         spaceBetween: 10,
                         centeredSlides: true,
                         slidesPerView: 'auto',
@@ -135,6 +199,9 @@
 
                     galleryTop.params.control = galleryThumbs;
                     galleryThumbs.params.control = galleryTop;
+
+                    galleryThumbs.update(true)
+                    galleryTop.update(true)
 
                 }, 200)
 
@@ -159,6 +226,19 @@
                         //that.$router.push({name: 'landing.404'})
                     });
                 
+            },
+
+            initPageScroll: function(){
+                let that = this
+            
+                $('a.page-scroll').bind('click', function(event) {
+                    var $anchor = $(this);
+
+                    $('html, body').stop().animate({
+                        scrollTop: $($anchor.attr('href')).offset().top
+                    }, 500, 'easeInOutExpo');
+                    event.preventDefault();
+                });
             },
         }
     }
