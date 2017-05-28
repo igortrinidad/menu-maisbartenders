@@ -160,7 +160,7 @@
             openShareFacebook: function(){
                 let that = this
 
-                var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.drink.url}/${that.interactions.phraseSelected.replace(" ", "%20")}&picture=${that.drink.photo_url}&display=popup&mobile_iframe=true`;
+                var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.drink.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/123123&picture=${that.drink.photo_url}&display=popup&mobile_iframe=true`;
 
                 window.open(url,'_blank');
 
