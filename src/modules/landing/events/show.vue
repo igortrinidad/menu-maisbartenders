@@ -34,7 +34,7 @@
                             <h4 class="section-heading">{{category.label}}</h4>
 
                             <span v-for="item in category.items">
-                                <button class="btn btn-sm m-5" :class="{'btn-primary' : itemsSelecteds.indexOf(item) > -1}" @click="addItem(item)">
+                                <button class="btn btn-default btn-sm m-5" :class="{'btn-primary' : itemsSelecteds.indexOf(item) > -1}" @click="addItem(item)">
                                     {{ item }}
                                 </button>
                             </span>
@@ -73,7 +73,7 @@
                                             Visualizar
                                             </router-link>
                                             <button class="btn btn-default btn-sm m-b-10 btn-drink-action">Salvar drink</button>
-                                            <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no facebook</button>
+                                            <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook  m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no facebook</button>
                                         </div>
                                     
                                         <img :src="drink.photo_url" :alt="drink.name" width="100%"/>

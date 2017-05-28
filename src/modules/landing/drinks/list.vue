@@ -36,7 +36,7 @@
                                     Visualizar
                                     </router-link>
                                     <button class="btn btn-default btn-sm m-b-10 btn-drink-action">Salvar drink</button>
-                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no facebook</button>
+                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook  m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no facebook</button>
                                 </div>
                             
                                 <img :src="drink.photo_url" :alt="drink.name" width="100%"/>

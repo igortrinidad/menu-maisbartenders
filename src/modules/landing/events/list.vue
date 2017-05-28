@@ -83,7 +83,6 @@
                         
                         that.events = response.data;
                         that.eventFound = true;
-                        that.initSwiper();
 
                     })
                     .catch(function (error) {

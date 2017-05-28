@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="text-right">
                         <button class="btn btn-default btn-sm m-b-10 btn-drink-action">Salvar drink</button>
-                        <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no facebook</button>
+                        <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no facebook</button>
                     </div>
                 </div>
                 <div class="row">
@@ -47,7 +47,7 @@
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
                             class="btn inline btn-xl m-t-30">
-                        Ir para cardápio Mais Bartenders completo
+                        Ir para cardápio completo
                         </router-link>
                     </div>
                 </div>
@@ -152,7 +152,6 @@
                 $('html, body').stop().animate({
                     scrollTop: $('#header-drink').offset().top
                 }, 500, 'easeInOutExpo');
-                that.initPageScroll()
             })
         },
         methods: {
@@ -186,18 +185,6 @@
                 
             },
 
-            initPageScroll: function(){
-                let that = this
-            
-                $('a.page-scroll').bind('click', function(event) {
-                    var $anchor = $(this);
-
-                    $('html, body').stop().animate({
-                        scrollTop: $($anchor.attr('href')).offset().top
-                    }, 1500, 'easeInOutExpo');
-                    event.preventDefault();
-                });
-            },
         }
     }
 </script>

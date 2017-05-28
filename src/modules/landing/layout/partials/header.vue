@@ -9,7 +9,7 @@
                 </button>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll close-navbar-mb mb-brand" @click="closeMenu()">Mais Bartenders</a>
+                        <a class="close-navbar-mb mb-brand" @click="closeMenu()">Mais Bartenders</a>
                     </li>
                 </ul>
                 
@@ -21,45 +21,40 @@
                     <li class="hidden">
                         <a class="close-navbar-mb" href="#page-top"></a>
                     </li>
-                    <li>
+                    <li @click="closeMenu()">
                         <router-link
                             :to="{name: 'landing.home.show'}"
-                            class="close-navbar-mb"
-                            @click="closeMenu()">
+                            class="close-navbar-mb">
                         Home
                         </router-link>
                     </li>
-                    <li>
+                    <li @click="closeMenu()">
                         <router-link
                             :to="{name: 'landing.events.list'}"
-                            class="close-navbar-mb"
-                            @click="closeMenu()">
+                            class="close-navbar-mb">
                         Eventos
                         </router-link>
                     </li>
-                    <li>
+                    <li @click="closeMenu()">
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
-                            class="close-navbar-mb"
-                            @click="closeMenu()">
+                            class="close-navbar-mb">
                         Cardápio Mais Bartenders
                         </router-link>
                     </li>
 
-                    <li>
+                    <li @click="closeMenu()">
                         <router-link
                             :to="{name: 'landing.auth.login'}"
-                            class="close-navbar-mb"
-                            @click="closeMenu()">
+                            class="close-navbar-mb">
                         Login
                         </router-link>
                     </li>
 
-                    <li>
+                    <li @click="closeMenu()">
                         <router-link
                             :to="{name: 'landing.auth.signup'}"
-                            class="close-navbar-mb"
-                            @click="closeMenu()">
+                            class="close-navbar-mb">
                         Cadastre-se
                         </router-link>
                     </li>
@@ -95,10 +90,8 @@
         },
         methods:{
             closeMenu: function(){
-
                 if(window.innerWidth <= 768){
                     $('#navbar-menu-button').click();
-                    
                 }
             },
         }
