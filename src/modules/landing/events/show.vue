@@ -139,7 +139,7 @@
                             <span class="interactions m-10">
                                 <div class="row">
                                     <div class="col-md-1 col-xs-3">
-                                        <img src="http://bootdey.com/img/Content/avatar/avatar6.png" class="img-circle" width="60px">
+                                        <img src="https://cdn3.iconfinder.com/data/icons/rcons-user-action/32/boy-512.png" class="img-circle" width="60px">
                                     </div>
                                     <div class="col-md-11 col-xs-9">
                                         <br>
@@ -306,7 +306,7 @@
         mounted(){
             var that = this
 
-            //this.getEvent();
+            this.getEvent();
 
             this.$nextTick(()=>{
                 $('html, body').stop().animate({
