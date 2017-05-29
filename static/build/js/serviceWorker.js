@@ -5,7 +5,7 @@ let files = [
     // css files
     '/static/build/css/vendor.css',
     '/static/build/css/agency.css',
-    '/static/build/fonts/fontawesome.css',
+    // '/static/build/fonts/fontawesome.css',
     '/static/build/fonts/montserrat.css',
     '/static/build/fonts/robotoslab.css',
 
