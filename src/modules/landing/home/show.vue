@@ -19,6 +19,12 @@
         </header>
     </div>
 
+    <!-- <section class="chartexample">
+        <div class="container">
+            <canvas ref="radar" id="radar"></canvas>
+        </div>
+    </section> -->
+
     <section id="about">
         <div class="container">
             <div class="row">
@@ -45,7 +51,7 @@
                     </p>
 
                     <img class="m-t-30 m-b-30" src="https://media.giphy.com/media/vQqeT3AYg8S5O/giphy.gif" >
-                    
+
                     <p class="text-description m-t-30">
                         Mas ainda não acabou!
                     </p>
@@ -57,13 +63,13 @@
                     <p class="text-description m-t-30">
                         É muito legal não é mesmo?
                     </p>
-                    
+
                     <img class="m-t-30 m-b-30 img-gif" src="https://media.giphy.com/media/QMkPpxPDYY0fu/giphy.gif" />
 
                     <p class="text-description m-t-30">
                         Entre em contato agora e tenha um <span class="text-selected">Cardápio Interativo</span> também em sua festa! :)
                     </p>
-                        
+
                     <a href="#contact" class="page-scroll btn btn-xl">Contato</a>
 
                 </div>
@@ -77,7 +83,7 @@
                 <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
                     <h2 class="section-heading">Contato</h2>
                     <h4 class="m-t-30 m-b-30">Contrate agora essa novidade para sua festa</h4>
-                    
+
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
                             <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="https://api.whatsapp.com/send?phone=+553182134820&text=[MENU-INTERATIVO] Olá Mais Bartenders, tudo bem?" target="_blank">Envie um WhatsApp agora</a>
@@ -98,8 +104,8 @@
                     </div>
 
                     <span style="font-size:19px">
-                        
-                       
+
+
                     </span>
 
                 </div>
@@ -114,6 +120,7 @@
 <script>
     import { mapGetters } from 'vuex'
     import eventObj from '../../../models/Event.js'
+    import Chart from 'chart.js'
 
     var Swiper = require('swiper')
 
@@ -142,7 +149,7 @@
         methods: {
             initPageScroll: function(){
                 let that = this
-            
+
                 $('a.page-scroll').bind('click', function(event) {
                     var $anchor = $(this);
 
@@ -152,6 +159,46 @@
                     event.preventDefault();
                 });
             },
+
+            createChart: function(el){
+                console.log(el);
+                this.chart = new Chart(el, {
+                  type: 'radar',
+                  data: {
+                    labels: ["Doce", "Amargo", "Forte", "Refrescante", "Frutado"],
+                    datasets: [
+                        {
+                          label: 'Drink 1',
+                          backgroundColor: "rgba(153,255,51,0.4)",
+                          borderColor: "rgba(153,255,51,1)",
+                          data: [40, 30, 60, 100, 70]
+                        },
+                        {
+                          label: 'Drink 2',
+                          backgroundColor: "rgba(153,51,255,0.4)",
+                          borderColor: "rgba(153,51,255,1)",
+                          data: [20, 80, 70, 50, 100]
+                        },
+                        {
+                          label: 'Drink 3',
+                          backgroundColor: "rgba(51,255,153,0.4)",
+                          borderColor: "rgba(51,255,153,1)",
+                          data: [100, 20, 80, 60, 100]
+                        },
+                    ]
+                },
+                options: {
+                    scale: {
+                        // Hides the scale
+                        display: true
+                    }
+                }
+
+            })
+            }
+        },
+        mounted() {
+            this.createChart(this.$refs.radar)
         }
     }
 </script>
