@@ -198,7 +198,7 @@
             }
         },
         mounted() {
-            this.createChart(this.$refs.radar)
+            // this.createChart(this.$refs.radar)
         }
     }
 </script>
