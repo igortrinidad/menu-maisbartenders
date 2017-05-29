@@ -7,12 +7,10 @@ module.exports = {
     response: function (res) {
 
         var headers = this.options.http._getHeaders.call(this, res),
-            token = res.data.token
+            token = res.data.access_token
 
         if (token) {
-            token = token.split(/Bearer\:?\s?/i);
-
-            return token[token.length > 1 ? 1 : 0].trim();
+            return token
         }
     }
 };

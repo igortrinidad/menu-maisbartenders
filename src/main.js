@@ -25,14 +25,14 @@ Vue.axios.interceptors.response.use(function (response) {
     const { response } = error
 
     // If token is expired not provided or invalid, bad request, internal server error then redirect to login.
-    if ([401, 400, 403,  500].indexOf(response.status) > -1) {
+    if ([401, 403,  500].indexOf(response.status) > -1) {
 
         //set token and user as null
         store.dispatch('authSetToken', '')
         store.dispatch('authSetUser', '')
 
         //redirect
-        router.push({ name: 'auth.login' })
+        router.push({ name: 'landing.auth.login' })
 
         errorNotify('Ops!', 'Ocorreu um erro ao processar sua requisição.')
     }

@@ -7,7 +7,7 @@ import appLayout from './layout/main'
 
 
 export default [
-    ...auth,
+    //...auth,
     {
         name: 'app.home',
         path: '/',

@@ -1,7 +1,7 @@
 <template>
    <div>
 
-    <section id="login">
+    <section id="login" v-if="$auth.ready()">
         <div class="container">
             <div class="row m-b-30">
                 <div class="col-lg-12">
@@ -42,20 +42,20 @@
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
                         <label>Email</label>
-                        <input class="form-control">
+                        <input class="form-control" v-model="email">
                     </div>
                 </div>
 
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
                         <label>Senha</label>
-                        <input class="form-control">
+                        <input class="form-control" type="password" v-model="password">
                     </div>
                 </div>
 
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
-                        <button class="btn btn-xl btn-primary">Login</button>
+                        <button class="btn btn-xl btn-primary" @click.prevent="login">Login</button>
                     </div>
                 </div>
             </div>
@@ -66,8 +66,8 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-    import eventObj from '../../../models/Event.js'
+    import { mapGetters, mapActions } from 'vuex'
+    import eventObj from '@/models/Event.js'
 
     var Swiper = require('swiper')
 
@@ -77,7 +77,9 @@
             return {
                 interactions: {
                     showEmailLogin: false,
-                }
+                },
+                email: null,
+                password: null,
             }
         },
         computed:{
@@ -90,6 +92,40 @@
 
         },
         methods: {
+            /**
+             * Map the actions from Vuex to this component.
+             */
+            ...mapActions(['authSetToken', 'authSetUser']),
+
+            login () {
+
+                this.$auth.login({
+                    url:'guest/auth/login',
+                    fetchUser:true,
+                    params:{
+                        email: this.email,
+                        password: this.password,
+                    },
+                    rememberMe: this.rememberMe,
+                    redirect: '/',
+                    success (response) {
+                        this.authSetToken(response.data.access_token) // this is a Vuex action
+                        this.authSetUser(response.data.user) // this is a Vuex action
+                    },
+                    error (error) {
+                        errorNotify('Ops!', 'Credenciais inválidas.')
+                    }
+                })
+
+            },
+
+            socialLogin(type) {
+                localStorage.setItem('role', 'guest')
+                localStorage.setItem('provider', type)
+                this.$auth.oauth2({
+                    provider: type
+                });
+            }
         }
     }
 </script>

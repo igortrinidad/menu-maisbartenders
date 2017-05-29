@@ -46,7 +46,7 @@ const beforeEach = (to, from, next) => {
      * login.
      */
     if (needAuth(auth, token)) {
-        next({name: 'auth.login'})
+        next({name: 'landing.auth.login'})
     }
 }
 

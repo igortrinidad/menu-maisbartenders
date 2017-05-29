@@ -1,6 +1,4 @@
 import ShowHome from './home/show.vue'
-import AuthLogin from './auth/login.vue'
-import AuthSignup from './auth/signup.vue'
 import EventShow from './events/show.vue'
 import EventList from './events/list.vue'
 import DrinkShow from './drinks/show.vue'
@@ -8,6 +6,7 @@ import DrinkList from './drinks/list.vue'
 import appLayout from './layout/main'
 import UserShow from './user/show'
 import UserPreferences from './user/preferences'
+import { routes as auth } from './auth'
 
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_operator
 // Thus a new array is created, containing all objects that match the routes.
@@ -20,22 +19,11 @@ export default [
         component: appLayout,
         meta: {requiresAuth: true},
         children: [
+            ...auth,
             {
                 name: 'landing.home.show',
                 path: '',
                 component: ShowHome,
-                meta: { requiresAuth: false },
-            },
-            {
-                name: 'landing.auth.login',
-                path: '/login',
-                component: AuthLogin,
-                meta: { requiresAuth: false },
-            },
-            {
-                name: 'landing.auth.signup',
-                path: '/cadstre-se',
-                component: AuthSignup,
                 meta: { requiresAuth: false },
             },
             {
@@ -67,14 +55,14 @@ export default [
                 name: 'landing.user.show',
                 path: '/perfil',
                 component: UserShow,
-                meta: { requiresAuth: false },
+                meta: { requiresAuth: true, auth:['guest']},
             },
 
             {
                 name: 'landing.user.preferences',
                 path: '/preferencias',
                 component: UserPreferences,
-                meta: { requiresAuth: false },
+                meta: { requiresAuth: true,  auth:['guest']},
             },
         ]
     },

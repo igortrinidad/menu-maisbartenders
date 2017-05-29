@@ -12,7 +12,7 @@
                         <a class="close-navbar-mb mb-brand" @click="closeMenu()">Mais Bartenders</a>
                     </li>
                 </ul>
-                
+
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -43,7 +43,7 @@
                         </router-link>
                     </li>
 
-                    <li @click="closeMenu()">
+                    <li @click="closeMenu()" v-if="!isLogged">
                         <router-link
                             :to="{name: 'landing.auth.login'}"
                             class="close-navbar-mb">
@@ -51,7 +51,7 @@
                         </router-link>
                     </li>
 
-                    <li @click="closeMenu()">
+                    <li @click="closeMenu()" v-if="!isLogged">
                         <router-link
                             :to="{name: 'landing.auth.signup'}"
                             class="close-navbar-mb">
@@ -59,8 +59,11 @@
                         </router-link>
                     </li>
 
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nome user <b class="caret"></b></a>
+                    <li class="dropdown"  v-if="isLogged">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img :src="userPhoto" alt="" class="img-circle" width="32">
+                            {{currentUser.full_name}} <b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
                             <li @click="closeMenu()">
                                 <router-link
@@ -73,11 +76,17 @@
                                     class="close-navbar-mb">
                                 Meu perfil
                                 </router-link>
+
+                                <router-link
+                                    :to="{name: 'landing.auth.logout'}"
+                                    class="close-navbar-mb">
+                                    Sair
+                                </router-link>
                             </li>
 
                         </ul>
                     </li>
-                    
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -87,11 +96,14 @@
 </template>
 
 <script>
-
+    import { mapGetters } from 'vuex'
     export default{
         name: 'landing-header',
         data(){
             return {}
+        },
+        computed: {
+            ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
         },
         mounted(){
 
