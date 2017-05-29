@@ -19,12 +19,6 @@
         </header>
     </div>
 
-    <!-- <section class="chartexample">
-        <div class="container">
-            <canvas ref="radar" id="radar"></canvas>
-        </div>
-    </section> -->
-
     <section id="about">
         <div class="container">
             <div class="row">
@@ -120,7 +114,6 @@
 <script>
     import { mapGetters } from 'vuex'
     import eventObj from '../../../models/Event.js'
-    import Chart from 'chart.js'
 
     var Swiper = require('swiper')
 
@@ -160,45 +153,8 @@
                 });
             },
 
-            createChart: function(el){
-                console.log(el);
-                this.chart = new Chart(el, {
-                  type: 'radar',
-                  data: {
-                    labels: ["Doce", "Amargo", "Forte", "Refrescante", "Frutado"],
-                    datasets: [
-                        {
-                          label: 'Drink 1',
-                          backgroundColor: "rgba(153,255,51,0.4)",
-                          borderColor: "rgba(153,255,51,1)",
-                          data: [40, 30, 60, 100, 70]
-                        },
-                        {
-                          label: 'Drink 2',
-                          backgroundColor: "rgba(153,51,255,0.4)",
-                          borderColor: "rgba(153,51,255,1)",
-                          data: [20, 80, 70, 50, 100]
-                        },
-                        {
-                          label: 'Drink 3',
-                          backgroundColor: "rgba(51,255,153,0.4)",
-                          borderColor: "rgba(51,255,153,1)",
-                          data: [100, 20, 80, 60, 100]
-                        },
-                    ]
-                },
-                options: {
-                    scale: {
-                        // Hides the scale
-                        display: true
-                    }
-                }
-
-            })
-            }
         },
         mounted() {
-            // this.createChart(this.$refs.radar)
         }
     }
 </script>

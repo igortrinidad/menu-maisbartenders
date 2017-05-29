@@ -8,6 +8,8 @@ import UserShow from './user/show'
 import UserPreferences from './user/preferences'
 import { routes as auth } from './auth'
 
+//To test chart JS 
+import TestChart from './drinks/test-chart.vue'
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_operator
 // Thus a new array is created, containing all objects that match the routes.
 
@@ -63,6 +65,13 @@ export default [
                 path: '/preferencias',
                 component: UserPreferences,
                 meta: { requiresAuth: true,  auth:['guest']},
+            },
+
+            {
+                name: 'landing.user.testchart',
+                path: '/test-chart',
+                component: TestChart,
+                meta: { requiresAuth: false},
             },
         ]
     },
