@@ -23,7 +23,7 @@
 
                 <div class="row">
                     <div class="text-right">
-                        <button class="btn btn-default btn-sm m-b-10 btn-drink-action">Salvar drink</button>
+                        <button class="btn btn-default btn-sm m-b-10 btn-drink-action" @click="addDrinkPreference()">Salvar drink</button>
                         <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no facebook</button>
                     </div>
                 </div>
@@ -164,6 +164,47 @@
 
                 window.open(url,'_blank');
 
+                that.storeFacebookShare();
+
+            },
+
+            addDrinkPreference: function(){
+                let that = this
+            
+                var data = {
+                    drink_id: that.drink.id,
+                    user_id: 123
+                }
+
+                that.$http.post('/usert/addDrinkPreference', data)
+                    .then(function (response) {
+
+                        successNotify('', 'Drink salvo com sucesso!')
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        errorNotify('Ops!', 'Ocorreu um erro ao salvar seu drink!')
+                    });
+                
+            },
+
+            storeFacebookShare: function(drink){
+                let that = this
+            
+                var data = {
+                    message: that.interactions.phraseSelected,
+                    user_id: 123
+                }
+
+                that.$http.post('/usert/storeFacebookShare', data)
+                    .then(function (response) {
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+                
             },
 
             getEvent: function(){

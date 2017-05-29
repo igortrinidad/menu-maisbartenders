@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row m-b-30">
                 <div class="col-lg-12">
-                    <h2 class="section-heading">Preferências</h2>
+                    <h3 class="section-heading">Preferências</h3>
                     <h4 class="text-muted m-t-30">Veja seus drinks preferidos.</h4>
                 </div>
             </div>

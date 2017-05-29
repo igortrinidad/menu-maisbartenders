@@ -5,14 +5,14 @@
         <div class="container">
             <div class="row m-b-30">
                 <div class="col-lg-12">
-                    <h2 class="section-heading">Cadastro</h2>
-                    <h4 class="text-muted m-t-30">Veja seu cadastro no Menu Interativo.</h4>
+                    <h3 class="section-heading">Cadastro</h3>
+                    <h4 class="text-muted m-t-30">Veja seu cadastro no Menu Interativo</h4>
                 </div>
             </div>
 
             <div class="row m-t-20">
                 <div class="col-md-5 col-xs-12">
-                    <h3>Dados do cadastro</h3>
+                    <h4>Dados do cadastro</h4>
                     <div class="form-group">
                         <label>Primeiro nome</label>
                         <input class="form-control" v-model="user.first_name">
@@ -39,31 +39,13 @@
                 </div>
 
                 <div class="col-md-6 col-md-offset-1 col-xs-12">
-                    <h3>Ultimas interações</h3>
+                    <h4>Ultimas interações</h4>
 
-                    <h5>Eventos</h5>
+                    <h5>Eventos<hr></h5>
                     <span v-for="(event, index) in user.events">
                         <small>Data: {{event.date}}</small>
                         <p class="interactions">{{event.name}}</p>
                     </span>
-                    
-                    <hr>
-                    <h5>Preferências</h5>
-
-                    <span v-for="(preference, index) in user.preferences">
-                        <small>Criado em: {{preference.created_at}}</small>
-                        
-                        <div class="row">
-                            <div class="col-md-10 col-xs-10">
-                                <p class="interactions">{{preference.name}}</p>
-                            </div>
-                            <div class="col-md-2 col-xs-2">
-                                <button class="btn btn-danger btn-sm">X</button>
-                            </div>
-                            
-                        </div>
-                    </span>
-                    
                     <hr>
 
                     <h5>Comentários</h5>

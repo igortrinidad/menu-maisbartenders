@@ -4,17 +4,21 @@
 
         <router-view></router-view>
 
+        <app-footer></app-footer>
+
     </div>
 </template>
 
 <script>
     import appHeader from './partials/header.vue'
+    import appFooter from './partials/footer.vue'
     import { mapGetters } from 'vuex'
 
     export default{
         name: 'landing-layout',
         components:{
-            appHeader
+            appHeader,
+            appFooter
         },
         data(){
             return{
