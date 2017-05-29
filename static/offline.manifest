@@ -22,7 +22,6 @@ CACHE:
 
 /static/build/js/vendor.js
 /app.js
-/static/build/js/services/register.js
 
 NETWORK:
 *
