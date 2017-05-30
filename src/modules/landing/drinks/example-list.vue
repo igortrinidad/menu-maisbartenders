@@ -17,10 +17,34 @@
            </div>
        </header>
 
+       <div id="most-recommended" class="container">
+           <div class="text-center">
+               <h2>Populares</h2>
+               <span>Aqui eu pensei em exbir os que tiverem a prioridade > 4 (por exemplo) em destaque antes do usuario descer para filtrar por outros drinks.</span>
+           </div>
+           <div class="swiper-row">
+               <div class="swiper-container gallery-top" ref="swiper">
+                   <div class="swiper-wrapper">
+
+                       <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
+
+                           <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                       </div>
+                   </div>
+
+                   <div class="swiper-pagination"></div>
+                   <!-- Add Arrows -->
+                   <div class="swiper-button-next swiper-button-white"></div>
+                   <div class="swiper-button-prev swiper-button-white"></div>
+               </div>
+           </div>
+       </div>
+
        <section id="drinks">
            <div class="container">
                <div class="filter">
                    <h3>Ingredientes:</h3>
+                   <span>OBS: Ao lado do switch "TODOS" a minha ideia é adicionar as opcoes de filtro, ingredientes, leve/forte, bedidas e ja ir filtrando ao "ligar" ou "desligar o filtro", tenho que procurar no commits, mas ja da pra fazer algo do tipo fácil com o que eu ja tinha feito.</span>
                    <div class="switch">
                        <label>
                            Todos
@@ -58,6 +82,8 @@
         data () {
             return {
                 displayDrinks: false,
+                especialDrinks: Drinks.map((drink) => drink.priority >=4 ? drink : undefined)
+                .filter((drink) => drink !== undefined),
                 drinks: Drinks.sort((a, b) => {
                     if (a.priority < b.priority) return 1
                     if (a.priority > b.priority) return -1
@@ -70,7 +96,7 @@
             ...mapGetters(['currentUser', 'isLogged']),
         },
         mounted(){
-
+            this.initSwiper()
         },
 
         methods: {
@@ -80,6 +106,22 @@
 
                 //exemplo "porco" para simplificar o toggle do button-switch
                 $('.button-switch').toggleClass('active')
+            },
+
+            initSwiper: function(){
+                var that = this;
+
+                setTimeout(function(){
+                    var galleryTop = new Swiper(that.$refs.swiper, {
+                        nextButton: '.swiper-button-next',
+                        prevButton: '.swiper-button-prev',
+                        spaceBetween: 10,
+                    });
+
+                    galleryTop.update(true)
+
+                }, 200)
+
             }
         }
     }
@@ -163,7 +205,7 @@
 .button-switch.active:before{
     left: calc(100% - 40px);
     background: #eee;
-    transition: ease .5s;
+    transition: ease .2s;
 }
 
 .button-switch:before{
@@ -175,12 +217,16 @@
     height: 20px;
     background: #777;
     margin-top: -10px;
-    transition: ease .5s;
+    transition: ease .2s;
     border-radius: 5px;
 }
 
 .button-switch:focus{
     outline: none;
+}
+
+#most-recommended{
+    margin: 20px auto;
 }
 
 </style>

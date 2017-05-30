@@ -3,7 +3,7 @@ export default [
 		id: 1,
 		name: 'Trinidad',
 		description: 'Um drink muito top!',
-		priority: 3,
+		priority: 5,
 		items: [
 			{
 				name: 'Morango',
