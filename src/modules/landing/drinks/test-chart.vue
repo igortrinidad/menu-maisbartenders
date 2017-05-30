@@ -1,7 +1,7 @@
 <template>
    <div>
     <section class="container m-t-30">
-            
+
             <div class="col-md-2 col-xs-3">
                 <div class="form-group">
                     <input class="form-control" v-model="drink.flavor.dry" @blur="createChart($refs.radar)">
@@ -11,13 +11,13 @@
                     <input class="form-control" v-model="drink.flavor.alcohol" @blur="createChart($refs.radar)">
                 </div>
             </div>
-    
-        
+
+
         <div style="margin-top:200px;">
             <div class="col-md-6 col-xs-12 text-center">
                     <div class="p-30">
                         <canvas ref="radar" id="radar"></canvas>
-                    </div>            
+                    </div>
             </div>
         </div>
     </section>
@@ -122,6 +122,7 @@
 
                 this.chart = new Chart(el, {
                   type: 'radar',
+                  pointLabelFontSize: 20,
                   data: {
                     labels: keys,
                     datasets: [
@@ -129,7 +130,11 @@
                             label: 'Drink 1',
                             backgroundColor: "RGBA(254, 209, 54, 0.3)",
                             borderColor: "RGBA(254, 209, 54, 1.00)",
-                            data: values
+                            data: values,
+		                    pointRadius: 10,
+                            pointDot: false,
+                            fontSize: 30,
+                            defaultFontSize: 30
                         },
                     ]
                 },
@@ -140,22 +145,18 @@
                     scaleSteps: 2,
                     scaleStepWidth: 2,
                     scaleBeginAtZero: true,
-                    defaultFontSize: 20,
                     scale: {
-                        // Hides the scale
-                        display: true,
-                        labels: {
-                            fontSize: 40
-                        },
                         ticks: {
-                            max:10, // Set it to your Max value
-                            min: 0,
-                            beginAtZero: true,
+                            beginAtZero: 0,
+                            display: !1
+                        },
+                        pointLabels: {
+                            fontSize: 30,
+                            fontColor: 'RGBA(254, 209, 54, 1.00)',
+                            textTransform: 'uppercase'
                         }
                     }
-
-                }
-
+                },
             })
 
                 console.log(this.chart);
