@@ -18,7 +18,32 @@
        </header>
 
        <section id="drinks">
+           <div class="container">
+               <div class="filter">
+                   <h3>Ingredientes:</h3>
+                   <div class="switch">
+                       <label>
+                           Todos
+                           <button type="button" class="button-switch" @click="activeSwitch($event)"></button>
+                       </label>
+                   </div>
+               </div>
+           </div>
 
+           <div class="container" v-if="displayDrinks">
+               <div class="cols">
+                   <div v-for="(drink, index) in drinks" class="col">
+                       <div class="drink">
+                           <img :src="drink.photo_url" :alt="drink.name">
+                           <div class="details">
+                               <h3 class="name">{{ drink.name }}</h3>
+                               <i class="stars fa fa-star" v-for="n in drink.priority"></i>
+                               <span class="description">{{ drink.description }}</span>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
        </section>
 
    </div>
@@ -33,7 +58,11 @@
         data () {
             return {
                 displayDrinks: false,
-                drinks: Drinks
+                drinks: Drinks.sort((a, b) => {
+                    if (a.priority < b.priority) return 1
+                    if (a.priority > b.priority) return -1
+                    return 0
+                }),
             }
         },
         computed:{
@@ -46,6 +75,12 @@
 
         methods: {
 
+            activeSwitch: function() {
+                this.displayDrinks = !this.displayDrinks
+
+                //exemplo "porco" para simplificar o toggle do button-switch
+                $('.button-switch').toggleClass('active')
+            }
         }
     }
 </script>
@@ -54,6 +89,98 @@
 .page{
     margin-top: 80px;
     min-height: 100vh;
+}
+#drinks{
+    background-color: #f9f9f9;
+    padding: 40px 0;
+}
+.cols{
+    display: flex;
+    flex-flow: row wrap;
+    align-content: space-between;
+    justify-content: space-between;
+    width: 100%;
+    align-items: bot;
+}
+
+.col{
+    padding: 0 10px;
+    width: 33.3333%;
+    margin: 10px 0;
+}
+
+.drink{
+    max-height: 300px;
+    border: 1px solid #ecf0f1;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, .1);
+    background:#fff;
+    cursor: pointer;
+}
+.drink img{
+    max-width: 100%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.drink .description{
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.drink .stars { margin-right: 3px; }
+
+.filter{
+    padding: 0 10px;
+}
+
+.switch{
+    display: flex;
+    height: 40px;
+    width: 200px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.switch label{
+    cursor: pointer;
+}
+
+.button-switch{
+    position: relative;
+    top: 6px;
+    width: 80px;
+    height: 30px;
+    border: none;
+    background: #222222;
+    border-radius: 5px
+}
+
+.button-switch.active:before{
+    left: calc(100% - 40px);
+    background: #eee;
+    transition: ease .5s;
+}
+
+.button-switch:before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    width: 30px;
+    height: 20px;
+    background: #777;
+    margin-top: -10px;
+    transition: ease .5s;
+    border-radius: 5px;
+}
+
+.button-switch:focus{
+    outline: none;
 }
 
 </style>

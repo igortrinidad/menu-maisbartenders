@@ -54,7 +54,7 @@ export default [
 		],
 		presentation: 'Caneca esmaltada',
 		style: 'No Jeito',
-		photo_url: ''
+		photo_url: 'https://maisbartenders.com.br/img/portfolio/Mais_Bartenders_TRINIDAD.JPG'
 	},
 	{
 		id: 3,
@@ -106,6 +106,6 @@ export default [
 		],
 		presentation: 'On the rocks',
 		style: 'No jeito',
-		photo_url: ''
+		photo_url: 'https://maisbartenders.com.br/img/portfolio/Mais_Bartenders_TRINIDAD.JPG'
 	},
  	]
