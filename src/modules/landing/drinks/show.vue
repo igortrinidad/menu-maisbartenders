@@ -254,7 +254,7 @@
         mounted(){
             var that = this
 
-            this.getEvent();
+            this.getDrink();
 
             this.$nextTick(()=>{
                 $('html, body').stop().animate({
@@ -263,7 +263,6 @@
                 that.initPageScroll()
             })
 
-            this.checkDrinkNutrition()
         },
         methods: {
 
@@ -283,10 +282,12 @@
                 
                 that.nutritional_facts = [];
 
-                that.items.forEach( function(item){
-                    item.nutrition.forEach(function(nutri){
+                that.drink.items.forEach( function(item){
+                    item.nutrients.forEach(function(nutri){
 
-                        nutri.quantity = item.pivot.quantity / 100 * nutri.quantity;
+                        nutri.quantity = item.pivot.quantity / 100 * nutri.pivot.quantity;
+                        nutri.quantity = parseInt(nutri.quantity);
+
                         var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
 
                         if(hasNutri){
@@ -339,7 +340,7 @@
                 
             },
 
-            getEvent: function(){
+            getDrink: function(){
                 let that = this
                     
                 //that.$route.params.place_slug
@@ -349,6 +350,7 @@
                         
                         that.drink = response.data;
                         that.drinkFound = true;
+                        that.checkDrinkNutrition();
 
                     })
                     .catch(function (error) {

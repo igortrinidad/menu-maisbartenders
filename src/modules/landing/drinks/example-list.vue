@@ -1,26 +1,10 @@
 <template>
    <div class="page">
 
-       <header id="header-drinks" class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
-           <div class="container" >
-               <div class="col-md-6 col-md-offset-3 col-xs-12">
-                   <div class="intro-text">
-                       <span class="text-box">
-                           <span class="event-name">
-                               Cardápio Interativo Mais Bartenders
-                           </span>
-                       </span>
-                       <br>
-                       <a href="#drinks" class="page-scroll btn btn-xl m-t-30">Ver cardápio</a>
-                   </div>
-               </div>
-           </div>
-       </header>
-
        <div id="most-recommended" class="container">
            <div class="text-center">
-               <h2>Populares</h2>
-               <span>Aqui eu pensei em exbir os que tiverem a prioridade > 4 (por exemplo) em destaque antes do usuario descer para filtrar por outros drinks.</span>
+               <h2>Best Sellers</h2>
+               <span>* Populares você me quebra viu auhhuauhuh Aqui eu pensei em exbir os que tiverem a prioridade > 4 (por exemplo) em destaque antes do usuario descer para filtrar por outros drinks.</span>
            </div>
            <div class="swiper-row">
                <div class="swiper-container gallery-top" ref="swiper">
@@ -55,16 +39,16 @@
            </div>
 
            <div class="container" v-if="displayDrinks">
-               <div class="cols">
-                   <div v-for="(drink, index) in drinks" class="col">
-                       <div class="drink">
-                           <img :src="drink.photo_url" :alt="drink.name">
-                           <div class="details">
-                               <h3 class="name">{{ drink.name }}</h3>
-                               <i class="stars fa fa-star" v-for="n in drink.priority"></i>
-                               <span class="description">{{ drink.description }}</span>
-                           </div>
-                       </div>
+               <div class="row">
+                   <div v-for="(drink, index) in drinks" class="col-md-4 col-xs-12 p-30">
+                      <router-link tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                         <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                         <div class="details">
+                             <h3 class="name">{{ drink.name }}</h3>
+                             <i class="stars fa fa-star" v-for="n in drink.priority"></i>
+                             <span class="description">{{ drink.description }}</span>
+                         </div>
+                       </router-link>
                    </div>
                </div>
            </div>
@@ -82,21 +66,30 @@
         data () {
             return {
                 displayDrinks: false,
-                especialDrinks: Drinks.map((drink) => drink.priority >=4 ? drink : undefined)
-                .filter((drink) => drink !== undefined),
-                drinks: Drinks.sort((a, b) => {
-                    if (a.priority < b.priority) return 1
-                    if (a.priority > b.priority) return -1
-                    return 0
-                }),
+                drinkFetcheds: []
             }
         },
         computed:{
 
             ...mapGetters(['currentUser', 'isLogged']),
+
+            drinks: function(){
+              let that = this
+            
+              return _.orderBy(that.drinkFetcheds, 'priority', 'desc');
+                
+            },
+
+            especialDrinks: function(){
+                let that = this
+            
+                return that.drinkFetcheds.map((drink) => drink.priority >=4 ? drink : undefined)
+                .filter((drink) => drink !== undefined)
+            },
         },
         mounted(){
             this.initSwiper()
+            this.getDrinks();
         },
 
         methods: {
@@ -122,7 +115,27 @@
 
                 }, 200)
 
-            }
+            },
+
+            getDrinks: function(){
+                let that = this
+                    
+                //that.$route.params.place_slug
+
+                that.$http.get('/drinks/fetchAll')
+                    .then(function (response) {
+                        
+                        that.drinkFetcheds = response.data;
+                        that.initSwiper();
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        that.drinkFound = false;
+                        //that.$router.push({name: 'landing.404'})
+                    });
+                
+            },
         }
     }
 </script>
@@ -136,25 +149,10 @@
     background-color: #f9f9f9;
     padding: 40px 0;
 }
-.cols{
-    display: flex;
-    flex-flow: row wrap;
-    align-content: space-between;
-    justify-content: space-between;
-    width: 100%;
-    align-items: bot;
-}
-
-.col{
-    padding: 0 10px;
-    width: 33.3333%;
-    margin: 10px 0;
-}
 
 .drink{
-    max-height: 300px;
     border: 1px solid #ecf0f1;
-    padding: 10px;
+    padding: 15px;
     border-radius: 4px;
     box-shadow: 1px 2px 1px rgba(0, 0, 0, .1);
     background:#fff;
@@ -165,6 +163,8 @@
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
+
+
 
 .drink .description{
     display: block;
