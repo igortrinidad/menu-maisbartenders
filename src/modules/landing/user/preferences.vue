@@ -84,7 +84,7 @@
             fetchDrinkPreference: function(){
                 let that = this
 
-                that.$http.post('/guest/getDrinkPreference', { guest_id: that.currentUser.id })
+                that.$http.post('/guest/fetchDrinkPreference', { guest_id: that.currentUser.id })
                     .then(function (response) {
 
                         successNotify('', 'Drink salvo com sucesso!')
@@ -94,12 +94,12 @@
                         console.log(error)
                         errorNotify('Ops!', 'Ocorreu um erro ao buscar preferências.')
                     });
-                
+
             },
 
             removeDrinkPreference: function(drink){
                 let that = this
-            
+
                 var data = {
                     drink_id: drink.id,
                     guest_id: that.currentUser.id
@@ -129,7 +129,7 @@
                         });
                     }
                 })
-                
+
             },
         }
     }
