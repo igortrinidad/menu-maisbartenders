@@ -44,6 +44,39 @@
                             </span>
                         </p>
 
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3 col-xs-">
+                                <h3 class="m-b-30">Informação nutricional</h3>
+                            </div>
+                        </div>
+                        <div class="row text-left">
+                            <div class="col-md-4 col-md-offset-4 col-xs-12">
+                                <span class="text-left">
+                                    <small class="f-16 f-500">Porção: 1 unidade</small>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Descrição</th>
+                                                <th class="text-center">Quantidade</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Gorduras totais</td>
+                                                <td class="text-center">10g</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Vitamina C</td>
+                                                <td class="text-center">10mg</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </span>
+                            </div>
+                        </div>
+
+                        <hr>
+
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
                             class="btn inline btn-xl m-t-30">
@@ -111,6 +144,71 @@
                 drinkFound: true,
                 drink: drinkObj,
                 displayDrinks: false,
+                items: [
+                    {
+                       name: 'Morango',
+                        nutrition: [
+                            {
+                                name: 'Calorias',
+                                quantity: 100,
+                                unity: 'Kj',
+                                is_extra: false
+                            },
+                            {
+                                name: 'Carboidrato',
+                                quantity: 20,
+                                unity: 'Kj',
+                                is_extra: false
+                            },
+                            {
+                                name: 'Vitamina C',
+                                quantity: 100,
+                                unity: 'Mg',
+                                is_extra: true
+                            },
+                            {
+                                name: 'Vitamina D',
+                                quantity: 10,
+                                unity: 'Mg',
+                                is_extra: true
+                            }
+                        ]
+                    },
+                    {
+                       name: 'Gin',
+                        nutrition: [
+                            {
+                                name: 'Calorias',
+                                quantity: 200,
+                                unity: 'Kj',
+                                is_extra: false
+                            }
+                        ]
+                    },
+                    {
+                       name: 'Espuma de jabuticaba',
+                        nutrition: [
+                            {
+                                name: 'Calorias',
+                                quantity: 200,
+                                unity: 'Kj',
+                                is_extra: false
+                            },
+                            {
+                                name: 'Fibra',
+                                quantity: 10,
+                                unity: 'G',
+                                is_extra: false
+                            },
+                            {
+                                name: 'Carboidrato',
+                                quantity: 10,
+                                unity: 'G',
+                                is_extra: false
+                            }
+                        ]
+                    }
+                ]
             }
         },
         computed:{

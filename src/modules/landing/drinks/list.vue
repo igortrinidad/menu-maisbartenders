@@ -63,19 +63,21 @@
                         <div class="swiper-button-prev swiper-button-white"></div>
                     </div>
                     
-                     <h3 class="m-b-10 text-center">Confira outras opções</h3>
-                
-                    <div class="swiper-container gallery-thumbs" ref="swiperthumbs">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide" v-for="(drink, index) in drinks">
-                                <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
-                            </div>
-                        </div>
-                    </div>
                 </div> 
 
             </div>
 
+        </section>
+
+        <section id="all-drinks">
+            <h3 class="m-b-10 text-center">Confira outros drinks</h3>
+                <div class="row">
+
+                    <div class="col-md-3 col-xs-6" v-for="(drink, index) in drinks">
+                        <img :src="drink.photo_url" :alt="drink.name" width="90%"/>
+                    </div>
+
+                </div>
         </section>
 
         <div class="" v-if="!drinkFound">
