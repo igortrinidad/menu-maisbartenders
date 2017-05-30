@@ -186,11 +186,11 @@
                 let that = this
             
                 var data = {
-                    drink_id: that.interactions.drinkSelected.id,
-                    user_id: 123
+                    drink_id: drink.id,
+                    guest_id: that.currentUser.id
                 }
 
-                that.$http.post('/usert/addDrinkPreference', data)
+                that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
 
                         successNotify('', 'Drink salvo com sucesso!')

@@ -1,12 +1,11 @@
 <template>
    <div>
 
-    <section id="login">
+    <section id="user-drinks">
         <div class="container">
             <div class="row m-b-30">
                 <div class="col-lg-12">
-                    <h3 class="section-heading">Preferências</h3>
-                    <h4 class="text-muted m-t-30">Veja seus drinks preferidos.</h4>
+                    <h3 class="section-heading">Minhas criações</h3>
                 </div>
             </div>
 
@@ -14,16 +13,39 @@
 
                 <div class="col-md-6 col-xs-12" v-for="(drink, index) in user.preferences">
                     <div class="text-right">
-                            <button class="btn btn-danger btn-sm m-b-10 btn-drink-action">Excluir preferência</button>
-                        </div>
+                        <button class="btn btn-danger btn-sm m-b-10 btn-drink-action" @click="removeDrinkPreference(drink)">Excluir este drink</button>
+                    </div>
                     <router-link class="interactions m-b-10" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                             <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
                             <h3>{{drink.name}}</h3>
                             <br>
-                            <small>Criado em: {{drink.created_at}}</small></p>
-                            
+                            <small>Criado em: {{drink.created_at}}</small>
                     </router-link>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="user-preferences">
+        <div class="container">
+            <div class="row m-b-30">
+                <div class="col-lg-12">
+                    <h3 class="section-heading">Drinks salvos</h3>
+                </div>
+            </div>
+
+            <div class="row m-t-20">
+
+                <div class="col-md-6 col-xs-12" v-for="(drink, index) in user.preferences">
+                    <div class="text-right">
+                        <button class="btn btn-danger btn-sm m-b-10 btn-drink-action" @click="removeDrinkPreference(drink)">Excluir este drink</button>
+                    </div>
+                    <router-link class="interactions m-b-10" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                            <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                            <h3>{{drink.name}}</h3>
+                            <br>
+                            <small>Criado em: {{drink.created_at}}</small>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -55,9 +77,60 @@
 
         },
         mounted(){
-
+            this.fetchDrinkPreference();
         },
         methods: {
+
+            fetchDrinkPreference: function(){
+                let that = this
+
+                that.$http.post('/guest/getDrinkPreference', { guest_id: that.currentUser.id })
+                    .then(function (response) {
+
+                        successNotify('', 'Drink salvo com sucesso!')
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        errorNotify('Ops!', 'Ocorreu um erro ao buscar preferências.')
+                    });
+                
+            },
+
+            removeDrinkPreference: function(drink){
+                let that = this
+            
+                var data = {
+                    drink_id: drink.id,
+                    guest_id: that.currentUser.id
+                }
+
+                this.$swal({
+                    title: "Confirmar exclusão",
+                    text: "Tem certeza que deseja excluir este drink?",
+                    type: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: "Não",
+                    confirmButtonText: "Sim, tenho certeza.",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+
+                        that.$http.post('/guest/removeDrinkPreference', data)
+                        .then(function (response) {
+
+                            successNotify('', 'Drink salvo com sucesso!')
+
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                            errorNotify('Ops!', 'Ocorreu um erro ao remover drink!')
+                        });
+                    }
+                })
+                
+            },
         }
     }
 </script>

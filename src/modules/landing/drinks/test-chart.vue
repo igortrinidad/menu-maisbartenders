@@ -1,13 +1,26 @@
 <template>
    <div>
-
-        <div class="row" style="margin-top:200px;">
-            <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
-                    <div class="p-30" width="250px" height="250px">
+    <section class="container m-t-30">
+            
+            <div class="col-md-2 col-xs-3">
+                <div class="form-group">
+                    <input class="form-control" v-model="drink.flavor.dry" @blur="createChart($refs.radar)">
+                    <input class="form-control" v-model="drink.flavor.citric" @blur="createChart($refs.radar)">
+                    <input class="form-control" v-model="drink.flavor.bitter" @blur="createChart($refs.radar)">
+                    <input class="form-control" v-model="drink.flavor.fruit" @blur="createChart($refs.radar)">
+                    <input class="form-control" v-model="drink.flavor.alcohol" @blur="createChart($refs.radar)">
+                </div>
+            </div>
+    
+        
+        <div style="margin-top:200px;">
+            <div class="col-md-6 col-xs-12 text-center">
+                    <div class="p-30">
                         <canvas ref="radar" id="radar"></canvas>
                     </div>            
             </div>
         </div>
+    </section>
 
    </div>
 </template>
@@ -25,6 +38,13 @@
             return {
                 drink: {
                     name: 'Trinidad',
+                    flavor: {
+                        citric: 5,
+                        fruit: 5,
+                        bitter: 5,
+                        dry: 5,
+                        alcohol: 5
+                    },
                     items: [
                         {
                             pivot: {
@@ -32,13 +52,6 @@
                             },
                             name: 'Morango',
                             category: 'Frutas',
-                            flavor: {
-                                citric: 3,
-                                fruit: 9,
-                                bitter: 0,
-                                dry: 0,
-                                alcoohol: 0
-                            },
                             attrs: [
                                 {
                                     name: 'Carboidrato',
@@ -58,13 +71,6 @@
                             },
                             name: 'Gin',
                             category: 'Bebidas',
-                            flavor: {
-                                citric: 2,
-                                fruit: 0,
-                                bitter: 2,
-                                dry: 9,
-                                alcoohol: 45
-                            },
                             attrs: [
                                 {
                                     name: 'Kcal',
@@ -107,28 +113,52 @@
             },
 
             createChart: function(el){
-                console.log(el);
+                var that = this
+
+                var keys = Object.keys(that.drink.flavor)
+                var values = Object.values(that.drink.flavor)
+                console.log(keys)
+                console.log(values)
+
                 this.chart = new Chart(el, {
                   type: 'radar',
                   data: {
-                    labels: ["Seco", "Amargo", "Alcool", "Refrescante", "Frutado"],
+                    labels: keys,
                     datasets: [
                         {
-                          label: 'Drink 1',
-                          backgroundColor: "rgba(153,255,51,0.4)",
-                          borderColor: "rgba(153,255,51,1)",
-                          data: [0,0,20,30,50]
+                            label: 'Drink 1',
+                            backgroundColor: "RGBA(254, 209, 54, 0.3)",
+                            borderColor: "RGBA(254, 209, 54, 1.00)",
+                            data: values
                         },
                     ]
                 },
                 options: {
+                    pointDot:false,
+                    showTooltips: false,
+                    scaleOverride: true,
+                    scaleSteps: 2,
+                    scaleStepWidth: 2,
+                    scaleBeginAtZero: true,
+                    defaultFontSize: 20,
                     scale: {
                         // Hides the scale
-                        display: true
+                        display: true,
+                        labels: {
+                            fontSize: 40
+                        },
+                        ticks: {
+                            max:10, // Set it to your Max value
+                            min: 0,
+                            beginAtZero: true,
+                        }
                     }
+
                 }
 
             })
+
+                console.log(this.chart);
             }
         },
         mounted() {
