@@ -69,6 +69,7 @@
 
         </section>
 
+        <!-- Galeria de drinks -->
         <section id="all-drinks">
             <h3 class="m-b-10 text-center">Confira outros drinks</h3>
                 <div class="row">
