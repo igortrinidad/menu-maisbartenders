@@ -61,13 +61,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Gorduras totais</td>
-                                                <td class="text-center">10g</td>
+                                            <tr v-for="nutri in nutritional_facts" v-if="!nutri.is_extra">
+                                                <td>{{nutri.name}}</td>
+                                                <td class="text-center">{{nutri.quantity}}</td>
                                             </tr>
-                                            <tr>
-                                                <td>Vitamina C</td>
-                                                <td class="text-center">10mg</td>
+                                            <tr v-for="nutri in nutritional_facts" v-if="nutri.is_extra">
+                                                <td>{{nutri.name}}</td>
+                                                <td class="text-center">{{nutri.quantity}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -208,7 +208,8 @@
                             }
                         ]
                     }
-                ]
+                ],
+                nutritional_facts: []
             }
         },
         computed:{
@@ -252,6 +253,8 @@
                 }, 500, 'easeInOutExpo');
                 that.initPageScroll()
             })
+
+            this.checkDrinkNutrition()
         },
         methods: {
 
@@ -264,6 +267,27 @@
 
                 that.storeFacebookShare();
 
+            },
+
+            checkDrinkNutrition: function(){
+                let that = this
+                
+                that.nutritional_facts = [];
+
+                that.items.forEach( function(item){
+                    item.nutrition.forEach(function(nutri){
+
+                        var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
+
+                        if(hasNutri){
+                            var index = that.nutritional_facts.indexFromAttr('name', nutri.name)
+                            that.nutritional_facts[index].quantity += nutri.quantity;
+                        } else {
+                            that.nutritional_facts.push(nutri)
+                        }
+                    })
+                })
+                
             },
 
             addDrinkPreference: function(){
