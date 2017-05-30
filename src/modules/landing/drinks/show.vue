@@ -63,11 +63,11 @@
                                         <tbody>
                                             <tr v-for="nutri in nutritional_facts" v-if="!nutri.is_extra">
                                                 <td>{{nutri.name}}</td>
-                                                <td class="text-center">{{nutri.quantity}}</td>
+                                                <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
                                             </tr>
                                             <tr v-for="nutri in nutritional_facts" v-if="nutri.is_extra">
                                                 <td>{{nutri.name}}</td>
-                                                <td class="text-center">{{nutri.quantity}}</td>
+                                                <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -146,11 +146,14 @@
                 displayDrinks: false,
                 items: [
                     {
-                       name: 'Morango',
+                        name: 'Morango',
+                        pivot: {
+                            quantity: 40,
+                        },
                         nutrition: [
                             {
                                 name: 'Calorias',
-                                quantity: 100,
+                                quantity: 200,
                                 unity: 'Kj',
                                 is_extra: false
                             },
@@ -175,7 +178,10 @@
                         ]
                     },
                     {
-                       name: 'Gin',
+                        name: 'Gin',
+                        pivot: {
+                            quantity: 60,
+                        },
                         nutrition: [
                             {
                                 name: 'Calorias',
@@ -186,7 +192,10 @@
                         ]
                     },
                     {
-                       name: 'Espuma de jabuticaba',
+                        name: 'Espuma de jabuticaba',
+                        pivot: {
+                            quantity: 30,
+                        },
                         nutrition: [
                             {
                                 name: 'Calorias',
@@ -277,6 +286,7 @@
                 that.items.forEach( function(item){
                     item.nutrition.forEach(function(nutri){
 
+                        nutri.quantity = item.pivot.quantity / 100 * nutri.quantity;
                         var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
 
                         if(hasNutri){
@@ -298,7 +308,7 @@
                     user_id: 123
                 }
 
-                that.$http.post('/usert/addDrinkPreference', data)
+                that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
 
                         successNotify('', 'Drink salvo com sucesso!')

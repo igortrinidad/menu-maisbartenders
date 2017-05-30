@@ -39,11 +39,11 @@
                 drink: {
                     name: 'Trinidad',
                     flavor: {
-                        citric: 5,
-                        fruit: 5,
-                        bitter: 5,
-                        dry: 5,
-                        alcohol: 5
+                        Citrico: 5,
+                        Frutado: 5,
+                        Amargo: 5,
+                        Seco: 5,
+                        Alcool: 5
                     },
                     items: [
                         {
