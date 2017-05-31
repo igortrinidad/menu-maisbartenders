@@ -4,15 +4,21 @@
        <div id="most-recommended" class="container">
            <div class="text-center">
                <h2>Best Sellers</h2>
-               <span>* Populares você me quebra viu auhhuauhuh Aqui eu pensei em exbir os que tiverem a prioridade > 4 (por exemplo) em destaque antes do usuario descer para filtrar por outros drinks.</span>
+               <span class="sub">Aqui está uma lista com as principais recomendações para você.</span>
            </div>
            <div class="swiper-row">
                <div class="swiper-container gallery-top" ref="swiper">
                    <div class="swiper-wrapper">
 
                        <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
-
-                           <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                           <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
+                           <span class="swiper-stars">
+                               <i class="fa fa-star" v-for="n in drink.priority"></i>
+                           </span>
+                           <div class="swiper-item-text">
+                               <h3 class="title">{{ drink.name }}</h3>
+                               <span class="subtitle">{{ drink.description }}</span>
+                           </div>
                        </div>
                    </div>
 
@@ -22,33 +28,57 @@
                    <div class="swiper-button-prev swiper-button-white"></div>
                </div>
            </div>
+           <div class="text-center">
+               <span class="sub">Ainda não decidiu? não se preocupe você pode ver todos os drinks e filtrar com os nossos ingredientes que você preferir</span>
+               <a href="#drinks" class="page-scroll btn btn-xl m-t-3 all">Todos</a>
+           </div>
        </div>
 
        <section id="drinks">
            <div class="container">
                <div class="filter">
-                   <h3>Ingredientes:</h3>
-                   <span>OBS: Ao lado do switch "TODOS" a minha ideia é adicionar as opcoes de filtro, ingredientes, leve/forte, bedidas e ja ir filtrando ao "ligar" ou "desligar o filtro", tenho que procurar no commits, mas ja da pra fazer algo do tipo fácil com o que eu ja tinha feito.</span>
-                   <div class="switch">
-                       <label>
-                           Todos
-                           <button type="button" class="button-switch" @click="activeSwitch($event)"></button>
-                       </label>
+                   <div class="text-center">
+                       <h3>Ingredientes:</h3>
+                       <span class="sub">Selecione os ingredientes de sua preferência.</span>
                    </div>
+
+                   <div class="tags-list">
+                       <div class="tags">
+                           <div class="tag" v-for="tag in tags">
+                               <button type="button" @click="applyFilterOptions(tag.name)">
+                                   <span class="tag-name">{{ tag.name }}</span>
+                                   <i class=" tag-icon fa fa-plus"></i>
+                               </button>
+                           </div>
+                       </div>
+                   </div>
+
+                   <div class="tags-list" v-if="filterOptions.length">
+                       <div class="tags">
+                           <div class="tag">
+                               <button type="button" @click="clearFilter()">
+                                   <span class="tag-name">Exibir Todos</span>
+                               </button>
+                           </div>
+                       </div>
+                   </div>
+
                </div>
            </div>
 
-           <div class="container" v-if="displayDrinks">
-               <div class="cols">
-                   <div v-for="(drink, index) in drinks" class="col">
-                      <router-link tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                         <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                         <div class="details">
-                             <h3 class="drink-name">{{ drink.name }}</h3>
-                             <i class="stars fa fa-star" v-for="n in drink.priority"></i>
-                             <span class="description">{{ drink.description }}</span>
+           <div class="list-drinks">
+               <div class="container">
+                   <div class="cols">
+                       <div v-for="(drink, index) in drinks" v-if="drinksFiltered[index]" class="col">
+                          <div class="drink">
+                             <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                             <div class="details">
+                                 <h3 class="drink-name">{{ drink.name }}</h3>
+                                 <i class="stars fa fa-star" v-for="n in drink.priority"></i>
+                                 <span class="description">{{ drink.description }}</span>
+                             </div>
                          </div>
-                       </router-link>
+                       </div>
                    </div>
                </div>
            </div>
@@ -65,8 +95,12 @@
         name: 'show-drink',
         data () {
             return {
-                displayDrinks: false,
-                drinkFetcheds: []
+                drinkFetcheds: [],
+                drinks: Drinks,
+                drinksFiltered: Drinks.map((drink) => true),
+                filterOptions: [],
+                tags: [{id: 1, name: 'Morango', category: 'Fruta'}, {id: 1, name: 'Kiwi', category: 'Fruta'}],
+                especialDrinks: Drinks.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
             }
         },
         computed:{
@@ -74,32 +108,15 @@
             ...mapGetters(['currentUser', 'isLogged']),
 
             drinks: function(){
-              let that = this
-            
-              return _.orderBy(that.drinkFetcheds, 'priority', 'desc');
-                
-            },
-
-            especialDrinks: function(){
-                let that = this
-            
-                return that.drinkFetcheds.map((drink) => drink.priority >=4 ? drink : undefined)
-                .filter((drink) => drink !== undefined)
+              return _.orderBy(this.drinkFetcheds, 'priority', 'desc');
             },
         },
         mounted(){
             this.initSwiper()
-            this.getDrinks();
+            // this.getDrinks()
         },
 
         methods: {
-
-            activeSwitch: function() {
-                this.displayDrinks = !this.displayDrinks
-
-                //exemplo "porco" para simplificar o toggle do button-switch
-                $('.button-switch').toggleClass('active')
-            },
 
             initSwiper: function(){
                 var that = this;
@@ -117,46 +134,104 @@
 
             },
 
-            getDrinks: function(){
-                let that = this
-                    
-                //that.$route.params.place_slug
+            applyFilterOptions: function(item) {
+                const index = this.filterOptions.indexOf(item)
 
-                that.$http.get('/drinks/fetchAll')
-                    .then(function (response) {
-                        
-                        that.drinkFetcheds = response.data;
-                        that.initSwiper();
+                if(index > -1) this.filterOptions.splice(index,1)
+                else this.filterOptions.push(item)
 
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                        that.drinkFound = false;
-                        //that.$router.push({name: 'landing.404'})
-                    });
-                
+                if (this.filterOptions.length) {
+                    this.drinksFiltered = Drinks.map((drink) =>
+                        _.chain(drink.items)
+                        .map((i) => i.name)
+                        .some(item => this.filterOptions.includes(item))
+                        .value()
+                    )
+                }
+                else this.drinksFiltered = Drinks.map((drink) => true)
+
+                console.log(this.drinksFiltered)
             },
+
+            clearFilter: function() {
+                this.filterOptions = []
+                this.drinksFiltered = Drinks.map((drink) => true)
+            },
+
+            // getDrinks: function(){
+            //     let that = this
+            //
+            //     //that.$route.params.place_slug
+            //
+            //     that.$http.get('/drinks/fetchAll')
+            //         .then(function (response) {
+            //
+            //             that.drinkFetcheds = response.data;
+            //             that.initSwiper();
+            //
+            //         })
+            //         .catch(function (error) {
+            //             console.log(error)
+            //             that.drinkFound = false;
+            //             //that.$router.push({name: 'landing.404'})
+            //         });
+            //
+            // },
         }
     }
 </script>
 
 <style scoped>
-.page{
-    margin-top: 80px;
-    min-height: 100vh;
+/* Some Default Styles for page*/
+.sub{
+    font-weight: bold;
+    text-transform: uppercase;
+    display: block;
 }
+
+.btn-xl.all{
+    font-weight: bold;
+    margin: 20px 0;
+    padding: 10px 20px;
+    color: #2c3e50;
+}
+
+/* Page & Grid*/
+
+.page{ margin-top: 80px; }
+
+#most-recommended{ margin: 20px auto; }
+
 #drinks{
-    background-color: #f9f9f9;
-    padding: 40px 0;
+    background-color: rgba(44, 60, 80, .07);
+    padding: 80px 0;
+}
+.cols {
+    width: 100%;
+    column-count: 3;
+    column-gap: 0;
+
+}
+.col {
+    width: 100%;
+    display: inline-block;
+    padding: 5px;
+}
+
+@media(max-width: 768px) { .cols{ column-count: 2; } }
+@media(max-width: 414px) { .cols{ column-count: 1; } }
+
+/* Drinks & Drink Card */
+.list-drinks {
+    margin: 40px 0;
 }
 
 .drink{
-    border: 1px solid #ecf0f1;
-    padding: 15px;
+    padding: 20px;
     border-radius: 4px;
-    box-shadow: 1px 2px 1px rgba(0, 0, 0, .1);
-    background:#fff;
+    background: #fff;
     cursor: pointer;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
 }
 .drink img{
     max-width: 100%;
@@ -164,100 +239,106 @@
     border-top-right-radius: 4px;
 }
 
-.cols{
-    display: flex;
-    flex-flow: row wrap;
-    align-content: space-between;
-    justify-content: flex-start;
-    width: 100%;
-    align-items: bot;
-}
-@media(min-width: 769px){
-  .col{
-      padding: 0 10px;
-      width: 33.3333%;
-      margin: 10px 0;
-  }
-  
-}
-
-@media(max-width: 768px){
-  .col{
-      padding: 0 10px;
-      width: 100%;
-      margin: 10px 0;
-  }
-  
-}
-
-
 .drink .description{
     display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     max-width: 100%;
 }
 
 .drink-name{
-  white-space: nowrap;
+    white-space: nowrap;
     overflow: hidden;
-  text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 
 .drink .stars { margin-right: 3px; }
 
+/* Filter */
+
 .filter{
-    padding: 0 10px;
+    /*padding: 0 10px;*/
 }
 
-.switch{
+.tags-list{
+    margin: 20px 0;
+}
+.tags{
+    width: 100%;
     display: flex;
-    height: 40px;
-    width: 200px;
-    align-items: center;
-    cursor: pointer;
+    flex-flow: row wrap;
+    align-content: left;
+    justify-content: left;
 }
-
-.switch label{
-    cursor: pointer;
-}
-
-.button-switch{
+.tags .tag{
+    padding: 0 10px;
     position: relative;
-    top: 6px;
-    width: 80px;
-    height: 30px;
+}
+
+.tags .tag button {
+    background: #2c3e50;
     border: none;
-    background: #222222;
-    border-radius: 5px
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding:8px 25px 10px 25px;
+    color: rgba(255, 255, 255, .8);
+    font-weight: bold;
+    border-radius: 33px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    position: relative;
 }
 
-.button-switch.active:before{
-    left: calc(100% - 40px);
-    background: #eee;
-    transition: ease .2s;
+.tags .tag button i {
+    margin: 2.5px 0 0 10px;
+    font-size: 12px;
 }
+.tags .tag button.active { color: rgba(255, 255, 255, 1); }
+.tags .tag button:focus{ outline: none; }
 
-.button-switch:before{
-    content: '';
-    position: absolute;
+/* Swiper Fix */
+
+.swiper-container{ margin: 30px 0; }
+.swiper-button-prev, .swiper-button-next{
     top: 50%;
-    left: 10px;
-    width: 30px;
-    height: 20px;
-    background: #777;
-    margin-top: -10px;
-    transition: ease .2s;
-    border-radius: 5px;
+    margin-top: -22px;
 }
 
-.button-switch:focus{
-    outline: none;
+.swiper-item-text{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 3rem;
+    background: rgba(0, 0, 0, .6);
+    color: rgba(255, 255, 255, .8);
+
+}
+.swiper-item-text .title{
+    margin: 0 0 5px 0;
+}
+.swiper-item-text .subtitle{
+    text-transform: uppercase;
+    letter-spacing: 0px;
+    max-width: 100%;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:  hidden;
 }
 
-#most-recommended{
-    margin: 20px auto;
+.swiper-stars{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: block;
+    padding: 3rem;
+    color: #fed136;
+}
+.swiper-stars i{
+    margin-right: 10px;
+    font-size: 2rem;
+    text-shadow: 1px 3px 3px rgba(0, 0, 0, .2);
 }
 
 </style>
