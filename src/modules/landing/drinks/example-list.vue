@@ -4,14 +4,21 @@
        <div id="most-recommended" class="container">
            <div class="text-center">
                <h2>Best Sellers</h2>
+               <span class="sub">Aqui está uma lista com as principais recomendações para você.</span>
            </div>
            <div class="swiper-row">
                <div class="swiper-container gallery-top" ref="swiper">
                    <div class="swiper-wrapper">
 
                        <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
-
-                           <img :src="drink.photo_url" :alt="drink.name" width="100%"/>
+                           <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
+                           <span class="swiper-stars">
+                               <i class="fa fa-star" v-for="n in drink.priority"></i>
+                           </span>
+                           <div class="swiper-item-text">
+                               <h3 class="title">{{ drink.name }}</h3>
+                               <span class="subtitle">{{ drink.description }}</span>
+                           </div>
                        </div>
                    </div>
 
@@ -21,33 +28,35 @@
                    <div class="swiper-button-prev swiper-button-white"></div>
                </div>
            </div>
+           <div class="text-center">
+               <span class="sub">Ainda não decidiu? não se preocupe você pode ver todos os drinks e filtrar com os nossos ingredientes que você preferir</span>
+               <a href="#drinks" class="page-scroll btn btn-xl m-t-3 all">Todos</a>
+           </div>
        </div>
 
        <section id="drinks">
            <div class="container">
                <div class="filter">
-                   <h3>Ingredientes:</h3>
-                   <span>OBS: Ao lado do switch "TODOS" a minha ideia é adicionar as opcoes de filtro, ingredientes, leve/forte, bedidas e ja ir filtrando ao "ligar" ou "desligar o filtro", tenho que procurar no commits, mas ja da pra fazer algo do tipo fácil com o que eu ja tinha feito.</span>
-                   <div class="switch">
-                       <label>
-                           Todos
-                           <button type="button" class="button-switch" @click="activeSwitch($event)"></button>
-                       </label>
+                   <div class="text-center">
+                       <h3>Ingredientes:</h3>
+                       <span class="sub">Selecione os ingredientes de sua preferência.</span>
                    </div>
                </div>
            </div>
 
-           <div class="container" v-if="displayDrinks">
-               <div class="cols">
-                   <div v-for="(drink, index) in drinks" class="col">
-                      <div class="drink">
-                         <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                         <div class="details">
-                             <h3 class="drink-name">{{ drink.name }}</h3>
-                             <i class="stars fa fa-star" v-for="n in drink.priority"></i>
-                             <span class="description">{{ drink.description }}</span>
+           <div class="list-drinks">
+               <div class="container" v-if="displayDrinks">
+                   <div class="cols">
+                       <div v-for="(drink, index) in drinks" class="col">
+                          <div class="drink">
+                             <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                             <div class="details">
+                                 <h3 class="drink-name">{{ drink.name }}</h3>
+                                 <i class="stars fa fa-star" v-for="n in drink.priority"></i>
+                                 <span class="description">{{ drink.description }}</span>
+                             </div>
                          </div>
-                     </div>
+                       </div>
                    </div>
                </div>
            </div>
@@ -64,10 +73,10 @@
         name: 'show-drink',
         data () {
             return {
-                displayDrinks: false,
+                displayDrinks: true,
                 drinkFetcheds: [],
                 drinks: Drinks,
-                especialDrinks: Drinks.map((drink) => drink.priority >=4 ? drink : undefined).filter((drink) => drink !== undefined)
+                especialDrinks: Drinks.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
             }
         },
         computed:{
@@ -132,28 +141,30 @@
 </script>
 
 <style scoped>
-.page{
-    margin-top: 80px;
-    min-height: 100vh;
+/* Some Default Styles for page*/
+.sub{
+    font-weight: bold;
+    text-transform: uppercase;
+    display: block;
 }
+
+.btn-xl.all{
+    font-weight: bold;
+    margin: 20px 0;
+    padding: 10px 20px;
+    color: #2c3e50;
+}
+
+/* Page & Grid*/
+
+.page{ margin-top: 80px; }
+
+#most-recommended{ margin: 20px auto; }
+
 #drinks{
-    background-color: #f9f9f9;
-    padding: 40px 0;
+    background-color: rgba(44, 60, 80, .07);
+    padding: 80px 0;
 }
-
-/*.cols{
-    padding: 10px;
-    width: 100%;
-    height: 470px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-}
-.col {
-    width: 33.3333%;
-    padding: 10px;
-}*/
-
 .cols {
     width: 100%;
     column-count: 3;
@@ -165,20 +176,21 @@
     display: inline-block;
     padding: 5px;
 }
-@media(max-width: 768px) {
-    .cols{ column-count: 2; }
-}
 
-@media(max-width: 414px) {
-    .cols{ column-count: 1; }
+@media(max-width: 768px) { .cols{ column-count: 2; } }
+@media(max-width: 414px) { .cols{ column-count: 1; } }
+
+/* Drinks & Drink Card */
+.list-drinks {
+    margin: 40px 0;
 }
 
 .drink{
-    padding: 10px;
+    padding: 20px;
     border-radius: 4px;
-    background: #eee;
+    background: #fff;
     cursor: pointer;
-    min-height: 150px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
 }
 .drink img{
     max-width: 100%;
@@ -199,63 +211,56 @@
 
 .drink .stars { margin-right: 3px; }
 
+/* Filter */
+
 .filter{
     padding: 0 10px;
 }
 
-.switch{
-    display: flex;
-    height: 40px;
-    width: 200px;
-    align-items: center;
-    cursor: pointer;
-}
-
-.switch label{
-    cursor: pointer;
-}
-
-.button-switch{
-    position: relative;
-    top: 6px;
-    width: 80px;
-    height: 30px;
-    border: none;
-    background: #222222;
-    border-radius: 5px
-}
-
-.button-switch.active:before{
-    left: calc(100% - 40px);
-    background: #eee;
-    transition: ease .2s;
-}
-
-.button-switch:before{
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    width: 30px;
-    height: 20px;
-    background: #777;
-    margin-top: -10px;
-    transition: ease .2s;
-    border-radius: 5px;
-}
-
-.button-switch:focus{
-    outline: none;
-}
-
-#most-recommended{
-    margin: 20px auto;
-}
-
 /* Swiper Fix */
+
+.swiper-container{ margin: 30px 0; }
 .swiper-button-prev, .swiper-button-next{
     top: 50%;
     margin-top: -22px;
+}
+
+.swiper-item-text{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 3rem;
+    background: rgba(0, 0, 0, .6);
+    color: rgba(255, 255, 255, .8);
+
+}
+.swiper-item-text .title{
+    margin: 0 0 5px 0;
+}
+.swiper-item-text .subtitle{
+    text-transform: uppercase;
+    letter-spacing: 0px;
+    max-width: 100%;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow:  hidden;
+}
+
+.swiper-stars{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: block;
+    padding: 3rem;
+    color: #fed136;
+}
+.swiper-stars i{
+    margin-right: 10px;
+    font-size: 2rem;
+    text-shadow: 1px 3px 3px rgba(0, 0, 0, .2);
 }
 
 </style>
