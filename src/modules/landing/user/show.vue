@@ -209,7 +209,10 @@
                             that.authSetUser(response.data.user) // this is a Vuex action
 
                             successNotify('', 'Perfil atualizado com sucesso.', 'bottomRight')
-                            that.cancelManagePassword()
+
+                            if(that.interactions.manage_password){
+                                that.cancelManagePassword()
+                            }
                         }
                     })
                     .catch(function (error) {

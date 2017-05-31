@@ -48,9 +48,6 @@
                         this.authSetToken(response.data.access_token) // this is a Vuex action
                         this.authSetUser(response.data.user) // this is a Vuex action
 
-                        this.$auth.user(response.data.user)
-                        this.$auth.watch.authenticated = true
-
                         localStorage.removeItem('role')
 
                     },
