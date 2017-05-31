@@ -4,7 +4,6 @@
        <div id="most-recommended" class="container">
            <div class="text-center">
                <h2>Best Sellers</h2>
-               <span>* Populares você me quebra viu auhhuauhuh Aqui eu pensei em exbir os que tiverem a prioridade > 4 (por exemplo) em destaque antes do usuario descer para filtrar por outros drinks.</span>
            </div>
            <div class="swiper-row">
                <div class="swiper-container gallery-top" ref="swiper">
@@ -67,7 +66,8 @@
             return {
                 displayDrinks: false,
                 drinkFetcheds: [],
-                drinks: Drinks
+                drinks: Drinks,
+                especialDrinks: Drinks.map((drink) => drink.priority >=4 ? drink : undefined).filter((drink) => drink !== undefined)
             }
         },
         computed:{
@@ -76,10 +76,6 @@
 
             drinks: function(){
               return _.orderBy(this.drinkFetcheds, 'priority', 'desc');
-            },
-
-            especialDrinks: function(){
-                return this.drinkFetcheds.map((drink) => drink.priority >=4 ? drink : undefined).filter((drink) => drink !== undefined)
             },
         },
         mounted(){
