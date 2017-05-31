@@ -41,14 +41,14 @@
            <div class="container" v-if="displayDrinks">
                <div class="cols">
                    <div v-for="(drink, index) in drinks" class="col">
-                      <router-link tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                      <div class="drink">
                          <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
                          <div class="details">
                              <h3 class="drink-name">{{ drink.name }}</h3>
                              <i class="stars fa fa-star" v-for="n in drink.priority"></i>
                              <span class="description">{{ drink.description }}</span>
                          </div>
-                       </router-link>
+                     </div>
                    </div>
                </div>
            </div>
@@ -66,7 +66,8 @@
         data () {
             return {
                 displayDrinks: false,
-                drinkFetcheds: []
+                drinkFetcheds: [],
+                drinks: Drinks
             }
         },
         computed:{
@@ -74,22 +75,16 @@
             ...mapGetters(['currentUser', 'isLogged']),
 
             drinks: function(){
-              let that = this
-            
-              return _.orderBy(that.drinkFetcheds, 'priority', 'desc');
-                
+              return _.orderBy(this.drinkFetcheds, 'priority', 'desc');
             },
 
             especialDrinks: function(){
-                let that = this
-            
-                return that.drinkFetcheds.map((drink) => drink.priority >=4 ? drink : undefined)
-                .filter((drink) => drink !== undefined)
+                return this.drinkFetcheds.map((drink) => drink.priority >=4 ? drink : undefined).filter((drink) => drink !== undefined)
             },
         },
         mounted(){
             this.initSwiper()
-            this.getDrinks();
+            // this.getDrinks()
         },
 
         methods: {
@@ -117,25 +112,25 @@
 
             },
 
-            getDrinks: function(){
-                let that = this
-                    
-                //that.$route.params.place_slug
-
-                that.$http.get('/drinks/fetchAll')
-                    .then(function (response) {
-                        
-                        that.drinkFetcheds = response.data;
-                        that.initSwiper();
-
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                        that.drinkFound = false;
-                        //that.$router.push({name: 'landing.404'})
-                    });
-                
-            },
+            // getDrinks: function(){
+            //     let that = this
+            //
+            //     //that.$route.params.place_slug
+            //
+            //     that.$http.get('/drinks/fetchAll')
+            //         .then(function (response) {
+            //
+            //             that.drinkFetcheds = response.data;
+            //             that.initSwiper();
+            //
+            //         })
+            //         .catch(function (error) {
+            //             console.log(error)
+            //             that.drinkFound = false;
+            //             //that.$router.push({name: 'landing.404'})
+            //         });
+            //
+            // },
         }
     }
 </script>
@@ -150,13 +145,44 @@
     padding: 40px 0;
 }
 
+/*.cols{
+    padding: 10px;
+    width: 100%;
+    height: 470px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.col {
+    width: 33.3333%;
+    padding: 10px;
+}*/
+
+.cols {
+    width: 100%;
+    column-count: 3;
+    column-gap: 0;
+
+}
+.col {
+    width: 100%;
+    display: inline-block;
+    padding: 5px;
+}
+@media(max-width: 768px) {
+    .cols{ column-count: 2; }
+}
+
+@media(max-width: 414px) {
+    .cols{ column-count: 1; }
+}
+
 .drink{
-    border: 1px solid #ecf0f1;
-    padding: 15px;
+    padding: 10px;
     border-radius: 4px;
-    box-shadow: 1px 2px 1px rgba(0, 0, 0, .1);
-    background:#fff;
+    background: #eee;
     cursor: pointer;
+    min-height: 150px;
 }
 .drink img{
     max-width: 100%;
@@ -164,45 +190,15 @@
     border-top-right-radius: 4px;
 }
 
-.cols{
-    display: flex;
-    flex-flow: row wrap;
-    align-content: space-between;
-    justify-content: flex-start;
-    width: 100%;
-    align-items: bot;
-}
-@media(min-width: 769px){
-  .col{
-      padding: 0 10px;
-      width: 33.3333%;
-      margin: 10px 0;
-  }
-  
-}
-
-@media(max-width: 768px){
-  .col{
-      padding: 0 10px;
-      width: 100%;
-      margin: 10px 0;
-  }
-  
-}
-
-
 .drink .description{
     display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     max-width: 100%;
 }
 
 .drink-name{
-  white-space: nowrap;
+    white-space: nowrap;
     overflow: hidden;
-  text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 
 .drink .stars { margin-right: 3px; }
