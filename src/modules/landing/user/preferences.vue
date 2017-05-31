@@ -55,13 +55,13 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import userObj from '../../../models/User.js'
 
     var Swiper = require('swiper')
 
     export default {
-        name: 'show-user',
+        name: 'user-preferences',
         data () {
             return {
                 interactions: {
@@ -81,11 +81,17 @@
         },
         methods: {
 
+            ...mapActions(['setLoading']),
+
             fetchDrinkPreference: function(){
                 let that = this
 
+                that.setLoading({is_loading: true, message: 'Carregando seus drinks'})
+
                 that.$http.post('/guest/fetchDrinkPreference', { guest_id: that.currentUser.id })
                     .then(function (response) {
+
+                        that.setLoading({is_loading: false, message: ''})
 
                         successNotify('', 'Drink salvo com sucesso!')
 

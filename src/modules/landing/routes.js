@@ -6,6 +6,8 @@ import DrinkList from './drinks/list.vue'
 import appLayout from './layout/main'
 import UserShow from './user/show'
 import UserPreferences from './user/preferences'
+import NotFound from './pages/404.vue'
+import Forbidden from './pages/403.vue'
 import { routes as auth } from './auth'
 
 //To test chart JS
@@ -83,6 +85,21 @@ export default [
                 component: ExampleDrinks,
                 meta: { requiresAuth: false},
             },
+            ,{
+                name: 'landing.403',
+                path: '/403',
+                component: Forbidden
+            },
+            {
+                name: 'landing.404',
+                path: '/not-found',
+                component: NotFound
+            },
+            {
+                path: '*',
+                component: NotFound
+            },
+
         ]
     },
 ]

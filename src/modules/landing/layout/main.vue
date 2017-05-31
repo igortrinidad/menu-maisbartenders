@@ -1,5 +1,7 @@
 <template>
     <div>
+        <main-loader></main-loader>
+
         <app-header></app-header>
 
         <router-view></router-view>
@@ -12,13 +14,15 @@
 <script>
     import appHeader from './partials/header.vue'
     import appFooter from './partials/footer.vue'
+    import mainLoader from '@/components/main-loader.vue'
     import { mapGetters } from 'vuex'
 
     export default{
         name: 'landing-layout',
         components:{
             appHeader,
-            appFooter
+            appFooter,
+            mainLoader
         },
         data(){
             return{
