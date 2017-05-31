@@ -45,7 +45,7 @@
                    <div class="tags-list">
                        <div class="tags">
                            <div class="tag" v-for="tag in tags">
-                               <button type="button">
+                               <button type="button" @click="addItemToFilterOptions(tag.name)">
                                    <span class="tag-name">{{ tag.name }}</span>
                                    <i class=" tag-icon fa fa-plus"></i>
                                </button>
@@ -67,9 +67,9 @@
            </div>
 
            <div class="list-drinks">
-               <div class="container" v-if="displayDrinks">
+               <div class="container">
                    <div class="cols">
-                       <div v-for="(drink, index) in drinks" class="col">
+                       <div v-for="(drink, index) in drinks" v-if="drinksFiltered[index]" class="col">
                           <div class="drink">
                              <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
                              <div class="details">
@@ -95,10 +95,10 @@
         name: 'show-drink',
         data () {
             return {
-                displayDrinks: true,
                 drinkFetcheds: [],
                 drinks: Drinks,
-                filterOptions: ['Morango'],
+                drinksFiltered: Drinks.map((drink) => true),
+                filterOptions: [],
                 tags: [{id: 1, name: 'Morango', category: 'Fruta'}, {id: 1, name: 'Kiwi', category: 'Fruta'}],
                 especialDrinks: Drinks.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
             }
@@ -118,13 +118,6 @@
 
         methods: {
 
-            activeSwitch: function() {
-                this.displayDrinks = !this.displayDrinks
-
-                //exemplo "porco" para simplificar o toggle do button-switch
-                $('.button-switch').toggleClass('active')
-            },
-
             initSwiper: function(){
                 var that = this;
 
@@ -141,9 +134,28 @@
 
             },
 
+            addItemToFilterOptions: function(item) {
+                const index = this.filterOptions.indexOf(item)
+
+                if(index > -1) this.filterOptions.splice(index,1)
+                else this.filterOptions.push(item)
+
+                if (this.filterOptions.length) {
+                    this.drinksFiltered = Drinks.map((drink) =>
+                        _.chain(drink.items)
+                        .map((i) => i.name)
+                        .some(item => this.filterOptions.includes(item))
+                        .value()
+                    )
+                }
+                else this.drinksFiltered = Drinks.map((drink) => true)
+
+                console.log(this.drinksFiltered)
+            },
+
             clearFilter: function() {
                 this.filterOptions = []
-            }
+            },
 
             // getDrinks: function(){
             //     let that = this
