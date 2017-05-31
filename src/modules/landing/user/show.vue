@@ -52,7 +52,7 @@
                                 {{currentUser.blank_password ? 'Definir senha' : 'Alterar senha'}}
                             </button>
                             <button class="btn btn-danger" @click.prevent="cancelManagePassword()"
-                                    v-if="interactions.manage_password"> Cancelar
+                                    v-if="interactions.manage_password"> Cancelar alteração de senha
                             </button>
                         </div>
 
@@ -103,23 +103,29 @@
                             <label>Redes sociais</label>
                             <p>
                                 Nosso sistema permite que você se conecte utilizando uma ou mais redes sociais ao mesmo, escolha uma disponível e conecte-se.</p>
-                            <br>
-                            <button class="btn btn-info facebook" @click="socialLogin('facebook')"
-                                    :disabled="interactions.socialProviders.facebook">
-                                <i class="fa fa-facebook fa-lg button-icon"></i>
-                                {{interactions.socialProviders.facebook ? 'Conectado ao' : 'Conectar com'}} Facebook
-                            </button>
-
-                            <button class="btn btn-info google m-l-10" @click="socialLogin('google')"
-                                    :disabled="interactions.socialProviders.google">
-                                <i class="fa fa-google fa-lg button-icon"></i>
-                                {{interactions.socialProviders.google ? 'Conectado ao' : 'Conectar com'}} Google
-                            </button>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
+                                    <button class="btn btn-info btn-block facebook" @click="socialLogin('facebook')"
+                                            :disabled="interactions.socialProviders.facebook">
+                                        <i class="fa fa-facebook fa-lg button-icon"></i>
+                                        {{interactions.socialProviders.facebook ? 'Conectado ao' : 'Conectar com'}} Facebook
+                                    </button>
+                                    
+                                </div>
+                                <div class="col-md-12 col-xs-12 m-t-10">
+                                    <button class="btn btn-info btn-block google" @click="socialLogin('google')"
+                                            :disabled="interactions.socialProviders.google">
+                                        <i class="fa fa-google fa-lg button-icon"></i>
+                                        {{interactions.socialProviders.google ? 'Conectado ao' : 'Conectar com'}} Google
+                                    </button>
+                                </div>
+                            </div>
 
                         </div>
-
+                        
+                        <hr>
                         <div class="form-group">
-                            <button class="btn btn-xl btn-primary" @click.prevent="save()">Salvar</button>
+                            <button class="btn btn-xl btn-block btn-primary" @click.prevent="save()">Atualizar cadastro</button>
                         </div>
                     </div>
 
@@ -200,9 +206,11 @@
 
                 that.$http.post('/guest/update', formData, {headers: {'Content-Type': 'multipart/form-data'}})
                     .then(function (response) {
-
+                        console.log(response)
                         if (response.data.error) {
                             that.interactions.current_password_error = true
+                            that.interactions.manage_password = true
+                            errorNotify('Ops!', response.data.message)
                         }
 
                         if (!response.data.error) {
