@@ -45,7 +45,7 @@
                    <div class="tags-list">
                        <div class="tags">
                            <div class="tag" v-for="tag in tags">
-                               <button type="button" @click="addItemToFilterOptions(tag.name)">
+                               <button type="button" @click="applyFilterOptions(tag.name)">
                                    <span class="tag-name">{{ tag.name }}</span>
                                    <i class=" tag-icon fa fa-plus"></i>
                                </button>
@@ -134,7 +134,7 @@
 
             },
 
-            addItemToFilterOptions: function(item) {
+            applyFilterOptions: function(item) {
                 const index = this.filterOptions.indexOf(item)
 
                 if(index > -1) this.filterOptions.splice(index,1)
@@ -155,6 +155,7 @@
 
             clearFilter: function() {
                 this.filterOptions = []
+                this.drinksFiltered = Drinks.map((drink) => true)
             },
 
             // getDrinks: function(){
