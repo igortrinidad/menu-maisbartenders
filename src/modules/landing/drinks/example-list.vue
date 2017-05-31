@@ -39,12 +39,12 @@
            </div>
 
            <div class="container" v-if="displayDrinks">
-               <div class="row">
-                   <div v-for="(drink, index) in drinks" class="col-md-4 col-xs-12 p-30">
+               <div class="cols">
+                   <div v-for="(drink, index) in drinks" class="col">
                       <router-link tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                          <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
                          <div class="details">
-                             <h3 class="name">{{ drink.name }}</h3>
+                             <h3 class="drink-name">{{ drink.name }}</h3>
                              <i class="stars fa fa-star" v-for="n in drink.priority"></i>
                              <span class="description">{{ drink.description }}</span>
                          </div>
@@ -164,6 +164,31 @@
     border-top-right-radius: 4px;
 }
 
+.cols{
+    display: flex;
+    flex-flow: row wrap;
+    align-content: space-between;
+    justify-content: flex-start;
+    width: 100%;
+    align-items: bot;
+}
+@media(min-width: 769px){
+  .col{
+      padding: 0 10px;
+      width: 33.3333%;
+      margin: 10px 0;
+  }
+  
+}
+
+@media(max-width: 768px){
+  .col{
+      padding: 0 10px;
+      width: 100%;
+      margin: 10px 0;
+  }
+  
+}
 
 
 .drink .description{
@@ -172,6 +197,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+}
+
+.drink-name{
+  white-space: nowrap;
+    overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .drink .stars { margin-right: 3px; }

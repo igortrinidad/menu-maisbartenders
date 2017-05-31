@@ -60,7 +60,7 @@
                     </li>
 
                     <li class="dropdown"  v-if="isLogged">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" class="dropdown-toggle user-logged-name" data-toggle="dropdown">
                             <img :src="userPhoto" alt="" class="img-circle" width="32">
                             {{currentUser.full_name}} <b class="caret"></b>
                         </a>
@@ -133,5 +133,9 @@
         .navbar-default .navbar-toggle {
             margin-top: 20px;
         }
+    }
+
+    .user-logged-name{
+        top: -4px;
     }
 </style>

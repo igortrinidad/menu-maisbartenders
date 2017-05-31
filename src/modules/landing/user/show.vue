@@ -65,7 +65,7 @@
                                     <label class="control-label">Senha atual</label>
                                     <input class="form-control" type="password" v-model="user.current_password">
                                     <p class="help-block text-danger" v-if="interactions.current_password_error">
-                                        Senha atual incorrenta.</p>
+                                        Senha atual incorreta.</p>
                                 </div>
 
                                 <div class="form-group">

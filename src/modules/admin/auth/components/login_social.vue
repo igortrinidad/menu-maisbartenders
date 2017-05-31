@@ -2,10 +2,10 @@
     <div class="container text-center">
         <div class="main">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 col-xs-12">
                     <div v-show="code && type">
                         <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-                        <h1>Autenticando com <strong>{{ type }}</strong>.</h1>
+                        <p class="authin-social">Autenticando com <strong>{{ type }}</strong>.</p>
                     </div>
                 </div>
             </div>
@@ -78,5 +78,15 @@
         left: 50%;
         margin-top: -50px;
         margin-left: -250px;
+    }
+
+    .authin-social{
+        font-size: 30px;
+    }
+
+    @media(max-width: 768px){
+        .authin-social{
+            font-size: 20px;
+        }
     }
 </style>

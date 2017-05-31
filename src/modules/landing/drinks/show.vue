@@ -46,7 +46,7 @@
 
                         <div class="row">
                             <div class="col-md-6 col-md-offset-3 col-xs-">
-                                <h3 class="m-b-30">Informação nutricional</h3>
+                                <h4 class="m-b-30">Informação nutricional</h4>
                             </div>
                         </div>
                         <div class="row text-left">
@@ -71,6 +71,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
+                                    <p class="nutrition-disclaimer">Fonte: <a target="_blank" href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
                                 </span>
                             </div>
                         </div>
@@ -379,5 +382,8 @@
 
 <style scoped>
 
+    .nutrition-disclaimer{
+        font-size: 12px;
+    }
 
 </style>
