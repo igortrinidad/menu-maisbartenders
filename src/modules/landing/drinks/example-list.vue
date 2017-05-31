@@ -53,6 +53,16 @@
                        </div>
                    </div>
 
+                   <div class="tags-list" v-if="filterOptions.length">
+                       <div class="tags">
+                           <div class="tag">
+                               <button type="button" @click="clearFilter()">
+                                   <span class="tag-name">Exibir Todos</span>
+                               </button>
+                           </div>
+                       </div>
+                   </div>
+
                </div>
            </div>
 
@@ -88,6 +98,7 @@
                 displayDrinks: true,
                 drinkFetcheds: [],
                 drinks: Drinks,
+                filterOptions: ['Morango'],
                 tags: [{id: 1, name: 'Morango', category: 'Fruta'}, {id: 1, name: 'Kiwi', category: 'Fruta'}],
                 especialDrinks: Drinks.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
             }
@@ -129,6 +140,10 @@
                 }, 200)
 
             },
+
+            clearFilter: function() {
+                this.filterOptions = []
+            }
 
             // getDrinks: function(){
             //     let that = this
