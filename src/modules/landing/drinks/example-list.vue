@@ -41,6 +41,18 @@
                        <h3>Ingredientes:</h3>
                        <span class="sub">Selecione os ingredientes de sua preferência.</span>
                    </div>
+
+                   <div class="tags-list">
+                       <div class="tags">
+                           <div class="tag" v-for="tag in tags">
+                               <button type="button">
+                                   <span class="tag-name">{{ tag.name }}</span>
+                                   <i class=" tag-icon fa fa-plus"></i>
+                               </button>
+                           </div>
+                       </div>
+                   </div>
+
                </div>
            </div>
 
@@ -76,6 +88,7 @@
                 displayDrinks: true,
                 drinkFetcheds: [],
                 drinks: Drinks,
+                tags: [{id: 1, name: 'Morango', category: 'Fruta'}, {id: 1, name: 'Kiwi', category: 'Fruta'}],
                 especialDrinks: Drinks.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
             }
         },
@@ -214,8 +227,45 @@
 /* Filter */
 
 .filter{
-    padding: 0 10px;
+    /*padding: 0 10px;*/
 }
+
+.tags-list{
+    margin: 20px 0;
+}
+.tags{
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: left;
+    justify-content: left;
+}
+.tags .tag{
+    padding: 0 10px;
+    position: relative;
+}
+
+.tags .tag button {
+    background: #2c3e50;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding:8px 25px 10px 25px;
+    color: rgba(255, 255, 255, .8);
+    font-weight: bold;
+    border-radius: 33px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    position: relative;
+}
+
+.tags .tag button i {
+    margin: 2.5px 0 0 10px;
+    font-size: 12px;
+}
+.tags .tag button.active { color: rgba(255, 255, 255, 1); }
+.tags .tag button:focus{ outline: none; }
 
 /* Swiper Fix */
 
