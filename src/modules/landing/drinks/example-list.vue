@@ -46,7 +46,7 @@
                        <div class="tags">
                            <div class="tag" v-for="tag in tags">
                                <button type="button" @click="applyFilterOptions(tag.name)">
-                                   <span class="tag-name">{{ tag.name }}</span>
+                                   {{ tag.name }}
                                    <i class=" tag-icon fa fa-plus"></i>
                                </button>
                            </div>
@@ -149,8 +149,6 @@
                     )
                 }
                 else this.drinksFiltered = Drinks.map((drink) => true)
-
-                console.log(this.drinksFiltered)
             },
 
             clearFilter: function() {
@@ -325,6 +323,11 @@
     white-space: nowrap;
     overflow:  hidden;
 }
+@media(max-width: 414px){
+    .swiper-item-text{ padding: 2rem; }
+    .swiper-item-text .subtitle{ display: none; }
+}
+
 
 .swiper-stars{
     position: absolute;
