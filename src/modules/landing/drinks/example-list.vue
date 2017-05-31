@@ -252,4 +252,10 @@
     margin: 20px auto;
 }
 
+/* Swiper Fix */
+.swiper-button-prev, .swiper-button-next{
+    top: 50%;
+    margin-top: -22px;
+}
+
 </style>
