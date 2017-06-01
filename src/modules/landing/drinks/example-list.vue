@@ -69,16 +69,20 @@
            <div class="list-drinks">
                <div class="container">
                    <div class="cols">
-                       <div v-for="(drink, index) in drinks" class="col">
-                          <div class="drink">
-                             <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                             <div class="details">
-                                 <h3 class="drink-name">{{ drink.name }}</h3>
-                                 <i class="stars fa fa-star" v-for="n in drink.priority"></i>
-                                 <span class="description">{{ drink.description }}</span>
-                             </div>
-                         </div>
-                       </div>
+                       <div v-for="(drink, index) in drinks" v-if="drinksFiltered[index] && drink.is_active" class="col">
+                           <div class="drink">
+                                <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                                <div class="details">
+                                    <h3 class="drink-name">{{ drink.name }}</h3>
+                                    <i class="stars fa fa-star" v-for="n in drink.priority"></i>
+                                    <span class="description">{{ drink.description }}</span>
+                                    <div class="items">
+                                        <span class="item" v-for="(item, index) in drink.items">{{ item.name }}</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                    </div>
                </div>
            </div>
@@ -98,8 +102,7 @@
                 drinksFiltered: [],
                 especialDrinks: [],
                 filterOptions: [],
-                // drinksFiltered: Drinks.map((drink) => true),
-                tags: [{id: 1, name: 'Morango', category: 'Fruta'}, {id: 1, name: 'Kiwi', category: 'Fruta'}]
+                tags: []
             }
         },
         computed:{
@@ -140,19 +143,23 @@
                 else this.filterOptions.push(item)
 
                 if (this.filterOptions.length) {
-                    this.drinksFiltered = Drinks.map((drink) =>
+                    this.drinksFiltered = this.drinks.map((drink) =>
                         _.chain(drink.items)
                         .map((i) => i.name)
                         .some(item => this.filterOptions.includes(item))
                         .value()
                     )
                 }
-                else this.drinksFiltered = Drinks.map((drink) => true)
+                else this.drinksFiltered = this.drinks.map((drink) => true)
+
+                console.log(
+                    this.drinksFiltered
+                )
             },
 
             clearFilter: function() {
                 this.filterOptions = []
-                this.drinksFiltered = Drinks.map((drink) => true)
+                this.drinksFiltered = this.drinks.map((drink) => true)
             },
 
             getDrinks: function(){
@@ -163,10 +170,29 @@
                 that.$http.get('/drinks/fetchAll')
                     .then(function (response) {
 
+                        // Lista de drinks
                         that.drinkFetcheds = response.data;
 
-                        that.especialDrinks = response.data.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
+                        // lista de drinks a serem exibidos (o valor true vai ganhar false quando for exibido)
+                        that.drinksFiltered = response.data.map((drink) => true)
 
+                        // Seleciona os drinks com prioridade >= 4 para serem exibidos no swiper
+                        that.especialDrinks = response.data.map((drink) => drink.priority >= 4 ? drink : undefined).filter((drink) => drink !== undefined)
+
+                        // Cria lista de tags com todas os items de drinks pegando seus nomes e eliminando itens repetidos da lista ordenando tambem deixando Frutas em primeiro e depois Bebidas
+                        that.tags = _.chain(response.data)
+                            .map((drink) => drink.items.map((item) => {
+                                if(item.category.toLowerCase() === 'frutas') return { name: item.name, priority: 1}
+                                if(item.category.toLowerCase() === 'bebidas') return { name: item.name, priority: -1 }
+                            }))
+                            .flatten()
+                            .filter((item) => item !== undefined)
+                            .reduce((a,b) => { if(a.indexOf(b)<0)a.push(b);return a }
+                            ,[])
+                            .sort((a, b) => a.priority > b.priority ? -1 : 1)
+                            .value()
+
+                        // initialize swiper
                         that.initSwiper();
 
                     })
