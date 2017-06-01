@@ -45,10 +45,15 @@
                    <div class="tags-list">
                        <div class="tags">
                            <div class="tag" v-for="tag in tags">
-                               <button :class="{ 'fruit': tag.priority === 1, 'drink': tag.priority === -1 }" type="button" @click="applyFilterOptions(tag.name)">
+                                <!-- aqui eu preciso adicionar uma tag fixa 'button tag' e uma outra para cada tipo de categoria, fruta ou bebida,nao sei e o o melhor jeito assim: -->
+                                <button
+                                    class="button-tag"
+                                    :class="{ 'fruit': tag.priority === 1, 'drink': tag.priority === -1 }"
+                                    type="button"
+                                    @click="applyFilterOptions(tag.name, $event)"
+                                >
                                    {{ tag.name }}
-                                   <i class=" tag-icon fa fa-plus"></i>
-                               </button>
+                                </button>
                            </div>
                        </div>
                    </div>
@@ -135,7 +140,7 @@
 
             },
 
-            applyFilterOptions: function(item) {
+            applyFilterOptions: function(item, event) {
                 const index = this.filterOptions.indexOf(item)
 
                 if(index > -1) this.filterOptions.splice(index,1)
@@ -151,9 +156,12 @@
                 }
                 else this.drinksFiltered = this.drinks.map((drink) => true)
 
-                console.log(
-                    this.drinksFiltered
-                )
+                if (event) {
+                    const el = event.target.className
+                    if (el === 'button-tag fruit' || el === 'button-tag drink')
+                        event.target.className = `${el} icon-close`
+                    else event.target.classList.remove('icon-close')
+                }
             },
 
             clearFilter: function() {
@@ -315,6 +323,21 @@
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     position: relative;
 }
+.tags .tag button.button-tag{ padding-right: 45px ; }
+.tags .tag button.button-tag:before{
+    content: '+';
+    position: absolute;
+    font-size: 20px;
+    right: 20px;
+    top: 5.5px;
+    font-weight: 900;
+    transition: ease .3s;
+}
+.tags .tag button.button-tag.icon-close:before{
+    transition: ease .3s;
+    transform: rotate(45deg);
+}
+
 
 .tags .tag button.fruit{ background: #502c50; }
 .tags .tag button.drink{ background: #2c5042; }
