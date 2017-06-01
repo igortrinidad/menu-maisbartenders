@@ -45,7 +45,7 @@
                    <div class="tags-list">
                        <div class="tags">
                            <div class="tag" v-for="tag in tags">
-                               <button type="button" @click="applyFilterOptions(tag.name)">
+                               <button :class="{ 'fruit': tag.priority === 1, 'drink': tag.priority === -1 }" type="button" @click="applyFilterOptions(tag.name)">
                                    {{ tag.name }}
                                    <i class=" tag-icon fa fa-plus"></i>
                                </button>
@@ -78,7 +78,6 @@
                                     <span class="description">{{ drink.description }}</span>
                                     <div class="items">
                                         <span class="item" v-for="(item, index) in drink.items">{{ item.name }}</span>
-
                                     </div>
                                 </div>
                             </router-link>
@@ -298,6 +297,7 @@
 }
 .tags .tag{
     padding: 0 10px;
+    margin: 10px 0;
     position: relative;
 }
 
@@ -315,6 +315,9 @@
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     position: relative;
 }
+
+.tags .tag button.fruit{ background: #502c50; }
+.tags .tag button.drink{ background: #2c5042; }
 
 .tags .tag button i {
     margin: 2.5px 0 0 10px;
