@@ -69,7 +69,7 @@
            <div class="list-drinks">
                <div class="container">
                    <div class="cols">
-                       <div v-for="(drink, index) in drinks" v-if="drinksFiltered[index]" class="col">
+                       <div v-for="(drink, index) in drinks" class="col">
                           <div class="drink">
                              <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
                              <div class="details">
@@ -89,18 +89,18 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import Drinks from '../../../models/DrinksExample.js'
 
     export default {
         name: 'show-drink',
         data () {
             return {
                 drinkFetcheds: [],
-                drinks: Drinks,
-                drinksFiltered: Drinks.map((drink) => true),
+                // drinksFiltered: Drinks.map((drink) => true),
+                drinksFiltered: [],
+                especialDrinks: [],
                 filterOptions: [],
                 tags: [{id: 1, name: 'Morango', category: 'Fruta'}, {id: 1, name: 'Kiwi', category: 'Fruta'}],
-                especialDrinks: Drinks.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
+                // especialDrinks: drinkFetcheds.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
             }
         },
         computed:{
@@ -113,7 +113,7 @@
         },
         mounted(){
             this.initSwiper()
-            // this.getDrinks()
+            this.getDrinks()
         },
 
         methods: {
@@ -156,25 +156,25 @@
                 this.drinksFiltered = Drinks.map((drink) => true)
             },
 
-            // getDrinks: function(){
-            //     let that = this
-            //
-            //     //that.$route.params.place_slug
-            //
-            //     that.$http.get('/drinks/fetchAll')
-            //         .then(function (response) {
-            //
-            //             that.drinkFetcheds = response.data;
-            //             that.initSwiper();
-            //
-            //         })
-            //         .catch(function (error) {
-            //             console.log(error)
-            //             that.drinkFound = false;
-            //             //that.$router.push({name: 'landing.404'})
-            //         });
-            //
-            // },
+            getDrinks: function(){
+                let that = this
+
+                //that.$route.params.place_slug
+
+                that.$http.get('/drinks/fetchAll')
+                    .then(function (response) {
+
+                        that.drinkFetcheds = response.data;
+                        that.initSwiper();
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        that.drinkFound = false;
+                        //that.$router.push({name: 'landing.404'})
+                    });
+
+            },
         }
     }
 </script>
