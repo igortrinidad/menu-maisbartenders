@@ -61,7 +61,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="nutri in nutritional_facts" v-if="!nutri.is_extra">
+                                            <tr v-for="nutri in nutritional_facts_ordereds" v-if="!nutri.is_extra">
                                                 <td>{{nutri.name}}</td>
                                                 <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
                                             </tr>
@@ -147,80 +147,6 @@
                 drinkFound: true,
                 drink: drinkObj,
                 displayDrinks: false,
-                items: [
-                    {
-                        name: 'Morango',
-                        pivot: {
-                            quantity: 40,
-                        },
-                        nutrition: [
-                            {
-                                name: 'Calorias',
-                                quantity: 200,
-                                unity: 'Kj',
-                                is_extra: false
-                            },
-                            {
-                                name: 'Carboidrato',
-                                quantity: 20,
-                                unity: 'Kj',
-                                is_extra: false
-                            },
-                            {
-                                name: 'Vitamina C',
-                                quantity: 100,
-                                unity: 'Mg',
-                                is_extra: true
-                            },
-                            {
-                                name: 'Vitamina D',
-                                quantity: 10,
-                                unity: 'Mg',
-                                is_extra: true
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Gin',
-                        pivot: {
-                            quantity: 60,
-                        },
-                        nutrition: [
-                            {
-                                name: 'Calorias',
-                                quantity: 200,
-                                unity: 'Kj',
-                                is_extra: false
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Espuma de jabuticaba',
-                        pivot: {
-                            quantity: 30,
-                        },
-                        nutrition: [
-                            {
-                                name: 'Calorias',
-                                quantity: 200,
-                                unity: 'Kj',
-                                is_extra: false
-                            },
-                            {
-                                name: 'Fibra',
-                                quantity: 10,
-                                unity: 'G',
-                                is_extra: false
-                            },
-                            {
-                                name: 'Carboidrato',
-                                quantity: 10,
-                                unity: 'G',
-                                is_extra: false
-                            }
-                        ]
-                    }
-                ],
                 nutritional_facts: []
             }
         },
@@ -251,6 +177,11 @@
 
                 return phrases
                 
+            },
+
+            nutritional_facts_ordereds: function(){
+                let that = this
+                return _.orderBy(this.nutritional_facts, 'is_extra', 'asc');
             },
 
         },
@@ -289,7 +220,7 @@
                     item.nutrients.forEach(function(nutri){
 
                         nutri.quantity = item.pivot.quantity / 100 * nutri.pivot.quantity;
-                        nutri.quantity = parseInt(nutri.quantity);
+                        nutri.quantity = nutri.quantity.toFixed(2);
 
                         var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
 
