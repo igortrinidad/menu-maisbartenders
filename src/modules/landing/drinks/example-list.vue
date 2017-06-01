@@ -70,7 +70,7 @@
                <div class="container">
                    <div class="cols">
                        <div v-for="(drink, index) in drinks" v-if="drinksFiltered[index] && drink.is_active" class="col">
-                           <div class="drink">
+                           <router-link tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                 <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
                                 <div class="details">
                                     <h3 class="drink-name">{{ drink.name }}</h3>
@@ -81,7 +81,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </router-link>
                         </div>
                    </div>
                </div>
@@ -179,7 +179,9 @@
                         // Seleciona os drinks com prioridade >= 4 para serem exibidos no swiper
                         that.especialDrinks = response.data.map((drink) => drink.priority >= 4 ? drink : undefined).filter((drink) => drink !== undefined)
 
-                        // Cria lista de tags com todas os items de drinks pegando seus nomes e eliminando itens repetidos da lista ordenando tambem deixando Frutas em primeiro e depois Bebidas
+                        // Cria lista de tags com todas os items de drinks pegando seus nomes.
+                        // Elimina itens repetidos da lista.
+                        // Ordena para serem exibidos Frutas em primeiro e depois Bebidas.
                         that.tags = _.chain(response.data)
                             .map((drink) => drink.items.map((item) => {
                                 if(item.category.toLowerCase() === 'frutas') return { name: item.name, priority: 1}
