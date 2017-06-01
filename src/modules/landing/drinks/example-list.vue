@@ -95,12 +95,11 @@
         data () {
             return {
                 drinkFetcheds: [],
-                // drinksFiltered: Drinks.map((drink) => true),
                 drinksFiltered: [],
                 especialDrinks: [],
                 filterOptions: [],
-                tags: [{id: 1, name: 'Morango', category: 'Fruta'}, {id: 1, name: 'Kiwi', category: 'Fruta'}],
-                // especialDrinks: drinkFetcheds.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
+                // drinksFiltered: Drinks.map((drink) => true),
+                tags: [{id: 1, name: 'Morango', category: 'Fruta'}, {id: 1, name: 'Kiwi', category: 'Fruta'}]
             }
         },
         computed:{
@@ -165,6 +164,9 @@
                     .then(function (response) {
 
                         that.drinkFetcheds = response.data;
+
+                        that.especialDrinks = response.data.map((drink) => drink.priority === 5 ? drink : undefined).filter((drink) => drink !== undefined)
+
                         that.initSwiper();
 
                     })
@@ -301,15 +303,23 @@
     margin-top: -22px;
 }
 
+.swiper-button-prev{left: 3rem}
+.swiper-button-next{right: 3rem}
+
 .swiper-item-text{
     width: 100%;
     position: absolute;
     bottom: 0;
     left: 0;
-    padding: 3rem;
+    padding: 2rem 3rem;
     background: rgba(0, 0, 0, .6);
     color: rgba(255, 255, 255, .8);
 
+}
+
+.swiper-image{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 .swiper-item-text .title{
     margin: 0 0 5px 0;
@@ -337,6 +347,7 @@
     display: block;
     padding: 3rem;
     color: #fed136;
+    text-align: right;
 }
 .swiper-stars i{
     margin-right: 10px;
