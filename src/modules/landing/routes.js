@@ -12,8 +12,6 @@ import { routes as auth } from './auth'
 
 //To test chart JS
 import TestChart from './drinks/test-chart.vue'
-// To exemplify new scheme for drinks
-import ExampleDrinks from './drinks/example-list.vue'
 
 // Example for user create drinks
 import CreateDrink from './drinks/create-drink.vue'
@@ -89,12 +87,6 @@ export default [
                 meta: { requiresAuth: false},
             },
 
-            {
-                name: 'landing.user.exampledrinks',
-                path: '/exemplo-drinks',
-                component: ExampleDrinks,
-                meta: { requiresAuth: false},
-            },
             ,{
                 name: 'landing.403',
                 path: '/403',

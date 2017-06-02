@@ -39,11 +39,11 @@
                 drink: {
                     name: 'Trinidad',
                     flavor: {
-                        Citrico: 5,
-                        Frutado: 5,
-                        Amargo: 5,
-                        Seco: 5,
-                        Alcool: 5
+                        citric: 5,
+                        fruit: 5,
+                        bitter: 5,
+                        dry: 5,
+                        salt: 5
                     },
                     items: [
                         {
@@ -115,23 +115,28 @@
             createChart: function(el){
                 var that = this
 
-                var keys = Object.keys(that.drink.flavor)
-                var values = Object.values(that.drink.flavor)
-                console.log(keys)
+                var labels = ['Refrescante', 'Frutado/Doce', 'Amargo', 'Seco', 'Salgado'];
+                var values = [
+                    that.drink.flavor.citric,
+                    that.drink.flavor.fruit,
+                    that.drink.flavor.bitter,
+                    that.drink.flavor.dry,
+                    that.drink.flavor.salt
+                ]
                 console.log(values)
 
                 this.chart = new Chart(el, {
                   type: 'radar',
                   pointLabelFontSize: 20,
                   data: {
-                    labels: keys,
+                    labels: labels,
                     datasets: [
                         {
                             label: 'Drink 1',
                             backgroundColor: "RGBA(254, 209, 54, 0.3)",
                             borderColor: "RGBA(254, 209, 54, 1.00)",
                             data: values,
-		                    pointRadius: 10,
+		                    pointRadius: 2,
                             pointDot: false,
                             fontSize: 30,
                             defaultFontSize: 30
@@ -147,12 +152,14 @@
                     scaleBeginAtZero: true,
                     scale: {
                         ticks: {
-                            beginAtZero: 0,
+                            max:20,
+                            min: 0,
+                            beginAtZero: 1,
                             display: !1
                         },
                         pointLabels: {
-                            fontSize: 30,
-                            fontColor: 'RGBA(254, 209, 54, 1.00)',
+                            fontSize: 15,
+                            fontColor: '#2C3E50',
                             textTransform: 'uppercase'
                         }
                     }

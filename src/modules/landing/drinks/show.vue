@@ -39,7 +39,7 @@
                         <h3 class="m-b-30">Ingredientes</h3>
 
                         <p class="m-t-30 text-muted">
-                            <span v-for="item in drink.items">
+                            <span v-for="item in drink.items" v-if="item.pivot.is_visible">
                                 <strong class="f-20">{{item.name}}</strong><br>
                             </span>
                         </p>
