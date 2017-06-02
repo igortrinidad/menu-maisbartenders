@@ -91,15 +91,17 @@
                <div class="container">
                    <div class="cols" :class="{ 'align-block': drinksFiltered.length === 2 }">
                        <div v-for="(drink, index) in drinksFiltered" class="col">
-                           <router-link tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                           <div tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                <div class="badges">
-                                   <span class="badge" v-if="drink.is_exclusive">
+                                   <span class="badge" v-if="drink.is_exclusive" data-toggle="modal" data-target="#badge-help">
                                        <img :src="exclusiveBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
                                    </span>
-                                   <span class="badge" v-if="drink.priority >= 4">
+                                   <span class="badge" v-if="drink.priority >= 4" data-toggle="modal" data-target="#badge-help">
                                        <img class="zoom" :src="starBadge" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
                                    </span>
                                </div>
+
+                               <router-link tag="span" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                 <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
                                 <div class="details">
                                     <h3 class="drink-name">{{ drink.name }}</h3>
@@ -109,12 +111,55 @@
                                         <span class="item" v-for="(item, index) in drink.items">{{ item.name }}</span>
                                     </div>
                                 </div>
-                            </router-link>
+                                   
+                               </router-link >
+                            </div>
                         </div>
                    </div>
                </div>
            </div>
        </section>
+
+       <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Ícones nos drinks</h4>
+                    </div>
+                    <div class="modal-body p-25 text-center">
+                        
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 text-center">
+                                <span class="badge">
+                                   <img :src="exclusiveBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                               </span>
+
+                               <p>Este ícone é referente a drinks exclusivos Mais Bartenders, são criações autorais desenvolvidas por nossa equipe.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 text-center">
+                                <span class="badge">
+                                   <img :src="starBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                               </span>
+
+                               <p>Este ícone é referente a drinks exclusivos Mais Bartenders, são criações autorais desenvolvidas por nossa equipe.</p>
+                            </div>
+                        </div>
+
+                        
+                        <br>
+
+                        
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
    </div>
 </template>
@@ -308,7 +353,6 @@
     padding: 20px;
     border-radius: 4px;
     background: #fff;
-    cursor: pointer;
     box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
     position: relative;
 }
@@ -317,6 +361,12 @@
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
+
+.badges + span{
+    cursor: pointer;
+}
+
+
 
 .drink .description{
     display: block;
@@ -337,6 +387,7 @@
     position: absolute;
     top: 0px;
     left: 0px;
+    cursor: pointer;
 }
 .badge{
     width: 45px;
@@ -347,6 +398,14 @@
     background: rgba(44, 62, 80, .8);
     margin: 5px;
     border-radius: 50%;
+}
+
+.badge:hover{
+    transform: scale(1.05);
+}
+
+.badge:active{
+    transform: scale(1.00);
 }
 .badge img{
     max-width: 100%;
@@ -413,6 +472,14 @@
   font-size: 12px;
   font-weight: 400;
   transition: background-color 0.3s ease;
+}
+
+.tag:hover{
+    transform: scale(1.05);
+}
+
+.tag:active{
+    transform: scale(1.00);
 }
 
 .tag-selected >.close-tag{
