@@ -44,7 +44,18 @@
 
                    <div class="tags-list">
                        <div class="tags">
-                           <div class="tag">
+                           
+                       </div>
+                   </div>
+
+                   <div class="tags-list">
+                       <div class="tags">
+                          <div class="tag">
+                               <button type="button" :class="{'tag-selected': interactions.showTags}" @click="interactions.showTags = !interactions.showTags">
+                                   <span class="tag-name">Mostrar filtros</span>
+                               </button>
+                           </div>
+                           <div class="tag" v-if="interactions.showTags">
                                <button type="button" :class="{'tag-selected': filterOptions.length}" @click="clearFilter()">
                                    <span class="tag-name">Limpar filtro</span>
                                </button>
@@ -52,7 +63,7 @@
                        </div>
                    </div>
 
-                   <div class="tags-list">
+                   <div class="tags-list" v-if="interactions.showTags">
                        <div class="tags">
                            <div class="tag" v-for="tag in tags">
                                 <!-- aqui eu preciso adicionar uma tag fixa 'button tag' e uma outra para cada tipo de categoria, fruta ou bebida,nao sei e o o melhor jeito assim: -->
@@ -107,10 +118,12 @@
         name: 'show-drink',
         data () {
             return {
-                drinkFetcheds: [],
-                especialDrinks: [],
-                filterOptions: [],
-                tags: []
+                interactions: {
+                    showTags: false
+              },
+              drinkFetcheds: [],
+              especialDrinks: [],
+              filterOptions: []
             }
         },
         computed:{
@@ -118,15 +131,42 @@
             ...mapGetters(['currentUser', 'isLogged']),
 
             drinks: function(){
-              return _.orderBy(this.drinkFetcheds, 'priority', 'desc');
+                return _.orderBy(this.drinkFetcheds, 'priority', 'desc');
             },
 
             drinksFiltered: function(){
-              var that = this
-              return this.drinks.filter( function(drink){
+                var that = this
+                var arr =  this.drinks.filter( function(drink){
                     return that.checkIfDrinkHasItem(drink)
-              })
-            }
+                })
+
+                if(arr.length) successNotify('', `Localizamos ${arr.length} drinks em 0,${Math.floor(Math.random() * 11)}s`);
+                return arr;
+            },
+
+            showDrinksFindedNotification: function(){
+                let that = this
+            
+                
+            },
+            tags: function(){
+                let that = this
+
+                var arr = [];
+
+                that.drinks.map((drink) => {
+                    drink.items.map((item) => {
+                        if(arr.checkFromAttr('name', item.name)){
+                            return false
+                        } else {
+                            arr.push({name: item.name, category: item.category})
+                        }
+                    });
+                });
+
+                return _.orderBy(arr, 'category', 'asc');
+                
+            },
         },
         mounted(){
             this.initSwiper()
@@ -188,26 +228,8 @@
                         // Lista de drinks
                         that.drinkFetcheds = response.data;
 
-                        // lista de drinks a serem exibidos (o valor true vai ganhar false quando for exibido)
-                        that.drinksFiltered = response.data.map((drink) => true)
-
                         // Seleciona os drinks com prioridade >= 4 para serem exibidos no swiper
                         that.especialDrinks = response.data.map((drink) => drink.priority >= 4 ? drink : undefined).filter((drink) => drink !== undefined)
-
-                        // Cria lista de tags com todas os items de drinks pegando seus nomes.
-                        // Elimina itens repetidos da lista.
-                        // Ordena para serem exibidos Frutas em primeiro e depois Bebidas.
-                        that.tags = _.chain(response.data)
-                            .map((drink) => drink.items.map((item) => {
-                                if(item.category.toLowerCase() === 'frutas') return { name: item.name, priority: 1}
-                                if(item.category.toLowerCase() === 'bebidas') return { name: item.name, priority: -1 }
-                            }))
-                            .flatten()
-                            .filter((item) => item !== undefined)
-                            .reduce((a,b) => { if(a.indexOf(b)<0)a.push(b);return a }
-                            ,[])
-                            .sort((a, b) => a.priority > b.priority ? -1 : 1)
-                            .value()
 
                         // initialize swiper
                         that.initSwiper();
