@@ -5,10 +5,11 @@
                 <h2>Crie seu drink personalizado!</h2>
             </div>
 
-            <div class="input">
+            <div class="float-label">
                 <label>
+                    <input type="text" name="" value="" required>
                     <span>Qual vai ser o nome para o seu drink?</span>
-                    <input type="text" name="" value="" placeholder="Qual vai ser o nome para seu drink?">
+
                 </label>
             </div>
 
@@ -172,5 +173,36 @@
 
 .page{ margin-top: 80px; min-height: 100vh; }
 
+/* inputs floating label */
+.float-label{
+    width: 100%;
+    position: relative;
+    padding-top: 30px;
+    margin: 40px 0;
+}
+
+.float-label label {
+    width: 100%;
+    display: block;
+}
+
+.float-label label span{
+    position: absolute;
+    top: 35px;
+    left:0;
+    transition: ease .3s;
+}
+
+.float-label input{
+    width: 100%;
+    border: none;
+    border-bottom: #2c3e50 2px solid;
+    background: #fff;
+    padding: 5px 0px 5px 0px;
+}
+.float-label input:focus{ outline: none; }
+
+.float-label label input:valid + span,
+.float-label label input:focus + span{ top: 0; transition: ease .3s; }
 
 </style>
