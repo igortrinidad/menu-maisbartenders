@@ -44,7 +44,7 @@
 
                    <div class="tags-list">
                        <div class="tags">
-                           
+
                        </div>
                    </div>
 
@@ -92,10 +92,18 @@
                    <div class="cols" :class="{ 'align-block': drinksFiltered.length === 2 }">
                        <div v-for="(drink, index) in drinksFiltered" class="col">
                            <router-link tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                               <div class="badges">
+                                   <span class="badge" v-if="drink.is_exclusive">
+                                       <img :src="exclusiveBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                                   </span>
+                                   <span class="badge" v-if="drink.priority >= 4">
+                                       <img class="zoom" :src="starBadge" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
+                                   </span>
+                               </div>
                                 <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
                                 <div class="details">
                                     <h3 class="drink-name">{{ drink.name }}</h3>
-                                    <i class="stars fa fa-star" v-for="n in drink.priority"></i>
+                                    <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
                                     <span class="description">{{ drink.description }}</span>
                                     <div class="items">
                                         <span class="item" v-for="(item, index) in drink.items">{{ item.name }}</span>
@@ -123,7 +131,9 @@
               },
               drinkFetcheds: [],
               especialDrinks: [],
-              filterOptions: []
+              filterOptions: [],
+              exclusiveBadge: '../../../../static/assets/king.png',
+              starBadge: '../../../../static/assets/star.png',
             }
         },
         computed:{
@@ -146,8 +156,8 @@
 
             showDrinksFindedNotification: function(){
                 let that = this
-            
-                
+
+
             },
             tags: function(){
                 let that = this
@@ -165,7 +175,7 @@
                 });
 
                 return _.orderBy(arr, 'category', 'asc');
-                
+
             },
         },
         mounted(){
@@ -300,6 +310,7 @@
     background: #fff;
     cursor: pointer;
     box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
+    position: relative;
 }
 .drink img{
     max-width: 100%;
@@ -319,6 +330,30 @@
 }
 
 .drink .stars { margin-right: 3px; }
+
+/* Badge */
+.badges{
+    display: flex;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.badge{
+    width: 45px;
+    height: 45px;
+    border: 2px solid #fed136;
+    display: flex;
+    padding: 10px;
+    background: rgba(44, 62, 80, .8);
+    margin: 5px;
+    border-radius: 50%;
+}
+.badge img{
+    max-width: 100%;
+}
+.badge img.zoom{
+    transform: scale(1.1);
+}
 
 /* Filter */
 
