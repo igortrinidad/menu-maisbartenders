@@ -449,6 +449,11 @@
     border-radius: 30px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     position: relative;
+    color: #2c3e50;
+}
+.tags .tag button.tag-selected,
+.tags .tag button.button-tag {
+    color: #fff;
 }
 
 .tags .tag button.button-tag{ padding: 10px 35px 7px 25px ; }
