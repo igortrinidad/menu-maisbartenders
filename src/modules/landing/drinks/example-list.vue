@@ -58,7 +58,7 @@
                                 <!-- aqui eu preciso adicionar uma tag fixa 'button tag' e uma outra para cada tipo de categoria, fruta ou bebida,nao sei e o o melhor jeito assim: -->
                                 <button
                                     class="button-tag"
-                                    :class="{ 'fruit': tag.priority === 1, 'drink': tag.priority === -1, 'tag-selected': filterOptions.indexOf(tag.name) > -1}"
+                                    :class="{ 'tag-selected': filterOptions.indexOf(tag.name) > -1 }"
                                     type="button"
                                     @click="applyFilterOptions(tag.name, $event)"
                                 >
@@ -71,7 +71,7 @@
 
                    <h5 class="m-l-5">Localizamos {{drinksFiltered.length}} drinks em 0,{{Math.floor(Math.random() * 11)}}s</h5>
 
-                   
+
 
                </div>
            </div>
@@ -323,20 +323,20 @@
     width: 100%;
     display: flex;
     align-items: center;
-    padding:11px 25px 10px 25px;
+    padding:10px 25px 10px 25px;
     color: rgba(255, 255, 255, .8);
-    border-radius: 33px;
+    border-radius: 30px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     position: relative;
 }
 
-.tags .tag button.button-tag{ padding-right: 35px ; }
+.tags .tag button.button-tag{ padding: 10px 35px 7px 25px ; }
 
 .close-tag{
   position: absolute;
   font-size: 16px;
-  right: 15px;
-  top: 5.5px;
+  right: 16px;
+  top: 6px;
   font-weight: 400;
   opacity: 0;
 }
