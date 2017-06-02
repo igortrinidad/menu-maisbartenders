@@ -15,6 +15,9 @@ import TestChart from './drinks/test-chart.vue'
 // To exemplify new scheme for drinks
 import ExampleDrinks from './drinks/example-list.vue'
 
+// Example for user create drinks
+import CreateDrink from './drinks/create-drink.vue'
+
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_operator
 // Thus a new array is created, containing all objects that match the routes.
 
@@ -76,6 +79,13 @@ export default [
                 name: 'landing.user.testchart',
                 path: '/test-chart',
                 component: TestChart,
+                meta: { requiresAuth: false},
+            },
+
+            {
+                name: 'landing.user.createdrink',
+                path: '/crie-seu-drink-exemplo',
+                component: CreateDrink,
                 meta: { requiresAuth: false},
             },
 
