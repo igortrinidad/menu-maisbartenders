@@ -65,7 +65,7 @@
                                                 <td>{{nutri.name}}</td>
                                                 <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
                                             </tr>
-                                            <tr v-for="nutri in nutritional_facts" v-if="nutri.is_extra">
+                                            <tr v-for="nutri in nutritional_facts_ordereds" v-if="nutri.is_extra">
                                                 <td>{{nutri.name}}</td>
                                                 <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
                                             </tr>
@@ -181,7 +181,7 @@
 
             nutritional_facts_ordereds: function(){
                 let that = this
-                return _.orderBy(this.nutritional_facts, 'is_extra', 'asc');
+                return _.orderBy(this.nutritional_facts, ['is_extra', 'name'], ['asc','asc']);
             },
 
         },
