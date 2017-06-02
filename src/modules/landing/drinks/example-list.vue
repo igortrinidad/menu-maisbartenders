@@ -78,7 +78,7 @@
 
            <div class="list-drinks">
                <div class="container">
-                   <div class="cols">
+                   <div class="cols" :class="{ 'align-block': drinksFiltered.length === 2 }">
                        <div v-for="(drink, index) in drinksFiltered" class="col">
                            <router-link tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                 <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
@@ -261,8 +261,11 @@
     padding: 5px;
 }
 
-@media(max-width: 768px) { .cols{ column-count: 2; } }
-@media(max-width: 414px) { .cols{ column-count: 1; } }
+.cols.align-block{ display: flex; }
+.cols.align-block .col{ width: 33.3333%; }
+
+@media(max-width: 768px) { .cols{ column-count: 2; } .cols.align-block .col{ width: 50%; } }
+@media(max-width: 414px) { .cols{ column-count: 1; } .cols.align-block { display: grid;} .cols.align-block .col{ width: 100%; } }
 
 /* Drinks & Drink Card */
 .list-drinks {
@@ -312,8 +315,7 @@
     justify-content: left;
 }
 .tags .tag{
-    padding: 0 10px;
-    margin: 10px 0;
+    margin: 10px 10px 10px 0;
     position: relative;
 }
 
