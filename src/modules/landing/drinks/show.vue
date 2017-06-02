@@ -32,6 +32,21 @@
 
                         <h2 class="section-heading m-b-30">{{drink.name}}</h2>
 
+                        <div class="badges">
+                            <div class="badge-container" v-if="drink.is_exclusive">
+                                <span class="badge">
+                                    <img :src="exclusiveBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                                    <span>Drink Exclusivo</span>
+                                </span>
+                            </div>
+                            <div class="badge-container" v-if="drink.priority >= 4">
+                                <span class="badge">
+                                    <img class="zoom" :src="starBadge" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
+                                    <span>Best Sellers</span>
+                                </span>
+                            </div>
+                        </div>
+
                         <p class="m-t-30 text-muted">
                             <strong class="f-20">{{drink.description}}</strong><br>
                         </p>
@@ -120,7 +135,7 @@
                         <p>Escolha uma frase e compartilhe o drink em seu Facebook.</p>
                         <br>
 
-                        <p class="phrase" v-for="(phrase, index) in phrases" @click="interactions.phraseSelected = phrase" 
+                        <p class="phrase" v-for="(phrase, index) in phrases" @click="interactions.phraseSelected = phrase"
                         :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
@@ -147,7 +162,9 @@
                 drinkFound: true,
                 drink: drinkObj,
                 displayDrinks: false,
-                nutritional_facts: []
+                nutritional_facts: [],
+                exclusiveBadge: '../../../../static/assets/king.png',
+                starBadge: '../../../../static/assets/star.png',
             }
         },
         computed:{
@@ -160,7 +177,7 @@
 
             phrases: function(){
                 let that = this
-            
+
                 var phrases = [];
 
                 var phrase1 =  `Keep calm e toma um ${that.drink.name}!`;
@@ -176,7 +193,7 @@
                 phrases.push(phrase1);
 
                 return phrases
-                
+
             },
 
             nutritional_facts_ordereds: function(){
@@ -213,7 +230,7 @@
 
             checkDrinkNutrition: function(){
                 let that = this
-                
+
                 that.nutritional_facts = [];
 
                 that.drink.items.forEach( function(item){
@@ -232,12 +249,12 @@
                         }
                     })
                 })
-                
+
             },
 
             addDrinkPreference: function(){
                 let that = this
-            
+
                 var data = {
                     drink_id: that.drink.id,
                     user_id: 123
@@ -253,12 +270,12 @@
                         console.log(error)
                         errorNotify('Ops!', 'Ocorreu um erro ao salvar seu drink!')
                     });
-                
+
             },
 
             storeFacebookShare: function(drink){
                 let that = this
-            
+
                 var data = {
                     message: that.interactions.phraseSelected,
                     user_id: 123
@@ -271,17 +288,17 @@
                     .catch(function (error) {
                         console.log(error)
                     });
-                
+
             },
 
             getDrink: function(){
                 let that = this
-                    
+
                 //that.$route.params.place_slug
 
                 that.$http.get('/drinks/show/' + that.$route.params.drink_slug)
                     .then(function (response) {
-                        
+
                         that.drink = response.data;
                         that.drinkFound = true;
                         that.checkDrinkNutrition();
@@ -292,11 +309,11 @@
                         that.drinkFound = false;
                         //that.$router.push({name: 'landing.404'})
                     });
-                
+
             },
             initPageScroll: function(){
                 let that = this
-            
+
                 $('a.page-scroll').bind('click', function(event) {
                     var $anchor = $(this);
 
@@ -315,6 +332,44 @@
 
     .nutrition-disclaimer{
         font-size: 12px;
+    }
+
+    /* Badge */
+    .badges{
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+    .badge-container{
+        width: 200px;
+        position: relative;
+        padding: 0 20px 20px 20px;
+    }
+    .badge{
+        width: 45px;
+        height: 45px;
+        border: 2px solid #fed136;
+        display: flex;
+        padding: 10px;
+        background: rgba(44, 62, 80, .8);
+        border-radius: 50%;
+        margin: 0 auto;
+    }
+    .badge img{
+        max-width: 100%;
+    }
+    .badge img.zoom{
+        transform: scale(1.1);
+    }
+    .badge span{
+        display: block;
+        width: 100%;
+        color: rgba(44, 62, 80, 1);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        text-align: center;
+        text-transform: uppercase;
     }
 
 </style>
