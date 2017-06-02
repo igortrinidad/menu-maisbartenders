@@ -111,7 +111,7 @@
                                         <span class="item" v-for="(item, index) in drink.items">{{ item.name }}</span>
                                     </div>
                                 </div>
-                                   
+
                                </router-link >
                             </div>
                         </div>
@@ -128,19 +128,20 @@
                         <h4 class="modal-title">Ícones nos drinks</h4>
                     </div>
                     <div class="modal-body p-25 text-center">
-                        
+
                         <div class="row">
                             <div class="col-md-12 col-xs-12 text-center">
-                                <span class="badge">
+                                <span class="modal-badge badge">
                                    <img :src="exclusiveBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
                                </span>
 
                                <p>Este ícone é referente a drinks exclusivos Mais Bartenders, são criações autorais desenvolvidas por nossa equipe.</p>
                             </div>
                         </div>
+                        <hr>
                         <div class="row">
                             <div class="col-md-12 col-xs-12 text-center">
-                                <span class="badge">
+                                <span class="modal-badge badge">
                                    <img :src="starBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
                                </span>
 
@@ -148,10 +149,10 @@
                             </div>
                         </div>
 
-                        
+
                         <br>
 
-                        
+
 
                     </div>
                     <div class="modal-footer">
@@ -399,6 +400,8 @@
     margin: 5px;
     border-radius: 50%;
 }
+
+.modal-badge.badge{ margin: 20px auto; }
 
 .badge:hover{
     transform: scale(1.05);
