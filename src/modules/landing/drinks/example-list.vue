@@ -44,29 +44,34 @@
 
                    <div class="tags-list">
                        <div class="tags">
+                           <div class="tag">
+                               <button type="button" :class="{'tag-selected': filterOptions.length}" @click="clearFilter()">
+                                   <span class="tag-name">Limpar filtro</span>
+                               </button>
+                           </div>
+                       </div>
+                   </div>
+
+                   <div class="tags-list">
+                       <div class="tags">
                            <div class="tag" v-for="tag in tags">
                                 <!-- aqui eu preciso adicionar uma tag fixa 'button tag' e uma outra para cada tipo de categoria, fruta ou bebida,nao sei e o o melhor jeito assim: -->
                                 <button
                                     class="button-tag"
-                                    :class="{ 'fruit': tag.priority === 1, 'drink': tag.priority === -1 }"
+                                    :class="{ 'fruit': tag.priority === 1, 'drink': tag.priority === -1, 'tag-selected': filterOptions.indexOf(tag.name) > -1}"
                                     type="button"
                                     @click="applyFilterOptions(tag.name, $event)"
                                 >
                                    {{ tag.name }}
+                                   <span class="close-tag">x</span>
                                 </button>
                            </div>
                        </div>
                    </div>
 
-                   <div class="tags-list" v-if="filterOptions.length">
-                       <div class="tags">
-                           <div class="tag">
-                               <button type="button" @click="clearFilter()">
-                                   <span class="tag-name">Exibir Todos</span>
-                               </button>
-                           </div>
-                       </div>
-                   </div>
+                   <h5 class="m-l-5">Localizamos {{drinksFiltered.length}} drinks em 0,{{Math.floor(Math.random() * 11)}}s</h5>
+
+                   
 
                </div>
            </div>
@@ -74,7 +79,7 @@
            <div class="list-drinks">
                <div class="container">
                    <div class="cols">
-                       <div v-for="(drink, index) in drinks" v-if="drinksFiltered[index] && drink.is_active" class="col">
+                       <div v-for="(drink, index) in drinksFiltered" class="col">
                            <router-link tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                 <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
                                 <div class="details">
@@ -103,7 +108,6 @@
         data () {
             return {
                 drinkFetcheds: [],
-                drinksFiltered: [],
                 especialDrinks: [],
                 filterOptions: [],
                 tags: []
@@ -116,6 +120,13 @@
             drinks: function(){
               return _.orderBy(this.drinkFetcheds, 'priority', 'desc');
             },
+
+            drinksFiltered: function(){
+              var that = this
+              return this.drinks.filter( function(drink){
+                    return that.checkIfDrinkHasItem(drink)
+              })
+            }
         },
         mounted(){
             this.initSwiper()
@@ -140,27 +151,24 @@
 
             },
 
+            checkIfDrinkHasItem: function(drink) {
+
+                if (!this.filterOptions.length) return true
+                return (
+                    _.chain(drink.items)
+                    .map((i) => i.name)
+                    .some(item => this.filterOptions.includes(item))
+                    .value()
+                )
+            },
+
             applyFilterOptions: function(item, event) {
                 const index = this.filterOptions.indexOf(item)
 
-                if(index > -1) this.filterOptions.splice(index,1)
-                else this.filterOptions.push(item)
-
-                if (this.filterOptions.length) {
-                    this.drinksFiltered = this.drinks.map((drink) =>
-                        _.chain(drink.items)
-                        .map((i) => i.name)
-                        .some(item => this.filterOptions.includes(item))
-                        .value()
-                    )
-                }
-                else this.drinksFiltered = this.drinks.map((drink) => true)
-
-                if (event) {
-                    const el = event.target.className
-                    if (el === 'button-tag fruit' || el === 'button-tag drink')
-                        event.target.className = `${el} icon-close`
-                    else event.target.classList.remove('icon-close')
+                if(index > -1){
+                  this.filterOptions.splice(index,1)
+                } else {
+                  this.filterOptions.push(item)
                 }
             },
 
@@ -310,45 +318,51 @@
 }
 
 .tags .tag button {
-    background: #2c3e50;
     border: none;
     cursor: pointer;
     width: 100%;
     display: flex;
     align-items: center;
-    padding:8px 25px 10px 25px;
+    padding:11px 25px 10px 25px;
     color: rgba(255, 255, 255, .8);
-    font-weight: bold;
     border-radius: 33px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     position: relative;
 }
-.tags .tag button.button-tag{ padding-right: 45px ; }
-.tags .tag button.button-tag:before{
-    content: '+';
-    position: absolute;
-    font-size: 20px;
-    right: 20px;
-    top: 5.5px;
-    font-weight: 900;
-    transition: ease .3s;
-}
-.tags .tag button.button-tag.icon-close:before{
-    transition: ease .3s;
-    transform: rotate(45deg);
-}
 
+.tags .tag button.button-tag{ padding-right: 35px ; }
 
-.tags .tag button.fruit{ background: #502c50; }
-.tags .tag button.drink{ background: #2c5042; }
+.close-tag{
+  position: absolute;
+  font-size: 16px;
+  right: 15px;
+  top: 5.5px;
+  font-weight: 400;
+  opacity: 0;
+}
 
 .tags .tag button i {
     margin: 2.5px 0 0 10px;
-    font-size: 12px;
+    font-size: 10px;
 }
-.tags .tag button.active { color: rgba(255, 255, 255, 1); }
+
 .tags .tag button:focus{ outline: none; }
 
+.button-tag{
+  opacity: 0.8;
+  background: #A6A19D;
+  font-size: 12px;
+  font-weight: 400;
+  transition: background-color 0.3s ease;
+}
+
+.tag-selected >.close-tag{
+  opacity: 1;
+}
+.tag-selected{
+  opacity: 1;
+  background: #2C3E50;
+}
 /* Swiper Fix */
 
 .swiper-container{ margin: 30px 0; }
