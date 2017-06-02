@@ -190,7 +190,8 @@
     position: absolute;
     top: 35px;
     left:0;
-    transition: ease .3s;
+    transition: ease .1s;
+    font-size: 16px;
 }
 
 .float-label input{
@@ -199,10 +200,11 @@
     border-bottom: #2c3e50 2px solid;
     background: #fff;
     padding: 5px 0px 5px 0px;
+    font-size: 16px;
 }
 .float-label input:focus{ outline: none; }
 
 .float-label label input:valid + span,
-.float-label label input:focus + span{ top: 0; transition: ease .3s; }
+.float-label label input:focus + span{ top: 0; transition: ease .1s; font-size: 12px; }
 
 </style>
