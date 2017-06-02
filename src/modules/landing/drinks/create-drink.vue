@@ -13,9 +13,10 @@
                 </label>
             </div>
 
-            <p v-for="(ingredient, index) in ingredients" :key="index">
-                {{ ingredient.name }}
-            </p>
+            <div class="row">
+                <v-select :label="'name'" :options="ingredients" :multiple="true"></v-select>
+            </div>
+
 
             <canvas ref="createdDrinkChart" id="createdDrinkChart"></canvas>
 
@@ -26,11 +27,12 @@
 <script>
     import { mapGetters } from 'vuex'
     import Chart from 'chart.js'
+    import vSelect from "vue-select"
 
     export default {
 
         name: 'create-drink',
-
+        components: {vSelect},
         data () {
             return {
                 ingredientsFetcheds: [],
