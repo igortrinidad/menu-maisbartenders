@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="row m-t-20" v-if="interactions.showEmailLogin">
+            <div class="row m-t-20" v-if="interactions.showEmailLogin" @keydown.enter="login">
 
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
@@ -111,9 +111,10 @@
                     success (response) {
                         this.authSetToken(response.data.access_token) // this is a Vuex action
                         this.authSetUser(response.data.user) // this is a Vuex action
+                        successNotify('', 'Login efetuado com sucesso.')
                     },
                     error (error) {
-                        errorNotify('Ops!', 'Credenciais inválidas.')
+                        errorNotify('Ops!', 'Erro ao efetuar login.')
                     }
                 })
 

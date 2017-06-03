@@ -39,7 +39,7 @@
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
                             class="close-navbar-mb">
-                        Cardápio Mais Bartenders
+                        Cardápio Completo
                         </router-link>
                     </li>
 

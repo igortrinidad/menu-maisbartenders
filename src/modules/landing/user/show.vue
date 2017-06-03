@@ -129,25 +129,6 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 col-md-offset-1 col-xs-12">
-                        <h4>Ultimas interações</h4>
-
-                        <h5>Eventos
-                            <hr>
-                        </h5>
-                        <span v-for="(event, index) in user.events">
-                        <small>Data: {{event.date}}</small>
-                        <p class="interactions">{{event.name}}</p>
-                    </span>
-                        <hr>
-
-                        <h5>Comentários</h5>
-
-                        <span v-for="(comment, index) in user.comments">
-                        <small>Criado em: {{comment.created_at}}</small>
-                        <p class="interactions">{{comment.phrase}}</p>
-                    </span>
-                    </div>
                 </div>
             </div>
         </section>

@@ -257,14 +257,13 @@
 
                 var data = {
                     drink_id: that.drink.id,
-                    user_id: 123
+                    guest_id: this.currentUser.id
                 }
 
                 that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
 
                         successNotify('', 'Drink salvo com sucesso!')
-
                     })
                     .catch(function (error) {
                         console.log(error)

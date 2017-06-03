@@ -112,8 +112,10 @@
                                     </div>
                                 </div>
 
-                               </router-link >
+                               </router-link>
+                               <h1 v-if="currentUser.saved_drinks.checkFromAttr('id', drink.id)">ESTE DRINK FOI SALVO PELO USER</h1>
                             </div>
+
                         </div>
                    </div>
                </div>
