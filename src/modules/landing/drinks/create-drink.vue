@@ -96,7 +96,7 @@
                         if(arr.checkFromAttr('name', item.name)){
                             return false
                         } else {
-                            arr.push({name: item.name, category: item.category})
+                            arr.push(item)
                         }
                     })
                 })

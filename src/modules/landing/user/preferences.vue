@@ -3,11 +3,20 @@
 
     <section id="user-drinks">
         <div class="container">
-            <div class="row m-b-30">
-                <div class="col-lg-12">
+            <div class="row m-t-30 m-b-20">
+                <div class="col-md-6 col-xs-12">
                     <h3 class="section-heading">Minhas criações</h3>
                 </div>
+                <div class="col-md-6 col-xs-12">
+                    <router-link class="btn btn-primary pull-right" :to="{name: 'landing.user.createdrink'}">
+                            Crie seu drink
+                        </router-link>
+                    
+                </div>
             </div>
+
+        <hr>
+  
 
             <div class="row m-t-20">
 
@@ -99,6 +108,7 @@
                     .catch(function (error) {
                         console.log(error)
                         errorNotify('Ops!', 'Ocorreu um erro ao buscar preferências.')
+                        that.setLoading({is_loading: false, message: ''})
                     });
 
             },
