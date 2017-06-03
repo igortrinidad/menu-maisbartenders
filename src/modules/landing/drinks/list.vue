@@ -135,7 +135,7 @@
                                    <img :src="exclusiveBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
                                </span>
 
-                               <p>Este ícone é referente a drinks exclusivos Mais Bartenders, são criações autorais desenvolvidas por nossa equipe.</p>
+                               <p>Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.</p>
                             </div>
                         </div>
                         <hr>
@@ -145,7 +145,7 @@
                                    <img :src="starBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
                                </span>
 
-                               <p>Este ícone é referente a drinks exclusivos Mais Bartenders, são criações autorais desenvolvidas por nossa equipe.</p>
+                               <p>Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
                             </div>
                         </div>
 
