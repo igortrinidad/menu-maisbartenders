@@ -34,7 +34,7 @@
            </div>
        </div>
 
-       <section id="drinks">
+      <section id="drinks">
            <div class="container">
                <div class="filter">
                    <div class="text-center">
@@ -118,9 +118,9 @@
                    </div>
                </div>
            </div>
-       </section>
+      </section>
 
-       <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
+      <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -160,7 +160,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+      </div>
 
    </div>
 </template>
@@ -176,7 +176,6 @@
                     showTags: false
               },
               drinkFetcheds: [],
-              especialDrinks: [],
               filterOptions: [],
               exclusiveBadge: '../../../../static/assets/king.png',
               starBadge: '../../../../static/assets/star.png',
@@ -200,11 +199,6 @@
                 return arr;
             },
 
-            showDrinksFindedNotification: function(){
-                let that = this
-
-
-            },
             tags: function(){
                 let that = this
 
@@ -222,6 +216,11 @@
 
                 return _.orderBy(arr, 'category', 'asc');
 
+            },
+
+            especialDrinks: function(){
+
+                return this.drinks.map((drink) => drink.priority >= 4 ? drink : undefined).filter((drink) => drink !== undefined)
             },
         },
         mounted(){
@@ -270,7 +269,6 @@
 
             clearFilter: function() {
                 this.filterOptions = []
-                this.drinksFiltered = this.drinks.map((drink) => true)
             },
 
             getDrinks: function(){
@@ -283,9 +281,6 @@
 
                         // Lista de drinks
                         that.drinkFetcheds = response.data;
-
-                        // Seleciona os drinks com prioridade >= 4 para serem exibidos no swiper
-                        that.especialDrinks = response.data.map((drink) => drink.priority >= 4 ? drink : undefined).filter((drink) => drink !== undefined)
 
                         // initialize swiper
                         that.initSwiper();
