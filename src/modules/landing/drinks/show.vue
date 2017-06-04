@@ -19,7 +19,7 @@
         </header>
         
         <div class="m-t-20 m-l-10">
-            <div v-if="currentUser">
+            <div v-if="isLogged">
                 <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" 
                 @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
                     Salvar drink
@@ -29,7 +29,7 @@
                 <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
             </div>
 
-            <div v-if="!currentUser">
+            <div v-if="!isLogged">
                <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para salvar o drink
                </router-link >
               <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para compartilhar
