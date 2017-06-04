@@ -131,13 +131,9 @@
 
         },
         mounted(){
-            var that = this
-            this.$nextTick(()=>{
-                $('html, body').stop().animate({
-                    scrollTop: $('#header-home').offset().top
-                }, 500, 'easeInOutExpo');
-                that.initPageScroll()
-            })
+            this.$nextTick(() => {
+              this.initPageScroll()
+            });
         },
         methods: {
             initPageScroll: function(){

@@ -117,30 +117,11 @@
 
         },
         mounted(){
-            this.fetchDrinkPreference();
+            var that = this
         },
         methods: {
 
             ...mapActions(['setLoading']),
-
-            fetchDrinkPreference: function(){
-                let that = this
-
-                that.setLoading({is_loading: true, message: 'Carregando seus drinks'})
-
-                that.$http.post('/guest/fetchDrinkPreference', { guest_id: that.currentUser.id })
-                    .then(function (response) {
-
-                        that.setLoading({is_loading: false, message: ''})
-
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                        errorNotify('Ops!', 'Ocorreu um erro ao buscar preferências.')
-                        that.setLoading({is_loading: false, message: ''})
-                    });
-
-            },
 
             removeDrinkPreference: function(drink){
                 let that = this

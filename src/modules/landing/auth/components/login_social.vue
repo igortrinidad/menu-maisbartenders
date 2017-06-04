@@ -80,12 +80,12 @@
 <style scoped>
     .main {
         position: absolute;
-        width: 500px;
+        width: 300px;
         height: 100px;
         top: 50%;
         left: 50%;
         margin-top: -50px;
-        margin-left: -250px;
+        margin-left: -150px;
     }
 
     .authin-social{

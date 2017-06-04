@@ -22,7 +22,7 @@
             return {}
         },
         mounted(){
-            console.log(this.loader)
+
         },
         computed: {
             /**

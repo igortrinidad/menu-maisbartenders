@@ -211,17 +211,10 @@
 
         },
         mounted(){
-            var that = this
-
             this.getDrink();
-
-            this.$nextTick(()=>{
-                $('html, body').stop().animate({
-                    scrollTop: $('#header-drink').offset().top
-                }, 500, 'easeInOutExpo');
-                that.initPageScroll()
-            })
-
+            this.$nextTick(() => {
+              this.initPageScroll()
+            });
         },
         methods: {
 
@@ -324,9 +317,10 @@
                     });
 
             },
+
             initPageScroll: function(){
                 let that = this
-
+            
                 $('a.page-scroll').bind('click', function(event) {
                     var $anchor = $(this);
 
@@ -336,7 +330,6 @@
                     event.preventDefault();
                 });
             },
-
         }
     }
 </script>

@@ -106,8 +106,7 @@
             ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
         },
         mounted(){
-            console.log(this.$auth.check())
-            console.log(this.$auth.user())
+
         },
         methods:{
             closeMenu: function(){

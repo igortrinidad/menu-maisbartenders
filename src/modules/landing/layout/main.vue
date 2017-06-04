@@ -40,7 +40,7 @@
     font-size: 30px;
 }
 
-.btn-xl{
+.btn-primary{
     color:#777777;
     font-weight: 500;
 }
@@ -121,7 +121,7 @@
         }
 
         .btn-drink-action{
-            font-size: 11px;
+            font-size: 12px;
             padding: 5px;
         }
 

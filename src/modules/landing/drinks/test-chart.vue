@@ -92,26 +92,8 @@
         },
         mounted(){
             var that = this
-            this.$nextTick(()=>{
-                $('html, body').stop().animate({
-                    scrollTop: $('#header-home').offset().top
-                }, 500, 'easeInOutExpo');
-                that.initPageScroll()
-            })
         },
         methods: {
-            initPageScroll: function(){
-                let that = this
-
-                $('a.page-scroll').bind('click', function(event) {
-                    var $anchor = $(this);
-
-                    $('html, body').stop().animate({
-                        scrollTop: $($anchor.attr('href')).offset().top
-                    }, 1500, 'easeInOutExpo');
-                    event.preventDefault();
-                });
-            },
 
             createChart: function(el){
                 var that = this
@@ -124,7 +106,6 @@
                     that.drink.flavor.dry,
                     that.drink.flavor.salt
                 ]
-                console.log(values)
 
                 this.chart = new Chart(el, {
                   type: 'radar',
@@ -167,7 +148,6 @@
                 },
             })
 
-                console.log(this.chart);
             }
         },
         mounted() {

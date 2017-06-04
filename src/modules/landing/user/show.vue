@@ -168,14 +168,13 @@
 
             this.user = cloneDeep(this.currentUser)
             this.handleProvidersButtons()
-
         },
         methods: {
 
             /**
              * Map the actions from Vuex to this component.
              */
-            ...mapActions(['authSetUser']),
+            ...mapActions(['authSetUser', 'setLoading']),
 
             save(){
                 let that = this
@@ -185,9 +184,10 @@
                     formData.append(key, that.user[key])
                 });
 
+                that.setLoading({is_loading: true, message: ''})
+
                 that.$http.post('/guest/update', formData, {headers: {'Content-Type': 'multipart/form-data'}})
                     .then(function (response) {
-                        console.log(response)
                         if (response.data.error) {
                             that.interactions.current_password_error = true
                             that.interactions.manage_password = true
@@ -203,9 +203,12 @@
                                 that.cancelManagePassword()
                             }
                         }
+
+                        that.setLoading({is_loading: false, message: ''})
                     })
                     .catch(function (error) {
                         errorNotify('Ops!', 'Não foi possivel atualizar seu perfil.', 'bottomRight')
+                        that.setLoading({is_loading: false, message: ''})
                     });
             },
 

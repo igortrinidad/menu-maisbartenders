@@ -1,56 +1,59 @@
 <template>
    <div>
 
-        <section id="events">
-            <div class="container">
+        
+        <section>
+        <div class="container m-t-30 text-center">
+            <h1>Eventos</h1>
+            
+            <div class="form-group">
+                <input class="form-control" v-model="event_url" placeholder="Código de acesso do evento.">
                 
-                <div class="intro-text">
-                    <h2 class="section-heading m-b-30">Eventos</h2>
-                </div>
-
-                <table class="table table-bordered table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nome do evento</th>
-                            <th>Url</th>
-                            <th>Data</th>
-                            <th class="text-center">Visualizar página</th>
-                            <th class="text-center">Salvar offline</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="event in events">
-                            <td>{{event.name}}</td>
-                            <td>{{event.url}}</td>
-                            <td>{{event.date}}</td>
-                            <td class="text-center">
-                                <router-link
-                                    :to="{name: 'landing.events.show', params: {event_slug: event.url}}"
-                                    class="btn btn-sm btn-info">
-                                Visualizar
-                                </router-link>
-                            </td>
-                            <td class="text-center"><button class="btn btn-sm btn-info">Salvar no dispositivo</button></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
-
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" @click="eventGo()" :disabled="!event_url">Ir</button>
+            </div>
+            <p>Selecione um evento abaixo ou digite o código do evento.</p>
+        </div>
+            
         </section>
+
+
+        <div class="list-events">
+               <div class="container">
+                   <div class="cols" :class="{ 'align-block': events.length === 2 }">
+                       <div v-for="(event, index) in events" class="col">
+                           <div tag="div" class="event" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
+
+                               <router-link tag="span" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
+                                <img :src="event.photo_url" :alt="event.name" class="event-gallery-image">
+                                <div class="details">
+                                    <h4 class="event-name">{{ event.name }}</h4>
+                                    <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
+                                    <span class="description">{{ event.greeting }}</span>
+                                </div>
+
+                               </router-link >
+                
+                            </div>
+                        </div>
+                   </div>
+               </div>
+           </div>
 
    </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
-    import drinkObj from '../../../models/Drink.js'
 
     export default {
-        name: 'show-drink',
+        name: 'list-events',
         data () {
             return {
                 eventFound: true,
                 events: [],
+                event_url: '',
             }
         },
         computed:{
@@ -73,6 +76,9 @@
 
             },
 
+            eventGo: function(){
+                this.$router.push({name: 'landing.events.show', params: {event_slug: this.event_url}})
+            },
 
             getEvents: function(){
                 let that = this
@@ -89,7 +95,7 @@
                     .catch(function (error) {
                         console.log(error)
                         that.eventFound = false;
-                        //that.$router.push({name: 'landing.404'})
+
                     });
                 
             },
@@ -99,5 +105,61 @@
 
 <style scoped>
 
+
+/* Page & Grid*/
+
+.page{ margin-top: 80px; }
+
+#drinks{
+    background-color: rgba(44, 60, 80, .07);
+    padding: 80px 0;
+}
+.cols {
+    width: 100%;
+    column-count: 3;
+    column-gap: 0;
+
+}
+.col {
+    width: 100%;
+    display: inline-block;
+    padding: 5px;
+}
+
+.cols.align-block{ display: flex; }
+.cols.align-block .col{ width: 33.3333%; }
+
+@media(max-width: 768px) { .cols{ column-count: 2; } .cols.align-block .col{ width: 50%; } }
+@media(max-width: 414px) { .cols{ column-count: 1; } .cols.align-block { display: grid;} .cols.align-block .col{ width: 100%; } }
+
+/* Drinks & Drink Card */
+
+.event{
+    padding: 20px;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
+    position: relative;
+}
+.event img{
+    max-width: 100%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    cursor: pointer;
+}
+
+
+.event .description{
+    display: block;
+    max-width: 100%;
+}
+
+.event-name{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.drink .stars { margin-right: 3px; }
 
 </style>

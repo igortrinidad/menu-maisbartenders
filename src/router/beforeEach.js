@@ -49,6 +49,8 @@ const beforeEach = (to, from, next) => {
     if (needAuth(auth, token)) {
         next({name: 'landing.auth.login'})
     }
+
+    $('html, body').stop().animate({ scrollTop: 0 }, 500, 'easeInOutExpo');
 }
 
 export default beforeEach

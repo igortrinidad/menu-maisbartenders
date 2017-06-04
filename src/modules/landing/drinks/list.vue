@@ -1,5 +1,5 @@
 <template>
-   <div class="page">
+   <div class="page" id="header-page">
 
        <div id="most-recommended" class="container">
            <div class="text-center">
@@ -30,7 +30,7 @@
            </div>
            <div class="text-center">
                <span class="sub">Ainda não decidiu? não se preocupe você pode ver todos os drinks e filtrar com os nossos ingredientes que você preferir</span>
-               <a href="#drinks" class="page-scroll btn btn-xl m-t-3 all">Todos</a>
+               <a href="#drinks" class="page-scroll btn btn-primary btn-block m-t-10">Ver todos</a>
            </div>
        </div>
 
@@ -114,7 +114,7 @@
 
                                </router-link>
                                <div class="m-t-10 p-l-10" >
-                                <div v-if="currentUser">
+                                <div v-if="isLogged">
                                     <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" 
                                     @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
                                         Salvar drink
@@ -124,7 +124,7 @@
                                     <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
                                 </div>
 
-                                <div v-if="!currentUser">
+                                <div v-if="!isLogged">
                                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para salvar o drink
                                    </router-link >
                                   <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para compartilhar
@@ -185,7 +185,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'list-drink',
@@ -245,9 +245,14 @@
         mounted(){
             this.initSwiper()
             this.getDrinks()
+            this.$nextTick(() => {
+              this.initPageScroll()
+            });
         },
 
         methods: {
+
+            ...mapActions(['setLoading']),
 
             initSwiper: function(){
                 var that = this;
@@ -293,7 +298,7 @@
             getDrinks: function(){
                 let that = this
 
-                //that.$route.params.place_slug
+                that.setLoading({is_loading: true, message: ''})
 
                 that.$http.get('/drinks/fetchAll')
                     .then(function (response) {
@@ -301,14 +306,15 @@
                         // Lista de drinks
                         that.drinkFetcheds = response.data;
 
-                        // initialize swiper
                         that.initSwiper();
+
+                        that.setLoading({is_loading: false, message: ''})
 
                     })
                     .catch(function (error) {
                         console.log(error)
                         that.drinkFound = false;
-                        //that.$router.push({name: 'landing.404'})
+                        that.setLoading({is_loading: false, message: ''})
                     });
 
             },
@@ -322,16 +328,33 @@
                     guest_id: this.currentUser.id
                 }
 
+                that.setLoading({is_loading: true, message: ''})
+
                 that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
 
                         successNotify('', 'Drink salvo com sucesso!')
+                        that.setLoading({is_loading: false, message: ''})
                     })
                     .catch(function (error) {
                         console.log(error)
                         errorNotify('Ops!', 'Ocorreu um erro ao salvar seu drink!')
+                        that.setLoading({is_loading: false, message: ''})
                     });
 
+            },
+
+            initPageScroll: function(){
+                let that = this
+            
+                $('a.page-scroll').bind('click', function(event) {
+                    var $anchor = $(this);
+
+                    $('html, body').stop().animate({
+                        scrollTop: $($anchor.attr('href')).offset().top
+                    }, 1500, 'easeInOutExpo');
+                    event.preventDefault();
+                });
             },
         }
     }
