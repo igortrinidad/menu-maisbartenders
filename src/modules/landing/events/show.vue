@@ -24,10 +24,16 @@
             </div>
         </header>
 
+        <div class="container m-t-20 text-center">
+          <p>Sejam bem vindos ao <b>Menu Interativo Mais Bartenders</b> do(a) {{event.name}}.</p>
+          <p>Aqui você irá conferir o Menu de Drinks do evento e poder demonstrar um pouquinho da sua alegria e felicidade em participar dessa festa linda, compartilhando em seu Facebook um ou mais drinks que você gostaria de experimentar no evento.</p>
+          <p>Além de compartilhar com seus amigos os drinks que mais gostou, você pode salvar as receitas para pedir no dia do evento.</p>
+        </div>
+
         <div id="most-recommended" class="container">
            <div class="text-center">
                <h2>Best Sellers</h2>
-               <span class="sub">Aqui está uma lista com as principais recomendações para você.</span>
+               <p>Aqui está uma lista com as principais recomendações para você.</p>
            </div>
            <div class="swiper-row">
                <div class="swiper-container gallery-top" ref="swiper">
@@ -52,7 +58,7 @@
                </div>
            </div>
            <div class="text-center">
-               <span class="sub">Ainda não decidiu? não se preocupe você pode ver todos os drinks e filtrar com os nossos ingredientes que você preferir</span>
+               <p>Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
                <a href="#drinks" class="page-scroll btn btn-primary btn-block m-t-10">Ver Todos</a>
            </div>
        </div>
@@ -62,7 +68,7 @@
                <div class="filter">
                    <div class="text-center">
                        <h3>Ingredientes:</h3>
-                       <span class="sub">Selecione os ingredientes de sua preferência.</span>
+                       <p>Selecione os ingredientes de sua preferência.</p>
                    </div>
 
                    <div class="tags-list">
@@ -103,7 +109,7 @@
                        </div>
                    </div>
 
-                   <h5 class="m-l-5">Localizamos {{drinksFiltered.length}} drinks em 0,{{Math.floor(Math.random() * 11)}}s</h5>
+                   <p class="m-l-5">Localizamos {{drinksFiltered.length}} drinks em 0,{{Math.floor(Math.random() * 11)}}s</p>
 
 
 
