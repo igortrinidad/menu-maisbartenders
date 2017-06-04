@@ -113,7 +113,24 @@
                                 </div>
 
                                </router-link>
-                               <h1 v-if="currentUser.saved_drinks.checkFromAttr('id', drink.id)">ESTE DRINK FOI SALVO PELO USER</h1>
+                               <div class="m-t-10 p-l-10" >
+                                <div v-if="currentUser">
+                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" 
+                                    @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                                        Salvar drink
+                                    </button>
+                                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5" :to="{name: 'landing.user.preferences'}" v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">Drink salvo <i class="fa fa-check"></i>
+                                   </router-link >
+                                    <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
+                                </div>
+
+                                <div v-if="!currentUser">
+                                   <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para salvar o drink
+                                   </router-link >
+                                  <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para compartilhar
+                                   </router-link >
+                                </div>
+                            </div>
                             </div>
 
                         </div>
@@ -292,6 +309,27 @@
                         console.log(error)
                         that.drinkFound = false;
                         //that.$router.push({name: 'landing.404'})
+                    });
+
+            },
+
+
+            addDrinkPreference: function(drink){
+                let that = this
+
+                var data = {
+                    drink_id: drink.id,
+                    guest_id: this.currentUser.id
+                }
+
+                that.$http.post('/guest/addDrinkPreference', data)
+                    .then(function (response) {
+
+                        successNotify('', 'Drink salvo com sucesso!')
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        errorNotify('Ops!', 'Ocorreu um erro ao salvar seu drink!')
                     });
 
             },

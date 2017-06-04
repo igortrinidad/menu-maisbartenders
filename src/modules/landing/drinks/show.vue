@@ -22,9 +22,21 @@
             <div class="container">
 
                 <div class="row">
-                    <div class="text-right">
-                        <button class="btn btn-default btn-sm m-b-10 btn-drink-action" @click="addDrinkPreference()">Salvar drink</button>
-                        <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no facebook</button>
+                    <div v-if="currentUser">
+                        <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" 
+                        @click="addDrinkPreference(drink)" v-if="!currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                            Salvar drink
+                        </button>
+                        <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5" :to="{name: 'landing.user.preferences'}" v-if="currentUser.saved_drinks.checkFromAttr('id', drink.id)">Drink salvo <i class="fa fa-check"></i>
+                       </router-link >
+                        <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
+                    </div>
+
+                    <div v-if="!currentUser">
+                       <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para salvar o drink
+                       </router-link >
+                      <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para compartilhar
+                       </router-link >
                     </div>
                 </div>
                 <div class="row">
@@ -76,11 +88,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="nutri in nutritional_facts_ordereds" v-if="!nutri.is_extra">
-                                                <td>{{nutri.name}}</td>
-                                                <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
-                                            </tr>
-                                            <tr v-for="nutri in nutritional_facts_ordereds" v-if="nutri.is_extra">
+                                            <tr v-for="nutri in nutritional_facts_ordereds">
                                                 <td>{{nutri.name}}</td>
                                                 <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
                                             </tr>
@@ -198,7 +206,7 @@
 
             nutritional_facts_ordereds: function(){
                 let that = this
-                return _.orderBy(this.nutritional_facts, ['is_extra', 'name'], ['asc','asc']);
+                return _.orderBy(this.nutritional_facts, 'id', 'asc');
             },
 
         },
