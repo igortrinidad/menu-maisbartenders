@@ -288,7 +288,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import eventObj from '../../../models/Event.js'
     import drinkObj from '../../../models/Drink.js'
 
@@ -429,6 +429,7 @@
             },
         },
         methods: {
+            ...mapActions(['setLoading']),
 
             openShareFacebook: function(){
                 let that = this
@@ -537,18 +538,20 @@
             getEvent: function(){
                 let that = this
                     
-                //that.$route.params.place_slug
-
+                that.setLoading({is_loading: true, message: ''})
+                
                 that.$http.get('/events/show/' + that.$route.params.event_slug)
                     .then(function (response) {
 
                         that.event = response.data;
                         that.eventFound = true
+                        that.setLoading({is_loading: false, message: ''})
 
                     })
                     .catch(function (error) {
                         console.log(error)
                         that.eventFound = false;
+                        that.setLoading({is_loading: false, message: ''})
                     });
                 
             },

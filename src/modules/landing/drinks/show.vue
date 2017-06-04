@@ -24,10 +24,10 @@
                 <div class="row">
                     <div v-if="currentUser">
                         <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" 
-                        @click="addDrinkPreference(drink)" v-if="!currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                        @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
                             Salvar drink
                         </button>
-                        <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5" :to="{name: 'landing.user.preferences'}" v-if="currentUser.saved_drinks.checkFromAttr('id', drink.id)">Drink salvo <i class="fa fa-check"></i>
+                        <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5" :to="{name: 'landing.user.preferences'}" v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">Drink salvo <i class="fa fa-check"></i>
                        </router-link >
                         <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
                     </div>
@@ -157,7 +157,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import drinkObj from '../../../models/Drink.js'
 
     export default {
@@ -225,6 +225,8 @@
         },
         methods: {
 
+            ...mapActions(['setLoading']),
+
             openShareFacebook: function(){
                 let that = this
 
@@ -268,13 +270,16 @@
                     guest_id: this.currentUser.id
                 }
 
+                that.setLoading({is_loading: true, message: ''})
+                
                 that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
-
+                        that.setLoading({is_loading: false, message: ''})
                         successNotify('', 'Drink salvo com sucesso!')
                     })
                     .catch(function (error) {
                         console.log(error)
+                        that.setLoading({is_loading: false, message: ''})
                         errorNotify('Ops!', 'Ocorreu um erro ao salvar seu drink!')
                     });
 
@@ -301,7 +306,7 @@
             getDrink: function(){
                 let that = this
 
-                //that.$route.params.place_slug
+                that.setLoading({is_loading: true, message: ''})
 
                 that.$http.get('/drinks/show/' + that.$route.params.drink_slug)
                     .then(function (response) {
@@ -309,12 +314,13 @@
                         that.drink = response.data;
                         that.drinkFound = true;
                         that.checkDrinkNutrition();
+                        that.setLoading({is_loading: false, message: ''})
 
                     })
                     .catch(function (error) {
                         console.log(error)
                         that.drinkFound = false;
-                        //that.$router.push({name: 'landing.404'})
+                        that.setLoading({is_loading: false, message: ''})
                     });
 
             },
