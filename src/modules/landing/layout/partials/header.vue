@@ -43,7 +43,7 @@
                         </router-link>
                     </li>
 
-                    <li @click="closeMenu()" v-if="!isLogged">
+                    <li v-if="!isLogged">
                         <router-link
                             :to="{name: 'landing.auth.login'}"
                             class="close-navbar-mb">
@@ -51,7 +51,7 @@
                         </router-link>
                     </li>
 
-                    <li @click="closeMenu()" v-if="!isLogged">
+                    <li v-if="!isLogged">
                         <router-link
                             :to="{name: 'landing.auth.signup'}"
                             class="close-navbar-mb">
@@ -65,7 +65,7 @@
                             {{currentUser.full_name}} <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li @click="closeMenu()">
+                            <li>
                                 <router-link
                                     :to="{name: 'landing.user.preferences'}"
                                     class="close-navbar-mb">
