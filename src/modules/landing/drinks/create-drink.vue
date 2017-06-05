@@ -13,9 +13,9 @@
                 </label>
             </div>
 
-            <div class="row">
-                <v-select :label="'name'" :options="ingredients" :multiple="true"></v-select>
-            </div>
+            <v-select :label="'name'" :options="ingredients" :multiple="true" placeholder="Selecione ingredientes para montar seu drink">
+                <span slot="no-options">Não foi possível localizar ingredientes :(</span>
+            </v-select>
 
 
             <canvas ref="createdDrinkChart" id="createdDrinkChart"></canvas>
@@ -209,4 +209,8 @@
 .float-label label input:valid + span,
 .float-label label input:focus + span{ top: 0; transition: ease .1s; font-size: 12px; }
 
+/* Form Control */
+.form-control {
+    border-color: red;
+}
 </style>
