@@ -31,8 +31,9 @@
                 </div>
             </div>
 
-            <button type="button" name="button" @click="setDrink()" v-if="displayCreateDrinkButton">
-                Criar drink!
+            <button type="button" name="button" @click="setDrink()">
+                <span v-if="isNewDrink">Criar drink!</span>
+                <span v-if="!isNewDrink">Atualizar drink!</span>
             </button>
 
         </div>
@@ -50,51 +51,18 @@
         components: {vSelect},
         data () {
             return {
-                displayCreateDrinkButton: true,
+                isNewDrink: true,
                 ingredientsFetcheds: [],
                 drink: {
                     name: '',
                     flavor: {
-                        Citrico: 5,
-                        Frutado: 5,
-                        Amargo: 5,
-                        Seco: 5,
-                        Alcool: 5
+                        Citrico: 0,
+                        Frutado: 0,
+                        Amargo: 0,
+                        Seco: 0,
+                        Alcool: 0
                     },
                     items: [
-                        {
-                            pivot: {
-                                quantity: ''
-                            },
-                            name: 'Morango',
-                            category: 'Frutas',
-                            attrs: [
-                                {
-                                    name: 'Carboidrato',
-                                    value: 9.22,
-                                    measure: 'gr'
-                                },
-                                {
-                                    name: 'Kcal',
-                                    value: 38,
-                                    measure: 'kj'
-                                }
-                            ]
-                        },
-                        {
-                            pivot: {
-                                quantity: ''
-                            },
-                            name: 'Gin',
-                            category: 'Bebidas',
-                            attrs: [
-                                {
-                                    name: 'Kcal',
-                                    value: 273,
-                                    measure: 'kj'
-                                }
-                            ]
-                        }
                     ]
                 }
             }
@@ -126,19 +94,18 @@
 
         methods: {
 
-            createDrink: function(item) {
-                console.log(item);
-            },
-
             setDrink: function() {
+                console.log(this.ingredients)
                 if (!this.drink.name) {
                     $(this.$refs.drinkName).addClass('error')
-                    console.log(this.$refs.drinkName);
                     errorNotify('', 'O nome do drink é obrigatório')
                 }
                 else {
-                    successNotify('', `"${this.drink.name}" criado com sucesso!`)
-                    this.displayCreateDrinkButton = false
+
+                    if(!this.isNewDrink) successNotify('', `"${this.drink.name}" atualizado com sucesso!`)
+                    else successNotify('', `"${this.drink.name}" criado com sucesso!`)
+
+                    this.isNewDrink = false
                     $(this.$refs.drinkName).removeClass('error')
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
@@ -150,6 +117,7 @@
                 const keys = Object.keys(this.drink.flavor)
                 const values = Object.values(this.drink.flavor)
 
+                if (this.chart) this.chart.destroy()
                 this.chart = new Chart(el, {
                     type: 'radar',
                     pointLabelFontSize: 20,
