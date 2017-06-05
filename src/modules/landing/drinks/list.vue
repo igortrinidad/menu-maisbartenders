@@ -159,6 +159,16 @@
                                <p>Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
                             </div>
                         </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 text-center">
+                                <span class="modal-badge badge">
+                                   <img src="https://maisbartenders.com.br/assets/menu_app/drink-created.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                               </span>
+
+                               <p>Os drinks com este ícone são os drinks que os convidados criaram.</p>
+                            </div>
+                        </div>
 
                         <br>
 
