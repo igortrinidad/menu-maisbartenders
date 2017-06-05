@@ -18,7 +18,11 @@
             return {}
         },
         mounted(){
-
+            this.$nextTick(() => {
+              if(this.$route.path == '/android_asset/www/index.html'){
+                this.$router.push({path: '/'})
+              }
+            });
         },
         methods: {}
     }

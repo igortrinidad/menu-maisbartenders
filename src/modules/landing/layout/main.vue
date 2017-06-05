@@ -4,6 +4,9 @@
 
         <app-header></app-header>
 
+
+        <h2 style="margin-top:200px">{{$route.path}}</h2>
+
         <router-view></router-view>
 
         <app-footer></app-footer>

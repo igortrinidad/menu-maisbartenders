@@ -50,13 +50,13 @@
                         <div class="badges">
                             <div class="badge-container" v-if="drink.is_exclusive">
                                 <span class="badge">
-                                    <img :src="exclusiveBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                                    <img src="https://maisbartenders.com.br/assets/menu_app/king.png" alt="DRINK EXCLUSIVO" title="DRINK EXCLUSIVO">
                                     <span>Drink Exclusivo</span>
                                 </span>
                             </div>
                             <div class="badge-container" v-if="drink.priority >= 4">
                                 <span class="badge">
-                                    <img class="zoom" :src="starBadge" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
+                                    <img class="zoom" src="https://maisbartenders.com.br/assets/menu_app/star.png" alt="BEST SELLER" title="BESTE SELLER">
                                     <span>Best Sellers</span>
                                 </span>
                             </div>

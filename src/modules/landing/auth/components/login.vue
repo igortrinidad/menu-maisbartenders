@@ -42,7 +42,7 @@
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
                         <label>Email</label>
-                        <input class="form-control" v-model="email">
+                        <input type="email" class="form-control" v-model="email">
                     </div>
                 </div>
 
