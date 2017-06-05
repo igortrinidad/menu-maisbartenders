@@ -1,29 +1,28 @@
 <template>
-   <div>
+   <div class="page">
 
-        
-        <section>
-        <div class="container m-t-30 text-center">
-            <h1>Eventos</h1>
-            
-            <div class="form-group">
-                <input class="form-control" v-model="event_url" placeholder="Código de acesso do evento.">
-                
+
+        <div>
+            <div class="container m-t-30 text-center">
+                <h1>Eventos</h1>
+
+                <div class="form-group">
+                    <input class="form-control" v-model="event_url" placeholder="Código de acesso do evento.">
+
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" @click="eventGo()" :disabled="!event_url">Ir</button>
+                </div>
+                <p>Selecione um evento abaixo ou digite o código do evento.</p>
             </div>
-            <div class="form-group">
-                <button class="btn btn-primary btn-block" @click="eventGo()" :disabled="!event_url">Ir</button>
-            </div>
-            <p>Selecione um evento abaixo ou digite o código do evento.</p>
         </div>
-            
-        </section>
 
 
         <div class="list-events">
                <div class="container">
-                   <div class="cols" :class="{ 'align-block': events.length === 2 }">
+                   <div class="cols">
                        <div v-for="(event, index) in events" class="col">
-                           <div tag="div" class="event" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
+                           <div tag="div" class="box event" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
 
                                <router-link tag="span" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
                                 <img :src="event.photo_url" :alt="event.name" class="event-gallery-image">
@@ -34,7 +33,7 @@
                                 </div>
 
                                </router-link >
-                
+
                             </div>
                         </div>
                    </div>
@@ -82,12 +81,12 @@
 
             getEvents: function(){
                 let that = this
-                    
+
                 //that.$route.params.place_slug
 
                 that.$http.get('/events/fetchAll')
                     .then(function (response) {
-                        
+
                         that.events = response.data;
                         that.eventFound = true;
 
@@ -97,7 +96,7 @@
                         that.eventFound = false;
 
                     });
-                
+
             },
         }
     }
@@ -107,8 +106,6 @@
 
 
 /* Page & Grid*/
-
-.page{ margin-top: 80px; }
 
 #drinks{
     background-color: rgba(44, 60, 80, .07);

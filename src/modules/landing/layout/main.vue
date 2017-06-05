@@ -37,6 +37,9 @@
 
 <style>
 
+
+.page{ margin-top: 80px; margin-bottom: 30px}
+
 /* grid pinterest style */
 
 .cols {
@@ -51,9 +54,6 @@
     padding: 5px;
 }
 
-.cols.align-block{ display: flex; }
-.cols.align-block .col{ width: 33.3333%; }
-
 @media(max-width: 768px) { .cols{ column-count: 2; } .cols.align-block .col{ width: 50%; } }
 @media(max-width: 414px) { .cols{ column-count: 1; } .cols.align-block { display: grid;} .cols.align-block .col{ width: 100%; } }
 
@@ -62,14 +62,15 @@
     margin: 40px 0;
 }
 
-.drink{
+.box{
     padding: 20px;
     border-radius: 4px;
     background: #fff;
     box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
     position: relative;
+    width: 100%;
 }
-.drink img{
+.box img{
     max-width: 100%;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
