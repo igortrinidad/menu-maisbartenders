@@ -118,12 +118,9 @@
                 this.drink.flavor.Seco = 0
                 this.drink.flavor.Alcool = 0
 
-                if (!this.drink.name) {
+                if (!this.drink.name || !this.selectedIngredients.length) {
                     $(this.$refs.drinkName).addClass('error')
-                    errorNotify('', 'O nome do drink é obrigatório')
-                }
-                if (!this.selectedIngredients.length) {
-                    errorNotify('', 'Que tal adicionar alguns ingredientes ao seu drink?')
+                    errorNotify('', !this.drink.name ? 'Nome do drink é obrigatório' : 'Que tal adicionar alguns ingredientes ao seu drink?')
                 }
                 else {
 
