@@ -43,6 +43,9 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-navigation href="http://menu.maisbartenders.com.br" />
+    <allow-navigation href="http://menu.maisbartenders.com.br/*" />
+    <allow-navigation href="https://www.facebook.com/*" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
     <preference name="SplashShowOnlyFirstTime" value="false" />

@@ -36,6 +36,16 @@
     <true/>
     <key>NSAppTransportSecurity</key>
     <dict>
+      <key>NSExceptionDomains</key>
+      <dict>
+        <key>menu.maisbartenders.com.br</key>
+        <dict>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key>
+          <true/>
+        </dict>
+        <key>www.facebook.com</key>
+        <dict/>
+      </dict>
       <key>NSAllowsArbitraryLoads</key>
       <true/>
     </dict>
