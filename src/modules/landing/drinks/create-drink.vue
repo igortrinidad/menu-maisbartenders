@@ -26,6 +26,18 @@
 
             <div class="md-created-drink-chart">
                 <div class="row">
+
+                    <div class="col-sm-12" v-if="!isNewDrink">
+                        <div class="badges">
+                            <div class="badge-container">
+                                <span class="badge">
+                                    <img :src="guestBadge" alt="Drink Criado Por Um Convidado" title="Drink Criado Por Um Convidado">
+                                    <span>Drinks criados por convidados recebem essa medalha</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-sm-12">
                         <canvas ref="createdDrinkChart"></canvas>
                     </div>
@@ -55,6 +67,7 @@
                 isNewDrink: true,
                 ingredientsFetcheds: [],
                 selectedIngredients: [],
+                guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
                     name: '',
                     flavor: {
@@ -98,10 +111,12 @@
 
             setDrink: function() {
                 // reset values in update case
+
                 this.drink.flavor.Citrico = 0
                 this.drink.flavor.Frutado = 0
                 this.drink.flavor.Amargo = 0
                 this.drink.flavor.Seco = 0
+                this.drink.flavor.Alcool = 0
 
                 if (!this.drink.name) {
                     $(this.$refs.drinkName).addClass('error')
@@ -121,6 +136,8 @@
                         this.drink.flavor.Frutado += ingredient.sweet
                         this.drink.flavor.Amargo += ingredient.bitter
                         this.drink.flavor.Seco += ingredient.dry
+                        this.drink.flavor.Alcool += ingredient.alcohol
+
                     })
 
                     this.isNewDrink = false
@@ -191,10 +208,40 @@
 
 <style lang="css">
 
-.page{ margin-top: 80px; min-height: 100vh; }
+.page{ margin-top: 80px; min-height: 100vh; padding-bottom: 30px}
 
 .md-created-drink-chart{
     margin-top: 30px;
+}
+
+/* badge */
+.md-created-drink-chart .badges{
+    position: relative;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.badge-container{
+    width: 100%;
+    position: relative;
+    padding: 0 20px 20px 20px;
+    margin: 30px 0;
+}
+.badge:hover{ transform: none }
+
+.badge{ margin: 0 auto; width: 70px; height: 70px; }
+
+.badge span{
+    display: block;
+    width: 100%;
+    color: rgba(44, 62, 80, 1);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    text-transform: uppercase;
 }
 
 /* inputs floating label */
