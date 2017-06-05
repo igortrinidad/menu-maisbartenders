@@ -241,7 +241,7 @@
 
         methods: {
 
-            ...mapActions(['setLoading']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks']),
 
             initSwiper: function(){
                 var that = this;
@@ -321,6 +321,8 @@
 
                 that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
+
+                        that.addDrinkToSavedDrinks(drink) // this is a Vuex action
 
                         successNotify('', 'Drink salvo com sucesso!')
                         that.setLoading({is_loading: false, message: ''})

@@ -141,7 +141,7 @@
                                </router-link >
 
                                 <div v-if="isLogged">
-                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" 
+                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
                                     @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
                                         Salvar drink
                                     </button>
@@ -151,12 +151,12 @@
                                 </div>
 
                                 <div v-if="!isLogged">
-                                   <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para salvar drink
+                                   <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: '/evento/' + $route.params.event_slug}}">Faça login para salvar drink
                                    </router-link >
-                                  <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para compartilhar
+                                  <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: '/evento/' + $route.params.event_slug}}">Faça login para compartilhar
                                    </router-link >
                                 </div>
-                
+
                             </div>
                         </div>
                    </div>
@@ -231,7 +231,7 @@
                                 <p class="m-t-10">{{comment.phrase}}</p>
                                 <span class="text-right comment-date">Criado em: {{comment.created_at}}</span>
                             </span>
-                            
+
                         </div>
                         </span>
                     </div>
@@ -280,7 +280,7 @@
                     <p>Escolha uma frase e compartilhe a felicidade que você esta em participar dessa festa linda.</p>
                     <br>
 
-                    <p class="phrase" v-for="(phrase, index) in phrases" @click="interactions.phraseSelected = phrase" 
+                    <p class="phrase" v-for="(phrase, index) in phrases" @click="interactions.phraseSelected = phrase"
                     :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                 </div>
                 <div class="modal-footer">
@@ -385,7 +385,7 @@
 
             phrases: function(){
                 let that = this
-            
+
                 var phrases = [];
 
                 var phrase1 =  `Keep calm e toma um ${that.interactions.drinkSelected.name} no ${that.event.name}!`;
@@ -410,7 +410,7 @@
                 phrases.push(phrase1);
 
                 return phrases
-                
+
             },
 
         },
@@ -431,7 +431,7 @@
             },
         },
         methods: {
-            ...mapActions(['setLoading']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks']),
 
             openShareFacebook: function(){
                 let that = this
@@ -482,6 +482,8 @@
                 that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
 
+                        that.addDrinkToSavedDrinks(drink) // this is a Vuex action
+
                         successNotify('', 'Drink salvo com sucesso!')
                         that.setLoading({is_loading: false, message: ''})
                     })
@@ -495,7 +497,7 @@
 
             storeFacebookShare: function(drink){
                 let that = this
-            
+
                 var data = {
                     message: that.interactions.phraseSelected,
                     user_id: 123
@@ -508,7 +510,7 @@
                     .catch(function (error) {
                         console.log(error)
                     });
-                
+
             },
 
             getItemsByCategory: function(category) {
@@ -542,7 +544,7 @@
 
             getEvent: function(){
                 let that = this
-                    
+
                 that.setLoading({is_loading: true, message: ''})
 
                 that.$http.get('/events/show/' + that.$route.params.event_slug)
@@ -558,12 +560,12 @@
                         that.eventFound = false;
                         that.setLoading({is_loading: false, message: ''})
                     });
-                
+
             },
 
             initPageScroll: function(){
                 let that = this
-            
+
                 $('a.page-scroll').bind('click', function(event) {
                     var $anchor = $(this);
 

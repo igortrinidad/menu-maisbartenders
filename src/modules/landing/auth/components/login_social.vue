@@ -24,7 +24,8 @@
                 context: 'oauth2 context',
                 code: this.$route.query.code,
                 type: this.$route.params.type,
-                role: null
+                role: null,
+                redirect: '/'
             };
         },
         mounted() {
@@ -32,6 +33,16 @@
             if ((this.$auth.ready())) {
 
                 this.role = localStorage.getItem('role')
+
+                let redirect_to =  localStorage.getItem('redirect')
+
+                //handle if redirect
+                if(redirect_to != 'undefined' && redirect_to){
+                    this.redirect = redirect_to
+                    localStorage.removeItem('redirect')
+                }else{
+                    this.redirect = this.role  === 'admin' ? '/dashboard' : '/'
+                }
 
                 this.$auth.oauth2({
                     code: true,
@@ -42,7 +53,7 @@
                         user_id: this.currentUser ? this.currentUser.id : null,
                         role: this.role
                     },
-                    redirect: '/',
+                    redirect: this.redirect,
                     success: function (response) {
 
                         this.authSetToken(response.data.access_token) // this is a Vuex action

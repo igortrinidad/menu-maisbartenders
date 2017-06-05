@@ -221,7 +221,7 @@
         },
         methods: {
 
-            ...mapActions(['setLoading']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks']),
 
             openShareFacebook: function(){
                 let that = this
@@ -258,7 +258,7 @@
 
             },
 
-            addDrinkPreference: function(){
+            addDrinkPreference: function(drink){
                 let that = this
 
                 var data = {
@@ -270,6 +270,9 @@
 
                 that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
+
+                        that.addDrinkToSavedDrinks(drink) // this is a Vuex action
+
                         that.setLoading({is_loading: false, message: ''})
                         successNotify('', 'Drink salvo com sucesso!')
                     })

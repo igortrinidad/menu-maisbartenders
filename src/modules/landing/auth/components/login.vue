@@ -102,12 +102,12 @@
                 this.$auth.login({
                     url:'guest/auth/login',
                     fetchUser:true,
-                    params:{
+                    data:{
                         email: this.email,
                         password: this.password,
                     },
                     rememberMe: this.rememberMe,
-                    redirect: '/',
+                    redirect: this.$route.query.redirect ? this.$route.query.redirect : '/',
                     success (response) {
                         this.authSetToken(response.data.access_token) // this is a Vuex action
                         this.authSetUser(response.data.user) // this is a Vuex action
@@ -123,6 +123,7 @@
             socialLogin(type) {
                 localStorage.setItem('role', 'guest')
                 localStorage.setItem('provider', type)
+                localStorage.setItem('redirect', this.$route.query.redirect)
                 this.$auth.oauth2({
                     provider: type
                 });

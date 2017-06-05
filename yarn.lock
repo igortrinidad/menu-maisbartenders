@@ -5005,6 +5005,10 @@ sweetalert2@^6.4.2:
   version "6.6.1"
   resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-6.6.1.tgz#7c48a4617dcd664dcd5fe7f81e6cc9ba272ab581"
 
+sweetalert2@^6.6.4:
+  version "6.6.4"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-6.6.4.tgz#7799100c4dba878de2a9581b3f42d29f3dd1d9e0"
+
 swiper@^3.4.2:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/swiper/-/swiper-3.4.2.tgz#39d6b410b1a39833e1f72d3b72999df5f5e38392"
@@ -5378,6 +5382,10 @@ vue-loader@^11.1.4:
 vue-router@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-2.3.1.tgz#3135448cf57d4ca576906061a5a9d25fae0214d7"
+
+"vue-select@github:sagalbot/vue-select":
+  version "2.2.0"
+  resolved "https://codeload.github.com/sagalbot/vue-select/tar.gz/0ce49212524c0c4f1d6dd61d43d66bc7c276083f"
 
 vue-spinner@^1.0.2:
   version "1.0.2"

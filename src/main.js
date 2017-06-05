@@ -64,6 +64,12 @@ Vue.use(VueAuth, {
     googleOauth2Data: {
         clientId: googleClientId
     },
+    refreshData: {enabled: false},
+
+    parseUserData(data){
+        store.dispatch('authSetUser', data.data)
+        return data.data
+    }
 });
 
 Validator.updateDictionary({

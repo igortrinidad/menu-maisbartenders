@@ -11,8 +11,9 @@ export const userPhoto = ({user}) => {
     const current_provider = localStorage.getItem('provider')
 
 
-    if(!current_provider && user && user.photo_url){
-        return user.photo_url
+    if(!current_provider && user){
+
+        return user.photo_url ? user.photo_url : '/static/assets/user_avatar.jpg'
     }
 
     if(current_provider && (user && user.social_providers)){
