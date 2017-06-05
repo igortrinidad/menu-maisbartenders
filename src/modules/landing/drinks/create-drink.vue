@@ -5,20 +5,35 @@
                 <h2>Crie seu drink personalizado!</h2>
             </div>
 
-            <div class="float-label">
+            <div class="float-label" ref="drinkName">
                 <label>
-                    <input type="text" name="" value="" required>
+                    <input type="text" v-model="drink.name" required>
                     <span>Qual vai ser o nome para o seu drink?</span>
-
                 </label>
             </div>
 
-            <v-select :label="'name'" :options="ingredients" :multiple="true" placeholder="Selecione ingredientes para montar seu drink">
+            <v-select
+                :label="'name'"
+                :options="ingredients"
+                :multiple="true"
+                @on-change="createDrink('haha')"
+                placeholder="Selecione ingredientes para montar seu drink"
+            >
                 <span slot="no-options">Não foi possível localizar ingredientes :(</span>
             </v-select>
 
 
-            <canvas ref="createdDrinkChart" id="createdDrinkChart"></canvas>
+            <div class="md-created-drink-chart">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <canvas ref="createdDrinkChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" name="button" @click="setDrink()" v-if="displayCreateDrinkButton">
+                Criar drink!
+            </button>
 
         </div>
     </div>
@@ -35,10 +50,10 @@
         components: {vSelect},
         data () {
             return {
+                displayCreateDrinkButton: true,
                 ingredientsFetcheds: [],
-                createdDrink: [],
                 drink: {
-                    name: 'Trinidad',
+                    name: '',
                     flavor: {
                         Citrico: 5,
                         Frutado: 5,
@@ -107,10 +122,26 @@
 
         mounted(){
             this.getIngredientsByDrinks()
-            this.drawChart(this.$refs.createdDrinkChart)
         },
 
         methods: {
+
+            createDrink: function(item) {
+                console.log(item);
+            },
+
+            setDrink: function() {
+                if (!this.drink.name) {
+                    $(this.$refs.drinkName).addClass('error')
+                    console.log(this.$refs.drinkName);
+                }
+                else {
+                    this.displayCreateDrinkButton = false
+                    $(this.$refs.drinkName).removeClass('error')
+                    this.drawChart(this.$refs.createdDrinkChart)
+                }
+
+            },
 
             drawChart: function(el){
 
@@ -124,7 +155,7 @@
                         labels: keys,
                         datasets: [
                             {
-                                label: 'Drink 1',
+                                label: this.drink.name,
                                 backgroundColor: "RGBA(254, 209, 54, 0.3)",
                                 borderColor: "RGBA(254, 209, 54, 1.00)",
                                 data: values,
@@ -148,7 +179,7 @@
                                 display: !1
                             },
                             pointLabels: {
-                                fontSize: 20,
+                                fontSize: 16,
                                 fontColor: '#2c3e50'
                             }
                         }
@@ -175,7 +206,12 @@
 
 .page{ margin-top: 80px; min-height: 100vh; }
 
+.md-created-drink-chart{
+    margin-top: 30px;
+}
+
 /* inputs floating label */
+
 .float-label{
     width: 100%;
     position: relative;
@@ -207,7 +243,17 @@
 .float-label input:focus{ outline: none; }
 
 .float-label label input:valid + span,
-.float-label label input:focus + span{ top: 0; transition: ease .1s; font-size: 12px; }
+.float-label label input:focus + span{
+    top: 0;
+    transition: ease .1s;
+    font-size: 12px;
+    color: #2c3e50 !important;
+}
+
+.float-label.error label span { color: #d9534f; }
+.float-label.error label input { border-color: #d9534f; }
+.float-label label input:valid,
+.float-label.error label input:focus{ border-color: #2c3e50; }
 
 /* Form Control */
 .form-control {
