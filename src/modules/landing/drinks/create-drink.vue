@@ -97,15 +97,31 @@
         methods: {
 
             setDrink: function() {
-                console.log(this.selectedIngredients)
+                // reset values in update case
+                this.drink.flavor.Citrico = 0
+                this.drink.flavor.Frutado = 0
+                this.drink.flavor.Amargo = 0
+                this.drink.flavor.Seco = 0
+
                 if (!this.drink.name) {
                     $(this.$refs.drinkName).addClass('error')
                     errorNotify('', 'O nome do drink é obrigatório')
+                }
+                if (!this.selectedIngredients.length) {
+                    errorNotify('', 'Que tal adicionar alguns ingredientes ao seu drink?')
                 }
                 else {
 
                     if(!this.isNewDrink) successNotify('', `"${this.drink.name}" atualizado com sucesso!`)
                     else successNotify('', `"${this.drink.name}" criado com sucesso!`)
+
+                    // set each attr to created drink.
+                    this.selectedIngredients.map((ingredient) => {
+                        this.drink.flavor.Citrico += ingredient.suor
+                        this.drink.flavor.Frutado += ingredient.sweet
+                        this.drink.flavor.Amargo += ingredient.bitter
+                        this.drink.flavor.Seco += ingredient.dry
+                    })
 
                     this.isNewDrink = false
                     $(this.$refs.drinkName).removeClass('error')
@@ -148,7 +164,6 @@
                         scale: {
                             ticks: {
                                 beginAtZero: 0,
-                                display: !1
                             },
                             pointLabels: {
                                 fontSize: 16,
