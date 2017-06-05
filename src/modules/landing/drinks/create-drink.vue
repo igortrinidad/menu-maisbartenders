@@ -32,7 +32,9 @@
                             <div class="badge-container">
                                 <span class="badge">
                                     <img :src="guestBadge" alt="Drink Criado Por Um Convidado" title="Drink Criado Por Um Convidado">
-                                    <span>Drinks criados por convidados recebem essa medalha</span>
+                                </span>
+                                <span class="text">
+                                    Drinks criados por convidados recebem essa medalha
                                 </span>
                             </div>
                         </div>
@@ -44,10 +46,16 @@
                 </div>
             </div>
 
-            <button type="button" class="btn btn-primary btn-block m-t-10" name="button" @click="setDrink()">
-                <span v-if="isNewDrink">Criar drink!</span>
-                <span v-if="!isNewDrink">Atualizar drink!</span>
-            </button>
+            <div class="">
+                <div class="row">
+                    <div class="col-sm-12 button-container">
+                        <button type="button" class="btn btn-primary btn-block m-t-10" name="button" @click="setDrink()">
+                            <span v-if="isNewDrink">Criar drink!</span>
+                            <span v-if="!isNewDrink">Atualizar drink!</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -124,8 +132,12 @@
                 }
                 else {
 
-                    if(!this.isNewDrink) successNotify('', `"${this.drink.name}" atualizado com sucesso!`)
-                    else successNotify('', `"${this.drink.name}" criado com sucesso!`)
+                    if(!this.isNewDrink) {
+                        successNotify('', `"${this.drink.name}" atualizado com sucesso!`)
+                    }
+                    else {
+                        successNotify('', `"${this.drink.name}" criado com sucesso!`)
+                    }
 
                     // set each attr to created drink.
                     this.selectedIngredients.map((ingredient) => {
@@ -143,6 +155,10 @@
                 }
 
             },
+            //
+            // setFlavors: function() {
+            //
+            // },
 
             drawChart: function(el){
 
@@ -205,6 +221,7 @@
 
 <style scoped>
 
+.button-container{ margin-top: 30px; }
 .page{ margin-top: 80px; min-height: 100vh; padding-bottom: 30px}
 
 .md-created-drink-chart{
@@ -230,15 +247,15 @@
 
 .badge{ margin: 0 auto; width: 70px; height: 70px; }
 
-.badge span{
+.text{
     display: block;
     width: 100%;
     color: rgba(44, 62, 80, 1);
-    position: absolute;
-    bottom: 0;
-    left: 0;
     text-align: center;
     text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 20px
 }
 
 /* inputs floating label */
