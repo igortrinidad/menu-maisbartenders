@@ -16,6 +16,7 @@
                 :label="'name'"
                 :options="ingredients"
                 :multiple="true"
+                v-model="selectedIngredients"
                 @on-change="createDrink('haha')"
                 placeholder="Selecione ingredientes para montar seu drink"
             >
@@ -31,7 +32,7 @@
                 </div>
             </div>
 
-            <button type="button" name="button" @click="setDrink()">
+            <button type="button" class="btn btn-primary btn-block m-t-10" name="button" @click="setDrink()">
                 <span v-if="isNewDrink">Criar drink!</span>
                 <span v-if="!isNewDrink">Atualizar drink!</span>
             </button>
@@ -53,6 +54,7 @@
             return {
                 isNewDrink: true,
                 ingredientsFetcheds: [],
+                selectedIngredients: [],
                 drink: {
                     name: '',
                     flavor: {
@@ -95,7 +97,7 @@
         methods: {
 
             setDrink: function() {
-                console.log(this.ingredients)
+                console.log(this.selectedIngredients)
                 if (!this.drink.name) {
                     $(this.$refs.drinkName).addClass('error')
                     errorNotify('', 'O nome do drink é obrigatório')
