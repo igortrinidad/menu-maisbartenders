@@ -81,9 +81,9 @@
 
            <div class="mb-drinks">
                <div class="container">
-                   <div class="cols" :class="{ 'align-block': drinksFiltered.length === 2 }">
+                   <div class="cols">
                        <div v-for="(drink, index) in drinksFiltered" class="col">
-                           <div tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                           <div tag="div" class="box drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                <div class="badges">
                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal" data-target="#badge-help">
                                        <img :src="exclusiveBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">

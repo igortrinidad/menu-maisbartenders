@@ -21,9 +21,9 @@
 
         <div class="list-events">
                <div class="container">
-                   <div class="cols" :class="{ 'align-block': events.length === 2 }">
+                   <div class="cols">
                        <div v-for="(event, index) in events" class="col">
-                           <div tag="div" class="drink" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
+                           <div tag="div" class="box event" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
 
                                <router-link tag="span" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
                                 <img :src="event.photo_url" :alt="event.name" class="event-gallery-image">
