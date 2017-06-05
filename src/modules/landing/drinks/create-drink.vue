@@ -134,8 +134,10 @@
                 if (!this.drink.name) {
                     $(this.$refs.drinkName).addClass('error')
                     console.log(this.$refs.drinkName);
+                    errorNotify('', 'O nome do drink é obrigatório')
                 }
                 else {
+                    successNotify('', `"${this.drink.name}" criado com sucesso!`)
                     this.displayCreateDrinkButton = false
                     $(this.$refs.drinkName).removeClass('error')
                     this.drawChart(this.$refs.createdDrinkChart)
