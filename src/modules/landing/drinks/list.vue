@@ -1,7 +1,7 @@
 <template>
    <div class="page" id="header-page">
 
-       <div id="most-recommended" class="container">
+       <div class="container mb-most-recommended">
            <div class="text-center">
                <h2>Best Sellers</h2>
                <span class="sub">Aqui está uma lista com as principais recomendações para você.</span>
@@ -42,13 +42,7 @@
                        <span class="sub">Selecione os ingredientes de sua preferência.</span>
                    </div>
 
-                   <div class="tags-list">
-                       <div class="tags">
-
-                       </div>
-                   </div>
-
-                   <div class="tags-list">
+                   <div class="mb-tags">
                        <div class="tags">
                           <div class="tag">
                                <button type="button" :class="{'tag-selected': interactions.showTags}" @click="interactions.showTags = !interactions.showTags">
@@ -63,7 +57,7 @@
                        </div>
                    </div>
 
-                   <div class="tags-list" v-if="interactions.showTags">
+                   <div class="mb-tags" v-if="interactions.showTags">
                        <div class="tags">
                            <div class="tag" v-for="tag in tags">
                                 <!-- aqui eu preciso adicionar uma tag fixa 'button tag' e uma outra para cada tipo de categoria, fruta ou bebida,nao sei e o o melhor jeito assim: -->
@@ -82,12 +76,10 @@
 
                    <h5 class="m-l-5">Localizamos {{drinksFiltered.length}} drinks em 0,{{Math.floor(Math.random() * 11)}}s</h5>
 
-
-
                </div>
            </div>
 
-           <div class="list-drinks">
+           <div class="mb-drinks">
                <div class="container">
                    <div class="cols" :class="{ 'align-block': drinksFiltered.length === 2 }">
                        <div v-for="(drink, index) in drinksFiltered" class="col">
@@ -115,7 +107,7 @@
                                </router-link>
                                <div class="m-t-10 p-l-10" >
                                 <div v-if="isLogged">
-                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" 
+                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
                                     @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
                                         Salvar drink
                                     </button>
@@ -139,7 +131,7 @@
            </div>
       </section>
 
-      <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
+        <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -168,10 +160,7 @@
                             </div>
                         </div>
 
-
                         <br>
-
-
 
                     </div>
                     <div class="modal-footer">
@@ -179,7 +168,7 @@
                     </div>
                 </div>
             </div>
-      </div>
+        </div>
 
    </div>
 </template>
@@ -346,7 +335,7 @@
 
             initPageScroll: function(){
                 let that = this
-            
+
                 $('a.page-scroll').bind('click', function(event) {
                     var $anchor = $(this);
 
@@ -367,7 +356,6 @@
     text-transform: uppercase;
     display: block;
 }
-
 .btn-xl.all{
     font-weight: bold;
     margin: 20px 0;
@@ -376,243 +364,8 @@
 }
 
 /* Page & Grid*/
-
 .page{ margin-top: 80px; }
-
-#most-recommended{ margin: 20px auto; }
-
-#drinks{
-    background-color: rgba(44, 60, 80, .07);
-    padding: 80px 0;
-}
-.cols {
-    width: 100%;
-    column-count: 3;
-    column-gap: 0;
-
-}
-.col {
-    width: 100%;
-    display: inline-block;
-    padding: 5px;
-}
-
-.cols.align-block{ display: flex; }
-.cols.align-block .col{ width: 33.3333%; }
-
-@media(max-width: 768px) { .cols{ column-count: 2; } .cols.align-block .col{ width: 50%; } }
-@media(max-width: 414px) { .cols{ column-count: 1; } .cols.align-block { display: grid;} .cols.align-block .col{ width: 100%; } }
-
-/* Drinks & Drink Card */
-.list-drinks {
-    margin: 40px 0;
-}
-
-.drink{
-    padding: 20px;
-    border-radius: 4px;
-    background: #fff;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
-    position: relative;
-}
-.drink img{
-    max-width: 100%;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
-
-.badges + span{
-    cursor: pointer;
-}
-
-
-
-.drink .description{
-    display: block;
-    max-width: 100%;
-}
-
-.drink-name{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.drink .stars { margin-right: 3px; }
-
-/* Badge */
-.badges{
-    display: flex;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    cursor: pointer;
-}
-.badge{
-    width: 45px;
-    height: 45px;
-    border: 2px solid #fed136;
-    display: flex;
-    padding: 10px;
-    background: rgba(44, 62, 80, .8);
-    margin: 5px;
-    border-radius: 50%;
-}
-
-.modal-badge.badge{ margin: 20px auto; }
-
-.badge:hover{
-    transform: scale(1.05);
-}
-
-.badge:active{
-    transform: scale(1.00);
-}
-.badge img{
-    max-width: 100%;
-}
-.badge img.zoom{
-    transform: scale(1.1);
-}
-
-/* Filter */
-
-.filter{
-    /*padding: 0 10px;*/
-}
-
-.tags-list{
-    margin: 20px 0;
-}
-.tags{
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    align-content: center;
-    justify-content: center;
-}
-.tags .tag{
-    margin: 5px 10px 5px 0;
-    position: relative;
-}
-
-.tags .tag button {
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding:10px 25px 10px 25px;
-    color: rgba(255, 255, 255, .8);
-    border-radius: 30px;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-    position: relative;
-    color: #2c3e50;
-}
-.tags .tag button.tag-selected,
-.tags .tag button.button-tag {
-    color: #fff;
-}
-
-.tags .tag button.button-tag{ padding: 10px 35px 7px 25px ; }
-
-.close-tag{
-  position: absolute;
-  font-size: 16px;
-  right: 16px;
-  top: 6px;
-  font-weight: 400;
-  opacity: 0;
-}
-
-.tags .tag button i {
-    margin: 2.5px 0 0 10px;
-    font-size: 10px;
-}
-
-.tags .tag button:focus{ outline: none; }
-
-.button-tag{
-  opacity: 0.8;
-  background: #A6A19D;
-  font-size: 12px;
-  font-weight: 400;
-  transition: background-color 0.3s ease;
-}
-
-.tag:hover{
-    transform: scale(1.05);
-}
-
-.tag:active{
-    transform: scale(1.00);
-}
-
-.tag-selected >.close-tag{
-  opacity: 1;
-}
-.tag-selected{
-  opacity: 1;
-  background: #2C3E50;
-}
-/* Swiper Fix */
-
-.swiper-container{ margin: 30px 0; }
-.swiper-button-prev, .swiper-button-next{
-    top: 50%;
-    margin-top: -22px;
-}
-
-.swiper-button-prev{left: 3rem}
-.swiper-button-next{right: 3rem}
-
-.swiper-item-text{
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 2rem 3rem;
-    background: rgba(0, 0, 0, .6);
-    color: rgba(255, 255, 255, .8);
-
-}
-
-.swiper-image{
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
-.swiper-item-text .title{
-    margin: 0 0 5px 0;
-}
-.swiper-item-text .subtitle{
-    text-transform: uppercase;
-    letter-spacing: 0px;
-    max-width: 100%;
-    display: block;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow:  hidden;
-}
-@media(max-width: 414px){
-    .swiper-item-text{ padding: 2rem; }
-    .swiper-item-text .subtitle{ display: none; }
-}
-
-
-.swiper-stars{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: block;
-    padding: 3rem;
-    color: #fed136;
-    text-align: right;
-}
-.swiper-stars i{
-    margin-right: 10px;
-    font-size: 2rem;
-    text-shadow: 1px 3px 3px rgba(0, 0, 0, .2);
-}
+.mb-most-recommended{ margin: 20px auto; }
+#drinks{ background-color: rgba(44, 60, 80, .07); padding: 80px 0; }
 
 </style>

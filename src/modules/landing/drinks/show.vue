@@ -17,10 +17,10 @@
                 </div>
             </div>
         </header>
-        
+
         <div class="m-t-20 m-l-10">
             <div v-if="isLogged">
-                <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" 
+                <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
                 @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
                     Salvar drink
                 </button>
@@ -41,7 +41,7 @@
         <section id="drink">
             <div class="container">
 
-                
+
                 <div class="row">
                     <div class="col-lg-12 text-center">
 
@@ -267,7 +267,7 @@
                 }
 
                 that.setLoading({is_loading: true, message: ''})
-                
+
                 that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
                         that.setLoading({is_loading: false, message: ''})
@@ -323,7 +323,7 @@
 
             initPageScroll: function(){
                 let that = this
-            
+
                 $('a.page-scroll').bind('click', function(event) {
                     var $anchor = $(this);
 
@@ -339,46 +339,35 @@
 
 <style scoped>
 
-    .nutrition-disclaimer{
-        font-size: 12px;
-    }
+.nutrition-disclaimer{
+    font-size: 12px;
+}
 
-    /* Badge */
-    .badges{
-        display: flex;
-        justify-content: center;
-        align-content: center;
-    }
-    .badge-container{
-        width: 200px;
-        position: relative;
-        padding: 0 20px 20px 20px;
-    }
-    .badge{
-        width: 45px;
-        height: 45px;
-        border: 2px solid #fed136;
-        display: flex;
-        padding: 10px;
-        background: rgba(44, 62, 80, .8);
-        border-radius: 50%;
-        margin: 0 auto;
-    }
-    .badge img{
-        max-width: 100%;
-    }
-    .badge img.zoom{
-        transform: scale(1.1);
-    }
-    .badge span{
-        display: block;
-        width: 100%;
-        color: rgba(44, 62, 80, 1);
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        text-align: center;
-        text-transform: uppercase;
-    }
+/* Badge */
+.badges{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    position: relative;
+}
+.badge-container{
+    width: 200px;
+    position: relative;
+    padding: 0 20px 20px 20px;
+}
+.badge:hover{ transform: none }
+
+.badge{ margin: 0 auto; }
+
+.badge span{
+    display: block;
+    width: 100%;
+    color: rgba(44, 62, 80, 1);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    text-transform: uppercase;
+}
 
 </style>
