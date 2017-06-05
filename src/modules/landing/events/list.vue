@@ -1,22 +1,21 @@
 <template>
-   <div>
+   <div class="page">
 
 
-        <section>
-        <div class="container m-t-30 text-center">
-            <h1>Eventos</h1>
+        <div>
+            <div class="container m-t-30 text-center">
+                <h1>Eventos</h1>
 
-            <div class="form-group">
-                <input class="form-control" v-model="event_url" placeholder="Código de acesso do evento.">
+                <div class="form-group">
+                    <input class="form-control" v-model="event_url" placeholder="Código de acesso do evento.">
 
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" @click="eventGo()" :disabled="!event_url">Ir</button>
+                </div>
+                <p>Selecione um evento abaixo ou digite o código do evento.</p>
             </div>
-            <div class="form-group">
-                <button class="btn btn-primary btn-block" @click="eventGo()" :disabled="!event_url">Ir</button>
-            </div>
-            <p>Selecione um evento abaixo ou digite o código do evento.</p>
         </div>
-
-        </section>
 
 
         <div class="list-events">
@@ -107,8 +106,6 @@
 
 
 /* Page & Grid*/
-
-.page{ margin-top: 80px; }
 
 #drinks{
     background-color: rgba(44, 60, 80, .07);

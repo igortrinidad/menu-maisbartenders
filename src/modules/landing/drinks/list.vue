@@ -366,7 +366,6 @@
 }
 
 /* Page & Grid*/
-.page{ margin-top: 80px; }
 .mb-most-recommended{ margin: 20px auto; }
 #drinks{ background-color: rgba(44, 60, 80, .07); padding: 80px 0; }
 

@@ -34,6 +34,9 @@
 
 <style>
 
+
+.page{ margin-top: 80px; margin-bottom: 30px}
+
 /* grid pinterest style */
 
 .cols {
