@@ -206,7 +206,7 @@
     }
 </script>
 
-<style lang="css">
+<style scoped>
 
 .page{ margin-top: 80px; min-height: 100vh; padding-bottom: 30px}
 
