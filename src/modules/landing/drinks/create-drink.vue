@@ -62,13 +62,26 @@
                 </div>
             </div>
 
-            <div class="">
+            <div class="button-container">
                 <div class="row">
-                    <div class="col-sm-12 button-container">
-                        <button type="button" class="btn btn-primary btn-block m-t-10" name="button" @click="setDrink()">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-default btn-block m-t-10" name="button" @click="setDrink()">
                             <span v-if="isNewDrink">Criar drink!</span>
                             <span v-if="!isNewDrink">Atualizar drink!</span>
                         </button>
+                    </div>
+
+                    <div v-if="!isNewDrink">
+                        <div class="col-sm-6 col-xs-6">
+                            <router-link tag="button" :to="{name: 'landing.auth.login'}" class="btn btn-success btn-block m-t-10">
+                                Faça login para salvar
+                            </router-link >
+                        </div>
+                        <div class="col-sm-6 col-xs-6">
+                            <router-link tag="button" :to="{name: 'landing.auth.login'}" class="btn btn-default btn-block m-t-10 facebook">
+                                Faça login para compartilhar
+                            </router-link >
+                        </div>
                     </div>
                 </div>
             </div>
