@@ -109,10 +109,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        
                         <hr>
-
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
                             class="btn inline btn-xl m-t-30">
