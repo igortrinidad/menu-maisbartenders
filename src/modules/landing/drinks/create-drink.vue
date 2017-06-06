@@ -19,13 +19,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Nome do seu drink</label>
+                        <label>Nome do drink</label>
                         <input class="form-control" type="text" v-model="drink.name">
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
                 <label>Ingredientes</label>
                 <v-select
                     :label="'name'"
