@@ -22,7 +22,6 @@
                     :options="ingredients"
                     :multiple="true"
                     v-model="selectedIngredients"
-                    @on-change="createDrink('haha')"
                     placeholder="Selecione ingredientes para montar seu drink"
                 >
                     <span slot="no-options">Não foi possível localizar ingredientes :(</span>
@@ -52,7 +51,6 @@
                     :options="styles"
                     :multiple="false"
                     v-model="drink.style"
-                    @on-change="createDrink('haha')"
                     placeholder="Escolha o nível de alcool"
                 >
                     <span slot="no-options">Não foi possível localizar estilos :(</span>
