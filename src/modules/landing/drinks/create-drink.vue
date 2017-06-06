@@ -44,6 +44,20 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label>Estilo</label>
+                <v-select
+                    :label="'style'"
+                    :options="styles"
+                    :multiple="false"
+                    v-model="drink.style"
+                    @on-change="createDrink('haha')"
+                    placeholder="Escolha o nível de alcool"
+                >
+                    <span slot="no-options">Não foi possível localizar ingredientes :(</span>
+                </v-select>
+            </div>
+
             <div class="md-created-drink-chart">
                 <div class="row">
 
@@ -112,10 +126,12 @@
                 ingredientsFetcheds: [],
                 selectedIngredients: [],
                 presentations: ['Taça martini', 'Caneca'],
+                styles: ['Leve', 'Médio', 'Forte'],
                 guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
                     name: '',
                     presentation: '',
+                    style: '',
                     sour: 0,
                     sweet: 0,
                     bitter: 0,
