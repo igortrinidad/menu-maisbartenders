@@ -19,6 +19,14 @@
         <param name="ios-package" value="CDVSplashScreen" />
         <param name="onload" value="true" />
     </feature>
+    <content src="index.html" />
+    <feature name="Inject">
+        <param name="ios-package" value="Inject" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="ios-package" value="CDVInAppBrowser" />
+    </feature>
     <name>MaisBartenders</name>
     <description>
         Menu Interativo Mais bartenders.
@@ -26,7 +34,6 @@
     <author email="contato@maisbartenders.com.br" href="http://maisbartenders.com.br">
         Criado por We-Planner Soluções Tecnológicas
     </author>
-    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -36,7 +43,9 @@
     <allow-intent href="geo:*" />
     <allow-navigation href="http://menu.maisbartenders.com.br" />
     <allow-navigation href="http://menu.maisbartenders.com.br/*" />
+    <allow-navigation href="https://maisbartenders.com.br/*" />
     <allow-navigation href="https://www.facebook.com/*" />
+    <allow-navigation href="https://fonts.googleapis.com/*" />
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
     <icon height="57" src="resources/ios/icon/icon.png" width="57" />

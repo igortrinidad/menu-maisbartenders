@@ -14,5 +14,21 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "de.fastr.phonegap.plugins.injectView": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-fastrde-injectview@^0.2.0"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-inappbrowser": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-inappbrowser@1.7.1"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

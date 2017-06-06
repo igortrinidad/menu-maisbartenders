@@ -7,10 +7,16 @@
         "files": {}
     },
     "installed_plugins": {
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.br.menu.maisbartenders"
+        },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.br.menu.maisbartenders"
         },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.br.menu.maisbartenders"
+        },
+        "de.fastr.phonegap.plugins.injectView": {
             "PACKAGE_NAME": "com.br.menu.maisbartenders"
         }
     },

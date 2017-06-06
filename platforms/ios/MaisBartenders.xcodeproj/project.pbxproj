@@ -17,6 +17,9 @@
 		3047A5141AB8059700498E2A /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5111AB8059700498E2A /* build.xcconfig */; };
 		7895ECAA113841CDBEC82DDB /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 821506325D5D4DC597C7F071 /* CDVViewController+SplashScreen.m */; };
 		BC04AE2CCE36459A988D9E37 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E70E12D5DF341759B551C2B /* CDVSplashScreen.m */; };
+		2C3431CFBC53402782909D44 /* CDVInject.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E37CF1891B4F49A649C135 /* CDVInject.m */; };
+		D8051AE719BE4F69916629A8 /* CDVInjectWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C3BC9D5C46241659385C64E /* CDVInjectWebViewDelegate.m */; };
+		55AB6AB5E581413994B35FB2 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B5A45E39054783953DE20A /* CDVInAppBrowser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +63,12 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = MaisBartenders/config.xml; sourceTree = "<group>"; };
+		A3E37CF1891B4F49A649C135 /* CDVInject.m */ = {isa = PBXFileReference; name = "CDVInject.m"; path = "de.fastr.phonegap.plugins.injectView/CDVInject.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		7C3BC9D5C46241659385C64E /* CDVInjectWebViewDelegate.m */ = {isa = PBXFileReference; name = "CDVInjectWebViewDelegate.m"; path = "de.fastr.phonegap.plugins.injectView/CDVInjectWebViewDelegate.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		7DC87EEAA30E45749FA5BF24 /* CDVInject.h */ = {isa = PBXFileReference; name = "CDVInject.h"; path = "de.fastr.phonegap.plugins.injectView/CDVInject.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		55A2E9B94FB3480D8542085B /* CDVInjectWebViewDelegate.h */ = {isa = PBXFileReference; name = "CDVInjectWebViewDelegate.h"; path = "de.fastr.phonegap.plugins.injectView/CDVInjectWebViewDelegate.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		C5B5A45E39054783953DE20A /* CDVInAppBrowser.m */ = {isa = PBXFileReference; name = "CDVInAppBrowser.m"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		D1D8C150D4F74FEC9F749512 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; name = "CDVInAppBrowser.h"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +175,12 @@
 				821506325D5D4DC597C7F071 /* CDVViewController+SplashScreen.m */,
 				5CF48BC37BB949B59E569FC1 /* CDVSplashScreen.h */,
 				A6F7C71951914B1CBCC35124 /* CDVViewController+SplashScreen.h */,
+				A3E37CF1891B4F49A649C135 /* CDVInject.m */,
+				7C3BC9D5C46241659385C64E /* CDVInjectWebViewDelegate.m */,
+				7DC87EEAA30E45749FA5BF24 /* CDVInject.h */,
+				55A2E9B94FB3480D8542085B /* CDVInjectWebViewDelegate.h */,
+				C5B5A45E39054783953DE20A /* CDVInAppBrowser.m */,
+				D1D8C150D4F74FEC9F749512 /* CDVInAppBrowser.h */,
 			);
 			name = Plugins;
 			path = MaisBartenders/Plugins;
@@ -285,6 +300,9 @@
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				BC04AE2CCE36459A988D9E37 /* CDVSplashScreen.m in Sources */,
 				7895ECAA113841CDBEC82DDB /* CDVViewController+SplashScreen.m in Sources */,
+				2C3431CFBC53402782909D44 /* CDVInject.m in Sources */,
+				D8051AE719BE4F69916629A8 /* CDVInjectWebViewDelegate.m in Sources */,
+				55AB6AB5E581413994B35FB2 /* CDVInAppBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

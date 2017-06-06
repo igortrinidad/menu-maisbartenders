@@ -16,6 +16,12 @@
         "@websanova/vue-auth": "^2.9.1-beta",
         "axios": "^0.16.0",
         "chart.js": "^2.6.0",
+        "cordova-android": "^6.2.3",
+        "cordova-browser": "^4.1.0",
+        "cordova-plugin-fastrde-injectview": "^0.2.0",
+        "cordova-plugin-inappbrowser": "^1.7.1",
+        "cordova-plugin-whitelist": "1",
+        "de.fastr.phonegap.plugins.injectView": "~0.2.0",
         "font-awesome": "^4.7.0",
         "izitoast": "^1.1.1",
         "jquery": "^3.2.1",
@@ -32,8 +38,7 @@
         "vue-select": "github:sagalbot/vue-select",
         "vue-spinner": "^1.0.2",
         "vue-sweetalert": "^0.1.17",
-        "vuex": "^2.2.1",
-        "cordova-plugin-whitelist": "1"
+        "vuex": "^2.2.1"
     },
     "devDependencies": {
         "autoprefixer": "^6.7.2",
@@ -83,7 +88,13 @@
     ],
     "cordova": {
         "plugins": {
-            "cordova-plugin-whitelist": {}
-        }
+            "cordova-plugin-whitelist": {},
+            "de.fastr.phonegap.plugins.injectView": {},
+            "cordova-plugin-inappbrowser": {}
+        },
+        "platforms": [
+            "android",
+            "browser"
+        ]
     }
 }

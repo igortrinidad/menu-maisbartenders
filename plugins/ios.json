@@ -12,6 +12,12 @@
         },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.menu.maisbartenders"
+        },
+        "de.fastr.phonegap.plugins.injectView": {
+            "PACKAGE_NAME": "com.br.menu.maisbartenders"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.br.menu.maisbartenders"
         }
     },
     "dependent_plugins": {}

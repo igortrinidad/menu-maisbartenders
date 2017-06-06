@@ -6,6 +6,7 @@
 
 
         <h2 style="margin-top:200px">{{$route.path}}</h2>
+        <p>{{location}}</p>
 
         <router-view></router-view>
 
@@ -29,8 +30,11 @@
         },
         data(){
             return{
-
+                location: null
             }
+        },
+        mounted(){
+            this.location = window.location.href
         }
     }
 </script>

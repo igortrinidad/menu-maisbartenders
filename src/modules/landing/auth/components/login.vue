@@ -89,6 +89,9 @@
         },
         mounted(){
 
+            if(window.cordova){
+                openFB.init({appId: '262783620860879'});
+            }
         },
         methods: {
             /**
@@ -133,9 +136,23 @@
              */
             facebookLogin(){
                 let that = this
-                FB.login(function(response) {
-                    that.statusChangeCallback(response)
-                }, {scope: 'public_profile,email'});
+
+                if(window.cordova){
+                    openFB.login(
+                        function(response) {
+                            if(response.status === 'connected') {
+                                that.statusChangeCallback(response)
+                            } else {
+                                alert('Facebook login failed: ' + response.error);
+                            }
+                        }, {scope: 'public_profile,email'});
+                }
+
+               if(!window.cordova){
+                   FB.login(function(response) {
+                       that.statusChangeCallback(response)
+                   }, {scope: 'public_profile,email'});
+               }
             },
 
             checkLoginState() {
@@ -156,9 +173,6 @@
                 if (response.status === 'connected') {
                     // Logged into your app and Facebook.
                     that.testAPI(response.authResponse.accessToken);
-
-
-
                 } else {
                     // The person is not logged into your app or we are unable to tell.
                   alert('Please log into this app.')
@@ -168,15 +182,33 @@
             testAPI(accessToken) {
                 let that = this
                 console.log('Welcome!  Fetching your information.... ');
-                FB.api('/me', {fields: 'name,first_name, last_name, email' }, function(response) {
-                    console.log('Successful login for: ' + response.name);
+                if(window.cordova){
+                    openFB.api({
+                        path: '/v2.8/me',
+                        params: { "access_token": accessToken, "fields":"id,name,first_name,last_name,email" },
+                        success: function(response) {
 
-                    response.photo_url = 'https://graph.facebook.com/' + response.id + '/picture?type=normal';
-                    response.access_token = accessToken;
-                    response.role = 'guest';
+                            response.photo_url = 'https://graph.facebook.com/' + response.id + '/picture?type=normal';
+                            response.access_token = accessToken;
+                            response.role = 'guest';
 
-                    that.socialLoginTest(response)
-                });
+                            that.socialLoginTest(response)
+                        },
+                        error: that.errorHandler
+                    })
+                }
+
+                if(!window.cordova){
+                    FB.api('/me', {fields: 'name,first_name, last_name, email' }, function(response) {
+                        console.log('Successful login for: ' + response.name);
+
+                        response.photo_url = 'https://graph.facebook.com/' + response.id + '/picture?type=normal';
+                        response.access_token = accessToken;
+                        response.role = 'guest';
+
+                        that.socialLoginTest(response)
+                    });
+                }
             },
 
             socialLoginTest(response){
@@ -198,6 +230,10 @@
                     .catch(function (error) {
                         errorNotify('Ops!', 'Erro ao efetuar login.')
                     });
+            },
+
+            errorHandler(error) {
+                alert(error.message);
             }
         }
     }
