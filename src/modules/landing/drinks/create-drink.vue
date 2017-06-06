@@ -346,10 +346,14 @@ canvas{ padding: 15px}
     max-width: 100%;
     filter: grayscale(1);
     transition: ease .3s;
+    border-radius: 4px;
+    box-sizing: border-box !important;
+    border: 2px solid transparent;
 }
 .presentation.active img{
     filter: grayscale(0);
     transition: ease .3s;
+    border: 2px solid #2c3e50;
 }
 
 .presentation .text-center{
