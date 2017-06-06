@@ -1,8 +1,8 @@
 <template lang="html">
-    <div>
+    <div class="page">
         <div class="container">
 
-            <div>
+            <!-- <div>
                 <div class="row">
                     <div class="col-sm-12">
                         <router-link tag="button" :to="{name: 'landing.drinks.list'}" class="btn btn-primary btn-back">
@@ -10,7 +10,7 @@
                         </router-link >
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="text-center">
                 <h2>Crie seu drink personalizado!</h2>
@@ -43,10 +43,10 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-3 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
-                        <div ref="presentation" class="presentation" @click="setPresentation(presentation, $event)">
-                            <img src="../../../assets/mockup/martini.png">
+                        <div ref="presentation" class="presentation" @click="setPresentation(presentation.name, $event)">
+                            <img :src="presentation.path">
                             <div class="text-center">
-                                <span>{{ presentation }}
+                                <span>{{ presentation.name }}
                                     <i class="fa fa-check"></i>
                                 </span>
                             </div>
@@ -136,7 +136,13 @@
                 isNewDrink: true,
                 ingredientsFetcheds: [],
                 selectedIngredients: [],
-                presentations: ['Taça martini', 'Caneca'],
+                presentations: [
+                    { name: 'High ball', path: '/static/img/high_ball.4cf875a.png' },
+                    { name: 'Ilha bela alto', path: '/static/img/ilha_bela_alto.8f89e9a.png' },
+                    { name: 'Ilha bela baixo', path: '/static/img/ilha_bela_baixo.a0d2a29.png' },
+                    { name: 'Margarita', path: '/static/img/margarita.bb21ca9.png' },
+                    { name: 'Taça martini', path: '/static/img/martini.f298167.png' }
+                ],
                 styles: ['Leve', 'Médio', 'Forte'],
                 guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
@@ -326,7 +332,9 @@
     height: 70px;
 }
 /* presentations */
-
+.presentation{
+    margin: 15px 0;
+}
 .presentation img{
     max-width: 100%;
     filter: grayscale(1);
