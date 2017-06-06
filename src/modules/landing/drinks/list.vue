@@ -71,6 +71,10 @@
                                    <span class="close-tag">x</span>
                                 </button>
                            </div>
+                           <div class="tag">
+
+                               <button class="button-tag" @click="displayGuestDrinks()">drink de convidados</button>
+                           </div>
                        </div>
                    </div>
 
@@ -81,8 +85,13 @@
 
            <div class="mb-drinks">
                <div class="container">
+
+                   <div v-for="(drink, index) in guestDrinks" v-if="interactions.showGuestDrinks">
+                       {{ drink.name }}
+                   </div>
+
                    <div class="cols">
-                       <div v-for="(drink, index) in drinksFiltered" class="col">
+                       <div v-for="(drink, index) in drinksFiltered" v-if="!interactions.showGuestDrinks" class="col">
                            <div tag="div" class="box drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                <div class="badges">
                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal" data-target="#badge-help">
@@ -105,16 +114,16 @@
                                 </div>
 
                                </router-link>
-                               <div class="m-t-10 p-l-10" >
-                                <div v-if="isLogged">
-                                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
-                                    @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
-                                        Salvar drink
-                                    </button>
-                                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5" :to="{name: 'landing.user.preferences'}" v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">Drink salvo <i class="fa fa-check"></i>
-                                   </router-link >
-                                    <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
-                                </div>
+                                <div class="m-t-10" >
+                                    <div v-if="isLogged">
+                                        <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
+                                            @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                                            Salvar drink
+                                        </button>
+                                        <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5" :to="{name: 'landing.user.preferences'}" v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">Drink salvo <i class="fa fa-check"></i>
+                                        </router-link >
+                                        <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
+                                    </div>
 
                                 <div v-if="!isLogged">
                                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para salvar o drink
@@ -126,6 +135,19 @@
                             </div>
 
                         </div>
+                   </div>
+               </div>
+           </div>
+           <div class="container">
+               <hr class="gray">
+               <div class="row">
+                   <div class="col-sm-12">
+                       <div class="text-center">
+                           <h3>Ainda não decidiu? O que acha de criar agora mesmo o seu prório drink?</h3>
+                           <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.createdrink' }">
+                               Crie seu drink!
+                           </router-link>
+                       </div>
                    </div>
                </div>
            </div>
@@ -191,10 +213,12 @@
         data () {
             return {
                 interactions: {
-                    showTags: false
+                    showTags: false,
+                    showGuestDrinks: false
               },
               drinkFetcheds: [],
               filterOptions: [],
+              guestDrinks: [],
               exclusiveBadge: '../../../../static/assets/king.png',
               starBadge: '../../../../static/assets/star.png',
             }
@@ -237,7 +261,6 @@
             },
 
             especialDrinks: function(){
-
                 return this.drinks.map((drink) => drink.priority >= 4 ? drink : undefined).filter((drink) => drink !== undefined)
             },
         },
@@ -292,6 +315,11 @@
 
             clearFilter: function() {
                 this.filterOptions = []
+            },
+
+            displayGuestDrinks: function() {
+                this.interactions.showGuestDrinks = true
+                this.guestDrinks = JSON.parse(localStorage.getItem('guestDrink'))
             },
 
             getDrinks: function(){

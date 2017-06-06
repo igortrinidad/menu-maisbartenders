@@ -1,6 +1,7 @@
 <template lang="html">
-    <div>
+    <div class="page">
         <div class="container">
+
             <div class="text-center">
                 <h2>Crie seu drink personalizado!</h2>
             </div>
@@ -8,20 +9,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Nome do seu drink</label>
+                        <label>Nome do drink</label>
                         <input class="form-control" type="text" v-model="drink.name">
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="position: relative;">
                 <label>Ingredientes</label>
                 <v-select
                     :label="'name'"
                     :options="ingredients"
                     :multiple="true"
                     v-model="selectedIngredients"
-                    @on-change="createDrink('haha')"
                     placeholder="Selecione ingredientes para montar seu drink"
                 >
                     <span slot="no-options">Não foi possível localizar ingredientes :(</span>
@@ -30,12 +30,32 @@
             
             <label>Apresentação</label>
             <div class="form-group">
-                
-                <div class="col-md-3 col-xs-6">
-                    <img src="../../../assets/mockup/martini.png" width="100%">
+                <div class="row">
+                    <div class="col-md-3 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
+                        <div ref="presentation" class="presentation" @click="setPresentation(presentation.name, $event)">
+                            <img :src="presentation.path">
+                            <div class="text-center">
+                                <span>{{ presentation.name }}
+                                    <i class="fa fa-check"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <div class="form-group">
+                <label>Estilo</label>
+                <v-select
+                    :label="'name'"
+                    :options="styles"
+                    :multiple="false"
+                    v-model="drink.style"
+                    placeholder="Escolha o nível de alcool"
+                >
+                    <span slot="no-options">Não foi possível localizar estilos :(</span>
+                </v-select>
+            </div>
 
             <div class="md-created-drink-chart">
                 <div class="row">
@@ -68,6 +88,19 @@
                         </button>
                     </div>
                 </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="text-center">
+                            <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.list' }">
+                                Ir para cardápio completo
+                            </router-link>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -88,6 +121,19 @@
                 isNewDrink: true,
                 ingredientsFetcheds: [],
                 selectedIngredients: [],
+                presentations: [
+                    { name: 'High ball', path: '/static/img/high_ball.4cf875a.png' },
+                    { name: 'Ilha bela alto', path: '/static/img/ilha_bela_alto.8f89e9a.png' },
+                    { name: 'Ilha bela baixo', path: '/static/img/ilha_bela_baixo.a0d2a29.png' },
+                    { name: 'Margarita', path: '/static/img/margarita.bb21ca9.png' },
+                    { name: 'Taça martini', path: '/static/img/martini.f298167.png' }
+                ],
+                styles: [
+                    { name: 'Leve', value: 2.5 },
+                    { name: 'Normal', value: 5.0 },
+                    { name: 'Forte', value: 7.5 },
+                    { name: 'Super Forte', value: 10.0 },
+                ],
                 guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
                     name: '',
@@ -136,18 +182,10 @@
                     errorNotify('', !this.drink.name ? 'Nome do drink é obrigatório' : 'Que tal adicionar alguns ingredientes ao seu drink?')
                 }
                 else {
-
-                    if(!this.isNewDrink) {
-                        successNotify('', `"${this.drink.name}" atualizado com sucesso!`)
-                    }
-                    else {
-                        successNotify('', `"${this.drink.name}" criado com sucesso!`)
-                    }
-
-
-
                     this.isNewDrink = false
-                    $(this.$refs.drinkName).removeClass('error')
+                    this.drink.items = this.selectedIngredients
+                    console.log(this.drink)
+                    successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
 
@@ -164,9 +202,10 @@
                 this.drink.bitter = 0
                 this.drink.dry = 0
 
-                const keys = ['Cítrico/Refrescante', 'Frutado/Doce','Amargo','Seco'];
+                const keys = ['Alcool', 'Cítrico','Amargo', 'Doce', 'Seco'];
 
                 const values = [
+                    this.drink.style.value,
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sour,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sweet,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.bitter,0),
@@ -253,6 +292,39 @@
 }
 .badge:hover{ transform: none }
 
-.badge{ margin: 0 auto; width: 70px; height: 70px; }
+.badge{
+    margin: 0 auto 20px auto;
+    width: 70px;
+    height: 70px;
+}
+
+/* presentations */
+.presentation{
+    margin: 15px 0;
+}
+.presentation img{
+    max-width: 100%;
+    filter: grayscale(1);
+    transition: ease .3s;
+    border-radius: 4px;
+    box-sizing: border-box !important;
+    border: 2px solid transparent;
+}
+.presentation.active img{
+    filter: grayscale(0);
+    transition: ease .3s;
+    border: 2px solid #2c3e50;
+}
+
+.presentation .text-center{
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2c3e50;
+    margin-top: 10px
+}
+
+.presentation i{ display: none; }
+.presentation.active i{ display: inline; }
+
 
 </style>
