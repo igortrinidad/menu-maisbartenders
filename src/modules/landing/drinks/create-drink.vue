@@ -116,6 +116,19 @@
                         </div>
                     </div>
                 </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="text-center">
+                            <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.list' }">
+                                Ir para cardápio completo
+                            </router-link>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -337,6 +350,7 @@
     width: 70px;
     height: 70px;
 }
+
 /* presentations */
 .presentation{
     margin: 15px 0;

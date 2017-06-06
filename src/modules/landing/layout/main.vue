@@ -38,10 +38,14 @@
 
 <style>
 
-/* btn-center */
-.btn-center{ margin: 20px auto; display: block; }
+/* back section */
 
-/* btn-back */
+hr.gray{ border-color: #2c3e50; }
+
+.btn-xl{
+    font-weight: 700 !important;
+    color: #2c3e50;
+}
 
 .btn-back i{ margin-right: 10px }
 
