@@ -7,6 +7,7 @@ module.exports = {
     index: path.resolve(__dirname, '../www/index.html'),
     assetsRoot: path.resolve(__dirname, '../www'),
     assetsSubDirectory: 'static',
+    publicPath: '/',
     assetsPublicPath: './',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
@@ -34,5 +35,5 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: false
-  }
+  },
 }

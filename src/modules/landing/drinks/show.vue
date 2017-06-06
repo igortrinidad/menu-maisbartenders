@@ -50,13 +50,13 @@
                         <div class="badges">
                             <div class="badge-container" v-if="drink.is_exclusive">
                                 <span class="badge">
-                                    <img src="https://maisbartenders.com.br/assets/menu_app/king.png" alt="DRINK EXCLUSIVO" title="DRINK EXCLUSIVO">
+                                    <img :src="exclusiveBadge" alt="DRINK EXCLUSIVO" title="DRINK EXCLUSIVO">
                                     <span>Drink Exclusivo</span>
                                 </span>
                             </div>
                             <div class="badge-container" v-if="drink.priority >= 4">
                                 <span class="badge">
-                                    <img class="zoom" src="https://maisbartenders.com.br/assets/menu_app/star.png" alt="BEST SELLER" title="BESTE SELLER">
+                                    <img class="zoom" src="../../../../static/assets/star.png" alt="BEST SELLER" title="BESTE SELLER">
                                     <span>Best Sellers</span>
                                 </span>
                             </div>
@@ -174,8 +174,7 @@
                 drink: drinkObj,
                 displayDrinks: false,
                 nutritional_facts: [],
-                exclusiveBadge: '../../../../static/assets/king.png',
-                starBadge: '../../../../static/assets/star.png',
+                exclusiveBadge: '/static/assets/king.png',
             }
         },
         computed:{
