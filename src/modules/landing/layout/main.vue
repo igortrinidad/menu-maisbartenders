@@ -444,7 +444,7 @@
 
 .v-select .selected-tag .close {
     position: relative;
-    top: 2.8px;
+    top: 3px;
     color: #2c3e50 !important;
     opacity: .8 !important;
 }
