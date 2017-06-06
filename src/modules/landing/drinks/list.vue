@@ -138,6 +138,18 @@
                    </div>
                </div>
            </div>
+           <div class="container">
+               <div class="row">
+                   <div class="col-sm-12">
+                       <div class="text-center">
+                           <h3>Ainda não decidiu? O que acha de criar agora mesmo o seu prório drink?</h3>
+                       </div>
+                       <router-link tag="button" class="btn btn-default btn-center btn-center" :to="{ name: 'landing.drinks.createdrink' }">
+                           Crie seu drink!
+                       </router-link>
+                   </div>
+               </div>
+           </div>
       </section>
 
         <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">

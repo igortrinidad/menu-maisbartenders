@@ -38,6 +38,9 @@
 
 <style>
 
+/* btn-center */
+.btn-center{ margin: 20px auto; display: block; }
+
 /* btn-back */
 
 .btn-back i{ margin-right: 10px }

@@ -60,6 +60,13 @@ export default [
             },
 
             {
+                name: 'landing.drinks.createdrink',
+                path: '/crie-seu-drink-exemplo',
+                component: CreateDrink,
+                meta: { requiresAuth: false},
+            },
+
+            {
                 name: 'landing.user.show',
                 path: '/perfil',
                 component: UserShow,
@@ -77,13 +84,6 @@ export default [
                 name: 'landing.user.testchart',
                 path: '/test-chart',
                 component: TestChart,
-                meta: { requiresAuth: false},
-            },
-
-            {
-                name: 'landing.user.createdrink',
-                path: '/crie-seu-drink-exemplo',
-                component: CreateDrink,
                 meta: { requiresAuth: false},
             },
 
