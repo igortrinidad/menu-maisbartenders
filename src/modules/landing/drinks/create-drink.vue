@@ -65,7 +65,7 @@
                     @on-change="createDrink('haha')"
                     placeholder="Escolha o nível de alcool"
                 >
-                    <span slot="no-options">Não foi possível localizar ingredientes :(</span>
+                    <span slot="no-options">Não foi possível localizar estilos :(</span>
                 </v-select>
             </div>
 
