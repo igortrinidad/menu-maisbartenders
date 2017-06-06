@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <router-link tag="button" :to="{name: 'landing.drinks.list'}" class="btn btn-primary btn-back">
-                            <i class="fa fa-chevron-left"></i>Voltar para lista de drinks
+                            <i class="fa fa-chevron-left"></i> Lista de drinks
                         </router-link >
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-6 col-sm-offset-3" :class="{ 'canvas-empty': isNewDrink }">
                         <canvas ref="createdDrinkChart"></canvas>
                     </div>
                 </div>
@@ -201,12 +201,10 @@
                     errorNotify('', validate.message)
                 }
                 else {
+                    this.isNewDrink = false
+                    this.drink.items = this.selectedIngredients
 
                     successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
-
-                    this.drink.items = this.selectedIngredients
-                    this.isNewDrink = false
-                    console.log(this.drink)
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
 
@@ -237,7 +235,7 @@
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.bitter,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sweet,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.dry,0)
-                ];
+                ]
 
                 if (this.chart) this.chart.destroy()
                 this.chart = new Chart(el, {
@@ -295,6 +293,9 @@
 </script>
 
 <style scoped>
+
+/* chart */
+.canvas-empty{ height: 0; }
 
 .button-container{ margin: 30px 0; }
 
