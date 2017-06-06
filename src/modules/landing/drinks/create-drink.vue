@@ -31,8 +31,15 @@
             <label>Apresentação</label>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-3 col-xs-6">
-                        <img src="../../../assets/mockup/martini.png" width="100%">
+                    <div class="col-md-3 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
+                        <div ref="presentation" class="presentation" @click="setPresentation(presentation, $event)">
+                            <img src="../../../assets/mockup/martini.png">
+                            <div class="text-center">
+                                <span>{{ presentation }}
+                                    <i class="fa fa-check"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,16 +111,17 @@
                 isNewDrink: true,
                 ingredientsFetcheds: [],
                 selectedIngredients: [],
+                presentations: ['Taça martini', 'Caneca'],
                 guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
                     name: '',
+                    presentation: '',
                     sour: 0,
                     sweet: 0,
                     bitter: 0,
                     dry: 0,
                     alcohol: 0,
-                    items: [
-                    ]
+                    items: []
                 }
             }
         },
@@ -144,6 +152,12 @@
         },
 
         methods: {
+
+            setPresentation: function(presentation, event) {
+                $(this.$refs.presentation).removeClass('active')
+                $(event.target.parentNode).addClass('active')
+                this.drink.presentation = presentation
+            },
 
             setDrink: function() {
 
@@ -263,5 +277,27 @@
     width: 70px;
     height: 70px;
 }
+/* presentations */
+
+.presentation img{
+    max-width: 100%;
+    filter: grayscale(1);
+    transition: ease .3s;
+}
+.presentation.active img{
+    filter: grayscale(0);
+    transition: ease .3s;
+}
+
+.presentation .text-center{
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #2c3e50;
+    margin-top: 10px
+}
+
+.presentation i{ display: none; }
+.presentation.active i{ display: inline; }
+
 
 </style>
