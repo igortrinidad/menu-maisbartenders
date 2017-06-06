@@ -122,7 +122,8 @@
                 })
 
                 return _.orderBy(arr, 'category', 'asc');
-            }
+            },
+
         },
 
         mounted(){
@@ -132,7 +133,6 @@
         methods: {
 
             setDrink: function() {
-                // reset values in update case
 
                 if (!this.drink.name || !this.selectedIngredients.length) {
                     errorNotify('', !this.drink.name ? 'Nome do drink é obrigatório' : 'Que tal adicionar alguns ingredientes ao seu drink?')
@@ -141,6 +141,8 @@
 
                     successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
 
+                    this.drink.items = this.selectedIngredients
+                    console.log(this.drink);
                     this.isNewDrink = false
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
