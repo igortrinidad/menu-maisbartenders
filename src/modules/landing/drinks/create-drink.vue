@@ -1,27 +1,40 @@
 <template lang="html">
-    <div class="page">
+    <div>
         <div class="container">
             <div class="text-center">
                 <h2>Crie seu drink personalizado!</h2>
             </div>
 
-            <div class="float-label" ref="drinkName">
-                <label>
-                    <input type="text" v-model="drink.name" required>
-                    <span>Qual vai ser o nome para o seu drink?</span>
-                </label>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Nome do seu drink</label>
+                        <input class="form-control" type="text" v-model="drink.name">
+                    </div>
+                </div>
             </div>
 
-            <v-select
-                :label="'name'"
-                :options="ingredients"
-                :multiple="true"
-                v-model="selectedIngredients"
-                @on-change="createDrink('haha')"
-                placeholder="Selecione ingredientes para montar seu drink"
-            >
-                <span slot="no-options">Não foi possível localizar ingredientes :(</span>
-            </v-select>
+            <div class="form-group">
+                <label>Ingredientes</label>
+                <v-select
+                    :label="'name'"
+                    :options="ingredients"
+                    :multiple="true"
+                    v-model="selectedIngredients"
+                    @on-change="createDrink('haha')"
+                    placeholder="Selecione ingredientes para montar seu drink"
+                >
+                    <span slot="no-options">Não foi possível localizar ingredientes :(</span>
+                </v-select>
+            </div>
+            
+            <label>Apresentação</label>
+            <div class="form-group">
+                
+                <div class="col-md-3 col-xs-6">
+                    <img src="../../../assets/mockup/martini.png" width="100%">
+                </div>
+            </div>
 
 
             <div class="md-created-drink-chart">
@@ -40,7 +53,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-6 col-sm-offset-3">
                         <canvas ref="createdDrinkChart"></canvas>
                     </div>
                 </div>
@@ -78,13 +91,11 @@
                 guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
                     name: '',
-                    flavor: {
-                        Citrico: 0,
-                        Frutado: 0,
-                        Amargo: 0,
-                        Seco: 0,
-                        Alcool: 0
-                    },
+                    sour: 0,
+                    sweet: 0,
+                    bitter: 0,
+                    dry: 0,
+                    alcohol: 0,
                     items: [
                     ]
                 }
@@ -120,12 +131,6 @@
             setDrink: function() {
                 // reset values in update case
 
-                this.drink.flavor.Citrico = 0
-                this.drink.flavor.Frutado = 0
-                this.drink.flavor.Amargo = 0
-                this.drink.flavor.Seco = 0
-                this.drink.flavor.Alcool = 0
-
                 if (!this.drink.name || !this.selectedIngredients.length) {
                     $(this.$refs.drinkName).addClass('error')
                     errorNotify('', !this.drink.name ? 'Nome do drink é obrigatório' : 'Que tal adicionar alguns ingredientes ao seu drink?')
@@ -139,15 +144,7 @@
                         successNotify('', `"${this.drink.name}" criado com sucesso!`)
                     }
 
-                    // set each attr to created drink.
-                    this.selectedIngredients.map((ingredient) => {
-                        this.drink.flavor.Citrico += ingredient.suor
-                        this.drink.flavor.Frutado += ingredient.sweet
-                        this.drink.flavor.Amargo += ingredient.bitter
-                        this.drink.flavor.Seco += ingredient.dry
-                        this.drink.flavor.Alcool += ingredient.alcohol
 
-                    })
 
                     this.isNewDrink = false
                     $(this.$refs.drinkName).removeClass('error')
@@ -162,8 +159,19 @@
 
             drawChart: function(el){
 
-                const keys = Object.keys(this.drink.flavor)
-                const values = Object.values(this.drink.flavor)
+                this.drink.sour = 0
+                this.drink.sweet = 0
+                this.drink.bitter = 0
+                this.drink.dry = 0
+
+                const keys = ['Cítrico/Refrescante', 'Frutado/Doce','Amargo','Seco'];
+
+                const values = [
+                    this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sour,0),
+                    this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sweet,0),
+                    this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.bitter,0),
+                    this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.dry,0)
+                ];
 
                 if (this.chart) this.chart.destroy()
                 this.chart = new Chart(el, {
@@ -193,6 +201,7 @@
                         scaleBeginAtZero: true,
                         scale: {
                             ticks: {
+                                min: 0,
                                 beginAtZero: 0,
                             },
                             pointLabels: {
@@ -222,7 +231,6 @@
 <style scoped>
 
 .button-container{ margin-top: 30px; }
-.page{ margin-top: 80px; min-height: 100vh; padding-bottom: 30px}
 
 .md-created-drink-chart{
     margin-top: 30px;
@@ -247,64 +255,4 @@
 
 .badge{ margin: 0 auto; width: 70px; height: 70px; }
 
-.text{
-    display: block;
-    width: 100%;
-    color: rgba(44, 62, 80, 1);
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 20px
-}
-
-/* inputs floating label */
-
-.float-label{
-    width: 100%;
-    position: relative;
-    padding-top: 30px;
-    margin: 40px 0;
-}
-
-.float-label label {
-    width: 100%;
-    display: block;
-}
-
-.float-label label span{
-    position: absolute;
-    top: 35px;
-    left:0;
-    transition: ease .1s;
-    font-size: 16px;
-}
-
-.float-label input{
-    width: 100%;
-    border: none;
-    border-bottom: #2c3e50 2px solid;
-    background: #fff;
-    padding: 5px 0px 5px 0px;
-    font-size: 16px;
-}
-.float-label input:focus{ outline: none; }
-
-.float-label label input:valid + span,
-.float-label label input:focus + span{
-    top: 0;
-    transition: ease .1s;
-    font-size: 12px;
-    color: #2c3e50 !important;
-}
-
-.float-label.error label span { color: #d9534f; }
-.float-label.error label input { border-color: #d9534f; }
-.float-label label input:valid,
-.float-label.error label input:focus{ border-color: #2c3e50; }
-
-/* Form Control */
-.form-control {
-    border-color: red;
-}
 </style>
