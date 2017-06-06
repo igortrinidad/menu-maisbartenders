@@ -94,9 +94,9 @@
 
                     <div v-if="!isNewDrink">
                         <div class="col-sm-6 col-xs-6">
-                            <router-link tag="button" :to="{name: 'landing.auth.login'}" class="btn btn-success btn-block m-t-10">
-                                Faça login para salvar
-                            </router-link >
+                            <button class="btn btn-success btn-block m-t-10" @click="saveDrink()">
+                                Salvar drink como convidado
+                            </button>
                         </div>
                         <div class="col-sm-6 col-xs-6">
                             <router-link tag="button" :to="{name: 'landing.auth.login'}" class="btn btn-default btn-block m-t-10 facebook">
@@ -185,11 +185,16 @@
                     successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
 
                     this.drink.items = this.selectedIngredients
-                    console.log(this.drink);
                     this.isNewDrink = false
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
 
+            },
+
+            // simples exemplo para salvar no localStorage (caso não for salvar direto na API)
+            saveDrink: function() {
+                if (localStorage.guestDrink) localStorage.removeItem('guestDrink')
+                else localStorage.setItem('guestDrink', JSON.stringify(this.drink))
             },
 
             drawChart: function(el){
