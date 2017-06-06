@@ -487,5 +487,7 @@
     border: none !important;
     top: calc(100% + 10px) !important;
 }
+/* charts */
+canvas{ padding: 15px}
 
 </style>

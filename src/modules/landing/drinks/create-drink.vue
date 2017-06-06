@@ -308,7 +308,6 @@
 
 /* chart */
 .canvas-empty{ height: 0; }
-canvas{ padding: 15px}
 
 .button-container{ margin: 30px 0; }
 
