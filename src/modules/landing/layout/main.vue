@@ -4,8 +4,9 @@
 
         <app-header></app-header>
 
-
+        <!--
         <h2 style="margin-top:200px">{{$route.path}}</h2>
+        -->
 
         <router-view></router-view>
 
@@ -415,5 +416,57 @@
         color: #4b2c50;
         margin: 0 5px;
     }
+
+
+.v-select input[type=search]{
+    height: 45px;
+    max-width: 50% !important;
+    height: 45px;
+    border: 1px solid #dce4ec;
+    border-width: 2px;
+    color: #2c3e50;
+    border-radius: 4px;
+}
+
+.v-select .selected-tag {
+    margin: 6px 1px 0 3px !important;
+}
+
+.v-select .dropdown-toggle {
+    background: white !important;
+}
+
+.v-select.searchable .dropdown-toggle {
+    height: 45px;
+    border: 1px solid #dce4ec;
+    border-width: 2px;
+    color: #2c3e50;
+    border-radius: 4px;
+}
+
+.v-select>.dropdown-toggle{
+    border: 1px solid rgba(60,60,60,.26) !important;
+}
+
+.v-select.input-error>.dropdown-toggle {
+    border: 1px solid rgba(244, 67, 54,.66) !important;
+}
+
+.v-select{
+    margin: 0px 0px 0px 0px !important;
+    height: 45px !important;
+    border: 1px solid #dce4ec;
+    border-width: 2px;
+    color: #2c3e50;
+    border-radius: 4px;
+}
+
+.dropdown.v-select.open{
+    border: 2px solid rgba(60,60,60,.26);
+    border-radius: 4px;
+    border-color: #5880A5;
+   outline: 0;
+
+}
 
 </style>
