@@ -21,7 +21,6 @@
         "cordova-plugin-fastrde-injectview": "^0.2.0",
         "cordova-plugin-inappbrowser": "^1.7.1",
         "cordova-plugin-whitelist": "1",
-        "de.fastr.phonegap.plugins.injectView": "~0.2.0",
         "font-awesome": "^4.7.0",
         "izitoast": "^1.1.1",
         "jquery": "^3.2.1",
@@ -89,7 +88,7 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-whitelist": {},
-            "de.fastr.phonegap.plugins.injectView": {},
+            "cordova-plugin-fastrde-injectview": {},
             "cordova-plugin-inappbrowser": {}
         },
         "platforms": [
