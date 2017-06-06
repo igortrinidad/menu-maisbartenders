@@ -1,6 +1,17 @@
 <template lang="html">
     <div>
         <div class="container">
+
+            <div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <router-link tag="button" :to="{name: 'landing.drinks.list'}" class="btn btn-primary btn-back">
+                            <i class="fa fa-chevron-left"></i>Voltar para lista de drinks
+                        </router-link >
+                    </div>
+                </div>
+            </div>
+
             <div class="text-center">
                 <h2>Crie seu drink personalizado!</h2>
             </div>

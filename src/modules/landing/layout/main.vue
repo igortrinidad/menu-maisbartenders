@@ -37,6 +37,9 @@
 
 <style>
 
+/* btn-back */
+
+.btn-back i{ margin-right: 10px }
 
 .page{ margin-top: 80px;}
 
