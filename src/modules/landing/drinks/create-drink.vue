@@ -169,12 +169,12 @@
                 this.drink.bitter = 0
                 this.drink.dry = 0
 
-                const keys = ['Cítrico/Refrescante', 'Frutado/Doce','Amargo','Seco'];
+                const keys = ['Cítrico/Refrescante','Amargo', 'Frutado/Doce', 'Seco'];
 
                 const values = [
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sour,0),
-                    this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sweet,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.bitter,0),
+                    this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sweet,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.dry,0)
                 ];
 
