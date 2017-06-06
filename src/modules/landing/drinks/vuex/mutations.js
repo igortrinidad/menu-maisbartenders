@@ -8,6 +8,8 @@ export default {
     [TYPES.ADD_DRINK_TO_SAVED_DRINKS](state, obj) {
 
         obj.rootState.Auth.user.saved_drinks.push(obj.drink)
+
+
     },
 
     [TYPES.REMOVE_DRINK_FROM_SAVED_DRINKS](state, obj) {
@@ -16,6 +18,7 @@ export default {
 
         if(index > -1){
             obj.rootState.Auth.user.saved_drinks.splice(index, 1)
+
         }
     }
 }

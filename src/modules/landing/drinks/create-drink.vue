@@ -1,17 +1,6 @@
 <template lang="html">
     <div>
         <div class="container">
-
-            <div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <router-link tag="button" :to="{name: 'landing.drinks.list'}" class="btn btn-primary btn-back">
-                            <i class="fa fa-chevron-left"></i> Lista de drinks
-                        </router-link >
-                    </div>
-                </div>
-            </div>
-
             <div class="text-center">
                 <h2>Crie seu drink personalizado!</h2>
             </div>
@@ -38,36 +27,15 @@
                     <span slot="no-options">Não foi possível localizar ingredientes :(</span>
                 </v-select>
             </div>
-
+            
             <label>Apresentação</label>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-md-3 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
-                        <div ref="presentation" class="presentation" @click="setPresentation(presentation, $event)">
-                            <img src="../../../assets/mockup/martini.png">
-                            <div class="text-center">
-                                <span>{{ presentation }}
-                                    <i class="fa fa-check"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                
+                <div class="col-md-3 col-xs-6">
+                    <img src="../../../assets/mockup/martini.png" width="100%">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Estilo</label>
-                <v-select
-                    :label="'style'"
-                    :options="styles"
-                    :multiple="false"
-                    v-model="drink.style"
-                    @on-change="createDrink('haha')"
-                    placeholder="Escolha o nível de alcool"
-                >
-                    <span slot="no-options">Não foi possível localizar ingredientes :(</span>
-                </v-select>
-            </div>
 
             <div class="md-created-drink-chart">
                 <div class="row">
@@ -78,42 +46,26 @@
                                 <span class="badge">
                                     <img :src="guestBadge" alt="Drink Criado Por Um Convidado" title="Drink Criado Por Um Convidado">
                                 </span>
-                                <div class="text-center">
-                                    <span>
-                                        Drinks criados por convidados recebem essa medalha
-                                    </span>
-                                </div>
-
+                                <span class="text">
+                                    Drinks criados por convidados recebem essa medalha
+                                </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-sm-offset-3" :class="{ 'canvas-empty': isNewDrink }">
+                    <div class="col-sm-6 col-sm-offset-3">
                         <canvas ref="createdDrinkChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="button-container">
+            <div class="">
                 <div class="row">
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-default btn-block m-t-10" name="button" @click="setDrink()">
+                    <div class="col-sm-12 button-container">
+                        <button type="button" class="btn btn-primary btn-block m-t-10" name="button" @click="setDrink()">
                             <span v-if="isNewDrink">Criar drink!</span>
                             <span v-if="!isNewDrink">Atualizar drink!</span>
                         </button>
-                    </div>
-
-                    <div v-if="!isNewDrink">
-                        <div class="col-sm-6 col-xs-6">
-                            <button class="btn btn-success btn-block m-t-10" @click="saveDrink()">
-                                Salvar drink como convidado
-                            </button>
-                        </div>
-                        <div class="col-sm-6 col-xs-6">
-                            <router-link tag="button" :to="{name: 'landing.auth.login'}" class="btn btn-default btn-block m-t-10 facebook">
-                                Faça login para compartilhar
-                            </router-link >
-                        </div>
                     </div>
                 </div>
             </div>
@@ -136,20 +88,16 @@
                 isNewDrink: true,
                 ingredientsFetcheds: [],
                 selectedIngredients: [],
-                presentations: ['Taça martini', 'Caneca'],
-                styles: ['Leve', 'Médio', 'Forte'],
                 guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
                     name: '',
-                    presentation: '',
-                    style: '',
-                    created_by_guest: true,
                     sour: 0,
                     sweet: 0,
                     bitter: 0,
                     dry: 0,
                     alcohol: 0,
-                    items: []
+                    items: [
+                    ]
                 }
             }
         },
@@ -171,8 +119,7 @@
                 })
 
                 return _.orderBy(arr, 'category', 'asc');
-            },
-
+            }
         },
 
         mounted(){
@@ -181,45 +128,34 @@
 
         methods: {
 
-            setPresentation: function(presentation, event) {
-                $(this.$refs.presentation).removeClass('active')
-                $(event.target.parentNode).addClass('active')
-                this.drink.presentation = presentation
-            },
-
-            validateDrink: function() {
-                if (!this.drink.name) return { validated: false, message: 'Dê um nome para seu drink' }
-                if (!this.selectedIngredients.length) return { validated: false, message: 'Que tal escolher alguns ingredientes ao seu drink?' }
-                if (!this.drink.presentation) return { validated: false, message: 'Escolha uma apresentação para seu drink' }
-                if (!this.drink.style) return { validated: false, message: 'Escolha um estilo para seu drink' }
-                else return { validated: true }
-            },
-
             setDrink: function() {
-                const validate = this.validateDrink()
-                if (!validate.validated) {
-                    errorNotify('', validate.message)
+                // reset values in update case
+
+                if (!this.drink.name || !this.selectedIngredients.length) {
+                    $(this.$refs.drinkName).addClass('error')
+                    errorNotify('', !this.drink.name ? 'Nome do drink é obrigatório' : 'Que tal adicionar alguns ingredientes ao seu drink?')
                 }
                 else {
-                    this.isNewDrink = false
-                    this.drink.items = this.selectedIngredients
 
-                    successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
+                    if(!this.isNewDrink) {
+                        successNotify('', `"${this.drink.name}" atualizado com sucesso!`)
+                    }
+                    else {
+                        successNotify('', `"${this.drink.name}" criado com sucesso!`)
+                    }
+
+
+
+                    this.isNewDrink = false
+                    $(this.$refs.drinkName).removeClass('error')
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
 
             },
-
-            // simples exemplo para salvar no localStorage (caso não for salvar direto na API)
-            saveDrink: function() {
-                if (localStorage.guestDrink) {
-                    localStorage.removeItem('guestDrink')
-                }
-                else {
-                    localStorage.setItem('guestDrink', JSON.stringify(this.drink))
-                    successNotify('', `${this.drink.name} salvo, agora mais convidados irão poder pedir o seu drink e avaliar!`)
-                }
-            },
+            //
+            // setFlavors: function() {
+            //
+            // },
 
             drawChart: function(el){
 
@@ -228,14 +164,14 @@
                 this.drink.bitter = 0
                 this.drink.dry = 0
 
-                const keys = ['Cítrico/Refrescante','Amargo', 'Frutado/Doce', 'Seco'];
+                const keys = ['Cítrico/Refrescante', 'Frutado/Doce','Amargo','Seco'];
 
                 const values = [
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sour,0),
-                    this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.bitter,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sweet,0),
+                    this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.bitter,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.dry,0)
-                ]
+                ];
 
                 if (this.chart) this.chart.destroy()
                 this.chart = new Chart(el, {
@@ -294,10 +230,7 @@
 
 <style scoped>
 
-/* chart */
-.canvas-empty{ height: 0; }
-
-.button-container{ margin: 30px 0; }
+.button-container{ margin-top: 30px; }
 
 .md-created-drink-chart{
     margin-top: 30px;
@@ -320,32 +253,6 @@
 }
 .badge:hover{ transform: none }
 
-.badge{
-    margin: 0 auto 20px auto;
-    width: 70px;
-    height: 70px;
-}
-/* presentations */
-
-.presentation img{
-    max-width: 100%;
-    filter: grayscale(1);
-    transition: ease .3s;
-}
-.presentation.active img{
-    filter: grayscale(0);
-    transition: ease .3s;
-}
-
-.presentation .text-center{
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #2c3e50;
-    margin-top: 10px
-}
-
-.presentation i{ display: none; }
-.presentation.active i{ display: inline; }
-
+.badge{ margin: 0 auto; width: 70px; height: 70px; }
 
 </style>

@@ -63,14 +63,14 @@ export default [
                 name: 'landing.user.show',
                 path: '/perfil',
                 component: UserShow,
-                meta: { requiresAuth: true, auth: ['guest']},
+                meta: { requiresAuth: true},
             },
 
             {
                 name: 'landing.user.preferences',
                 path: '/preferencias',
                 component: UserPreferences,
-                meta: { requiresAuth: true, auth: ['guest']},
+                meta: { requiresAuth: true},
             },
 
             {
