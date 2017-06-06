@@ -484,12 +484,8 @@
 }
 
 .dropdown-menu {
-    border: 2px solid #2c3e50 !important;
-    border-top: none !important;
-    width: 100.5% !important;
-    left: -2px !important;
-    top: 40px !important;
-    box-sizing: border-box;
+    border: none !important;
+    top: calc(100% + 10px) !important;
 }
 
 </style>
