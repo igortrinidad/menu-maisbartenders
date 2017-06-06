@@ -132,6 +132,7 @@
                     name: '',
                     presentation: '',
                     style: '',
+                    created_by_guest: true,
                     sour: 0,
                     sweet: 0,
                     bitter: 0,
@@ -194,6 +195,7 @@
 
                     this.drink.items = this.selectedIngredients
                     this.isNewDrink = false
+                    console.log(this.drink)
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
 
