@@ -114,7 +114,7 @@
                                 </div>
 
                                </router-link>
-                                <div class="m-t-10 p-l-10" >
+                                <div class="m-t-10" >
                                     <div v-if="isLogged">
                                         <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
                                             @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
