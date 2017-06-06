@@ -38,7 +38,7 @@
 <style>
 
 
-.page{ margin-top: 80px; margin-bottom: 30px}
+.page{ margin-top: 80px;}
 
 /* grid pinterest style */
 

@@ -27,15 +27,15 @@
                     <span slot="no-options">Não foi possível localizar ingredientes :(</span>
                 </v-select>
             </div>
-            
+
             <label>Apresentação</label>
             <div class="form-group">
-                
-                <div class="col-md-3 col-xs-6">
-                    <img src="../../../assets/mockup/martini.png" width="100%">
+                <div class="row">
+                    <div class="col-md-3 col-xs-6">
+                        <img src="../../../assets/mockup/martini.png" width="100%">
+                    </div>
                 </div>
             </div>
-
 
             <div class="md-created-drink-chart">
                 <div class="row">
@@ -132,30 +132,17 @@
                 // reset values in update case
 
                 if (!this.drink.name || !this.selectedIngredients.length) {
-                    $(this.$refs.drinkName).addClass('error')
                     errorNotify('', !this.drink.name ? 'Nome do drink é obrigatório' : 'Que tal adicionar alguns ingredientes ao seu drink?')
                 }
                 else {
 
-                    if(!this.isNewDrink) {
-                        successNotify('', `"${this.drink.name}" atualizado com sucesso!`)
-                    }
-                    else {
-                        successNotify('', `"${this.drink.name}" criado com sucesso!`)
-                    }
-
-
+                    successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
 
                     this.isNewDrink = false
-                    $(this.$refs.drinkName).removeClass('error')
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
 
             },
-            //
-            // setFlavors: function() {
-            //
-            // },
 
             drawChart: function(el){
 
@@ -230,7 +217,7 @@
 
 <style scoped>
 
-.button-container{ margin-top: 30px; }
+.button-container{ margin: 30px 0; }
 
 .md-created-drink-chart{
     margin-top: 30px;
