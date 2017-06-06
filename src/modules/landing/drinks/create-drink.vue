@@ -175,10 +175,18 @@
                 this.drink.presentation = presentation
             },
 
-            setDrink: function() {
+            validateDrink: function() {
+                if (!this.drink.name) return { validated: false, message: 'Dê um nome para seu drink' }
+                if (!this.selectedIngredients.length) return { validated: false, message: 'Que tal escolher alguns ingredientes ao seu drink?' }
+                if (!this.drink.presentation) return { validated: false, message: 'Escolha uma apresentação para seu drink' }
+                if (!this.drink.style) return { validated: false, message: 'Escolha um estilo para seu drink' }
+                else return { validated: true }
+            },
 
-                if (!this.drink.name || !this.selectedIngredients.length) {
-                    errorNotify('', !this.drink.name ? 'Nome do drink é obrigatório' : 'Que tal adicionar alguns ingredientes ao seu drink?')
+            setDrink: function() {
+                const validate = this.validateDrink()
+                if (!validate.validated) {
+                    errorNotify('', validate.message)
                 }
                 else {
 
@@ -193,8 +201,13 @@
 
             // simples exemplo para salvar no localStorage (caso não for salvar direto na API)
             saveDrink: function() {
-                if (localStorage.guestDrink) localStorage.removeItem('guestDrink')
-                else localStorage.setItem('guestDrink', JSON.stringify(this.drink))
+                if (localStorage.guestDrink) {
+                    localStorage.removeItem('guestDrink')
+                }
+                else {
+                    localStorage.setItem('guestDrink', JSON.stringify(this.drink))
+                    successNotify('', `${this.drink.name} salvo, agora mais convidados irão poder pedir o seu drink e avaliar!`)
+                }
             },
 
             drawChart: function(el){
