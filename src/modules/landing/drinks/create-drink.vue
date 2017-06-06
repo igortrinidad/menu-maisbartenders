@@ -58,7 +58,7 @@
             <div class="form-group">
                 <label>Estilo</label>
                 <v-select
-                    :label="'style'"
+                    :label="'name'"
                     :options="styles"
                     :multiple="false"
                     v-model="drink.style"
@@ -143,7 +143,12 @@
                     { name: 'Margarita', path: '/static/img/margarita.bb21ca9.png' },
                     { name: 'Taça martini', path: '/static/img/martini.f298167.png' }
                 ],
-                styles: ['Leve', 'Médio', 'Forte'],
+                styles: [
+                    { name: 'Leve', value: 2.5 },
+                    { name: 'Normal', value: 5.0 },
+                    { name: 'Forte', value: 7.5 },
+                    { name: 'Super Forte', value: 10.0 },
+                ],
                 guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
                     name: '',
@@ -209,7 +214,7 @@
                 else {
                     this.isNewDrink = false
                     this.drink.items = this.selectedIngredients
-
+                    console.log(this.drink)
                     successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
@@ -234,9 +239,10 @@
                 this.drink.bitter = 0
                 this.drink.dry = 0
 
-                const keys = ['Cítrico/Refrescante','Amargo', 'Frutado/Doce', 'Seco'];
+                const keys = ['Alcool', 'Cítrico','Amargo', 'Doce', 'Seco'];
 
                 const values = [
+                    this.drink.style.value,
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sour,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.bitter,0),
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sweet,0),
@@ -302,6 +308,7 @@
 
 /* chart */
 .canvas-empty{ height: 0; }
+canvas{ padding: 15px}
 
 .button-container{ margin: 30px 0; }
 
