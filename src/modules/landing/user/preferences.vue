@@ -18,27 +18,31 @@
                     <div v-for="(drink, index) in currentUser.saved_drinks" class="col">
                         <div tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                             <div class="badges" data-toggle="modal" data-target="#badge-help">
-                           <span class="badge" v-if="drink.is_exclusive">
-                               <img :src="exclusiveBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
-                           </span>
+                            <span class="badge" v-if="drink.is_exclusive">
+                                <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                            </span>
                                 <span class="badge" v-if="drink.priority >= 4">
-                               <img class="zoom" :src="starBadge" alt="Este drink está entre os BEST SELLERS"
+                                <img class="zoom" src="../../../assets/images/star.png" alt="Este drink está entre os BEST SELLERS"
                                     title="Este drink está entre os BEST SELLERS">
-                           </span>
+                            </span>
                             </div>
 
                             <router-link tag="span" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                <div class="details">
-                                    <h3 class="drink-name">{{ drink.name }}</h3>
-                                    <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
-                                    <span class="description">{{ drink.description }}</span>
-                                    <div class="items">
-                                        <span class="item" v-for="(item, index) in drink.items">{{ item.name }}</span>
-                                    </div>
-                                </div>
+                                    <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                                    <div class="details">
+                                        <h3 class="drink-name">{{ drink.name }}</h3>
+                                        <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
+                                        <span class="description">{{ drink.description }}</span>
 
-                            </router-link>
+                                        <hr>
+                                    </div>
+                                </router-link>
+                                <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes 
+                                    <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}" ></i>
+                                </h5>
+                                <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
+                                    <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
+                                </div>
 
                             <button class="btn btn-danger btn-sm m-b-10 btn-drink-action btn-share m-t-5"
                                     @click="removeDrinkPreference(drink)">Excluir drink
@@ -60,7 +64,7 @@
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12 text-center">
                                 <span class="modal-badge badge">
-                                   <img :src="exclusiveBadge" alt="Este Drink é exclusivo"
+                                   <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
                                         title="Este Drink é exclusivo">
                                </span>
 
@@ -72,7 +76,7 @@
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12 text-center">
                                 <span class="modal-badge badge">
-                                   <img :src="starBadge" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                                   <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
                                </span>
 
                                         <p>Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
@@ -105,7 +109,9 @@
         name: 'user-preferences',
         data () {
             return {
-                interactions: {},
+                interactions: {
+                    drinksToShowInfo: [],
+                },
                 exclusiveBadge: '../../../../static/assets/king.png',
                 starBadge: '../../../../static/assets/star.png',
             }
@@ -122,6 +128,16 @@
         methods: {
 
             ...mapActions(['setLoading', 'removeDrinkFromSavedDrinks']),
+
+            drinkToShowToggle: function(drink){
+                let that = this
+                var index = that.interactions.drinksToShowInfo.indexOf(drink);
+                if(index > -1){
+                    that.interactions.drinksToShowInfo.splice(index,1)
+                } else {
+                    that.interactions.drinksToShowInfo.push(drink)
+                }
+            },
 
             removeDrinkPreference: function (drink) {
                 let that = this

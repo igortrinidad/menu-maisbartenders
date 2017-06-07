@@ -122,10 +122,10 @@
                            <div tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                <div class="badges">
                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal" data-target="#badge-help">
-                                       <img src="https://maisbartenders.com.br/assets/menu_app/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                                       <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
                                    </span>
                                    <span class="badge" v-if="drink.priority >= 4" data-toggle="modal" data-target="#badge-help">
-                                       <img class="zoom" src="https://maisbartenders.com.br/assets/menu_app/star.png" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
+                                       <img class="zoom" src="../../../assets/images/star.png" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
                                    </span>
                                </div>
 
@@ -182,7 +182,7 @@
                         <div class="row">
                             <div class="col-md-12 col-xs-12 text-center">
                                 <span class="modal-badge badge">
-                                   <img src="https://maisbartenders.com.br/assets/menu_app/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                                   <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
                                </span>
 
                                <p>Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.</p>
@@ -192,7 +192,7 @@
                         <div class="row">
                             <div class="col-md-12 col-xs-12 text-center">
                                 <span class="modal-badge badge">
-                                   <img src="https://maisbartenders.com.br/assets/menu_app/star.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                                   <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
                                </span>
 
                                <p>Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
