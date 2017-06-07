@@ -434,7 +434,7 @@ hr.gray{ border-color: #2c3e50; }
 
 
 .v-select input[type=search]{
-    height: 45px;
+    min-height: 45px;
     max-width: 50% !important;
     height: 45px;
     border: 1px solid #dce4ec;
@@ -452,7 +452,7 @@ hr.gray{ border-color: #2c3e50; }
 }
 
 .v-select.searchable .dropdown-toggle {
-    height: 41px;
+    min-height: 41px;
     border: 0px solid rgba(60,60,60,.0);
     border-width: 2px;
     color: #2c3e50;
@@ -469,7 +469,7 @@ hr.gray{ border-color: #2c3e50; }
 
 .v-select{
     margin: 0px 0px 0px 0px !important;
-    height: 45px !important;
+    min-height: 45px !important;
     border: 1px solid #dce4ec;
     border-width: 2px;
     color: #2c3e50;
