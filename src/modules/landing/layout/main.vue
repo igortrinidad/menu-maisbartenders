@@ -444,7 +444,7 @@ hr.gray{ border-color: #2c3e50; }
 }
 
 .v-select .selected-tag {
-    margin: 6px 1px 0 3px !important;
+    margin: 10px 5px 0 5px !important;
 }
 
 .v-select .dropdown-toggle {
