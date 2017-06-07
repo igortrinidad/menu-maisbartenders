@@ -83,7 +83,10 @@
         },
         mounted(){
 
+            alert("teste");
+            console.log(window.cordova);
             if(window.cordova){
+                alert("cordova")
                 openFB.init({appId: '262783620860879'});
             }
         },
