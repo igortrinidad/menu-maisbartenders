@@ -88,6 +88,7 @@ hr.gray{ border-color: #2c3e50; }
     box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
     position: relative;
     width: 100%;
+    height: calc(auto + 100px)
 }
 .box img{
     max-width: 100%;
@@ -97,18 +98,40 @@ hr.gray{ border-color: #2c3e50; }
 
 .badges + span{ cursor: pointer; }
 
-.drink .description{
+.box .description{
     display: block;
     max-width: 100%;
 }
 
+.box .box-footer{ margin-top: 30px; padding-top: 10px; }
+.box .stars { margin-right: 3px; }
+
+/* Default Drink */
 .drink-name{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
-.drink .stars { margin-right: 3px; }
+.drink .items{
+    background: rgba(44, 60, 80, .07);
+    border-radius: 4px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: .5s ease-out;
+    padding: 0 10px;
+}
+.drink .items.show{
+    max-height: 500px;
+    transition: .5s ease-in;
+}
+.drink-item { margin: 5px 0 }
+.drink-item i {
+    color: #fed136;
+    background: #2c3e50;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 10px;
+}
 
 /* Badges */
 

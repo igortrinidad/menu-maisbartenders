@@ -30,7 +30,7 @@
            </div>
        </div>
 
-       <div class="text-center container">
+       <div class="text-center container backsection">
            <span class="sub-header">Ainda não decidiu? não se preocupe você pode ver todos os drinks e filtrar com os nossos ingredientes que você preferir.</span>
            <a href="#drinks" class="page-scroll btn btn-primary btn-block m-t-10">Ver todos</a>
        </div>
@@ -108,8 +108,15 @@
                                 <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
                                     <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}" ></i>
                                 </h5>
-                                <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
-                                    <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
+                                <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                    <span class="drink-item" v-for="(item, index) in drink.items">
+                                        <i class="fa fa-check"></i> {{ item.name }}
+                                    </span>
+                                </div>
+                                <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                    <span class="drink-item" v-if="!drink.items.length">
+                                        Não foi possível carregar items para este drink :(
+                                    </span>
                                 </div>
 
                                 <div class="m-t-15" >
@@ -123,10 +130,10 @@
                                         <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
                                     </div>
 
-                                <div v-if="!isLogged">
-                                   <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para salvar o drink
+                                <div v-if="!isLogged" class="box-footer">
+                                   <router-link tag="button" class="btn btn-success btn-block m-b-10 btn-drink-action  btn-share" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para salvar o drink
                                    </router-link >
-                                  <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para compartilhar
+                                  <router-link tag="button" class="btn btn-default btn-block m-b-10 btn-drink-action facebook btn-share" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para compartilhar
                                    </router-link >
                                 </div>
                             </div>
