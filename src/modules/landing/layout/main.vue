@@ -441,7 +441,6 @@ hr.gray{ border-color: #2c3e50; }
     border-width: 2px;
     color: #2c3e50;
     border-radius: 4px;
-    top: 4.5px;
 }
 
 .v-select .selected-tag {
