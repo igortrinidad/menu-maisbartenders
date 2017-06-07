@@ -30,7 +30,7 @@
             <label>Apresentação</label>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-lg-2 col-md-4 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
+                    <div class="col-lg-2 col-sm-4 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
                         <div ref="presentation" class="presentation" @click="setPresentation(presentation.name, $event)">
                             <img :src="presentation.path">
                             <div class="text-center text-overflow">
