@@ -148,7 +148,7 @@
 
                                 <div class="box-footer" v-if="isLogged">
                                     <button
-                                        class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share btn-block"
+                                        class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block"
                                         @click="addDrinkPreference(drink)"
                                         v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                                     >Salvar drink
@@ -156,14 +156,14 @@
 
                                     <router-link
                                         tag="button"
-                                        class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share btn-block"
+                                        class="btn btn-success m-b-10 btn-drink-action btn-share btn-block"
                                         :to="{name: 'landing.user.preferences'}"
                                         v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                                     >Drink salvo <i class="fa fa-check"></i>
                                     </router-link >
 
                                     <button
-                                        class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share btn-block"
+                                        class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block"
                                         @click="interactions.drinkSelected = drink"
                                         data-toggle="modal"
                                         data-target="#modalSharePhrase"
@@ -174,14 +174,14 @@
                                 <div class="box-footer" v-if="!isLogged">
                                     <router-link
                                         tag="button"
-                                        class="btn btn-default btn-sm m-b-10 btn-block btn-drink-action facebook btn-share"
+                                        class="btn btn-default m-b-10 btn-block btn-drink-action facebook btn-share"
                                         :to="{name: 'landing.auth.login', query:{redirect: '/evento/' + $route.params.event_slug}}"
                                     >Faça login para salvar drink
                                     </router-link>
 
                                     <router-link
                                         tag="button"
-                                        class="btn btn-default btn-sm m-b-10 btn-block btn-drink-action facebook btn-share"
+                                        class="btn btn-default m-b-10 btn-block btn-drink-action facebook btn-share"
                                         :to="{name: 'landing.auth.login', query:{redirect: '/evento/' + $route.params.event_slug}}"
                                     >Faça login para compartilhar
                                     </router-link>
@@ -892,10 +892,8 @@
 
 .btn-share{
     margin-top: 5px;
-    font-size: 11px;
     font-weight: 100;
     letter-spacing: 1px;
-    padding: 2px 8px 2px 8px;
 }
 
 </style>
