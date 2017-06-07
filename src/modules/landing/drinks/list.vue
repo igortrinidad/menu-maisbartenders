@@ -120,7 +120,7 @@
                                 </div>
 
                                 <div class="m-t-15" >
-                                    <div class="box-footer" v-if="!isLogged">
+                                    <div class="box-footer" v-if="isLogged">
                                         <button
                                             class="btn btn-default btn-sm btn-block m-b-10 btn-drink-action facebook btn-share"
                                             @click="addDrinkPreference(drink)"
@@ -145,7 +145,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="box-footer" v-if="isLogged">
+                                    <div class="box-footer" v-if="!isLogged">
                                         <router-link
                                             tag="button"
                                             class="btn btn-success btn-block m-b-10 btn-drink-action btn-share"

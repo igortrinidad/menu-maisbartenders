@@ -146,7 +146,7 @@
                                     <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
                                 </div>
 
-                                <div class="box-footer" v-if="!isLogged">
+                                <div class="box-footer" v-if="isLogged">
                                     <button
                                         class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share btn-block"
                                         @click="addDrinkPreference(drink)"
@@ -171,7 +171,7 @@
                                     </button>
                                 </div>
 
-                                <div class="box-footer" v-if="isLogged">
+                                <div class="box-footer" v-if="!isLogged">
                                     <router-link
                                         tag="button"
                                         class="btn btn-default btn-sm m-b-10 btn-block btn-drink-action facebook btn-share"
