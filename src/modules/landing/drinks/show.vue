@@ -50,13 +50,13 @@
                         <div class="badges">
                             <div class="badge-container" v-if="drink.is_exclusive">
                                 <span class="badge">
-                                    <img :src="exclusiveBadge" alt="DRINK EXCLUSIVO" title="DRINK EXCLUSIVO">
+                                    <img src="https://maisbartenders.com.br/assets/menu_app/king.png" alt="DRINK EXCLUSIVO" title="DRINK EXCLUSIVO">
                                     <span>Drink Exclusivo</span>
                                 </span>
                             </div>
                             <div class="badge-container" v-if="drink.priority >= 4">
                                 <span class="badge">
-                                    <img class="zoom" src="../../../../static/assets/star.png" alt="BEST SELLER" title="BESTE SELLER">
+                                    <img class="zoom" src="https://maisbartenders.com.br/assets/menu_app/star.png" alt="BEST SELLER" title="BESTE SELLER">
                                     <span>Best Sellers</span>
                                 </span>
                             </div>
@@ -75,34 +75,42 @@
                         </p>
 
                         <div class="row">
-                            <div class="col-md-6 col-md-offset-3 col-xs-">
-                                <h4 class="m-b-30">Informação nutricional</h4>
+                            <div class="col-md-6 col-xs-12">
+                                <h4 class="m-b-30">Mapa de sabor</h4>
+                                <canvas ref="createdDrinkChart"></canvas>
                             </div>
-                        </div>
-                        <div class="row text-left">
-                            <div class="col-md-4 col-md-offset-4 col-xs-12">
-                                <span class="text-left">
-                                    <small class="f-16 f-500">Porção: 1 unidade</small>
-                                    <table class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Descrição</th>
-                                                <th class="text-center">Quantidade</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="nutri in nutritional_facts_ordereds">
-                                                <td>{{nutri.name}}</td>
-                                                <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
 
-                                    <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
-                                    <p class="nutrition-disclaimer">Fonte: <a target="_blank" href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
-                                </span>
+                            <div class="col-md-6 col-xs-12">
+                                <h4 class="m-b-30">Informação nutricional</h4>
+                                <div class="row text-left">
+                                    <div class="col-md-8 col-md-offset-2 col-xs-12">
+                                        <span class="text-left">
+                                            <small class="f-16 f-500">Porção: 1 unidade</small>
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Descrição</th>
+                                                        <th class="text-center">Quantidade</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="nutri in nutritional_facts_ordereds">
+                                                        <td>{{nutri.name}}</td>
+                                                        <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
+                                            <p class="nutrition-disclaimer">Fonte: <a target="_blank" href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
+
+                            
                         </div>
+                        
                         <hr>
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
@@ -172,7 +180,13 @@
                 drink: drinkObj,
                 displayDrinks: false,
                 nutritional_facts: [],
-                exclusiveBadge: '/static/assets/king.png',
+                alcoholStyles: [
+                    { label: 'Sem álcool', value: 2.5 },
+                    { label: 'Leve', value: 2.5 },
+                    { label: 'Equilibrado', value: 5.0 },
+                    { label: 'Forte', value: 7.5 },
+                    { label: 'Super forte', value: 10 },
+                ]
             }
         },
         computed:{
@@ -255,6 +269,57 @@
 
             },
 
+            drawChart: function(){
+
+                var alcohol = this.alcoholStyles.findFromAttr('label', this.drink.style);
+
+                const keys = ['Refrescante', 'Frutado/Doce', 'Amargo', 'Seco','Salgado', 'Álcool'];
+
+                const values = [this.drink.sour,this.drink.sweet,this.drink.bitter,this.drink.dry,this.drink.salt,alcohol.value];
+
+                console.log(values);
+
+                if (this.chart) this.chart.destroy()
+                this.chart = new Chart(this.$refs.createdDrinkChart, {
+                    type: 'radar',
+                    pointLabelFontSize: 20,
+                    data: {
+                        labels: keys,
+                        datasets: [
+                            {
+                                label: this.drink.name,
+                                backgroundColor: "RGBA(254, 209, 54, 0.3)",
+                                borderColor: "RGBA(254, 209, 54, 1.00)",
+                                data: values,
+                                pointRadius: 4,
+                                pointDot: false,
+                                fontSize: 20,
+                                defaultFontSize: 30
+                            },
+                        ]
+                    },
+                    options: {
+                        pointDot:false,
+                        showTooltips: false,
+                        scaleOverride: true,
+                        scaleSteps: 2,
+                        scaleStepWidth: 2,
+                        scaleBeginAtZero: true,
+                        scale: {
+                            ticks: {
+                                min: 0,
+                                max: 10,
+                                beginAtZero: 0,
+                            },
+                            pointLabels: {
+                                fontSize: 16,
+                                fontColor: '#2c3e50'
+                            }
+                        }
+                    },
+                })
+            },
+
             addDrinkPreference: function(drink){
                 let that = this
 
@@ -311,6 +376,7 @@
                         that.drinkFound = true;
                         that.checkDrinkNutrition();
                         that.setLoading({is_loading: false, message: ''})
+                        that.drawChart();
 
                     })
                     .catch(function (error) {
