@@ -99,12 +99,11 @@
                                     Ir para cardápio completo
                                 </router-link>
                             </div>
-
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
 </template>
