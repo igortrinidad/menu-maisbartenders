@@ -246,6 +246,7 @@
                         if(event.url === 'https://www.facebook.com/dialog/return/close?#_=_'){
                             $('#modalSharePhrase').modal('hide')
                             appInBrowser.close();
+                            console.log('API IN BROWSER CLOSED');
                         }
                     });
                 }
