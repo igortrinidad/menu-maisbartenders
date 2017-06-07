@@ -26,11 +26,11 @@
                     <span slot="no-options">Não foi possível localizar ingredientes :(</span>
                 </v-select>
             </div>
-            
+
             <label>Apresentação</label>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-3 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
+                    <div class="col-lg-2 col-md-4 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
                         <div ref="presentation" class="presentation" @click="setPresentation(presentation.name, $event)">
                             <img :src="presentation.path">
                             <div class="text-center">
@@ -110,7 +110,7 @@
     import { mapGetters } from 'vuex'
     import Chart from 'chart.js'
     import vSelect from "vue-select"
-    
+
     import martini from '../../../assets/mockup/martini.png'
     import high_ball from '../../../assets/mockup/high_ball.png'
     import margarita from '../../../assets/mockup/margarita.png'
@@ -323,7 +323,12 @@
     font-weight: bold;
     text-transform: uppercase;
     color: #2c3e50;
-    margin-top: 10px
+    margin-top: 10px;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
 }
 
 .presentation i{ display: none; }
