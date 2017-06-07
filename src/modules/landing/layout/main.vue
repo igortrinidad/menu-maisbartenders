@@ -4,10 +4,6 @@
 
         <app-header></app-header>
 
-
-        <h2 style="margin-top:200px">{{$route.path}}</h2>
-        <p>{{location}}</p>
-
         <router-view></router-view>
 
         <app-footer></app-footer>
@@ -43,6 +39,10 @@
 
 /* back section */
 
+.page{
+    margin-top: 80px;
+}
+
 hr.gray{ border-color: #2c3e50; }
 
 .btn-xl{
@@ -64,6 +64,13 @@ hr.gray{ border-color: #2c3e50; }
     width: 100%;
     display: inline-block;
     padding: 5px;
+}
+
+.sub-header{
+    font-weight: 500;
+    text-transform: none;
+    display: block;
+    margin: 10px 5px 10px 5px;
 }
 
 @media(max-width: 768px) { .cols{ column-count: 2; } .cols.align-block .col{ width: 50%; } }
@@ -445,8 +452,8 @@ hr.gray{ border-color: #2c3e50; }
 }
 
 .v-select.searchable .dropdown-toggle {
-    height: 45px;
-    border: 1px solid #dce4ec;
+    height: 41px;
+    border: 0px solid rgba(60,60,60,.0);
     border-width: 2px;
     color: #2c3e50;
     border-radius: 4px;
@@ -470,11 +477,16 @@ hr.gray{ border-color: #2c3e50; }
 }
 
 .dropdown.v-select.open{
-    border: 2px solid rgba(60,60,60,.26);
-    border-radius: 4px;
-    border-color: #5880A5;
-   outline: 0;
+    border-color: black;
+}
 
+.cursor-pointer{
+    cursor:pointer;
+}
+
+
+.drink-item{
+  display: block;
 }
 
 </style>

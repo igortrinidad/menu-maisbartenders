@@ -16,10 +16,6 @@ $(function() {
     });
 });
 
-// Highlight the top nav as scrolling occurs
-$('body').scrollspy({
-    target: '.navbar-fixed-top'
-})
 
 // Helper function to get an element's exact position
 function getPosition(el) {

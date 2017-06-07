@@ -1,22 +1,21 @@
 <template>
    <div class="page">
 
-
         <div>
             <div class="container m-t-30 text-center">
-                <h1>Eventos</h1>
+                <h2>Eventos</h2>
+                <span class="sub-header">Digite o código do evento ou selecione abaixo.</span>
 
                 <div class="form-group">
                     <input class="form-control" v-model="event_url" placeholder="Código de acesso do evento.">
 
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-block" @click="eventGo()" :disabled="!event_url">Ir</button>
+                    <button class="btn btn-primary btn-block" @click="eventGo()" :disabled="!event_url">Acessar com código</button>
                 </div>
-                <p>Selecione um evento abaixo ou digite o código do evento.</p>
+                <p></p>
             </div>
         </div>
-
 
         <div class="list-events">
                <div class="container">
