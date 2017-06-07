@@ -352,8 +352,9 @@
     position: absolute;
     text-align: right;
     top: 0;
-    padding-top: 5px;
-    padding-right: 5px
+    padding-top: 7px;
+    padding-right: 7px;
+    font-size: 16px;
 }
 .presentation.active i{ display: block; }
 
