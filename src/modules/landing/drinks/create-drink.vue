@@ -110,6 +110,13 @@
     import { mapGetters } from 'vuex'
     import Chart from 'chart.js'
     import vSelect from "vue-select"
+    
+    import martini from '../../../assets/mockup/martini.png'
+    import high_ball from '../../../assets/mockup/high_ball.png'
+    import margarita from '../../../assets/mockup/margarita.png'
+    import ilha_bela_alto from '../../../assets/mockup/ilha_bela_alto.png'
+    import ilha_bela_baixo from '../../../assets/mockup/ilha_bela_baixo.png'
+    import barone from '../../../assets/mockup/barone.png'
 
     export default {
 
@@ -121,11 +128,12 @@
                 ingredientsFetcheds: [],
                 selectedIngredients: [],
                 presentations: [
-                    { name: 'High ball', path: '/static/img/high_ball.4cf875a.png' },
-                    { name: 'Ilha bela alto', path: '/static/img/ilha_bela_alto.8f89e9a.png' },
-                    { name: 'Ilha bela baixo', path: '/static/img/ilha_bela_baixo.a0d2a29.png' },
-                    { name: 'Margarita', path: '/static/img/margarita.bb21ca9.png' },
-                    { name: 'Taça martini', path: '/static/img/martini.f298167.png' }
+                    { name: 'High ball', path: high_ball },
+                    { name: 'Ilha bela alto', path: ilha_bela_alto },
+                    { name: 'Ilha bela baixo', path: ilha_bela_baixo },
+                    { name: 'Margarita', path: margarita },
+                    { name: 'Martini', path: martini },
+                    { name: 'Barone', path: barone }
                 ],
                 styles: [
                     { name: 'Leve', value: 2.5 },
