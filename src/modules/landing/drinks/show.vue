@@ -234,15 +234,29 @@
 
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks']),
 
-            openShareFacebook: function(){
+            openShareFacebook: function () {
                 let that = this
 
                 var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.drink.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drink.photo_url}&display=popup&mobile_iframe=true`;
 
-                window.open(url,'_blank');
+                if (window.cordova) {
+                    var appInBrowser = window.open(url, '_blank', 'location=yes');
+
+                    appInBrowser.addEventListener('loadstop', function (event) {
+                        if(event.url === 'https://www.facebook.com/dialog/return/close?#_=_'){
+                            $('#modalSharePhrase').modal('hide')
+                            appInBrowser.close();
+                        }
+                    });
+                }
+
+                if (!window.cordova) {
+                    window.open(url, '_blank');
+                }
+
+                $('#modalSharePhrase').modal('hide')
 
                 that.storeFacebookShare();
-
             },
 
             checkDrinkNutrition: function(){
@@ -351,10 +365,10 @@
 
                 var data = {
                     message: that.interactions.phraseSelected,
-                    user_id: 123
+                    user_id: that.curretUser.id
                 }
 
-                that.$http.post('/usert/storeFacebookShare', data)
+                that.$http.post('/guest/storeFacebookShare', data)
                     .then(function (response) {
 
                     })

@@ -31,8 +31,8 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-lg-2 col-sm-4 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
-                        <div ref="presentation" class="presentation" @click="setPresentation(presentation.name, $event)">
-                            <img :src="presentation.path">
+                        <div ref="presentation" class="presentation">
+                            <img class="cursor-pointer" :src="presentation.path" @click="setPresentation(presentation.name, $event)">
                             <div class="text-center text-overflow">
                                 <span>{{ presentation.name }}
                                     <i class="fa fa-check"></i>
@@ -65,9 +65,11 @@
                                 <span class="badge">
                                     <img :src="guestBadge" alt="Drink Criado Por Um Convidado" title="Drink Criado Por Um Convidado">
                                 </span>
-                                <span class="text">
-                                    Drinks criados por convidados recebem essa medalha
-                                </span>
+                                <div class="text-center">
+                                    <span class="text">
+                                        Drinks criados por convidados recebem essa medalha
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -88,18 +90,19 @@
                     </div>
                 </div>
 
-                <hr>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="text-center">
-                            <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.list' }">
-                                Ir para cardápio completo
-                            </router-link>
-                        </div>
+                <div class="backsection">
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="text-center">
+                                <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.list' }">
+                                    Ir para cardápio completo
+                                </router-link>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-
             </div>
 
         </div>
