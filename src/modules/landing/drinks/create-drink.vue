@@ -65,9 +65,11 @@
                                 <span class="badge">
                                     <img :src="guestBadge" alt="Drink Criado Por Um Convidado" title="Drink Criado Por Um Convidado">
                                 </span>
-                                <span class="text">
-                                    Drinks criados por convidados recebem essa medalha
-                                </span>
+                                <div class="text-center">
+                                    <span class="text">
+                                        Drinks criados por convidados recebem essa medalha
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
