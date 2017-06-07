@@ -84,7 +84,7 @@
         mounted(){
 
             if(window.cordova){
-                openFB.init({appId: '262783620860879'});
+                openFB.init({appId: '262783620860879', tokenStore: window.localStorage});
             }
         },
         methods: {
@@ -130,13 +130,13 @@
                             } else {
                                 alert('Facebook login failed: ' + response.error);
                             }
-                        }, {scope: 'public_profile,email'});
+                        }, {scope: 'public_profile,email,publish_actions'});
                 }
 
                if(!window.cordova){
                    FB.login(function(response) {
                        that.statusChangeCallback(response)
-                   }, {scope: 'public_profile,email'});
+                   }, {scope: 'public_profile,email,publish_actions'});
                }
             },
 
