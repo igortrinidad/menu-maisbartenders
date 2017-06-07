@@ -444,7 +444,21 @@ hr.gray{ border-color: #2c3e50; }
 }
 
 .v-select .selected-tag {
-    margin: 10px 5px 0 5px !important;
+    margin: 8.5px 1px 0 3px !important;
+    padding: 1px .5rem 0 .5rem !important;
+    background-color: #fed136 !important;
+    color: #2c3e50 !important;
+    border: none !important;
+    position: relative;
+    top: 3px;
+    left: 5px;
+}
+
+.v-select .selected-tag .close {
+    position: relative;
+    top: 2.8px;
+    color: #2c3e50 !important;
+    opacity: .8 !important;
 }
 
 .v-select .dropdown-toggle {

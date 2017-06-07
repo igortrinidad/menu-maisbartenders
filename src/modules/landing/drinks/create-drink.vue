@@ -72,7 +72,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div class="col-sm-6 col-sm-offset-3" :class="{ 'canvas-empty': isNewDrink }">
                         <canvas ref="createdDrinkChart"></canvas>
                     </div>
                 </div>
@@ -149,6 +149,7 @@
                     bitter: 0,
                     dry: 0,
                     alcohol: 0,
+                    created_by_guest: true,
                     items: [
                     ]
                 }
@@ -181,12 +182,26 @@
 
         methods: {
 
-            setDrink: function() {
-                // reset values in update case
+            setPresentation: function(presentation, event) {
+                $(this.$refs.presentation).removeClass('active')
+                $(event.target.parentNode).addClass('active')
+                this.drink.presentation = presentation
+            },
 
-                if (!this.drink.name || !this.selectedIngredients.length) {
-                    $(this.$refs.drinkName).addClass('error')
-                    errorNotify('', !this.drink.name ? 'Nome do drink é obrigatório' : 'Que tal adicionar alguns ingredientes ao seu drink?')
+            validateDrink: function() {
+                if (!this.drink.name) return { validated: false, message: 'Dê um nome para seu drink' }
+                if (!this.selectedIngredients.length) return { validated: false, message: 'Que tal escolher alguns ingredientes ao seu drink?' }
+                if (!this.drink.presentation) return { validated: false, message: 'Escolha uma apresentação para seu drink' }
+                if (!this.drink.style) return { validated: false, message: 'Escolha um estilo para seu drink' }
+                else return { validated: true }
+            },
+
+            setDrink: function() {
+
+                const validate = this.validateDrink()
+
+                if (!validate.validated) {
+                    errorNotify('', validate.message)
                 }
                 else {
                     this.isNewDrink = false
@@ -206,7 +221,6 @@
                 this.drink.dry = 0
 
                 const keys = ['Alcool', 'Cítrico','Amargo', 'Doce', 'Seco'];
-
                 const values = [
                     this.drink.style.value,
                     this.selectedIngredients.reduce( (ac, ingredient) => ac + ingredient.sour,0),
@@ -271,6 +285,7 @@
 </script>
 
 <style scoped>
+.canvas-empty{ height: 0; }
 
 .button-container{ margin-top: 30px; }
 
