@@ -121,7 +121,6 @@
 
                                 <div class="m-t-15" >
                                     <div class="box-footer" v-if="!isLogged">
-
                                         <button
                                             class="btn btn-default btn-sm btn-block m-b-10 btn-drink-action facebook btn-share"
                                             @click="addDrinkPreference(drink)"
