@@ -31,8 +31,8 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-lg-2 col-sm-4 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
-                        <div ref="presentation" class="presentation" @click="setPresentation(presentation.name, $event)">
-                            <img :src="presentation.path">
+                        <div ref="presentation" class="presentation">
+                            <img class="cursor-pointer" :src="presentation.path" @click="setPresentation(presentation.name, $event)">
                             <div class="text-center text-overflow">
                                 <span>{{ presentation.name }}
                                     <i class="fa fa-check"></i>
