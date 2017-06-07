@@ -20,13 +20,6 @@
                     </div>
                 </div>
 
-                <!--<div class="col-md-6 col-md-offset-3 col-xs-12">
-                    <div class="form-group">
-                        <button class="btn btn-info btn-block google" @click="socialLogin('google')">
-                            <i class="fa fa-google fa-lg button-icon"></i> Login com Google
-                        </button>
-                    </div>
-                </div>-->
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
                         <button class="btn btn-info btn-block" @click="interactions.showEmailLogin = true">
@@ -79,6 +72,7 @@
                 },
                 email: null,
                 password: null,
+                redirect: '/'
             }
         },
         computed:{
@@ -122,15 +116,6 @@
 
             },
 
-            socialLogin(type) {
-                localStorage.setItem('role', 'guest')
-                localStorage.setItem('provider', type)
-                localStorage.setItem('redirect', this.$route.query.redirect)
-                this.$auth.oauth2({
-                    provider: type
-                });
-            },
-
             /*
             * FACEBOOK Methods
              */
@@ -155,33 +140,17 @@
                }
             },
 
-            checkLoginState() {
-                let that = this
-                FB.getLoginStatus(function(response) {
-                    that.statusChangeCallback(response);
-                });
-            },
-
             statusChangeCallback(response) {
                 let that = this
-                console.log('statusChangeCallback');
-                console.log(response);
-                // The response object is returned with a status field that lets the
-                // app know the current login status of the person.
-                // Full docs on the response object can be found in the documentation
-                // for FB.getLoginStatus().
                 if (response.status === 'connected') {
-                    // Logged into your app and Facebook.
-                    that.testAPI(response.authResponse.accessToken);
+                    that.getUserInfo(response.authResponse.accessToken);
                 } else {
-                    // The person is not logged into your app or we are unable to tell.
-                  alert('Please log into this app.')
+                    errorNotify('', 'É necessário fazer login para continuar.')
                 }
             },
 
-            testAPI(accessToken) {
+            getUserInfo(accessToken) {
                 let that = this
-                console.log('Welcome!  Fetching your information.... ');
                 if(window.cordova){
                     openFB.api({
                         path: '/v2.8/me',
@@ -192,7 +161,7 @@
                             response.access_token = accessToken;
                             response.role = 'guest';
 
-                            that.socialLoginTest(response)
+                            that.socialLogin(response)
                         },
                         error: that.errorHandler
                     })
@@ -200,32 +169,27 @@
 
                 if(!window.cordova){
                     FB.api('/me', {fields: 'name,first_name, last_name, email' }, function(response) {
-                        console.log('Successful login for: ' + response.name);
-
                         response.photo_url = 'https://graph.facebook.com/' + response.id + '/picture?type=normal';
                         response.access_token = accessToken;
                         response.role = 'guest';
 
-                        that.socialLoginTest(response)
+                        that.socialLogin(response)
                     });
                 }
             },
 
-            socialLoginTest(response){
+            socialLogin(response){
                 let that = this
                 localStorage.setItem('provider', 'facebook')
-                that.$http.post('/auth/teste', response)
+                that.$http.post('/auth/social', response)
                     .then(function (response) {
 
                         that.authSetToken(response.data.access_token) // this is a Vuex action
                         that.authSetUser(response.data.user) // this is a Vuex action
 
-                        that.$auth.user(response.data.user)
-                        that.$auth.watch.authenticated = true
-
                         successNotify('', 'Login efetuado com sucesso.')
 
-                        that.$router.push('/')
+                        that.$router.push(that.$route.query.redirect ? that.$route.query.redirect : '/')
                     })
                     .catch(function (error) {
                         errorNotify('Ops!', 'Erro ao efetuar login.')
@@ -233,7 +197,7 @@
             },
 
             errorHandler(error) {
-                alert(error.message);
+                errorNotify('', error.message);
             }
         }
     }

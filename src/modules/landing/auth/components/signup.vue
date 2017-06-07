@@ -13,16 +13,8 @@
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3 col-xs-12">
                         <div class="form-group">
-                            <button class="btn btn-info btn-block facebook" @click="socialLogin('facebook')">
+                            <button class="btn btn-info btn-block facebook" @click="facebookLogin()">
                                 <i class="fa fa-facebook fa-lg button-icon"></i> Cadastre-se com Facebook
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <button class="btn btn-info btn-block google" @click="socialLogin('google')">
-                                <i class="fa fa-google fa-lg button-icon"></i> Cadastre-se com Google
                             </button>
                         </div>
                     </div>
@@ -99,7 +91,7 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
     import eventObj from '@/models/Event.js'
 
     var Swiper = require('swiper')
@@ -129,8 +121,17 @@
         },
         mounted(){
 
+            if(window.cordova){
+                openFB.init({appId: '262783620860879'});
+            }
         },
         methods: {
+
+            /**
+             * Map the actions from Vuex to this component.
+             */
+            ...mapActions(['authSetToken', 'authSetUser']),
+
             signup() {
                 let that = this
                 let formData = new FormData();
@@ -155,12 +156,91 @@
                 this.guest.photo = event.target.files[0]
             },
 
-            socialLogin(type) {
-                localStorage.setItem('role', 'guest')
-                this.$auth.oauth2({
-                    provider: type
-                });
+            /*
+             * FACEBOOK Methods
+             */
+            facebookLogin(){
+                let that = this
+
+                if(window.cordova){
+                    openFB.login(
+                        function(response) {
+                            if(response.status === 'connected') {
+                                that.statusChangeCallback(response)
+                            } else {
+                                alert('Facebook login failed: ' + response.error);
+                            }
+                        }, {scope: 'public_profile,email'});
+                }
+
+                if(!window.cordova){
+                    FB.login(function(response) {
+                        that.statusChangeCallback(response)
+                    }, {scope: 'public_profile,email'});
+                }
+            },
+
+            statusChangeCallback(response) {
+                let that = this
+                if (response.status === 'connected') {
+                    that.getUserInfo(response.authResponse.accessToken);
+                } else {
+                    errorNotify('', 'É necessário fazer login para continuar.')
+                }
+            },
+
+            getUserInfo(accessToken) {
+                let that = this
+                if(window.cordova){
+                    openFB.api({
+                        path: '/v2.8/me',
+                        params: { "access_token": accessToken, "fields":"id,name,first_name,last_name,email" },
+                        success: function(response) {
+
+                            response.photo_url = 'https://graph.facebook.com/' + response.id + '/picture?type=normal';
+                            response.access_token = accessToken;
+                            response.role = 'guest';
+
+                            that.socialLogin(response)
+                        },
+                        error: that.errorHandler
+                    })
+                }
+
+                if(!window.cordova){
+                    FB.api('/me', {fields: 'name,first_name, last_name, email' }, function(response) {
+                        response.photo_url = 'https://graph.facebook.com/' + response.id + '/picture?type=normal';
+                        response.access_token = accessToken;
+                        response.role = 'guest';
+
+                        that.socialLogin(response)
+                    });
+                }
+            },
+
+            socialLogin(response){
+                let that = this
+                localStorage.setItem('provider', 'facebook')
+                that.$http.post('/auth/social', response)
+                    .then(function (response) {
+
+                        that.authSetToken(response.data.access_token) // this is a Vuex action
+                        that.authSetUser(response.data.user) // this is a Vuex action
+
+                        successNotify('', 'Login efetuado com sucesso.')
+
+                        that.$router.push(that.$route.query.redirect ? that.$route.query.redirect : '/')
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                        errorNotify('Ops!', 'Erro ao efetuar login.')
+                    });
+            },
+
+            errorHandler(error) {
+                errorNotify('', error.message);
             }
+
         }
     }
 </script>

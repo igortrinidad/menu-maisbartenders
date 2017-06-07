@@ -4,11 +4,14 @@ import {localStorageGetItem} from '../utils/local'
 import prototypes from '../utils/prototypes'
 
 const needAuth = (auth, token) => auth !== undefined && auth && isEmpty(token)
+const preventsLogged = prevents => prevents === true
 
 const beforeEach = (to, from, next) => {
 
     let token = store.state.Auth.token
     const auth = to.meta.requiresAuth
+    const isLogged = store.getters.isLogged
+    const prevents = to.meta.preventsLogged
     /**
      * If there's no token stored in the state
      * then check localStorage:
@@ -30,6 +33,11 @@ const beforeEach = (to, from, next) => {
             store.dispatch('authSetToken', token)
             store.dispatch('authSetUser', localStoredUser.user)
         }
+    }
+
+    //prevents user to access login / signup routes
+    if (isLogged && preventsLogged(prevents)) {
+        return next({ name: from.name })
     }
 
     /**

@@ -32,7 +32,7 @@ export default [
         name: 'landing.auth.login',
         path: '/login',
         component: Login,
-        meta: { requiresAuth: false },
+        meta: { requiresAuth: false, preventsLogged: true },
     },
     {
         name: 'landing.auth.logout',
@@ -49,6 +49,6 @@ export default [
         name: 'landing.auth.signup',
         path: '/cadastre-se',
         component: Signup,
-        meta: { requiresAuth: false },
+        meta: { requiresAuth: false, preventsLogged: true },
     },
 ]

@@ -30,9 +30,9 @@
             </div>
 
             <div v-if="!isLogged">
-               <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para salvar o drink
+               <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para salvar o drink
                </router-link >
-              <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para compartilhar
+              <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para compartilhar
                </router-link >
             </div>
 
@@ -108,9 +108,9 @@
                                 </div>
                             </div>
 
-                            
+
                         </div>
-                        
+
                         <hr>
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
