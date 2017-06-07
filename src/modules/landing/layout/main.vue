@@ -510,4 +510,7 @@ hr.gray{ border-color: #2c3e50; }
   display: block;
 }
 
+.backsection{
+    margin-bottom: 30px;
+}
 </style>
