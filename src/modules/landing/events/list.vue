@@ -18,26 +18,37 @@
         </div>
 
         <div class="list-events">
-               <div class="container">
-                   <div class="cols">
-                       <div v-for="(event, index) in events" class="col">
-                           <div tag="div" class="box event" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
+            <div class="container">
+                <div class="cols">
+                    <div v-for="(event, index) in events" class="col">
+                        <div tag="div" class="box event" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
 
-                               <router-link tag="span" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
+                            <router-link tag="span" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
                                 <img :src="event.photo_url" :alt="event.name" class="event-gallery-image">
                                 <div class="details">
                                     <h4 class="event-name">{{ event.name }}</h4>
-                                    <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
                                     <span class="description">{{ event.greeting }}</span>
                                 </div>
 
-                               </router-link >
+                            </router-link >
 
-                            </div>
                         </div>
-                   </div>
-               </div>
-           </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="backsection">
+            <div class="container">
+                <hr>
+                <div class="text-center">
+                    <h3>Veja o menu de drinks mais bartenders</h3>
+                    <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.list' }">
+                        Acesse o menu
+                    </router-link>
+                </div>
+            </div>
+        </div>
 
    </div>
 </template>
@@ -65,7 +76,7 @@
         },
         methods: {
             ...mapActions(['setLoading']),
-            
+
             openShareFacebook: function(){
                 let that = this
 
