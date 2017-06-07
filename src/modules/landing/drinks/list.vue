@@ -72,10 +72,6 @@
                                    <span class="close-tag">x</span>
                                 </button>
                            </div>
-                           <div class="tag">
-
-                               <button class="button-tag" @click="displayGuestDrinks()">drink de convidados</button>
-                           </div>
                        </div>
                    </div>
 
@@ -87,12 +83,8 @@
            <div class="mb-drinks">
                <div class="container">
 
-                   <div v-for="(drink, index) in guestDrinks" v-if="interactions.showGuestDrinks">
-                       {{ drink.name }}
-                   </div>
-
                    <div class="cols">
-                       <div v-for="(drink, index) in drinksFiltered" v-if="!interactions.showGuestDrinks" class="col">
+                       <div v-for="(drink, index) in drinksFiltered" class="col">
                            <div tag="div" class="box drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                <div class="badges">
                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal" data-target="#badge-help">
@@ -113,7 +105,7 @@
                                         <hr>
                                     </div>
                                 </router-link>
-                                <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes 
+                                <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
                                     <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}" ></i>
                                 </h5>
                                 <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
@@ -132,9 +124,9 @@
                                     </div>
 
                                 <div v-if="!isLogged">
-                                   <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para salvar o drink
+                                   <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para salvar o drink
                                    </router-link >
-                                  <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login'}">Faça login para compartilhar
+                                  <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para compartilhar
                                    </router-link >
                                 </div>
                             </div>
@@ -220,7 +212,6 @@
             return {
                 interactions: {
                     showTags: false,
-                    showGuestDrinks: false,
                     drinksToShowInfo: [],
               },
               drinkFetcheds: [],
@@ -331,11 +322,6 @@
 
             clearFilter: function() {
                 this.filterOptions = []
-            },
-
-            displayGuestDrinks: function() {
-                this.interactions.showGuestDrinks = true
-                this.guestDrinks = JSON.parse(localStorage.getItem('guestDrink'))
             },
 
             getDrinks: function(){

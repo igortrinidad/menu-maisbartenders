@@ -444,7 +444,21 @@ hr.gray{ border-color: #2c3e50; }
 }
 
 .v-select .selected-tag {
-    margin: 6px 1px 0 3px !important;
+    margin: 8.5px 1px 0 3px !important;
+    padding: 1px .5rem 0 .5rem !important;
+    background-color: #fed136 !important;
+    color: #2c3e50 !important;
+    border: none !important;
+    position: relative;
+    top: 3px;
+    left: 5px;
+}
+
+.v-select .selected-tag .close {
+    position: relative;
+    top: 2.8px;
+    color: #2c3e50 !important;
+    opacity: .8 !important;
 }
 
 .v-select .dropdown-toggle {
@@ -470,8 +484,7 @@ hr.gray{ border-color: #2c3e50; }
 .v-select{
     margin: 0px 0px 0px 0px !important;
     min-height: 45px !important;
-    border: 1px solid #dce4ec;
-    border-width: 2px;
+    border: 2px solid #dce4ec;
     color: #2c3e50;
     border-radius: 4px;
 }
@@ -480,10 +493,18 @@ hr.gray{ border-color: #2c3e50; }
     border-color: black;
 }
 
+.v-select.searchable .dropdown-toggle{border: none !important;}
+
 .cursor-pointer{
     cursor:pointer;
 }
 
+.text-overflow{
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .drink-item{
   display: block;

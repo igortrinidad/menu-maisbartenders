@@ -37,7 +37,8 @@
         "vue-select": "github:sagalbot/vue-select",
         "vue-spinner": "^1.0.2",
         "vue-sweetalert": "^0.1.17",
-        "vuex": "^2.2.1"
+        "vuex": "^2.2.1",
+        "cordova-plugin-splashscreen": "~4.0.3"
     },
     "devDependencies": {
         "autoprefixer": "^6.7.2",
@@ -90,7 +91,8 @@
             "cordova-plugin-whitelist": {},
             "cordova-plugin-fastrde-injectview": {},
             "cordova-plugin-inappbrowser": {},
-            "de.fastr.phonegap.plugins.injectView": {}
+            "de.fastr.phonegap.plugins.injectView": {},
+            "cordova-plugin-splashscreen": {}
         },
         "platforms": [
             "android",
