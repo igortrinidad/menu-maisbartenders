@@ -13613,6 +13613,7 @@ function successNotify(errorTitle, errorMessage, position) {
         messageColor: '#fff',
         iconColor: '#fff',
         progressBarColor: '#fff',
+        timeout: 2000,
     });
 }
 
@@ -13641,6 +13642,7 @@ function InfoNotify(errorTitle, errorMessage, position) {
         messageColor: '#fff',
         iconColor: '#fff',
         progressBarColor: '#fff',
+        timeout: 2000,
     });
 }
 
@@ -13662,10 +13664,6 @@ $(function() {
     });
 });
 
-// Highlight the top nav as scrolling occurs
-$('body').scrollspy({
-    target: '.navbar-fixed-top'
-})
 
 // Helper function to get an element's exact position
 function getPosition(el) {

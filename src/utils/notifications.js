@@ -23,7 +23,7 @@ function successNotify(errorTitle, errorMessage, position) {
         messageColor: '#fff',
         iconColor: '#fff',
         progressBarColor: '#fff',
-        timeout: 2000,
+        timeout: 1500,
     });
 }
 

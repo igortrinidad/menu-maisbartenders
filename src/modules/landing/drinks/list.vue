@@ -1,37 +1,38 @@
 <template>
-   <div class="page" id="header-page">
+   <div class="page">
 
-       <div class="container mb-most-recommended">
-           <div class="text-center">
-               <h2>Best Sellers</h2>
-               <span class="sub">Aqui está uma lista com as principais recomendações para você.</span>
-           </div>
-           <div class="swiper-row">
-               <div class="swiper-container gallery-top" ref="swiper">
-                   <div class="swiper-wrapper">
+        <div class="container m-t-30 text-center">
+            <h2>Best Sellers</h2>
+            <span class="sub-header">Aqui está uma lista com as principais recomendações para você.</span>
+       </div>
 
-                       <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
-                           <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
-                           <span class="swiper-stars">
-                               <i class="fa fa-star" v-for="n in drink.priority"></i>
-                           </span>
-                           <div class="swiper-item-text">
-                               <h3 class="title">{{ drink.name }}</h3>
-                               <span class="subtitle">{{ drink.description }}</span>
-                           </div>
+       <!-- SWIPER -->
+       <div class="swiper-row">
+           <div class="swiper-container gallery-top" ref="swiper">
+               <div class="swiper-wrapper">
+
+                   <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
+                       <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
+                       <span class="swiper-stars">
+                           <i class="fa fa-star" v-for="n in drink.priority"></i>
+                       </span>
+                       <div class="swiper-item-text">
+                           <h3 class="title">{{ drink.name }}</h3>
+                           <span class="subtitle">{{ drink.description }}</span>
                        </div>
                    </div>
-
-                   <div class="swiper-pagination"></div>
-                   <!-- Add Arrows -->
-                   <div class="swiper-button-next swiper-button-white"></div>
-                   <div class="swiper-button-prev swiper-button-white"></div>
                </div>
+
+               <div class="swiper-pagination"></div>
+               <!-- Add Arrows -->
+               <div class="swiper-button-next swiper-button-white"></div>
+               <div class="swiper-button-prev swiper-button-white"></div>
            </div>
-           <div class="text-center">
-               <span class="sub">Ainda não decidiu? não se preocupe você pode ver todos os drinks e filtrar com os nossos ingredientes que você preferir</span>
-               <a href="#drinks" class="page-scroll btn btn-primary btn-block m-t-10">Ver todos</a>
-           </div>
+       </div>
+
+       <div class="text-center container">
+           <span class="sub-header">Ainda não decidiu? não se preocupe você pode ver todos os drinks e filtrar com os nossos ingredientes que você preferir.</span>
+           <a href="#drinks" class="page-scroll btn btn-primary btn-block m-t-10">Ver todos</a>
        </div>
 
       <section id="drinks">
@@ -39,7 +40,7 @@
                <div class="filter">
                    <div class="text-center">
                        <h3>Ingredientes:</h3>
-                       <span class="sub">Selecione os ingredientes de sua preferência.</span>
+                       <span class="sub-header">Selecione os ingredientes de sua preferência.</span>
                    </div>
 
                    <div class="mb-tags">
@@ -103,18 +104,23 @@
                                </div>
 
                                <router-link tag="span" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                <div class="details">
-                                    <h3 class="drink-name">{{ drink.name }}</h3>
-                                    <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
-                                    <span class="description">{{ drink.description }}</span>
-                                    <div class="items">
-                                        <span class="item" v-for="(item, index) in drink.items">{{ item.name }}</span>
+                                    <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                                    <div class="details">
+                                        <h3 class="drink-name">{{ drink.name }}</h3>
+                                        <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
+                                        <span class="description">{{ drink.description }}</span>
+
+                                        <hr>
                                     </div>
+                                </router-link>
+                                <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes 
+                                    <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}" ></i>
+                                </h5>
+                                <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
+                                    <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
                                 </div>
 
-                               </router-link>
-                                <div class="m-t-10" >
+                                <div class="m-t-15" >
                                     <div v-if="isLogged">
                                         <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
                                             @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
@@ -214,7 +220,8 @@
             return {
                 interactions: {
                     showTags: false,
-                    showGuestDrinks: false
+                    showGuestDrinks: false,
+                    drinksToShowInfo: [],
               },
               drinkFetcheds: [],
               filterOptions: [],
@@ -276,6 +283,15 @@
 
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks']),
 
+            drinkToShowToggle: function(drink){
+                let that = this
+                var index = that.interactions.drinksToShowInfo.indexOf(drink);
+                if(index > -1){
+                    that.interactions.drinksToShowInfo.splice(index,1)
+                } else {
+                    that.interactions.drinksToShowInfo.push(drink)
+                }
+            },
             initSwiper: function(){
                 var that = this;
 
@@ -391,11 +407,7 @@
 
 <style scoped>
 /* Some Default Styles for page*/
-.sub{
-    font-weight: bold;
-    text-transform: uppercase;
-    display: block;
-}
+
 .btn-xl.all{
     font-weight: bold;
     margin: 20px 0;
@@ -406,5 +418,7 @@
 /* Page & Grid*/
 .mb-most-recommended{ margin: 20px auto; }
 #drinks{ background-color: rgba(44, 60, 80, .07); padding: 80px 0; }
+
+
 
 </style>

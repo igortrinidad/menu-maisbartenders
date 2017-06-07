@@ -1,6 +1,5 @@
 <template>
    <div>
-
     <div v-if="eventFound">
         <header id="header-event" class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
             <div class="container">
@@ -33,7 +32,7 @@
         <div id="most-recommended" class="container">
            <div class="text-center">
                <h2>Best Sellers</h2>
-               <p>Aqui está uma lista com as principais recomendações para você.</p>
+               <p class="sub-header">Aqui está uma lista com as principais recomendações para você.</p>
            </div>
            <div class="swiper-row">
                <div class="swiper-container gallery-top" ref="swiper">
@@ -58,7 +57,7 @@
                </div>
            </div>
            <div class="text-center">
-               <p>Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
+               <p class="sub-header">Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
                <a href="#drinks" class="page-scroll btn btn-primary btn-block m-t-10">Ver Todos</a>
            </div>
        </div>
@@ -131,14 +130,21 @@
                                </div>
 
                                <router-link tag="span" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                <div class="details">
-                                    <h3 class="drink-name">{{ drink.name }}</h3>
-                                    <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
-                                    <span class="description">{{ drink.description }}</span>
-                                </div>
+                                    <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                                    <div class="details">
+                                        <h3 class="drink-name">{{ drink.name }}</h3>
+                                        <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
+                                        <span class="description">{{ drink.description }}</span>
 
-                               </router-link >
+                                        <hr>
+                                    </div>
+                                </router-link>
+                                <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes 
+                                    <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}" ></i>
+                                </h5>
+                                <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
+                                    <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
+                                </div>
 
                                 <div v-if="isLogged">
                                     <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
@@ -308,6 +314,7 @@
                     phraseSelected: '',
                     drinkSelected: drinkObj,
                     showTags: false,
+                    drinksToShowInfo: [],
                 },
                 filterOptions: [],
                 eventFound: true,
@@ -440,6 +447,16 @@
 
                 that.storeFacebookShare();
 
+            },
+
+            drinkToShowToggle: function(drink){
+                let that = this
+                var index = that.interactions.drinksToShowInfo.indexOf(drink);
+                if(index > -1){
+                    that.interactions.drinksToShowInfo.splice(index,1)
+                } else {
+                    that.interactions.drinksToShowInfo.push(drink)
+                }
             },
 
             checkIfDrinkHasItem: function(drink) {

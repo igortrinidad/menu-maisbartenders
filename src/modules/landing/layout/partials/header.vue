@@ -43,7 +43,7 @@
                         </router-link>
                     </li>
 
-                    <li v-if="!isLogged">
+                    <li v-if="!isLogged" @click="closeMenu()">
                         <router-link
                             :to="{name: 'landing.auth.login'}"
                             class="close-navbar-mb">
@@ -51,7 +51,7 @@
                         </router-link>
                     </li>
 
-                    <li v-if="!isLogged">
+                    <li v-if="!isLogged" @click="closeMenu()">
                         <router-link
                             :to="{name: 'landing.auth.signup'}"
                             class="close-navbar-mb">
@@ -64,7 +64,7 @@
                             <img :src="userPhoto" alt="" class="img-circle" width="32">
                             {{currentUser.full_name}} <b class="caret"></b>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" @click="closeMenu()">
                             <li>
                                 <router-link
                                     :to="{name: 'landing.user.preferences'}"

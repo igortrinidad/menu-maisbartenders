@@ -1,19 +1,14 @@
 <template>
-    <div>
+   <div class="page">
 
-        <section id="login">
-            <div class="container">
-                <div class="row m-b-30">
-                    <div class="col-lg-12">
-                        <h3 class="section-heading">Cadastro</h3>
-                        <h4 class="text-muted m-t-30">Veja seu cadastro no Menu Interativo</h4>
-                    </div>
-                </div>
+        <div class="container">
+            <div class="m-t-30 text-center">
+                <h2>Meus dados</h2>
+                <span class="sub-header">Altere suas informações.</span>
+            </div>
 
                 <div class="row m-t-20">
-                    <div class="col-md-5 col-xs-12">
-
-                        <h4>Dados do cadastro</h4>
+                    <div class="col-md-6 col-md-offset-3 col-xs-12">
 
                         <div class="alert alert-dismissible alert-info" v-if="currentUser.blank_password">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>

@@ -1,7 +1,6 @@
 <template lang="html">
     <div class="page">
         <div class="container">
-
             <div class="text-center">
                 <h2>Crie seu drink personalizado!</h2>
             </div>
@@ -190,10 +189,6 @@
                 }
 
             },
-            //
-            // setFlavors: function() {
-            //
-            // },
 
             drawChart: function(el){
 

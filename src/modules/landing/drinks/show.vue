@@ -370,4 +370,8 @@
     text-transform: uppercase;
 }
 
+section h2.section-heading {
+    margin-top: 0px;
+}
+
 </style>

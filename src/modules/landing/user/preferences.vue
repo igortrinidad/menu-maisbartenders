@@ -1,18 +1,17 @@
 <template>
-    <div>
+   <div class="page">
 
-        <section id="user-drinks">
-            <div class="container">
-                <div class="row m-t-30 m-b-20">
-                    <div class="col-md-6 col-xs-12">
-                        <h3 class="section-heading">Drinks salvos</h3>
-                    </div>
-                    <div class="col-md-6 col-xs-12">
-                        <router-link class="btn btn-primary pull-right" :to="{name: 'landing.user.createdrink'}">
-                            Crie seu drink
-                        </router-link>
-                    </div>
-                </div>
+        <div>
+            <div class="container m-t-30 text-center">
+                <h2>Meus drinks</h2>
+                <span class="sub-header">Suas criações e os drinks que você salvou.</span>
+            </div>
+            <div class="col-md-12 col-xs-12">
+                <router-link class="btn btn-primary pull-right" :to="{name: 'landing.drinks.createdrink'}">
+                    Crie seu drink
+                </router-link>
+            </div>
+        </div>
 
                 <h5  class="text-muted" v-if="!currentUser.saved_drinks.length">Você não possui nenhum drink salvo</h5>
                 <div class="cols">
