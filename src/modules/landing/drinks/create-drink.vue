@@ -33,7 +33,7 @@
                     <div class="col-lg-2 col-md-4 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
                         <div ref="presentation" class="presentation" @click="setPresentation(presentation.name, $event)">
                             <img :src="presentation.path">
-                            <div class="text-center">
+                            <div class="text-center text-overflow">
                                 <span>{{ presentation.name }}
                                     <i class="fa fa-check"></i>
                                 </span>
@@ -324,10 +324,6 @@
     text-transform: uppercase;
     color: #2c3e50;
     margin-top: 10px;
-    white-space: nowrap;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
     font-size: 12px;
 }
 

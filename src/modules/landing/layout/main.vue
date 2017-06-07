@@ -485,6 +485,13 @@ hr.gray{ border-color: #2c3e50; }
     cursor:pointer;
 }
 
+.text-overflow{
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .drink-item{
   display: block;
 }
