@@ -30,7 +30,7 @@
             <label>Apresentação</label>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-lg-2 col-sm-4 col-xs-6" v-for="(presentation, index) in presentations" :key="index">
+                    <div class="col-lg-2 col-sm-4 col-xs-4" v-for="(presentation, index) in presentations" :key="index">
                         <div ref="presentation" class="presentation">
                             <img class="cursor-pointer" :src="presentation.path" @click="setPresentation(presentation.name, $event)">
                             <div class="text-center text-overflow">
@@ -322,6 +322,7 @@
 /* presentations */
 .presentation{
     margin: 15px 0;
+    position: relative;
 }
 .presentation img{
     max-width: 100%;
@@ -345,8 +346,16 @@
     font-size: 12px;
 }
 
-.presentation i{ display: none; }
-.presentation.active i{ display: inline; }
+.presentation i{
+    display: none;
+    width: 100%;
+    position: absolute;
+    text-align: right;
+    top: 0;
+    padding-top: 5px;
+    padding-right: 5px
+}
+.presentation.active i{ display: block; }
 
 
 </style>
