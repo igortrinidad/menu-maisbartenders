@@ -43,7 +43,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         name: 'list-events',
@@ -64,7 +64,8 @@
             this.getEvents();
         },
         methods: {
-
+            ...mapActions(['setLoading']),
+            
             openShareFacebook: function(){
                 let that = this
 
@@ -81,18 +82,20 @@
             getEvents: function(){
                 let that = this
 
-                //that.$route.params.place_slug
+                that.setLoading({is_loading: true, message: ''})
 
                 that.$http.get('/events/fetchAll')
                     .then(function (response) {
 
                         that.events = response.data;
                         that.eventFound = true;
+                        that.setLoading({is_loading: false, message: ''})
 
                     })
                     .catch(function (error) {
                         console.log(error)
                         that.eventFound = false;
+                        that.setLoading({is_loading: false, message: ''})
 
                     });
 
