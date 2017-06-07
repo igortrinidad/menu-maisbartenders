@@ -137,4 +137,8 @@
     .user-logged-name{
         top: -4px;
     }
+
+    .navbar{
+        z-index: 1000 !important;
+    }
 </style>

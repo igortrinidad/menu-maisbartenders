@@ -18,6 +18,9 @@
     <allow-navigation href="http://menu.maisbartenders.com.br/*" />
     <allow-navigation href="https://maisbartenders.com.br/*" />
     <allow-navigation href="https://www.facebook.com/*" />
+    <allow-navigation href="https://m.facebook.com/*" />
+    <allow-navigation href="https://graph.facebook.com/*" />
+    <allow-navigation href="https://connect.facebook.com/*" />
     <allow-navigation href="https://fonts.googleapis.com/*" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />

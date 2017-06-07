@@ -33,6 +33,20 @@
     <section id="about">
         <div class="container">
             <div class="row">
+
+                <router-link
+                            :to="{name: 'landing.events.list'}"
+                            class="btn btn-danger btn-xl btn-block">
+                        Eventos
+                        </router-link>
+
+                        <router-link
+                            :to="{name: 'landing.drinks.list'}"
+                            class="btn btn-danger btn-xl btn-block">
+                        Cardápio Completo
+                        </router-link>
+
+
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Como funciona</h2>
                     <p class="text-description m-t-30">Ao contratar os serviços de drinks Mais Bartenders, nós criamos uma página<span class="text-selected"> exclusiva e personalizada </span>para seu evento. <a href="https://menu.maisbartenders.com.br/evento/joana-e-joao" target="_blank">Veja um exemplo</a></p>
