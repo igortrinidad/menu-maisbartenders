@@ -61,7 +61,7 @@ export default [
 
             {
                 name: 'landing.drinks.createdrink',
-                path: '/crie-seu-drink-exemplo',
+                path: '/crie-seu-drink',
                 component: CreateDrink,
                 meta: { requiresAuth: false},
             },
