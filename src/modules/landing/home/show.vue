@@ -49,7 +49,7 @@
 
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Como funciona</h2>
-                    <p class="text-description m-t-30">Ao contratar os serviços de drinks Mais Bartenders, nós criamos uma página<span class="text-selected"> exclusiva e personalizada </span>para seu evento. <a href="https://menu.maisbartenders.com.br/evento/joana-e-joao" target="_blank">Veja um exemplo</a></p>
+                    <p class="text-description m-t-30">Ao contratar os serviços de drinks Mais Bartenders e nosso exclusivo Menu Interativo, nós criamos uma página<span class="text-selected"> exclusiva e personalizada </span>para seu evento. <a href="https://menu.maisbartenders.com.br/evento/joana-e-joao" target="_blank">Veja um exemplo</a></p>
 
                     <p class="text-description m-t-30">
                         E aí começa a brincadeira: você poderá enviar para seus convidados conhecerem e interagirem com o cardápio mesmo antes da festa.
@@ -58,7 +58,7 @@
                         Seus convidados vão conhecer os drinks incluídos em sua proposta, salvar as receitas que mais gostaram e compartilhar no facebook com frases criativas - aumentando ainda mais a <span class="text-selected">expectativa</span> para o grande dia.
                     </p>
 
-                    <img class="m-t-30 m-b-30" src="https://media.giphy.com/media/vQqeT3AYg8S5O/giphy.gif" >
+                    <img class="m-t-30 m-b-30 img-gif" src="https://media.giphy.com/media/vQqeT3AYg8S5O/giphy.gif" >
 
                     <p class="text-description m-t-30">
                         Mas ainda não acabou!

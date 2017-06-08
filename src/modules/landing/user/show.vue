@@ -97,7 +97,7 @@
                         <div class="form-group">
                             <label>Redes sociais</label>
                             <p>
-                                Nosso sistema permite que você se conecte utilizando uma ou mais redes sociais ao mesmo, escolha uma disponível e conecte-se.</p>
+                                Nosso sistema permite que você se conecte utilizando o facebook ou email e senha, escolha uma opção disponível e conecte-se.</p>
                             <div class="row">
                                 <div class="col-md-12 col-xs-12">
                                     <button class="btn btn-info btn-block facebook" @click="socialLogin('facebook')"
@@ -106,13 +106,6 @@
                                         {{interactions.socialProviders.facebook ? 'Conectado ao' : 'Conectar com'}} Facebook
                                     </button>
                                     
-                                </div>
-                                <div class="col-md-12 col-xs-12 m-t-10">
-                                    <button class="btn btn-info btn-block google" @click="socialLogin('google')"
-                                            :disabled="interactions.socialProviders.google">
-                                        <i class="fa fa-google fa-lg button-icon"></i>
-                                        {{interactions.socialProviders.google ? 'Conectado ao' : 'Conectar com'}} Google
-                                    </button>
                                 </div>
                             </div>
 

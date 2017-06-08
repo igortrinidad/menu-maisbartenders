@@ -10,6 +10,8 @@ import VeeValidate, {Validator} from 'vee-validate';
 import {apiUrl, facebookClientId, googleClientId} from './config'
 import VueSweetAlert from 'vue-sweetalert'
 
+import {cleanUser} from './models/User'
+
 //FACEBOOK SDK
 (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -39,7 +41,7 @@ Vue.axios.interceptors.response.use(function (response) {
 
         //set token and user as null
         store.dispatch('authSetToken', '')
-        store.dispatch('authSetUser', '')
+        store.dispatch('authSetUser', cleanUser())
 
         //redirect
         router.push({ name: 'landing.auth.login' })
