@@ -261,6 +261,20 @@
                 </div>
             </div>
         </section>
+
+        <div class="backsection">
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                        <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.events.list' }">
+                            Voltar para lista eventos
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div v-if="!eventFound">
