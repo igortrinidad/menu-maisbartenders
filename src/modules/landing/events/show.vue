@@ -235,28 +235,28 @@
                 <div class="row">
                     <div class="col-md-12 col-xs-12">
 
-                        <h2>Comentários</h2>
+                        <h2>Comentários ({{pagination.total}})</h2>
                         <small>Compartilhe um drink preferido e seus compartilhamentos serão exibidos aqui na página do {{event.name}}</small>
 
-                        <span v-for="(comment, index) in event.comments">
-                        <div class="row">
-
-                            <span class="interactions m-10">
-                                <div class="row">
-                                    <div class="col-md-1 col-xs-3">
-                                        <img src="https://cdn3.iconfinder.com/data/icons/rcons-user-action/32/boy-512.png" class="img-circle" width="60px">
+                        <span v-for="(comment, index) in comments">
+                            <div class="row">
+                                <span class="interactions m-10">
+                                    <div class="row">
+                                        <div class="col-md-1 col-xs-3">
+                                            <img :src="handleGuestAvatar(comment.guest)" class="img-circle" width="60px">
+                                        </div>
+                                        <div class="col-md-11 col-xs-9">
+                                            <br>
+                                            <span class="comment-user-name">{{comment.guest.full_name}}</span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-11 col-xs-9">
-                                        <br>
-                                        <span class="comment-user-name">{{comment.user.name}}</span>
-                                    </div>
-                                </div>
-                                <p class="m-t-10">{{comment.phrase}}</p>
-                                <span class="text-right comment-date">Criado em: {{comment.created_at}}</span>
-                            </span>
-
-                        </div>
+                                    <p class="m-t-10">{{comment.comment}}</p>
+                                    <span class="text-right comment-date">Criado em: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss') }}</span>
+                                </span>
+                            </div>
                         </span>
+
+                        <pagination :source="pagination" @navigate="navigate" :paginator-class="'pagination-sm'"></pagination>
                     </div>
                 </div>
             </div>
@@ -330,6 +330,8 @@
 </template>
 
 <script>
+    import Vue from 'vue'
+    Vue.use(require('vue-moment'));
     import { mapGetters, mapActions } from 'vuex'
     import eventObj from '../../../models/Event.js'
     import drinkObj from '../../../models/Drink.js'
@@ -338,6 +340,9 @@
 
     export default {
         name: 'show-event',
+        components:{
+            pagination: require('@/components/pagination.vue')
+        },
         data () {
             return {
                 interactions: {
@@ -351,6 +356,8 @@
                 event: eventObj,
                 itemsSelecteds: [],
                 displayDrinks: false,
+                comments: [],
+                pagination:{}
             }
         },
         computed:{
@@ -453,6 +460,7 @@
             var that = this
 
             this.getEvent();
+            this.getEventComments();
             this.initSwiper();
             this.$nextTick(() => {
               this.initPageScroll()
@@ -468,15 +476,48 @@
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks']),
 
-            openShareFacebook: function(){
+            openShareFacebook: function () {
                 let that = this
 
                 var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/${that.event.url}&picture=${that.interactions.drinkSelected.photo_url}&display=popup&mobile_iframe=true&hashtag=${that.event.hashtag}`;
 
-                window.open(url,'_blank');
+                that.setLoading({is_loading: true, message: ''})
 
-                that.storeFacebookShare();
+                if (window.cordova) {
 
+                    $('#modalSharePhrase').modal('hide')
+
+                    openFB.api({
+                        method: 'POST',
+                        path: '/me/feed',
+                        params: {
+                            message: '',
+                            link: `https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/${that.event.url}`,
+                            name: that.interactions.drinkSelected.name,
+                            picture: that.interactions.drinkSelected.url,
+                            hashtag: that.event.hashtag
+                        },
+                        success: function() {
+                            successNotify('', 'Drink compartilhado com sucesso!')
+                            that.setLoading({is_loading: false, message: ''})
+                            that.storeFacebookShare();
+
+                        },
+                        error: function () {
+                            that.setLoading({is_loading: false, message: ''})
+                            errorNotify('', 'Sua sessão expirou, faça login novamente.')
+                            that.$router.push({name: 'landing.auth.logout', query: {redirect: '/login', redirect_back: that.$route.path}})
+                        }
+                    });
+                }
+
+                if (!window.cordova) {
+                    window.open(url, '_blank');
+                    $('#modalSharePhrase').modal('hide')
+                    that.setLoading({is_loading: false, message: ''})
+                    successNotify('', 'Drink compartilhado com sucesso!')
+                    that.storeFacebookShare();
+                }
             },
 
             drinkToShowToggle: function(drink){
@@ -540,17 +581,21 @@
 
             },
 
-            storeFacebookShare: function(drink){
+            storeFacebookShare: function(){
                 let that = this
 
                 var data = {
-                    message: that.interactions.phraseSelected,
-                    user_id: 123
+                    event_id: that.event.id,
+                    guest_id: that.currentUser.id,
+                    comment: that.interactions.phraseSelected,
                 }
 
-                that.$http.post('/usert/storeFacebookShare', data)
+                that.$http.post('/guest/eventComment', data)
                     .then(function (response) {
 
+                        that.interactions.phraseSelected = ''
+                        that.comments.unshift(response.data.comment)
+                        that.pagination.total = that.pagination.total + 1
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -620,6 +665,64 @@
                     event.preventDefault();
                 });
             },
+
+            getEventComments: function(){
+                let that = this
+                that.$http.get('/events/comments/' + that.$route.params.event_slug)
+                    .then(function (response) {
+
+                        that.comments = response.data.data
+
+                        that.pagination = {
+                            total: response.data.total,
+                            per_page: response.data.per_page,
+                            current_page: response.data.current_page,
+                            last_page: response.data.last_page,
+                            next_page_url: response.data.next_page_url,
+                            prev_page_url: response.data.prev_page_url,
+                            from: response.data.from,
+                            to: response.data.to,
+                        }
+
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+
+            },
+
+            navigate(page){
+                let that = this
+                that.$http.get('/events/comments/' + that.$route.params.event_slug + '?page=' + page)
+                    .then(function (response) {
+
+                        that.comments = response.data.data
+
+                        that.pagination = {
+                            total: response.data.total,
+                            per_page: response.data.per_page,
+                            current_page: response.data.current_page,
+                            last_page: response.data.last_page,
+                            next_page_url: response.data.next_page_url,
+                            prev_page_url: response.data.prev_page_url,
+                            from: response.data.from,
+                            to: response.data.to,
+                        }
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+            },
+
+            handleGuestAvatar(guest){
+
+                let guest_avatar = guest.social_providers.find(provider => provider.provider === 'facebook').photo_url
+
+                return guest_avatar ? guest_avatar : '/static/assets/user_avatar.jpg'
+
+            }
         }
     }
 </script>

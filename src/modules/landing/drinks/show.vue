@@ -114,9 +114,30 @@
                         <hr>
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
-                            class="btn inline btn-xl m-t-30">
-                        Ir para cardápio completo
+                            class="btn inline btn-xl m-t-30 m-b-30">
+                            Ir para cardápio completo
                         </router-link>
+                        <hr>
+                        <!-- Comments -->
+                        <div class="col-lg-12 text-left">
+                            <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
+                            <p v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
+                            <ul class="media-list">
+                                <li class="media" v-for="comment in comments">
+                                    <div class="pull-left">
+                                        <img class="media-object img-circle" :src="handleGuestAvatar(comment.guest)" width="48">
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">{{comment.guest.full_name}}</h5>
+                                        <span class="text-muted">{{comment.comment}}</span>
+                                    </div>
+
+                                </li>
+                            </ul>
+
+                            <pagination :source="pagination" @navigate="navigate" :paginator-class="'pagination-sm'"></pagination>
+                        </div>
+                        <!-- Comments -->
                     </div>
                 </div>
             </div>
@@ -171,6 +192,9 @@
 
     export default {
         name: 'show-drink',
+        components:{
+          pagination: require('@/components/pagination.vue')
+        },
         data () {
             return {
                 interactions: {
@@ -178,6 +202,8 @@
                 },
                 drinkFound: true,
                 drink: drinkObj,
+                comments: [],
+                pagination: {},
                 displayDrinks: false,
                 nutritional_facts: [],
                 alcoholStyles: [
@@ -226,6 +252,7 @@
         },
         mounted(){
             this.getDrink();
+            this.getDrinkComments();
             this.$nextTick(() => {
               this.initPageScroll()
             });
@@ -239,7 +266,11 @@
 
                 var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.drink.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drink.photo_url}&display=popup&mobile_iframe=true`;
 
+                that.setLoading({is_loading: true, message: ''})
+
                 if (window.cordova) {
+
+                    $('#modalSharePhrase').modal('hide')
 
                     openFB.api({
                         method: 'POST',
@@ -251,24 +282,26 @@
                             picture:that.drink.photo_url
                         },
                         success: function() {
-
                             successNotify('', 'Drink compartilhado com sucesso!')
+                            that.setLoading({is_loading: false, message: ''})
+                            that.storeFacebookShare();
+
                         },
-                        error: that.errorHandler
+                        error: function () {
+                            that.setLoading({is_loading: false, message: ''})
+                            errorNotify('', 'Sua sessão expirou, faça login novamente.')
+                            that.$router.push({name: 'landing.auth.logout', query: {redirect: '/login', redirect_back: that.$route.path}})
+                        }
                     });
                 }
 
                 if (!window.cordova) {
                     window.open(url, '_blank');
+                    $('#modalSharePhrase').modal('hide')
+                    that.setLoading({is_loading: false, message: ''})
+                    successNotify('', 'Drink compartilhado com sucesso!')
+                    that.storeFacebookShare();
                 }
-
-                $('#modalSharePhrase').modal('hide')
-
-                that.storeFacebookShare();
-            },
-
-            errorHandler(error) {
-                errorNotify('', error.message);
             },
 
             checkDrinkNutrition: function(){
@@ -372,17 +405,21 @@
 
             },
 
-            storeFacebookShare: function(drink){
+            storeFacebookShare: function () {
                 let that = this
 
                 var data = {
-                    message: that.interactions.phraseSelected,
-                    user_id: that.curretUser.id
+                    drink_id: that.drink.id,
+                    guest_id: that.currentUser.id,
+                    comment: that.interactions.phraseSelected,
                 }
 
-                that.$http.post('/guest/storeFacebookShare', data)
+                that.$http.post('/guest/drinkComment', data)
                     .then(function (response) {
 
+                        that.interactions.phraseSelected = ''
+                        that.comments.unshift(response.data.comment)
+                        that.pagination.total = that.pagination.total + 1
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -413,6 +450,56 @@
 
             },
 
+            getDrinkComments: function(){
+                let that = this
+                that.$http.get('/drinks/comments/' + that.$route.params.drink_slug)
+                    .then(function (response) {
+
+                        that.comments = response.data.data
+
+                        that.pagination = {
+                            total: response.data.total,
+                            per_page: response.data.per_page,
+                            current_page: response.data.current_page,
+                            last_page: response.data.last_page,
+                            next_page_url: response.data.next_page_url,
+                            prev_page_url: response.data.prev_page_url,
+                            from: response.data.from,
+                            to: response.data.to,
+                        }
+
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+
+            },
+
+            navigate(page){
+                let that = this
+                that.$http.get('/drinks/comments/' + that.$route.params.drink_slug + '?page=' + page)
+                    .then(function (response) {
+
+                        that.comments = response.data.data
+
+                        that.pagination = {
+                            total: response.data.total,
+                            per_page: response.data.per_page,
+                            current_page: response.data.current_page,
+                            last_page: response.data.last_page,
+                            next_page_url: response.data.next_page_url,
+                            prev_page_url: response.data.prev_page_url,
+                            from: response.data.from,
+                            to: response.data.to,
+                        }
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+            },
+
             initPageScroll: function(){
                 let that = this
 
@@ -425,6 +512,14 @@
                     event.preventDefault();
                 });
             },
+
+            handleGuestAvatar(guest){
+
+                let guest_avatar = guest.social_providers.find(provider => provider.provider === 'facebook').photo_url
+
+                return guest_avatar ? guest_avatar : '/static/assets/user_avatar.jpg'
+
+            }
         }
     }
 </script>
@@ -465,5 +560,78 @@
 section h2.section-heading {
     margin-top: 0px;
 }
+</style>
+
+<style>
+    /*
+    @TODO mover esses styles para o arquivo principal
+     */
+
+
+    /*
+    * Paginação
+     */
+    .pagination > li > a,
+    .pagination > li > span{
+        color: #2c3e50;
+        background-color: #fed136;
+    }
+
+    .pagination > li:first-child > a,
+    .pagination > li:first-child > span {
+        margin-left: 0;
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+    .pagination > li:last-child > a,
+    .pagination > li:last-child > span {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+    .pagination > li > a:hover,
+    .pagination > li > span:hover,
+    .pagination > li > a:focus,
+    .pagination > li > span:focus {
+        color: #fff;
+        background-color: #fec503;
+    }
+    .pagination > .active > a,
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+        color: #fff;
+        background-color: #fec503;
+    }
+    .pagination > .disabled > span,
+    .pagination > .disabled > span:hover,
+    .pagination > .disabled > span:focus,
+    .pagination > .disabled > a,
+    .pagination > .disabled > a:hover,
+    .pagination > .disabled > a:focus {
+        color: #3d5870;
+        background-color: #FEE89A;
+    }
+
+    /*
+    Comentarios
+     */
+    .media-list {
+        padding-left: 0;
+        list-style: none;
+    }
+    .media-object {
+        display: block;
+    }
+
+    .media, .media-body {
+        overflow: hidden;
+        zoom: 1;
+    }
+    .media-heading {
+        margin: 0 0 5px;
+    }
+
 
 </style>

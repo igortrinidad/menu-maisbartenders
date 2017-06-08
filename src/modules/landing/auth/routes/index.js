@@ -36,7 +36,7 @@ export default [
     },
     {
         name: 'landing.auth.logout',
-        path: '/login',
+        path: '/logout',
         component: Logout,
         meta: { requiresAuth: false },
     },

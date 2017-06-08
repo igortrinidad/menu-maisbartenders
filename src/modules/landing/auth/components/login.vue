@@ -34,14 +34,14 @@
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" class="form-control" v-model="email">
+                        <input type="email" class="form-control" v-model="email" placeholder="Informe seu e-mail">
                     </div>
                 </div>
 
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
                         <label>Senha</label>
-                        <input class="form-control" type="password" v-model="password">
+                        <input class="form-control" type="password" v-model="password" placeholder="Informe sua senha">
                     </div>
                 </div>
 
@@ -72,7 +72,7 @@
                 },
                 email: null,
                 password: null,
-                redirect: '/'
+                redirect: null
             }
         },
         computed:{
@@ -83,12 +83,7 @@
         },
         mounted(){
 
-            alert("teste");
-            console.log(window.cordova);
-            
             if(window.cordova){
-                alert("cordova")
-
                 openFB.init({appId: '262783620860879', tokenStore: window.localStorage});
             }
         },
@@ -96,9 +91,10 @@
             /**
              * Map the actions from Vuex to this component.
              */
-            ...mapActions(['authSetToken', 'authSetUser']),
+            ...mapActions(['authSetToken', 'authSetUser', 'setLoading']),
 
             login () {
+                this.setLoading({is_loading: true, message: ''})
 
                 this.$auth.login({
                     url:'guest/auth/login',
@@ -108,13 +104,15 @@
                         password: this.password,
                     },
                     rememberMe: this.rememberMe,
-                    redirect: this.$route.query.redirect ? this.$route.query.redirect : '/',
+                    redirect: this.handleRedirect(),
                     success (response) {
                         this.authSetToken(response.data.access_token) // this is a Vuex action
                         this.authSetUser(response.data.user) // this is a Vuex action
+                        this.setLoading({is_loading: false, message: ''})
                         successNotify('', 'Login efetuado com sucesso.')
                     },
                     error (error) {
+                        this.setLoading({is_loading: false, message: ''})
                         errorNotify('Ops!', 'Erro ao efetuar login.')
                     }
                 })
@@ -186,19 +184,38 @@
             socialLogin(response){
                 let that = this
                 localStorage.setItem('provider', 'facebook')
+
+                that.setLoading({is_loading: true, message: ''})
+
                 that.$http.post('/auth/social', response)
                     .then(function (response) {
 
                         that.authSetToken(response.data.access_token) // this is a Vuex action
                         that.authSetUser(response.data.user) // this is a Vuex action
 
+                        that.setLoading({is_loading: false, message: ''})
+
                         successNotify('', 'Login efetuado com sucesso.')
 
-                        that.$router.push(that.$route.query.redirect ? that.$route.query.redirect : '/')
+                        that.$router.push(that.handleRedirect())
+
                     })
                     .catch(function (error) {
                         errorNotify('Ops!', 'Erro ao efetuar login.')
                     });
+            },
+
+            handleRedirect(){
+                let that = this
+                let redirect_to
+
+                if (that.$route.query.redirect_back) {
+                    redirect_to = that.$route.query.redirect_back
+                } else {
+                    redirect_to = that.$route.query.redirect
+                }
+
+                return redirect_to ? redirect_to : '/'
             },
 
             errorHandler(error) {

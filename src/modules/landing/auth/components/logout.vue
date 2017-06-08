@@ -26,7 +26,7 @@
                 localStorage.removeItem('default-auth-token');
                 localStorage.removeItem('provider');
 
-                this.$router.push('/')
+                this.$router.push({path: this.$route.query.redirect ? this.$route.query.redirect : '/', query: { redirect_back: this.$route.query.redirect_back}})
             }
         }
     }

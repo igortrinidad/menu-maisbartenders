@@ -138,9 +138,7 @@
 
                                         <button
                                             class="btn btn-default btn-block m-b-10 btn-drink-action facebook btn-share"
-                                            @click="interactions.drinkSelected = drink"
-                                            data-toggle="modal"
-                                            data-target="#modalSharePhrase"
+                                            @click.prevent="setDrinkSelected(drink)"
                                             >Compartilhar no Facebook
                                         </button>
                                     </div>
@@ -231,6 +229,30 @@
             </div>
         </div>
 
+       <!--Modal Share-->]
+       <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
+           <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title">Escolha uma frase</h4>
+                   </div>
+                   <div class="modal-body p-25">
+
+                       <p>Escolha uma frase e compartilhe o drink em seu Facebook.</p>
+                       <br>
+
+                       <p class="phrase" v-for="(phrase, index) in phrases" @click="interactions.phraseSelected = phrase"
+                          :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-primary" @click="openShareFacebook()" :disabled="!interactions.phraseSelected">Compartilhar no facebook</button>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <!--Modal Share-->
+
    </div>
 </template>
 
@@ -244,12 +266,15 @@
                 interactions: {
                     showTags: false,
                     drinksToShowInfo: [],
-              },
-              drinkFetcheds: [],
-              filterOptions: [],
-              guestDrinks: [],
-              exclusiveBadge: '../../../../static/assets/king.png',
-              starBadge: '../../../../static/assets/star.png',
+                    phraseSelected: '',
+                },
+                drinkFetcheds: [],
+                filterOptions: [],
+                guestDrinks: [],
+                exclusiveBadge: '../../../../static/assets/king.png',
+                starBadge: '../../../../static/assets/star.png',
+                drinkSelected: null,
+                phrases: []
             }
         },
         computed:{
@@ -303,7 +328,7 @@
 
         methods: {
 
-            ...mapActions(['setLoading', 'addDrinkToSavedDrinks']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'setLoading']),
 
             drinkToShowToggle: function(drink){
                 let that = this
@@ -417,6 +442,101 @@
                     }, 1500, 'easeInOutExpo');
                     event.preventDefault();
                 });
+            },
+
+
+            setDrinkSelected(drink){
+                let that = this
+                that.drinkSelected = drink
+                that.sharePhrases()
+
+                $('#modalSharePhrase').modal('show')
+
+            },
+
+            sharePhrases(){
+                let that = this
+
+                var phrases = [];
+
+                var phrase1 =  `Keep calm e toma um ${that.drinkSelected.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `Quero muito um ${that.drinkSelected.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `Eu preciso de um drink ${that.drinkSelected.name} agora!`;
+                phrases.push(phrase1);
+
+                var phrase1 =  `Tudo que eu preciso é sombra e um ${that.drinkSelected.name}.`;
+                phrases.push(phrase1);
+
+                that.phrases = phrases
+
+            },
+
+            openShareFacebook: function () {
+                let that = this
+
+                var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drinkSelected.photo_url}&display=popup&mobile_iframe=true`;
+
+                that.setLoading({is_loading: true, message: ''})
+
+                if (window.cordova) {
+
+                    $('#modalSharePhrase').modal('hide')
+
+                    openFB.api({
+                        method: 'POST',
+                        path: '/me/feed',
+                        params: {
+                            message: '',
+                            link: 'https://maisbartenders.com.br/opengraph/drinks/'+that.drinkSelected.url+'/'+that.interactions.phraseSelected.replace(" ", "%20")+'/no-event',
+                            name: that.drinkSelected.name,
+                            picture:that.drinkSelected.photo_url
+                        },
+                        success: function() {
+                            successNotify('', 'Drink compartilhado com sucesso!')
+                            that.setLoading({is_loading: false, message: ''})
+                            that.storeFacebookShare();
+
+                        },
+                        error: function () {
+                            that.setLoading({is_loading: false, message: ''})
+                            errorNotify('', 'Sua sessão expirou, faça login novamente.')
+                            that.$router.push({name: 'landing.auth.logout', query: {redirect: '/login', redirect_back: that.$route.path}})
+                        }
+                    });
+                }
+
+                if (!window.cordova) {
+                    window.open(url, '_blank');
+                    $('#modalSharePhrase').modal('hide')
+                    that.setLoading({is_loading: false, message: ''})
+                    successNotify('', 'Drink compartilhado com sucesso!')
+                    that.storeFacebookShare();
+                }
+            },
+
+            storeFacebookShare: function () {
+                let that = this
+
+                var data = {
+                    drink_id: that.drinkSelected.id,
+                    guest_id: that.currentUser.id,
+                    comment: that.interactions.phraseSelected,
+                }
+
+                that.$http.post('/guest/drinkComment', data)
+                    .then(function (response) {
+
+                        that.interactions.phraseSelected = ''
+                        that.drinkSelected = null
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+
             },
         }
     }
