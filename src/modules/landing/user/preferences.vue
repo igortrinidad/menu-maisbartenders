@@ -1,101 +1,109 @@
 <template>
-   <div class="page">
-
+    <div class="page">
         <div>
             <div class="container m-t-30 text-center">
                 <h2>Meus drinks</h2>
                 <span class="sub-header">Suas criações e os drinks que você salvou.</span>
             </div>
-            <div class="col-md-12 col-xs-12">
-                <router-link class="btn btn-primary pull-right" :to="{name: 'landing.drinks.createdrink'}">
-                    Crie seu drink
-                </router-link>
+        </div>
+
+        <h5  class="text-muted" v-if="!currentUser.saved_drinks.length">Você não possui nenhum drink salvo</h5>
+
+        <div class="cols">
+            <div v-for="(drink, index) in currentUser.saved_drinks" class="col">
+                <div tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                    <div class="badges" data-toggle="modal" data-target="#badge-help">
+                        <span class="badge" v-if="drink.is_exclusive">
+                            <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                        </span>
+                        <span class="badge" v-if="drink.priority >= 4">
+                            <img
+                                class="zoom"
+                                src="../../../assets/images/star.png"
+                                alt="Este drink está entre os BEST SELLERS"
+                                title="Este drink está entre os BEST SELLERS"
+                            >
+                        </span>
+                    </div>
+
+                    <router-link tag="span" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                        <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                        <div class="details">
+                            <h3 class="drink-name">{{ drink.name }}</h3>
+                            <span class="description">{{ drink.description }}</span>
+
+                            <hr>
+                        </div>
+                    </router-link>
+
+                    <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
+                        <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
+                        </i>
+                    </h5>
+                    <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
+                        <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
+                    </div>
+
+                    <button
+                        class="btn btn-danger btn-sm m-b-10 btn-drink-action btn-share m-t-5"
+                        @click="removeDrinkPreference(drink)"
+                    >Excluir drink
+                    </button>
+                </div>
+
             </div>
         </div>
 
-                <h5  class="text-muted" v-if="!currentUser.saved_drinks.length">Você não possui nenhum drink salvo</h5>
-                <div class="cols">
-                    <div v-for="(drink, index) in currentUser.saved_drinks" class="col">
-                        <div tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                            <div class="badges" data-toggle="modal" data-target="#badge-help">
-                            <span class="badge" v-if="drink.is_exclusive">
-                                <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
-                            </span>
-                                <span class="badge" v-if="drink.priority >= 4">
-                                <img class="zoom" src="../../../assets/images/star.png" alt="Este drink está entre os BEST SELLERS"
-                                    title="Este drink está entre os BEST SELLERS">
-                            </span>
+        <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Ícones nos drinks</h4>
+                    </div>
+
+                    <div class="modal-body p-25 text-center">
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 text-center">
+                                <span class="modal-badge badge">
+                                    <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                                </span>
+
+                                <p>
+                                    Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.
+                                </p>
                             </div>
-
-                            <router-link tag="span" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                    <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                    <div class="details">
-                                        <h3 class="drink-name">{{ drink.name }}</h3>
-                                        <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
-                                        <span class="description">{{ drink.description }}</span>
-
-                                        <hr>
-                                    </div>
-                                </router-link>
-                                <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes 
-                                    <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}" ></i>
-                                </h5>
-                                <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
-                                    <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
-                                </div>
-
-                            <button class="btn btn-danger btn-sm m-b-10 btn-drink-action btn-share m-t-5"
-                                    @click="removeDrinkPreference(drink)">Excluir drink
-                            </button>
                         </div>
 
-                    </div>
-                </div>
-                <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Ícones nos drinks</h4>
-                            </div>
-                            <div class="modal-body p-25 text-center">
+                        <hr>
 
-                                <div class="row">
-                                    <div class="col-md-12 col-xs-12 text-center">
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 text-center">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
-                                        title="Este Drink é exclusivo">
-                               </span>
+                                    <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                                </span>
 
-                                        <p>
-                                            Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-12 col-xs-12 text-center">
-                                <span class="modal-badge badge">
-                                   <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
-                               </span>
-
-                                        <p>Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
-                                    </div>
-                                </div>
-
-                                <br>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
+                                <p>Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
                             </div>
                         </div>
+
+                        <br>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
                     </div>
                 </div>
-
             </div>
-        </section>
-
+        </div>
     </div>
 </template>
 
