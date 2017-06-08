@@ -203,6 +203,7 @@
                     })
                     .catch(function (error) {
                         errorNotify('Ops!', 'Erro ao efetuar login.')
+                        this.setLoading({is_loading: false, message: ''})
                     });
             },
 
