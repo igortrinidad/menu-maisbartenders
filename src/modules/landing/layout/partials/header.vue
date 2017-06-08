@@ -140,12 +140,6 @@
 
     .navbar{
         z-index: 1000 !important;
-        max-width: 100vw;
-        overflow: hidden;
     }
-    .navbar-nav{
-        box-sizing: border-box;
-        max-width: 100vw;
-        overflow: hidden;
-    }
+
 </style>
