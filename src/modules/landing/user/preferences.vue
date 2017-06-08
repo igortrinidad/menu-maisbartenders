@@ -7,50 +7,65 @@
             </div>
         </div>
 
-        <h5  class="text-muted" v-if="!currentUser.saved_drinks.length">Você não possui nenhum drink salvo</h5>
+        <div class="container">
+            <h5  class="text-muted" v-if="!currentUser.saved_drinks.length">Você não possui nenhum drink salvo</h5>
 
-        <div class="cols">
-            <div v-for="(drink, index) in currentUser.saved_drinks" class="col">
-                <div tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                    <div class="badges" data-toggle="modal" data-target="#badge-help">
-                        <span class="badge" v-if="drink.is_exclusive">
-                            <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
-                        </span>
-                        <span class="badge" v-if="drink.priority >= 4">
-                            <img
-                                class="zoom"
-                                src="../../../assets/images/star.png"
-                                alt="Este drink está entre os BEST SELLERS"
-                                title="Este drink está entre os BEST SELLERS"
-                            >
-                        </span>
-                    </div>
-
-                    <router-link tag="span" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                        <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                        <div class="details">
-                            <h3 class="drink-name">{{ drink.name }}</h3>
-                            <span class="description">{{ drink.description }}</span>
-
-                            <hr>
+            <div class="cols">
+                <div v-for="(drink, index) in currentUser.saved_drinks" class="col">
+                    <div tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                        <div class="badges" data-toggle="modal" data-target="#badge-help">
+                            <span class="badge" v-if="drink.is_exclusive">
+                                <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                            </span>
+                            <span class="badge" v-if="drink.priority >= 4">
+                                <img
+                                    class="zoom"
+                                    src="../../../assets/images/star.png"
+                                    alt="Este drink está entre os BEST SELLERS"
+                                    title="Este drink está entre os BEST SELLERS"
+                                >
+                            </span>
                         </div>
-                    </router-link>
 
-                    <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
-                        <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
-                        </i>
-                    </h5>
-                    <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
-                        <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
+                        <router-link tag="span" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                            <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                            <div class="details">
+                                <h3 class="drink-name">{{ drink.name }}</h3>
+                                <span class="description">{{ drink.description }}</span>
+
+                                <hr>
+                            </div>
+                        </router-link>
+
+                        <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
+                            <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
+                            </i>
+                        </h5>
+                        <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
+                            <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
+                        </div>
+
+                        <button
+                            class="btn btn-danger btn-sm m-b-10 btn-drink-action btn-share m-t-5"
+                            @click="removeDrinkPreference(drink)"
+                        >Excluir drink
+                        </button>
                     </div>
 
-                    <button
-                        class="btn btn-danger btn-sm m-b-10 btn-drink-action btn-share m-t-5"
-                        @click="removeDrinkPreference(drink)"
-                    >Excluir drink
-                    </button>
                 </div>
+            </div>
 
+            <div class="backsection">
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="text-center">
+                            <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.createdrink' }">
+                                Crie seu drink
+                            </router-link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
