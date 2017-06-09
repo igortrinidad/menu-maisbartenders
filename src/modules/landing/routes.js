@@ -3,18 +3,18 @@ import EventShow from './events/show.vue'
 import EventList from './events/list.vue'
 import DrinkShow from './drinks/show.vue'
 import DrinkList from './drinks/list.vue'
+import CreateDrink from './drinks/create-drink.vue'
 import appLayout from './layout/main'
 import UserShow from './user/show'
 import UserPreferences from './user/preferences'
 import NotFound from './pages/404.vue'
 import Forbidden from './pages/403.vue'
+import Privacy from './pages/privacy.vue'
 import { routes as auth } from './auth'
 
 //To test chart JS
 import TestChart from './drinks/test-chart.vue'
 
-// Example for user create drinks
-import CreateDrink from './drinks/create-drink.vue'
 
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_operator
 // Thus a new array is created, containing all objects that match the routes.
@@ -96,6 +96,12 @@ export default [
                 name: 'landing.404',
                 path: '/not-found',
                 component: NotFound
+            },
+            {
+                name: 'landing.privacy',
+                path: '/politica-de-uso-e-privacidade',
+                component: Privacy
+
             },
             {
                 path: '*',
