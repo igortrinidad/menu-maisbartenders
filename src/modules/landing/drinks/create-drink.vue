@@ -9,7 +9,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Nome do drink</label>
-                        <input class="form-control" type="text" v-model="drink.name">
+                        <input class="form-control" placeholder="Dê um nome para seu drink" type="text" v-model="drink.name">
                     </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Alguma descrição para seu drink?</label>
-                        <input class="form-control" type="text" v-model="drink.description">
+                        <input class="form-control" placeholder="Dê uma descrição para seu drink (opcional)" type="text" v-model="drink.description">
                     </div>
                 </div>
             </div>
