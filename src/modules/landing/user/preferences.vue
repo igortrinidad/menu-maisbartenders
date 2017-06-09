@@ -8,7 +8,12 @@
         </div>
 
         <div class="container">
-            <h5  class="text-muted" v-if="!currentUser.saved_drinks.length">Você não possui nenhum drink salvo</h5>
+            <div class="text-center" v-if="!currentUser.saved_drinks.length">
+                <h5  class="text-muted" >Você não possui nenhum drink salvo</h5>
+                <router-link class="btn btn-default" :to="{ name: 'landing.drinks.list' }">
+                    Acesse o menu
+                </router-link>
+            </div>
 
             <div class="cols">
                 <div v-for="(drink, index) in currentUser.saved_drinks" class="col">
@@ -74,6 +79,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="text-center">
+                            <h3>Que tal criar seu próprio drink?</h3>
                             <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.createdrink' }">
                                 Crie seu drink
                             </router-link>
