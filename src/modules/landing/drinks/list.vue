@@ -120,7 +120,7 @@
                                 </h5>
                                 <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
                                     <span class="drink-item" v-for="(item, index) in drink.items">
-                                        <i class="fa fa-check"></i> {{ item.name }}
+                                        {{ item.name }}
                                     </span>
                                 </div>
                                 <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">

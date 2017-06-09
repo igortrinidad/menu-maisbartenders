@@ -12,7 +12,7 @@
 
             <div class="cols">
                 <div v-for="(drink, index) in currentUser.saved_drinks" class="col">
-                    <div tag="div" class="drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                    <div tag="div" class="box drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                         <div class="badges" data-toggle="modal" data-target="#badge-help">
                             <span class="badge" v-if="drink.is_exclusive">
                                 <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
@@ -41,15 +41,29 @@
                             <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
                             </i>
                         </h5>
-                        <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
-                            <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name }}</span>
+                        <div
+                            class="items"
+                            :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}"
+                            v-show="interactions.drinksToShowInfo.indexOf(drink) >-1"
+                        >
+                            <span class="drink-item" v-for="(item, index) in drink.items">
+                                {{ item.name }}
+                            </span>
+                        </div>
+                        <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                            <span class="drink-item" v-if="!drink.items.length">
+                                Não foi possível carregar items para este drink :(
+                            </span>
                         </div>
 
-                        <button
-                            class="btn btn-danger btn-sm m-b-10 btn-drink-action btn-share m-t-5"
-                            @click="removeDrinkPreference(drink)"
-                        >Excluir drink
-                        </button>
+                        <div class="box-footer">
+                            <button
+                                class="btn btn-danger btn-sm m-b-10 btn-drink-action btn-share m-t-5"
+                                @click="removeDrinkPreference(drink)"
+                                >Excluir drink
+                            </button>
+                        </div>
+
                     </div>
 
                 </div>

@@ -146,7 +146,12 @@ hr.gray{ border-color: #2c3e50; }
     max-width: 100%;
 }
 
-.box .box-footer{ margin-top: 30px; padding-top: 10px; }
+.box .box-footer{
+    border: 1px solid #f0f1f2;
+    margin-top: 40px;
+    border-radius: 4px;
+    padding: 20px 30px 10px 30px;
+}
 .box .stars { margin-right: 3px; }
 
 /* Default Drink */
