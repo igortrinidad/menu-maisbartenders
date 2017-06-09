@@ -58,7 +58,7 @@
 
                         <div class="box-footer">
                             <button
-                                class="btn btn-danger btn-sm m-b-10 btn-drink-action btn-share m-t-5"
+                                class="btn btn-danger btn-block m-b-10 btn-drink-action btn-share m-t-5"
                                 @click="removeDrinkPreference(drink)"
                                 >Excluir drink
                             </button>
