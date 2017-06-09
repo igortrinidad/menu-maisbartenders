@@ -14,6 +14,15 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Alguma descrição para seu drink?</label>
+                        <input class="form-control" type="text" v-model="drink.description">
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group" style="position: relative;">
                 <label>Ingredientes</label>
                 <v-select
@@ -146,6 +155,10 @@
                 guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
                     name: '',
+                    description: '',
+                    url: '',
+                    created_at: '',
+                    updated_at: '',
                     sour: 0,
                     sweet: 0,
                     bitter: 0,
