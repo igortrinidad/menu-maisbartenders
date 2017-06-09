@@ -19,7 +19,7 @@
                                     class="form-control"
                                     placeholder="Seu nome"
                                     type="text"
-                                    v-model="message.name"
+                                    v-model="contact.name"
                                 >
                             </div>
                             <div class="form-group">
@@ -29,7 +29,7 @@
                                     class="form-control"
                                     placeholder="Seu E-mail"
                                     type="email"
-                                    v-model="message.email"
+                                    v-model="contact.email"
                                 >
                             </div>
                             <div class="form-group">
@@ -39,18 +39,18 @@
                                     class="form-control"
                                     placeholder="Seu número de ceular com ddd"
                                     type="text"
-                                    v-model="message.phone"
+                                    v-model="contact.phone"
                                 >
                             </div>
                             <div class="form-group">
-                                <label for="drink-style">Serviço</label>
+                                <label for="drink-style">Assunto</label>
                                 <v-select
                                     id="drink-style"
                                     :label="'name'"
                                     :options="services"
                                     :multiple="false"
                                     placeholder="Escolha o serviço."
-                                    v-model="message.service"
+                                    v-model="contact.subject"
                                 >
                                     <span slot="no-options">Não foi possível localizar serviços :(</span>
                                 </v-select>
@@ -62,7 +62,7 @@
                                     class="form-control"
                                     placeholder="Sua mensagem"
                                     type="text"
-                                    v-model="message.msg"
+                                    v-model="contact.message"
                                 >
                                 </textarea>
                             </div>
@@ -117,41 +117,83 @@
 
 <script>
 import vSelect from 'vue-select'
-
+import {mapGetters, mapActions} from 'vuex'
 export default {
     name: 'contact',
     components: { vSelect },
     data() {
         return {
             services: ['Duvidas', 'Sugestões'],
-            message: {
+            contact: {
                 name: '',
                 email: '',
                 phone: '',
-                service: '',
-                msg: ''
+                subject: '',
+                message: ''
             }
         }
     },
+    computed:{
+        ...mapGetters(['isLogged', 'currentUser'])
+    },
+    mounted(){
+        if(this.isLogged){
+            this.contact.name = this.currentUser.full_name
+            this.contact.email = this.currentUser.email
+            this.contact.phone = this.currentUser.phone
+        }
+    },
     methods: {
+        ...mapActions(['setLoading']),
+
         validateForm: function() {
-            if (!this.message.name) return { validated: false, message: 'Informe seu nome' }
-            if (!this.message.email) return { validated: false, message: 'Informe seu e-mail' }
-            if (!this.message.phone) return { validated: false, message: 'Informe seu celular' }
-            if (!this.message.service) return { validated: false, message: 'Infrome algum serviço' }
-            if (!this.message.msg) return { validated: false, message: 'Deixe uma messagem' }
+            if (!this.contact.name) return { validated: false, message: 'Informe seu nome' }
+            if (!this.contact.email) return { validated: false, message: 'Informe seu e-mail' }
+            if (!this.contact.phone) return { validated: false, message: 'Informe seu celular' }
+            if (!this.contact.subject) return { validated: false, message: 'Infrome algum serviço' }
+            if (!this.contact.message) return { validated: false, message: 'Deixe uma messagem' }
 
             return { validated: true }
         },
         submitForm: function() {
+            let that = this
+
             const validate = this.validateForm()
+
             if (validate.validated) {
                 // send message
-                successNotify('', 'Mensagem enviada!')
-                console.log(this.message)
+                that.setLoading({is_loading: true, message: ''})
+
+                that.$http.post('/contact/send', that.contact)
+                    .then(function (response) {
+
+                        that.setLoading({is_loading: false, message: ''})
+
+                        successNotify('', 'Mensagem enviada!')
+
+                        that.resetForm()
+                    })
+                    .catch(function (error) {
+                        errorNotify('', 'Não foi possível enviar sua mensagem, tente novamente mais tarde.')
+                        that.setLoading({is_loading: false, message: ''})
+                    });
             }
             else {
                 errorNotify('', validate.message)
+            }
+        },
+
+        resetForm(){
+            this.contact.name = ''
+            this.contact.email = ''
+            this.contact.phone = ''
+            this.contact.subject = ''
+            this.contact.message = ''
+
+            if(this.isLogged){
+                this.contact.name = this.currentUser.full_name
+                this.contact.email = this.currentUser.email
+                this.contact.phone = this.currentUser.phone
             }
         }
     }
