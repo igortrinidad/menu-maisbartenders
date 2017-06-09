@@ -122,6 +122,7 @@
     import Chart from 'chart.js'
     import vSelect from "vue-select"
     import slug from 'slug'
+    import moment from 'moment'
 
     import martini from '../../../assets/mockup/martini.png'
     import high_ball from '../../../assets/mockup/high_ball.png'
@@ -220,11 +221,22 @@
                     errorNotify('', validate.message)
                 }
                 else {
+
+                    successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
+
+                    // set created and updated date
+                    if (this.isNewDrink) {
+                        this.drink.created_at = moment().format('YYYY-MM-DD h:m:s')
+                        this.drink.updated_at = moment().format('YYYY-MM-DD h:m:s')
+                    }
+                    else {
+                        this.drink.updated_at = moment().format('YYYY-MM-DD h:m:s')
+                    }
+
                     this.isNewDrink = false
                     this.drink.items = this.selectedIngredients
                     this.drink.url = slug(this.drink.name).toLowerCase()
                     console.log(this.drink)
-                    successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
                     this.drawChart(this.$refs.createdDrinkChart)
                 }
 
