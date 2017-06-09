@@ -134,8 +134,9 @@
 
                                 </li>
                             </ul>
-
-                            <pagination :source="pagination" @navigate="navigate" :paginator-class="'pagination-sm'"></pagination>
+                            <div v-if="pagination.total > 0">
+                                <pagination :source="pagination" @navigate="navigate" :paginator-class="'pagination-sm'"></pagination>
+                            </div>
                         </div>
                         <!-- Comments -->
                     </div>
