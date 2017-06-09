@@ -20,20 +20,6 @@
 
             <div class="m-t-20 m-l-10">
                 <div v-if="isLogged">
-                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
-                            @click="addDrinkPreference(drink)"
-                            v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
-                        Salvar drink
-                    </button>
-                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5"
-                                 :to="{name: 'landing.user.preferences'}"
-                                 v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">
-                        Drink salvo <i class="fa fa-check"></i>
-                    </router-link>
-                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
-                            @click="interactions.drinkSelected = drink" data-toggle="modal"
-                            data-target="#modalSharePhrase">Compartilhar no Facebook
-                    </button>
                     <button @click.prevent="likeDrink(drink.id)" class="btn btn-sm m-b-10 btn-like m-r-5">
                         <span class="text-muted">{{drink.likes_count}}</span>
                         <i class="fa fa-heart fa-lg text-danger" v-if="handleLikedDrinks(drink.id)"></i>
@@ -661,6 +647,15 @@
 
     section h2.section-heading {
         margin-top: 0px;
+    }
+
+    /* Like button */
+    .btn-like {
+        background-color: transparent;
+    }
+
+    .btn-like:hover {
+        color: #e74c3c;
     }
 
 </style>

@@ -151,11 +151,6 @@
                                             @click.prevent="setDrinkSelected(drink)"
                                         >Compartilhar no Facebook
                                         </button>
-                                        <button
-                                            class="btn btn-default btn-block m-b-10 btn-drink-action facebook btn-share"
-                                            @click.prevent="setDrinkSelected(drink)"
-                                        >Compartilhar no Facebook
-                                        </button>
 
                                         <button @click.prevent="likeDrink(drink.id)" class="btn btn-block btn-like">
                                             <span class="text-muted">{{drink.likes_count}}</span>
