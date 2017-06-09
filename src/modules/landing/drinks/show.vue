@@ -62,10 +62,34 @@
 
             </div>
 
-            <section id="drink">
-                <div class="container">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 text-center-mobile">
+                    <div v-if="isLogged">
+                        <button
+                            class="btn btn-default btn-sm btn-block m-b-10 btn-drink-action facebook btn-share"
+                            @click="addDrinkPreference(drink)"
+                            v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                        >Salvar drink
+                        </button>
+                        <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share" :to="{name: 'landing.user.preferences'}" v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">Drink salvo <i class="fa fa-check"></i>
+                        </router-link >
+                        <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
+                    </div>
+
+                    <div v-if="!isLogged">
+                        <router-link tag="button" class="btn btn-success m-b-10 btn-drink-action btn-share" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para salvar o drink
+                        </router-link >
+                        <router-link tag="button" class="btn btn-default m-b-10 btn-drink-action facebook btn-share" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para compartilhar
+                        </router-link >
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
+        <section id="drink">
+            <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
 
@@ -600,34 +624,27 @@
 </script>
 
 <style scoped>
-
-    .nutrition-disclaimer {
+    .nutrition-disclaimer{
         font-size: 12px;
     }
 
     /* Badge */
-    .badges {
+    .badges{
         display: flex;
         justify-content: center;
         align-content: center;
         position: relative;
     }
-
-    .badge-container {
+    .badge-container{
         width: 200px;
         position: relative;
         padding: 0 20px 20px 20px;
     }
+    .badge:hover{ transform: none }
 
-    .badge:hover {
-        transform: none
-    }
+    .badge{ margin: 0 auto; }
 
-    .badge {
-        margin: 0 auto;
-    }
-
-    .badge span {
+    .badge span{
         display: block;
         width: 100%;
         color: rgba(44, 62, 80, 1);
@@ -638,18 +655,14 @@
         text-transform: uppercase;
     }
 
+    .container-fluid{
+        margin-top: 10px;
+    }
+
     section h2.section-heading {
         margin-top: 0px;
     }
 
-    /* Like button */
-    .btn-like {
-        background-color: transparent;
-    }
-
-    .btn-like:hover {
-        color: #e74c3c;
-    }
 </style>
 
 <style>

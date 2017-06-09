@@ -63,10 +63,23 @@
 .btn-drink-action{
     font-weight: 700 !important;
     text-transform: uppercase;
-    font-size: 10px;
+    font-size: 10px !important;
     height: 32px;
-    padding:8.5px 0;
+    padding:8px 15px;
 }
+
+@media (max-width: 768px) {
+    .text-center-mobile{
+        text-align: center;
+    }
+}
+@media (max-width: 414px) {
+    .btn-drink-action{
+        width: 100%;
+        display: block !important;
+    }
+}
+
 /* back section */
 
 .page{
@@ -401,10 +414,10 @@ hr.gray{ border-color: #2c3e50; }
             font-size: 20px;
         }
 
-        .btn-drink-action{
+        /*.btn-drink-action{
             font-size: 12px;
             padding: 5px;
-        }
+        }*/
 
         .swiper-button-prev, .swiper-button-next{
             top: 22%;
