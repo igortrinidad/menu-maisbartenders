@@ -67,7 +67,7 @@
                 <div class="col-sm-12 text-center-mobile">
                     <div v-if="isLogged">
                         <button
-                            class="btn btn-default btn-sm btn-block m-b-10 btn-drink-action facebook btn-share"
+                            class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share"
                             @click="addDrinkPreference(drink)"
                             v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                         >Salvar drink

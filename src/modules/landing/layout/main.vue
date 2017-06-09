@@ -73,7 +73,7 @@
         text-align: center;
     }
 }
-@media (max-width: 414px) {
+@media (max-width: 768px) {
     .btn-drink-action{
         width: 100%;
         display: block !important;
