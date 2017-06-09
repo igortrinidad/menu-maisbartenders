@@ -60,7 +60,13 @@
 </script>
 
 <style>
-
+.btn-drink-action{
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    font-size: 10px;
+    height: 32px;
+    padding:8.5px 0;
+}
 /* back section */
 
 .page{
