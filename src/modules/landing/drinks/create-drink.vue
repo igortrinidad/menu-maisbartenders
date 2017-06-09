@@ -8,8 +8,14 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Nome do drink</label>
-                        <input class="form-control" placeholder="Dê um nome para seu drink" type="text" v-model="drink.name">
+                        <label for="drink-name">Nome do drink</label>
+                        <input
+                            id="drink-name"
+                            class="form-control"
+                            placeholder="Dê um nome para seu drink"
+                            type="text"
+                            v-model="drink.name"
+                        >
                     </div>
                 </div>
             </div>
@@ -17,15 +23,22 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Alguma descrição para seu drink?</label>
-                        <input class="form-control" placeholder="Dê uma descrição para seu drink (opcional)" type="text" v-model="drink.description">
+                        <label for="drink-description">Alguma descrição para seu drink?</label>
+                        <input
+                            id="drink-description"
+                            class="form-control"
+                            placeholder="Dê uma descrição para seu drink (opcional)"
+                            type="text"
+                            v-model="drink.description"
+                        >
                     </div>
                 </div>
             </div>
 
             <div class="form-group" style="position: relative;">
-                <label>Ingredientes</label>
+                <label for="drink-ingredients">Ingredientes</label>
                 <v-select
+                    id="drink-ingredients"
                     :label="'name'"
                     :options="ingredients"
                     :multiple="true"
@@ -53,8 +66,9 @@
             </div>
 
             <div class="form-group">
-                <label>Estilo</label>
+                <label for="drink-style">Estilo</label>
                 <v-select
+                    id="drink-style"
                     :label="'name'"
                     :options="styles"
                     :multiple="false"
