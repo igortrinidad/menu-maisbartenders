@@ -83,7 +83,7 @@
         },
         mounted(){
 
-            if(cordova){
+            if(window.cordova){
 
                 openFB.init({appId: '262783620860879', tokenStore: localStorage});
             }
@@ -126,7 +126,7 @@
             facebookLogin(){
                 let that = this
 
-                if(cordova){
+                if(window.cordova){
                     openFB.login(
                         function(response) {
                             if(response.status === 'connected') {
@@ -137,7 +137,7 @@
                         }, {scope: 'public_profile,email,publish_actions'});
                 }
 
-               if(!cordova){
+               if(!window.cordova){
                    FB.login(function(response) {
                        that.statusChangeCallback(response)
                    }, {scope: 'public_profile,email,publish_actions'});
@@ -155,7 +155,7 @@
 
             getUserInfo(accessToken) {
                 let that = this
-                if(cordova){
+                if(window.cordova){
                     openFB.api({
                         path: '/v2.8/me',
                         params: { "access_token": accessToken, "fields":"id,name,first_name,last_name,email" },
@@ -171,7 +171,7 @@
                     })
                 }
 
-                if(!cordova){
+                if(!window.cordova){
                     FB.api('/me', {fields: 'name,first_name, last_name, email' }, function(response) {
                         response.photo_url = 'https://graph.facebook.com/' + response.id + '/picture?type=normal';
                         response.access_token = accessToken;
