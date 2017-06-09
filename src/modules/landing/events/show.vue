@@ -203,7 +203,7 @@
                                         >Faça login para compartilhar
                                         </router-link>
 
-                                        <router-link tag="button" class="btn btn-sm m-b-10 btn-like m-r-5"
+                                        <router-link tag="button" class="btn btn-sm m-b-10 btn-like m-r-5 btn-block"
                                                      :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
                                             <span class="text-muted">{{drink.likes_count}}</span> <i
                                             class="fa fa-heart-o fa-lg text-danger"></i>
