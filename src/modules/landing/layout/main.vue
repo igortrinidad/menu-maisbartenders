@@ -506,10 +506,9 @@ hr.gray{ border-color: #2c3e50; }
 
 .v-select input[type=search]{
     min-height: 45px;
-    max-width: 50% !important;
+    max-width: 70% !important;
     height: 45px;
-    border: 1px solid #dce4ec;
-    border-width: 2px;
+    border: none!important;
     color: #2c3e50;
     border-radius: 4px;
 }

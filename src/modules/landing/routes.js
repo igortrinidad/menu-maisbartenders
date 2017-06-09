@@ -10,6 +10,7 @@ import UserPreferences from './user/preferences'
 import NotFound from './pages/404.vue'
 import Forbidden from './pages/403.vue'
 import Privacy from './pages/privacy.vue'
+import Contact from './pages/contact.vue'
 import { routes as auth } from './auth'
 
 //To test chart JS
@@ -101,6 +102,12 @@ export default [
                 name: 'landing.privacy',
                 path: '/politica-de-uso-e-privacidade',
                 component: Privacy
+
+            },
+            {
+                name: 'landing.contact',
+                path: '/contato',
+                component: Contact
 
             },
             {

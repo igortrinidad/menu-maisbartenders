@@ -20,8 +20,9 @@
                 <div class="row">
                     <div class="col">
                         <div class="text-center">
+                            <h3>Volte para o início</h3>
                             <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.home.show' }">
-                                Início
+                                Voltar
                             </router-link>
                         </div>
                     </div>

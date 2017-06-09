@@ -59,6 +59,14 @@
                         </router-link>
                     </li>
 
+                    <li @click="closeMenu()">
+                        <router-link
+                            :to="{name: 'landing.contact'}"
+                            class="close-navbar-mb">
+                        Contato
+                        </router-link>
+                    </li>
+
                     <li class="dropdown"  v-if="isLogged">
                         <a href="#" class="dropdown-toggle user-logged-name" data-toggle="dropdown">
                             <img :src="userPhoto" alt="" class="img-circle" width="32">
