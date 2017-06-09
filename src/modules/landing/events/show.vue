@@ -266,34 +266,40 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
 
-                            <h2>Comentários ({{pagination.total}})</h2>
+                            <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
                             <small>
                                 Compartilhe um drink preferido e seus compartilhamentos serão exibidos aqui na página do {{event.name}}
                             </small>
 
                             <span v-for="(comment, index) in comments">
-                            <div class="row">
-                                <span class="interactions m-10">
-                                    <div class="row">
-                                        <div class="col-md-1 col-xs-3">
-                                            <img :src="handleGuestAvatar(comment.guest)" class="img-circle"
-                                                 width="60px">
+                                <div class="row">
+                                    <span class="interactions m-10">
+                                        <div class="row">
+                                            <div class="col-md-1 col-xs-3">
+                                                <img :src="handleGuestAvatar(comment.guest)" class="img-circle"
+                                                     width="60px">
+                                            </div>
+                                            <div class="col-md-11 col-xs-9">
+                                                <br>
+                                                <span class="comment-user-name">{{comment.guest.full_name}}</span>
+                                            </div>
                                         </div>
-                                        <div class="col-md-11 col-xs-9">
-                                            <br>
-                                            <span class="comment-user-name">{{comment.guest.full_name}}</span>
-                                        </div>
-                                    </div>
-                                    <p class="m-t-10">{{comment.comment}}</p>
-                                    <span
-                                        class="text-right comment-date">Criado em: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss')
-                                        }}</span>
-                                </span>
-                            </div>
-                        </span>
+                                        <p class="m-t-10">{{comment.comment}}</p>
+                                        <span
+                                            class="text-right comment-date">Criado em: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss')
+                                            }}</span>
+                                    </span>
+                                </div>
+                            </span>
 
-                            <pagination :source="pagination" @navigate="navigate"
-                                        :paginator-class="'pagination-sm'"></pagination>
+                            <div v-if="pagination.total > 0">
+                                <pagination
+                                    :source="pagination"
+                                    @navigate="navigate"
+                                    :paginator-class="'pagination-sm'"
+                                >
+                                </pagination>
+                            </div>
                         </div>
                     </div>
                 </div>
