@@ -162,7 +162,7 @@ export default {
 .contact-box{
     border-radius: 4px;
     padding: 10px;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, .2);
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, .2);
     margin: 15px 0;
 }
 
