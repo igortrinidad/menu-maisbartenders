@@ -20,6 +20,20 @@
 
             <div class="m-t-20 m-l-10">
                 <div v-if="isLogged">
+                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
+                            @click="addDrinkPreference(drink)"
+                            v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                        Salvar drink
+                    </button>
+                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5"
+                                 :to="{name: 'landing.user.preferences'}"
+                                 v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                        Drink salvo <i class="fa fa-check"></i>
+                    </router-link>
+                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
+                            @click="interactions.drinkSelected = drink" data-toggle="modal"
+                            data-target="#modalSharePhrase">Compartilhar no Facebook
+                    </button>
                     <button @click.prevent="likeDrink(drink.id)" class="btn btn-sm m-b-10 btn-like m-r-5">
                         <span class="text-muted">{{drink.likes_count}}</span>
                         <i class="fa fa-heart fa-lg text-danger" v-if="handleLikedDrinks(drink.id)"></i>
@@ -43,39 +57,11 @@
                         class="fa fa-heart-o fa-lg text-danger"></i>
                         Faça login para curtir
                     </router-link>
-
-                </div>
-
-            </div>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12 text-center-mobile">
-                    <div v-if="isLogged">
-                        <button
-                            class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share"
-                            @click="addDrinkPreference(drink)"
-                            v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                        >Salvar drink
-                        </button>
-                        <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share" :to="{name: 'landing.user.preferences'}" v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">Drink salvo <i class="fa fa-check"></i>
-                        </router-link >
-                        <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
-                    </div>
-
-                    <div v-if="!isLogged">
-                        <router-link tag="button" class="btn btn-success m-b-10 btn-drink-action btn-share" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para salvar o drink
-                        </router-link >
-                        <router-link tag="button" class="btn btn-default m-b-10 btn-drink-action facebook btn-share" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para compartilhar
-                        </router-link >
-                    </div>
                 </div>
             </div>
-        </div>
 
-
-        <section id="drink">
-            <div class="container">
+            <section id="drink">
+                <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
 
@@ -565,11 +551,11 @@
 
                 let guest_avatar = null
 
-                if(guest.photo_url){
+                if (guest.photo_url) {
                     guest_avatar = guest.photo_url
                 }
 
-                if( guest.social_providers.length){
+                if (guest.social_providers.length) {
                     guest_avatar = guest.social_providers.find(provider => provider.provider === 'facebook').photo_url
                 }
 
@@ -610,27 +596,33 @@
 </script>
 
 <style scoped>
-    .nutrition-disclaimer{
+    .nutrition-disclaimer {
         font-size: 12px;
     }
 
     /* Badge */
-    .badges{
+    .badges {
         display: flex;
         justify-content: center;
         align-content: center;
         position: relative;
     }
-    .badge-container{
+
+    .badge-container {
         width: 200px;
         position: relative;
         padding: 0 20px 20px 20px;
     }
-    .badge:hover{ transform: none }
 
-    .badge{ margin: 0 auto; }
+    .badge:hover {
+        transform: none
+    }
 
-    .badge span{
+    .badge {
+        margin: 0 auto;
+    }
+
+    .badge span {
         display: block;
         width: 100%;
         color: rgba(44, 62, 80, 1);
@@ -641,7 +633,7 @@
         text-transform: uppercase;
     }
 
-    .container-fluid{
+    .container-fluid {
         margin-top: 10px;
     }
 
