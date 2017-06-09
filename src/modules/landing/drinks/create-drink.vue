@@ -30,7 +30,7 @@
                     :options="ingredients"
                     :multiple="true"
                     v-model="selectedIngredients"
-                    placeholder="Selecione ingredientes para montar seu drink"
+                    placeholder="Selecione no minímo 2 ingredientes"
                 >
                     <span slot="no-options">Não foi possível localizar ingredientes :(</span>
                 </v-select>
@@ -208,6 +208,7 @@
             validateDrink: function() {
                 if (!this.drink.name) return { validated: false, message: 'Dê um nome para seu drink' }
                 if (!this.selectedIngredients.length) return { validated: false, message: 'Que tal escolher alguns ingredientes ao seu drink?' }
+                if (this.selectedIngredients.length === 1) return { validated: false, message: 'Que tal adicionar mais algum ingrediente ao seu drink?' }
                 if (!this.drink.presentation) return { validated: false, message: 'Escolha uma apresentação para seu drink' }
                 if (!this.drink.style) return { validated: false, message: 'Escolha um estilo para seu drink' }
                 else return { validated: true }
