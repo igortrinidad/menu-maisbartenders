@@ -121,6 +121,7 @@
     import { mapGetters } from 'vuex'
     import Chart from 'chart.js'
     import vSelect from "vue-select"
+    import slug from 'slug'
 
     import martini from '../../../assets/mockup/martini.png'
     import high_ball from '../../../assets/mockup/high_ball.png'
@@ -221,6 +222,7 @@
                 else {
                     this.isNewDrink = false
                     this.drink.items = this.selectedIngredients
+                    this.drink.url = slug(this.drink.name).toLowerCase()
                     console.log(this.drink)
                     successNotify('', this.isNewDrink ? `${this.drink.name} criado com sucesso!` : `${this.drink.name} atualizado com sucesso`)
                     this.drawChart(this.$refs.createdDrinkChart)
