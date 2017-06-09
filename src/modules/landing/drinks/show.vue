@@ -1,89 +1,115 @@
 <template>
-   <div>
+    <div>
 
-    <div v-if="drinkFound">
-        <header id="header-drink" class="header-greeting" v-bind:style="{ backgroundImage: drinkBackground}">
-            <div class="container" >
-                <div class="col-md-6 col-md-offset-3 col-xs-12">
-                    <div class="intro-text">
+        <div v-if="drinkFound">
+            <header id="header-drink" class="header-greeting" v-bind:style="{ backgroundImage: drinkBackground}">
+                <div class="container">
+                    <div class="col-md-6 col-md-offset-3 col-xs-12">
+                        <div class="intro-text">
                         <span class="text-box">
                             <span class="event-name">
                                 {{drink.name}}
                             </span>
                         </span>
-                        <br>
-                        <a href="#drink" class="page-scroll btn btn-xl m-t-30">Ver detalhes</a>
+                            <br>
+                            <a href="#drink" class="page-scroll btn btn-xl m-t-30">Ver detalhes</a>
+                        </div>
                     </div>
                 </div>
+            </header>
+
+            <div class="m-t-20 m-l-10">
+                <div v-if="isLogged">
+                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
+                            @click="addDrinkPreference(drink)"
+                            v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                        Salvar drink
+                    </button>
+                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5"
+                                 :to="{name: 'landing.user.preferences'}"
+                                 v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                        Drink salvo <i class="fa fa-check"></i>
+                    </router-link>
+                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
+                            @click="interactions.drinkSelected = drink" data-toggle="modal"
+                            data-target="#modalSharePhrase">Compartilhar no Facebook
+                    </button>
+                    <button @click.prevent="likeDrink(drink.id)" class="btn btn-sm m-b-10 btn-like m-r-5">
+                        <span class="text-muted">{{drink.likes_count}}</span>
+                        <i class="fa fa-heart fa-lg text-danger" v-if="handleLikedDrinks(drink.id)"></i>
+                        <i class="fa fa-heart-o fa-lg text-danger" v-if="!handleLikedDrinks(drink.id)"></i>
+                    </button>
+                </div>
+
+                <div v-if="!isLogged">
+                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5"
+                                 :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
+                        Faça login para salvar o drink
+                    </router-link>
+                    <router-link tag="button"
+                                 class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
+                                 :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
+                        Faça login para compartilhar
+                    </router-link>
+                    <router-link tag="button" class="btn btn-sm m-b-10 btn-like m-r-5"
+                                 :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
+                        <span class="text-muted">{{drink.likes_count}}</span> <i
+                        class="fa fa-heart-o fa-lg text-danger"></i>
+                        Faça login para curtir
+                    </router-link>
+
+                </div>
+
             </div>
-        </header>
 
-        <div class="m-t-20 m-l-10">
-            <div v-if="isLogged">
-                <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
-                @click="addDrinkPreference(drink)" v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
-                    Salvar drink
-                </button>
-                <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5" :to="{name: 'landing.user.preferences'}" v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">Drink salvo <i class="fa fa-check"></i>
-               </router-link >
-                <button  class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" @click="interactions.drinkSelected = drink" data-toggle="modal" data-target="#modalSharePhrase">Compartilhar no Facebook</button>
-            </div>
-
-            <div v-if="!isLogged">
-               <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para salvar o drink
-               </router-link >
-              <router-link tag="button" class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5" :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">Faça login para compartilhar
-               </router-link >
-            </div>
-
-        </div>
-
-        <section id="drink">
-            <div class="container">
+            <section id="drink">
+                <div class="container">
 
 
-                <div class="row">
-                    <div class="col-lg-12 text-center">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
 
-                        <h2 class="section-heading m-b-30">{{drink.name}}</h2>
+                            <h2 class="section-heading m-b-30">{{drink.name}}</h2>
 
-                        <div class="badges">
-                            <div class="badge-container" v-if="drink.is_exclusive">
+                            <div class="badges">
+                                <div class="badge-container" v-if="drink.is_exclusive">
                                 <span class="badge">
-                                    <img src="../../../assets/images/king.png" alt="DRINK EXCLUSIVO" title="DRINK EXCLUSIVO">
+                                    <img src="../../../assets/images/king.png" alt="DRINK EXCLUSIVO"
+                                         title="DRINK EXCLUSIVO">
                                     <span>Drink Exclusivo</span>
                                 </span>
-                            </div>
-                            <div class="badge-container" v-if="drink.priority >= 4">
+                                </div>
+                                <div class="badge-container" v-if="drink.priority >= 4">
                                 <span class="badge">
-                                    <img class="zoom" src="../../../assets/images/star.png" alt="BEST SELLER" title="BESTE SELLER">
+                                    <img class="zoom" src="../../../assets/images/star.png" alt="BEST SELLER"
+                                         title="BESTE SELLER">
                                     <span>Best Sellers</span>
                                 </span>
+                                </div>
                             </div>
-                        </div>
 
-                        <p class="m-t-30 text-muted">
-                            <strong class="f-20">{{drink.description}}</strong><br>
-                        </p>
+                            <p class="m-t-30 text-muted">
+                                <strong class="f-20">{{drink.description}}</strong><br>
+                            </p>
 
-                        <h3 class="m-b-30">Ingredientes</h3>
+                            <h3 class="m-b-30">Ingredientes</h3>
 
-                        <p class="m-t-30 text-muted">
+                            <p class="m-t-30 text-muted">
                             <span v-for="item in drink.items" v-if="item.pivot.is_visible">
                                 <strong class="f-20">{{item.name}}</strong><br>
                             </span>
-                        </p>
+                            </p>
 
-                        <div class="row">
-                            <div class="col-md-6 col-xs-12">
-                                <h4 class="m-b-30">Mapa de sabor</h4>
-                                <canvas ref="createdDrinkChart"></canvas>
-                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-xs-12">
+                                    <h4 class="m-b-30">Mapa de sabor</h4>
+                                    <canvas ref="createdDrinkChart"></canvas>
+                                </div>
 
-                            <div class="col-md-6 col-xs-12">
-                                <h4 class="m-b-30">Informação nutricional</h4>
-                                <div class="row text-left">
-                                    <div class="col-md-8 col-md-offset-2 col-xs-12">
+                                <div class="col-md-6 col-xs-12">
+                                    <h4 class="m-b-30">Informação nutricional</h4>
+                                    <div class="row text-left">
+                                        <div class="col-md-8 col-md-offset-2 col-xs-12">
                                         <span class="text-left">
                                             <small class="f-16 f-500">Porção: 1 unidade</small>
                                             <table class="table table-bordered table-striped">
@@ -102,60 +128,64 @@
                                             </table>
 
                                             <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
-                                            <p class="nutrition-disclaimer">Fonte: <a target="_blank" href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
+                                            <p class="nutrition-disclaimer">Fonte: <a target="_blank"
+                                                                                      href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
                                         </span>
+                                        </div>
                                     </div>
                                 </div>
+
+
                             </div>
 
+                            <hr>
+                            <router-link
+                                :to="{name: 'landing.drinks.list'}"
+                                class="btn inline btn-xl m-t-30 m-b-30">
+                                Ir para cardápio completo
+                            </router-link>
+                            <hr>
+                            <!-- Comments -->
+                            <div class="col-lg-12 text-left">
+                                <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
+                                <p v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
+                                <ul class="media-list">
+                                    <li class="media" v-for="comment in comments">
+                                        <div class="pull-left">
+                                            <img class="media-object img-circle" :src="handleGuestAvatar(comment.guest)"
+                                                 width="48">
+                                        </div>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">{{comment.guest.full_name}}</h5>
+                                            <span class="text-muted">{{comment.comment}}</span>
+                                        </div>
 
-                        </div>
-
-                        <hr>
-                        <router-link
-                            :to="{name: 'landing.drinks.list'}"
-                            class="btn inline btn-xl m-t-30 m-b-30">
-                            Ir para cardápio completo
-                        </router-link>
-                        <hr>
-                        <!-- Comments -->
-                        <div class="col-lg-12 text-left">
-                            <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
-                            <p v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
-                            <ul class="media-list">
-                                <li class="media" v-for="comment in comments">
-                                    <div class="pull-left">
-                                        <img class="media-object img-circle" :src="handleGuestAvatar(comment.guest)" width="48">
-                                    </div>
-                                    <div class="media-body">
-                                        <h5 class="media-heading">{{comment.guest.full_name}}</h5>
-                                        <span class="text-muted">{{comment.comment}}</span>
-                                    </div>
-
-                                </li>
-                            </ul>
-                            <div v-if="pagination.total > 0">
-                                <pagination :source="pagination" @navigate="navigate" :paginator-class="'pagination-sm'"></pagination>
+                                    </li>
+                                </ul>
+                                <div v-if="pagination.total > 0">
+                                    <pagination :source="pagination" @navigate="navigate"
+                                                :paginator-class="'pagination-sm'"></pagination>
+                                </div>
                             </div>
+                            <!-- Comments -->
                         </div>
-                        <!-- Comments -->
                     </div>
                 </div>
-            </div>
 
-        </section>
-    </div>
+            </section>
+        </div>
 
         <div class="" v-if="!drinkFound">
-            <header class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
-                <div class="container" >
+            <header class="header-greeting"
+                    v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
+                <div class="container">
                     <div class="intro-text">
                         <div class="intro-heading">:(</div>
                         <div class="intro-heading">Não localizamos seu drink</div>
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
                             class="btn btn-info ">
-                        Ir para cardápio Mais Bartenders
+                            Ir para cardápio Mais Bartenders
                         </router-link>
                     </div>
                 </div>
@@ -166,7 +196,8 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">Escolha uma frase</h4>
                     </div>
                     <div class="modal-body p-25">
@@ -174,27 +205,30 @@
                         <p>Escolha uma frase e compartilhe o drink em seu Facebook.</p>
                         <br>
 
-                        <p class="phrase" v-for="(phrase, index) in phrases" @click="interactions.phraseSelected = phrase"
-                        :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
+                        <p class="phrase" v-for="(phrase, index) in phrases"
+                           @click="interactions.phraseSelected = phrase"
+                           :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @click="openShareFacebook()" :disabled="!interactions.phraseSelected">Compartilhar no facebook</button>
+                        <button type="button" class="btn btn-primary" @click="openShareFacebook()"
+                                :disabled="!interactions.phraseSelected">Compartilhar no facebook
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-   </div>
+    </div>
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex'
+    import {mapGetters, mapActions} from 'vuex'
     import drinkObj from '../../../models/Drink.js'
 
     export default {
         name: 'show-drink',
-        components:{
-          pagination: require('@/components/pagination.vue')
+        components: {
+            pagination: require('@/components/pagination.vue')
         },
         data () {
             return {
@@ -208,44 +242,44 @@
                 displayDrinks: false,
                 nutritional_facts: [],
                 alcoholStyles: [
-                    { label: 'Sem álcool', value: 2.5 },
-                    { label: 'Leve', value: 2.5 },
-                    { label: 'Equilibrado', value: 5.0 },
-                    { label: 'Forte', value: 7.5 },
-                    { label: 'Super forte', value: 10 },
+                    {label: 'Sem álcool', value: 2.5},
+                    {label: 'Leve', value: 2.5},
+                    {label: 'Equilibrado', value: 5.0},
+                    {label: 'Forte', value: 7.5},
+                    {label: 'Super forte', value: 10},
                 ]
             }
         },
-        computed:{
+        computed: {
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged']),
-            drinkBackground: function(){
+            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
+            drinkBackground: function () {
                 return 'url(' + this.drink.photo_url + ')';
             },
 
-            phrases: function(){
+            phrases: function () {
                 let that = this
 
                 var phrases = [];
 
-                var phrase1 =  `Keep calm e toma um ${that.drink.name}!`;
+                var phrase1 = `Keep calm e toma um ${that.drink.name}!`;
                 phrases.push(phrase1);
 
-                var phrase1 =  `Quero muito um ${that.drink.name}!`;
+                var phrase1 = `Quero muito um ${that.drink.name}!`;
                 phrases.push(phrase1);
 
-                var phrase1 =  `Eu preciso de um drink ${that.drink.name} agora!`;
+                var phrase1 = `Eu preciso de um drink ${that.drink.name} agora!`;
                 phrases.push(phrase1);
 
-                var phrase1 =  `Tudo que eu preciso é sombra e um ${that.drink.name}.`;
+                var phrase1 = `Tudo que eu preciso é sombra e um ${that.drink.name}.`;
                 phrases.push(phrase1);
 
                 return phrases
 
             },
 
-            nutritional_facts_ordereds: function(){
+            nutritional_facts_ordereds: function () {
                 let that = this
                 return _.orderBy(this.nutritional_facts, 'id', 'asc');
             },
@@ -255,12 +289,12 @@
             this.getDrink();
             this.getDrinkComments();
             this.$nextTick(() => {
-              this.initPageScroll()
+                this.initPageScroll()
             });
         },
         methods: {
 
-            ...mapActions(['setLoading', 'addDrinkToSavedDrinks']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
 
             openShareFacebook: function () {
                 let that = this
@@ -278,11 +312,11 @@
                         path: '/me/feed',
                         params: {
                             message: '',
-                            link: 'https://maisbartenders.com.br/opengraph/drinks/'+that.drink.url+'/'+that.interactions.phraseSelected.replace(" ", "%20")+'/no-event',
+                            link: 'https://maisbartenders.com.br/opengraph/drinks/' + that.drink.url + '/' + that.interactions.phraseSelected.replace(" ", "%20") + '/no-event',
                             name: that.drink.name,
-                            picture:that.drink.photo_url
+                            picture: that.drink.photo_url
                         },
-                        success: function() {
+                        success: function () {
                             successNotify('', 'Drink compartilhado com sucesso!')
                             that.setLoading({is_loading: false, message: ''})
                             that.storeFacebookShare();
@@ -291,7 +325,10 @@
                         error: function () {
                             that.setLoading({is_loading: false, message: ''})
                             errorNotify('', 'Sua sessão expirou, faça login novamente.')
-                            that.$router.push({name: 'landing.auth.logout', query: {redirect: '/login', redirect_back: that.$route.path}})
+                            that.$router.push({
+                                name: 'landing.auth.logout',
+                                query: {redirect: '/login', redirect_back: that.$route.path}
+                            })
                         }
                     });
                 }
@@ -305,20 +342,20 @@
                 }
             },
 
-            checkDrinkNutrition: function(){
+            checkDrinkNutrition: function () {
                 let that = this
 
                 that.nutritional_facts = [];
 
-                that.drink.items.forEach( function(item){
-                    item.nutrients.forEach(function(nutri){
+                that.drink.items.forEach(function (item) {
+                    item.nutrients.forEach(function (nutri) {
 
                         nutri.quantity = item.pivot.quantity / 100 * nutri.pivot.quantity;
                         nutri.quantity = nutri.quantity.toFixed(2);
 
                         var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
 
-                        if(hasNutri){
+                        if (hasNutri) {
                             var index = that.nutritional_facts.indexFromAttr('name', nutri.name)
                             that.nutritional_facts[index].quantity += nutri.quantity;
                         } else {
@@ -329,13 +366,13 @@
 
             },
 
-            drawChart: function(){
+            drawChart: function () {
 
                 var alcohol = this.alcoholStyles.findFromAttr('label', this.drink.style);
 
-                const keys = ['Refrescante', 'Frutado/Doce', 'Amargo', 'Seco','Salgado', 'Álcool'];
+                const keys = ['Refrescante', 'Frutado/Doce', 'Amargo', 'Seco', 'Salgado', 'Álcool'];
 
-                const values = [this.drink.sour,this.drink.sweet,this.drink.bitter,this.drink.dry,this.drink.salt,alcohol.value];
+                const values = [this.drink.sour, this.drink.sweet, this.drink.bitter, this.drink.dry, this.drink.salt, alcohol.value];
 
                 console.log(values);
 
@@ -359,7 +396,7 @@
                         ]
                     },
                     options: {
-                        pointDot:false,
+                        pointDot: false,
                         showTooltips: false,
                         scaleOverride: true,
                         scaleSteps: 2,
@@ -380,7 +417,7 @@
                 })
             },
 
-            addDrinkPreference: function(drink){
+            addDrinkPreference: function (drink) {
                 let that = this
 
                 var data = {
@@ -428,7 +465,7 @@
 
             },
 
-            getDrink: function(){
+            getDrink: function () {
                 let that = this
 
                 that.setLoading({is_loading: true, message: ''})
@@ -451,7 +488,7 @@
 
             },
 
-            getDrinkComments: function(){
+            getDrinkComments: function () {
                 let that = this
                 that.$http.get('/drinks/comments/' + that.$route.params.drink_slug)
                     .then(function (response) {
@@ -501,10 +538,10 @@
                     });
             },
 
-            initPageScroll: function(){
+            initPageScroll: function () {
                 let that = this
 
-                $('a.page-scroll').bind('click', function(event) {
+                $('a.page-scroll').bind('click', function (event) {
                     var $anchor = $(this);
 
                     $('html, body').stop().animate({
@@ -516,10 +553,47 @@
 
             handleGuestAvatar(guest){
 
-                let guest_avatar = guest.social_providers.find(provider => provider.provider === 'facebook').photo_url
+                let guest_avatar = null
+
+                if(guest.photo_url){
+                    guest_avatar = guest.photo_url
+                }
+
+                if( guest.social_providers.length){
+                    guest_avatar = guest.social_providers.find(provider => provider.provider === 'facebook').photo_url
+                }
 
                 return guest_avatar ? guest_avatar : '/static/assets/user_avatar.jpg'
+            },
 
+            likeDrink(drink_id){
+                let that = this
+
+                let data = {
+                    drink_id: drink_id,
+                    guest_id: that.currentUser.id
+                }
+
+                that.$http.post('/guest/likeDrink', data)
+                    .then(function (response) {
+
+                        if (!response.data.is_unlike) {
+                            that.addUserDrinkLike(response.data.like)
+                            that.drink.likes_count = that.drink.likes_count + 1
+                        }
+
+                        if (response.data.is_unlike) {
+                            that.removeUserDrinkLike(response.data.like)
+                            that.drink.likes_count = that.drink.likes_count - 1
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+            },
+
+            handleLikedDrinks(drink_id){
+                return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
             }
         }
     }
@@ -527,40 +601,55 @@
 
 <style scoped>
 
-.nutrition-disclaimer{
-    font-size: 12px;
-}
+    .nutrition-disclaimer {
+        font-size: 12px;
+    }
 
-/* Badge */
-.badges{
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    position: relative;
-}
-.badge-container{
-    width: 200px;
-    position: relative;
-    padding: 0 20px 20px 20px;
-}
-.badge:hover{ transform: none }
+    /* Badge */
+    .badges {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        position: relative;
+    }
 
-.badge{ margin: 0 auto; }
+    .badge-container {
+        width: 200px;
+        position: relative;
+        padding: 0 20px 20px 20px;
+    }
 
-.badge span{
-    display: block;
-    width: 100%;
-    color: rgba(44, 62, 80, 1);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    text-align: center;
-    text-transform: uppercase;
-}
+    .badge:hover {
+        transform: none
+    }
 
-section h2.section-heading {
-    margin-top: 0px;
-}
+    .badge {
+        margin: 0 auto;
+    }
+
+    .badge span {
+        display: block;
+        width: 100%;
+        color: rgba(44, 62, 80, 1);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    section h2.section-heading {
+        margin-top: 0px;
+    }
+
+    /* Like button */
+    .btn-like {
+        background-color: transparent;
+    }
+
+    .btn-like:hover {
+        color: #e74c3c;
+    }
 </style>
 
 <style>
@@ -568,12 +657,11 @@ section h2.section-heading {
     @TODO mover esses styles para o arquivo principal
      */
 
-
     /*
     * Paginação
      */
     .pagination > li > a,
-    .pagination > li > span{
+    .pagination > li > span {
         color: #2c3e50;
         background-color: #fed136;
     }
@@ -584,11 +672,13 @@ section h2.section-heading {
         border-bottom-left-radius: 4px;
         border-top-left-radius: 4px;
     }
+
     .pagination > li:last-child > a,
     .pagination > li:last-child > span {
         border-bottom-right-radius: 4px;
         border-top-right-radius: 4px;
     }
+
     .pagination > li > a:hover,
     .pagination > li > span:hover,
     .pagination > li > a:focus,
@@ -596,6 +686,7 @@ section h2.section-heading {
         color: #fff;
         background-color: #fec503;
     }
+
     .pagination > .active > a,
     .pagination > .active > span,
     .pagination > .active > a:hover,
@@ -605,6 +696,7 @@ section h2.section-heading {
         color: #fff;
         background-color: #fec503;
     }
+
     .pagination > .disabled > span,
     .pagination > .disabled > span:hover,
     .pagination > .disabled > span:focus,
@@ -622,6 +714,7 @@ section h2.section-heading {
         padding-left: 0;
         list-style: none;
     }
+
     .media-object {
         display: block;
     }
@@ -630,6 +723,7 @@ section h2.section-heading {
         overflow: hidden;
         zoom: 1;
     }
+
     .media-heading {
         margin: 0 0 5px;
     }

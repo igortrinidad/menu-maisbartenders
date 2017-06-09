@@ -92,7 +92,7 @@
             /**
              * Map the actions from Vuex to this component.
              */
-            ...mapActions(['authSetToken', 'authSetUser', 'setLoading']),
+            ...mapActions(['authSetToken', 'authSetUser', 'setLoading', 'setUserDrinkLikes']),
 
             login () {
                 this.setLoading({is_loading: true, message: ''})
@@ -198,6 +198,8 @@
 
                         successNotify('', 'Login efetuado com sucesso.')
 
+                        that.getUserDrinkLikes()
+
                         that.$router.push(that.handleRedirect())
 
                     })
@@ -222,6 +224,20 @@
 
             errorHandler(error) {
                 errorNotify('', error.message);
+            },
+
+            getUserDrinkLikes(){
+                let that = this
+
+                that.$http.get('/guest/drinkLikes')
+                    .then(function (response) {
+
+                        that.setUserDrinkLikes(response.data.likes)
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
             }
         }
     }

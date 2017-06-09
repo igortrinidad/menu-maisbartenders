@@ -15,7 +15,7 @@
     import appHeader from './partials/header.vue'
     import appFooter from './partials/footer.vue'
     import mainLoader from '@/components/main-loader.vue'
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
 
     export default{
         name: 'landing-layout',
@@ -29,8 +29,32 @@
                 location: null
             }
         },
+        computed:{
+            ...mapGetters(['isLogged'])
+        },
         mounted(){
             this.location = window.location.href
+
+            if(this.isLogged){
+                this.getUserDrinkLikes()
+            }
+        },
+        methods:{
+            ...mapActions(['setUserDrinkLikes']),
+
+            getUserDrinkLikes(){
+                let that = this
+
+                that.$http.get('/guest/drinkLikes')
+                    .then(function (response) {
+
+                        that.setUserDrinkLikes(response.data.likes)
+
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+            }
         }
     }
 </script>
