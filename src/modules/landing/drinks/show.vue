@@ -18,7 +18,7 @@
                 </div>
             </header>
 
-            <div class="m-t-20 m-l-10">
+            <div class="container-fluid">
                 <div v-if="isLogged">
                     <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
                             @click="addDrinkPreference(drink)"
