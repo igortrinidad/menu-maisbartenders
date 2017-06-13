@@ -12,7 +12,7 @@
                             </span>
                         </span>
                         <br>
-                        <a href="#about" class="page-scroll btn btn-xl m-t-30">Saiba mais</a>
+                        <a href="#about" v-scroll-to="'#about'" class="page-scroll btn btn-xl m-t-30">Saiba mais</a>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
 
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Como funciona</h2>
-                    <p class="text-description m-t-30">Ao contratar os serviços de drinks <b>Mais Bartenders</b> e nosso exclusivo <b>Menu Interativo</b>, nós criamos uma página <b>exclusiva e personalizada </b>para seu evento. 
+                    <p class="text-description m-t-30">Ao contratar os serviços de drinks <b>Mais Bartenders</b> e nosso exclusivo <b>Menu Interativo</b>, nós criamos uma página <b>exclusiva e personalizada </b>para seu evento.
                     <router-link tag="a" :to="{name: 'landing.events.show', params: {event_slug: 'joana-e-joao'}}">
                         Veja um exemplo
                     </router-link>
@@ -82,7 +82,7 @@
                         Entre em contato agora e tenha um <span class="text-selected">Cardápio Interativo</span> também em sua festa! :)
                     </p>
 
-                    <a href="#contact" class="page-scroll btn btn-xl">Contato</a>
+                    <a href="#contact" v-scroll-to="'#contact'" class="page-scroll btn btn-xl">Contato</a>
 
                 </div>
             </div>

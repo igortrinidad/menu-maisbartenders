@@ -9,6 +9,7 @@ import messages from './utils/validator/pt_BR';
 import VeeValidate, {Validator} from 'vee-validate';
 import {apiUrl, facebookClientId, googleClientId} from './config'
 import VueSweetAlert from 'vue-sweetalert'
+import VueScrollTo from 'vue-scrollto'
 
 import {cleanUser} from './models/User'
 
@@ -92,6 +93,8 @@ Validator.updateDictionary({
 Vue.use(VeeValidate, {locale: 'pt_BR'});
 
 Vue.use(VueSweetAlert)
+
+Vue.use(VueScrollTo)
 
 // Start
 var component = App;
