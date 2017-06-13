@@ -49,7 +49,11 @@
 
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Como funciona</h2>
-                    <p class="text-description m-t-30">Ao contratar os serviços de drinks Mais Bartenders e nosso exclusivo Menu Interativo, nós criamos uma página<span class="text-selected"> exclusiva e personalizada </span>para seu evento. <a href="https://menu.maisbartenders.com.br/evento/joana-e-joao" target="_blank">Veja um exemplo</a></p>
+                    <p class="text-description m-t-30">Ao contratar os serviços de drinks <b>Mais Bartenders</b> e nosso exclusivo <b>Menu Interativo</b>, nós criamos uma página <b>exclusiva e personalizada </b>para seu evento. 
+                    <router-link tag="a" :to="{name: 'landing.events.show', params: {event_slug: 'joana-e-joao'}}">
+                        Veja um exemplo
+                    </router-link>
+                    </p>
 
                     <p class="text-description m-t-30">
                         E aí começa a brincadeira: você poderá enviar para seus convidados conhecerem e interagirem com o cardápio mesmo antes da festa.

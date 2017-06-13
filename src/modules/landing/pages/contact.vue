@@ -49,10 +49,10 @@
                                     :label="'name'"
                                     :options="services"
                                     :multiple="false"
-                                    placeholder="Escolha o serviço."
+                                    placeholder="Escolha uma opção."
                                     v-model="contact.subject"
                                 >
-                                    <span slot="no-options">Não foi possível localizar serviços :(</span>
+                                    <span slot="no-options">Não foi possível localizar uma opção :(</span>
                                 </v-select>
                             </div>
                             <div class="form-group">
@@ -123,7 +123,7 @@ export default {
     components: { vSelect },
     data() {
         return {
-            services: ['Duvidas', 'Sugestões'],
+            services: ['Orçamentos', 'Informações', 'Sugestões'],
             contact: {
                 name: '',
                 email: '',

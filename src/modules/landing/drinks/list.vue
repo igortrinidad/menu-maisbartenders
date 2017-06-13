@@ -13,9 +13,11 @@
 
                     <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
                         <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
+                        <!--
                         <span class="swiper-stars">
                            <i class="fa fa-star" v-for="n in drink.priority"></i>
                        </span>
+                       -->
                         <div class="swiper-item-text">
                             <h3 class="title">{{ drink.name }}</h3>
                             <span class="subtitle">{{ drink.description }}</span>

@@ -5,7 +5,7 @@
             <small class="created-by">Created By</small>
             <a class="" href="https://we-planner.com" target="_blank">We-Planner</a>
             <router-link class="privacy" tag="a" :to="{ name: 'landing.privacy' }">
-                Política de uso e termos de uso
+                Política de Privacidade e Termos de Uso
             </router-link>
         </div>
     </footer>

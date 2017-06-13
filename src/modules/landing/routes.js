@@ -100,7 +100,7 @@ export default [
             },
             {
                 name: 'landing.privacy',
-                path: '/politica-de-uso-e-privacidade',
+                path: '/termos-de-uso-e-privacidade',
                 component: Privacy
 
             },
