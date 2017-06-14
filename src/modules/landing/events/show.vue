@@ -147,19 +147,25 @@
                                     </router-link>
 
                                     <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
-                                        <i
-                                            class="fa pull-right"
-                                            :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}"
-                                        >
+                                        <i class="fa pull-right"
+                                            :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
                                         </i>
                                     </h5>
 
-                                    <div class="items" v-show="interactions.drinksToShowInfo.indexOf(drink) >-1">
-                                        <span class="drink-item" v-for="(item, index) in drink.items">{{ item.name
-                                            }}</span>
+                                    <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                        <span class="drink-item" v-for="(item, index) in drink.items" >
+                                            <span v-show="item.pivot.is_visible">
+                                                {{ item.name }}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                        <span class="drink-item" v-if="!drink.items.length">
+                                            Não foi possível carregar items para este drink :(
+                                        </span>
                                     </div>
 
-                                    <div class="box-footer" v-if="isLogged">
+                                    <div class="box-footer m-t-15" v-if="isLogged">
                                         <button
                                             class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block"
                                             @click="addDrinkPreference(drink)"
@@ -183,7 +189,7 @@
                                         >Compartilhar no Facebook
                                         </button>
 
-                                        <button @click.prevent="likeDrink(drink.id)" class="btn btn-sm m-b-10 btn-like btn-block">
+                                        <button @click.prevent="likeDrink(drink)" class="btn btn-sm m-b-10 btn-like btn-block">
                                             <span class="text-muted">{{drink.likes_count}}</span>
                                             <i class="fa fa-heart fa-lg text-danger" v-if="handleLikedDrinks(drink.id)"></i>
                                             <i class="fa fa-heart-o fa-lg text-danger" v-if="!handleLikedDrinks(drink.id)"></i>
@@ -501,6 +507,17 @@
                 var phrase1 = `Ninguém me segura no ${that.event.name}!`;
                 phrases.push(phrase1);
 
+                var phrase1 = `Keep calm and drink a ${that.interactions.drinkSelected.name} no ${that.event.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 = `All i want is a ${that.interactions.drinkSelected.name} drink on ${that.event.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 = `The ${that.event.name} gonna be incredible!`;
+                phrases.push(phrase1);
+
+
+
                 return phrases
 
             },
@@ -772,30 +789,36 @@
                 return guest_avatar ? guest_avatar : '/static/assets/user_avatar.jpg'
             },
 
-            likeDrink(drink_id){
+            likeDrink(drink){
                 let that = this
 
                 let data = {
-                    drink_id: drink_id,
+                    drink_id: drink.id,
                     guest_id: that.currentUser.id
+                }
+
+                if(that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                    that.removeUserDrinkLike({"drink_id": drink.id})
+                    drink.likes_count = drink.likes_count - 1
+                } else {
+                    that.addUserDrinkLike({"drink_id": drink.id})
+                    drink.likes_count = drink.likes_count + 1
                 }
 
                 that.$http.post('/guest/likeDrink', data)
                     .then(function (response) {
-                        let drink = that.drinksFiltered.find(drink => drink.id === drink_id)
 
-                        if (!response.data.is_unlike) {
-                            that.addUserDrinkLike(response.data.like)
+                    })
+                    .catch(function (error) {
+                    
+                        if(!that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                            that.removeUserDrinkLike({"drink_id": drink.id})
+                            drink.likes_count = drink.likes_count - 1
+                        } else {
+                            that.addUserDrinkLike({"drink_id": drink.id})
                             drink.likes_count = drink.likes_count + 1
                         }
 
-                        if (response.data.is_unlike) {
-                            that.removeUserDrinkLike(response.data.like)
-                            drink.likes_count = drink.likes_count - 1
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error)
                     });
             },
 

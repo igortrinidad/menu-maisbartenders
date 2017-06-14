@@ -34,7 +34,7 @@
                             @click="interactions.drinkSelected = drink" data-toggle="modal"
                             data-target="#modalSharePhrase">Compartilhar no Facebook
                     </button>
-                    <button @click.prevent="likeDrink(drink.id)" class="btn btn-sm m-b-10 btn-like m-r-5">
+                    <button @click.prevent="likeDrink(drink)" class="btn btn-sm m-b-10 btn-like m-r-5">
                         <span class="text-muted">{{drink.likes_count}}</span>
                         <i class="fa fa-heart fa-lg text-danger" v-if="handleLikedDrinks(drink.id)"></i>
                         <i class="fa fa-heart-o fa-lg text-danger" v-if="!handleLikedDrinks(drink.id)"></i>
@@ -92,7 +92,7 @@
 
                             <p class="m-t-30 text-muted">
                             <span v-for="item in drink.items" v-if="item.pivot.is_visible">
-                                <strong class="f-20">{{item.name}}</strong><br>
+                                <strong class="f-20" v-show="item.pivot.is_visible">{{item.name}}</strong><br>
                             </span>
                             </p>
 
@@ -546,29 +546,36 @@
                 return guest_avatar ? guest_avatar : '/static/assets/user_avatar.jpg'
             },
 
-            likeDrink(drink_id){
+            likeDrink(drink){
                 let that = this
 
                 let data = {
-                    drink_id: drink_id,
+                    drink_id: drink.id,
                     guest_id: that.currentUser.id
+                }
+
+                if(that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                    that.removeUserDrinkLike({"drink_id": drink.id})
+                    drink.likes_count = drink.likes_count - 1
+                } else {
+                    that.addUserDrinkLike({"drink_id": drink.id})
+                    drink.likes_count = drink.likes_count + 1
                 }
 
                 that.$http.post('/guest/likeDrink', data)
                     .then(function (response) {
 
-                        if (!response.data.is_unlike) {
-                            that.addUserDrinkLike(response.data.like)
-                            that.drink.likes_count = that.drink.likes_count + 1
-                        }
-
-                        if (response.data.is_unlike) {
-                            that.removeUserDrinkLike(response.data.like)
-                            that.drink.likes_count = that.drink.likes_count - 1
-                        }
                     })
                     .catch(function (error) {
-                        console.log(error)
+                    
+                        if(!this.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                            that.removeUserDrinkLike({"drink_id": drink.id})
+                            drink.likes_count = drink.likes_count - 1
+                        } else {
+                            that.addUserDrinkLike({"drink_id": drink.id})
+                            drink.likes_count = drink.likes_count + 1
+                        }
+
                     });
             },
 

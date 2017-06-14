@@ -47,7 +47,7 @@
 
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
-                        <button class="btn btn-xl btn-primary" @click.prevent="login">Login</button>
+                        <button class="btn btn-xl btn-primary" @click.prevent="login" :disabled="!email || !password">Login</button>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,8 @@
             ...mapActions(['authSetToken', 'authSetUser', 'setLoading', 'setUserDrinkLikes']),
 
             login () {
-                this.setLoading({is_loading: true, message: ''})
+                var that = this
+                that.setLoading({is_loading: true, message: ''})
 
                 this.$auth.login({
                     url:'guest/auth/login',
@@ -109,12 +110,12 @@
                     success (response) {
                         this.authSetToken(response.data.access_token) // this is a Vuex action
                         this.authSetUser(response.data.user) // this is a Vuex action
-                        this.setLoading({is_loading: false, message: ''})
+                        that.setLoading({is_loading: false, message: ''})
                         successNotify('', 'Login efetuado com sucesso.')
                     },
                     error (error) {
-                        this.setLoading({is_loading: false, message: ''})
-                        errorNotify('Ops!', 'Erro ao efetuar login.')
+                        that.setLoading({is_loading: false, message: ''})
+                        errorNotify('Ops!', 'Login ou senha inválidos. Dica: Tente pelo Facebook.')
                     }
                 })
 
@@ -135,6 +136,7 @@
                                 that.statusChangeCallback(response)
                             } else {
                                 alert('Facebook login failed: ' + response.error);
+                                that.setLoading({is_loading: false, message: ''})
                             }
                         }, {scope: 'public_profile,email,publish_actions'});
                 }
@@ -149,12 +151,12 @@
 
             statusChangeCallback(response) {
                 let that = this
+                that.setLoading({is_loading: false, message: ''})
                 if (response.status === 'connected') {
                     
                     that.getUserInfo(response.authResponse.accessToken);
                 } else {
                     errorNotify('', 'É necessário fazer login para continuar.')
-                    that.setLoading({is_loading: false, message: ''})
                 }
             },
 
@@ -212,7 +214,7 @@
                     })
                     .catch(function (error) {
                         errorNotify('Ops!', 'Erro ao efetuar login.')
-                        this.setLoading({is_loading: false, message: ''})
+                        that.setLoading({is_loading: false, message: ''})
                     });
             },
 

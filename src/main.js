@@ -50,13 +50,13 @@ Vue.axios.interceptors.response.use(function (response) {
         //redirect
         router.push({ name: 'landing.auth.login' })
 
-        errorNotify('Ops!', 'Ocorreu um erro ao processar sua requisição.')
+        //errorNotify('Ops!', 'Ocorreu um erro ao processar sua requisição.')
     }
 
     console.log(error);
 
     if(error.status == 401){
-        errorNotify('Ops!', 'Efetue o login novamente.')
+        //errorNotify('Ops!', 'Efetue o login novamente.')
     }
 
     if ([500].indexOf(response.status) > -1) {

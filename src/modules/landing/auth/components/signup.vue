@@ -130,11 +130,13 @@
             /**
              * Map the actions from Vuex to this component.
              */
-            ...mapActions(['authSetToken', 'authSetUser']),
+            ...mapActions(['authSetToken', 'authSetUser', 'setLoading']),
 
             signup() {
                 let that = this
                 let formData = new FormData();
+
+                that.setLoading({is_loading: true, message: ''})
 
                 Object.keys(that.guest).map(function (key, index) {
                     formData.append(key, that.guest[key])
@@ -142,13 +144,15 @@
 
                  that.$http.post('/guest/create', formData, {headers: {'Content-Type': 'multipart/form-data'}})
                  .then(function (response) {
-                 successNotify('', 'Cadastro realizado com sucesso.')
+                 successNotify('', 'Cadastro realizado com sucesso, faça o login.')
 
                      that.$router.push({path: '/login'})
+                     that.setLoading({is_loading: false, message: ''})
 
                  })
                  .catch(function (error) {
                     errorNotify('', 'Houve um erro ao realizar o cadastro.')
+                    that.setLoading({is_loading: false, message: ''})
                  });
             },
 
@@ -161,6 +165,7 @@
              */
             facebookLogin(){
                 let that = this
+                that.setLoading({is_loading: true, message: ''})
 
                 if(window.cordova){
                     openFB.login(
@@ -187,10 +192,12 @@
                 } else {
                     errorNotify('', 'É necessário fazer login para continuar.')
                 }
+                that.setLoading({is_loading: false, message: ''})
             },
 
             getUserInfo(accessToken) {
                 let that = this
+
                 if(window.cordova){
                     openFB.api({
                         path: '/v2.8/me',

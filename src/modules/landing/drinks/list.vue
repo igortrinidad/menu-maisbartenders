@@ -121,8 +121,10 @@
                                        :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}"></i>
                                 </h5>
                                 <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                    <span class="drink-item" v-for="(item, index) in drink.items">
-                                        {{ item.name }}
+                                    <span class="drink-item" v-for="(item, index) in drink.items" >
+                                        <span v-show="item.pivot.is_visible">
+                                            {{ item.name }}
+                                        </span>
                                     </span>
                                 </div>
                                 <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
@@ -154,7 +156,7 @@
                                         >Compartilhar no Facebook
                                         </button>
 
-                                        <button @click.prevent="likeDrink(drink.id)" class="btn btn-block btn-like">
+                                        <button @click.prevent="likeDrink(drink)" class="btn btn-block btn-like">
                                             <span class="text-muted">{{drink.likes_count}}</span>
                                             <i class="fa fa-heart fa-lg text-danger"
                                                v-if="handleLikedDrinks(drink.id)"></i>
@@ -561,30 +563,36 @@
 
             },
 
-            likeDrink(drink_id){
+            likeDrink(drink){
                 let that = this
 
                 let data = {
-                    drink_id: drink_id,
+                    drink_id: drink.id,
                     guest_id: that.currentUser.id
+                }
+
+                if(that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                    that.removeUserDrinkLike({"drink_id": drink.id})
+                    drink.likes_count = drink.likes_count - 1
+                } else {
+                    that.addUserDrinkLike({"drink_id": drink.id})
+                    drink.likes_count = drink.likes_count + 1
                 }
 
                 that.$http.post('/guest/likeDrink', data)
                     .then(function (response) {
-                        let drink = that.drinksFiltered.find(drink => drink.id === drink_id)
 
-                        if (!response.data.is_unlike) {
-                            that.addUserDrinkLike(response.data.like)
+                    })
+                    .catch(function (error) {
+                    
+                        if(!this.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                            that.removeUserDrinkLike({"drink_id": drink.id})
+                            drink.likes_count = drink.likes_count - 1
+                        } else {
+                            that.addUserDrinkLike({"drink_id": drink.id})
                             drink.likes_count = drink.likes_count + 1
                         }
 
-                        if (response.data.is_unlike) {
-                            that.removeUserDrinkLike(response.data.like)
-                            drink.likes_count = drink.likes_count - 1
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error)
                     });
             },
 
