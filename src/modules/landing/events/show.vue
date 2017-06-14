@@ -17,7 +17,7 @@
                             </span>
                         </span>
                             <br>
-                            <a href="#most-recommended" class="page-scroll btn btn-xl m-t-30">Escolher drinks</a>
+                            <a href="#most-recommended" v-scroll-to="'#most-recommended'" class="btn btn-xl m-t-30">Escolher drinks</a>
                         </div>
                     </div>
                 </div>
@@ -512,9 +512,6 @@
             this.getEvent();
             this.getEventComments();
             this.initSwiper();
-            this.$nextTick(() => {
-                this.initPageScroll()
-            });
         },
 
         filters: {
@@ -709,18 +706,6 @@
 
             },
 
-            initPageScroll: function () {
-                let that = this
-
-                $('a.page-scroll').bind('click', function (event) {
-                    var $anchor = $(this);
-
-                    $('html, body').stop().animate({
-                        scrollTop: $($anchor.attr('href')).offset().top
-                    }, 1500, 'easeInOutExpo');
-                    event.preventDefault();
-                });
-            },
 
             getEventComments: function () {
                 let that = this

@@ -4,15 +4,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="text-center">
-                        <h2>Política de uso e privacidade</h2>
+                        <h3>Termos de uso e Política de Privacidade Menu Interativo Mais Bartenders</h3>
                     </div>
                     <div class="text-justify">
-                        <h4>
-                        Termos de uso e Política de Privacidade Menu Interativo Mais Bartenders
-                        </h4>
                         <p>Atualizado em: 13/06/2017.</p>
  
- 
+
                         <p>Este documento estabelece as condições e Termos de Uso e Política de Privacidade do Menu Interativo Mais Bartenders ("Aplicativo", "Site", "Plataforma"), um site e aplicativo empresarial criado e administrado pela Mais Bartenders. ("Mais Bartenders", "Nós"), empresa de eventos registrada no Brasil sob o CNPJ nº 11.834.266/0001-56.</p>
  
                         <p>Os termos deste documento são aplicáveis a todos os usuários da Mais Bartenders, registrados ou não, e independemente da forma de utilização, se pelo site menu.maisbartenders.com.br, ou pela versão de aplicativo móvel Menu Mais Bartenders.</p>

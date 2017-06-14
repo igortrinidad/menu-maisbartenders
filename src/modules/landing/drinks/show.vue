@@ -12,7 +12,7 @@
                             </span>
                         </span>
                             <br>
-                            <a href="#drink" class="page-scroll btn btn-xl m-t-30">Ver detalhes</a>
+                            <a href="#drink" v-scroll-to="'#drink'" class="btn btn-xl m-t-30">Ver detalhes</a>
                         </div>
                     </div>
                 </div>
@@ -284,9 +284,6 @@
         mounted(){
             this.getDrink();
             this.getDrinkComments();
-            this.$nextTick(() => {
-                this.initPageScroll()
-            });
         },
         methods: {
 
@@ -532,19 +529,6 @@
                     .catch(function (error) {
                         console.log(error)
                     });
-            },
-
-            initPageScroll: function () {
-                let that = this
-
-                $('a.page-scroll').bind('click', function (event) {
-                    var $anchor = $(this);
-
-                    $('html, body').stop().animate({
-                        scrollTop: $($anchor.attr('href')).offset().top
-                    }, 1500, 'easeInOutExpo');
-                    event.preventDefault();
-                });
             },
 
             handleGuestAvatar(guest){

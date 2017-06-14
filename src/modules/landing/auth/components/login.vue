@@ -126,6 +126,8 @@
             facebookLogin(){
                 let that = this
 
+                that.setLoading({is_loading: true, message: ''})
+
                 if(window.cordova){
                     openFB.login(
                         function(response) {
@@ -138,6 +140,7 @@
                 }
 
                if(!window.cordova){
+                    
                    FB.login(function(response) {
                        that.statusChangeCallback(response)
                    }, {scope: 'public_profile,email,publish_actions'});
@@ -147,9 +150,11 @@
             statusChangeCallback(response) {
                 let that = this
                 if (response.status === 'connected') {
+                    
                     that.getUserInfo(response.authResponse.accessToken);
                 } else {
                     errorNotify('', 'É necessário fazer login para continuar.')
+                    that.setLoading({is_loading: false, message: ''})
                 }
             },
 
@@ -166,6 +171,8 @@
                             response.role = 'guest';
 
                             that.socialLogin(response)
+
+                            that.setLoading({is_loading: false, message: ''})
                         },
                         error: that.errorHandler
                     })
@@ -223,7 +230,9 @@
             },
 
             errorHandler(error) {
+                that.setLoading({is_loading: false, message: ''})
                 errorNotify('', error.message);
+                localStorage.clear();
             },
 
             getUserDrinkLikes(){
@@ -252,5 +261,9 @@
 
     #contact{
         background-color: #F7F7F7;
+    }
+
+    .btn:active{
+        transform: scale(0.99);
     }
 </style>

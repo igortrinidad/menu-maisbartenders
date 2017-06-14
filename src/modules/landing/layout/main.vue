@@ -425,13 +425,13 @@ hr.gray{ border-color: #2c3e50; }
         }*/
 
         .swiper-button-prev, .swiper-button-next{
-            top: 22%;
+            top: 50%;
         }
     }
 
     @media(min-width:769px){
             .swiper-button-prev, .swiper-button-next{
-            top: 33%;
+            top: 50%;
         }
     }
 

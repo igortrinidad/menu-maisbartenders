@@ -33,19 +33,6 @@
     <section id="about">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12">
-                    <router-link
-                        :to="{name: 'landing.events.list'}"
-                        class="btn btn-danger btn-xl btn-block"
-                    >Eventos
-                    </router-link>
-
-                    <router-link
-                        :to="{name: 'landing.drinks.list'}"
-                        class="btn btn-danger btn-xl btn-block"
-                    >Cardápio Completo
-                    </router-link>
-                </div>
 
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Como funciona</h2>
@@ -149,23 +136,8 @@
 
         },
         mounted(){
-            this.$nextTick(() => {
-              this.initPageScroll()
-            });
         },
         methods: {
-            initPageScroll: function(){
-                let that = this
-
-                $('a.page-scroll').bind('click', function(event) {
-                    var $anchor = $(this);
-
-                    $('html, body').stop().animate({
-                        scrollTop: $($anchor.attr('href')).offset().top
-                    }, 1500, 'easeInOutExpo');
-                    event.preventDefault();
-                });
-            },
 
         },
         mounted() {

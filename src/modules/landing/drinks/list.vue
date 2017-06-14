@@ -34,7 +34,7 @@
 
         <div class="text-center container backsection">
             <span class="sub-header">Ainda não decidiu? não se preocupe você pode ver todos os drinks e filtrar com os nossos ingredientes que você preferir.</span>
-            <a href="#drinks" class="page-scroll btn btn-primary btn-block m-t-10">Ver todos</a>
+            <a href="#drinks" v-scroll-to="'#drinks'" class="page-scroll btn btn-primary btn-block m-t-10">Ver todos</a>
         </div>
 
         <section id="drinks">
@@ -357,9 +357,6 @@
         mounted(){
             this.initSwiper()
             this.getDrinks()
-            this.$nextTick(() => {
-                this.initPageScroll()
-            });
         },
 
         methods: {
@@ -466,20 +463,6 @@
                     });
 
             },
-
-            initPageScroll: function () {
-                let that = this
-
-                $('a.page-scroll').bind('click', function (event) {
-                    var $anchor = $(this);
-
-                    $('html, body').stop().animate({
-                        scrollTop: $($anchor.attr('href')).offset().top
-                    }, 1500, 'easeInOutExpo');
-                    event.preventDefault();
-                });
-            },
-
 
             setDrinkSelected(drink){
                 let that = this
