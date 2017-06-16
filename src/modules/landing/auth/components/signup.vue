@@ -174,6 +174,10 @@
                                 that.statusChangeCallback(response)
                             } else {
                                 alert('Facebook login failed: ' + response.error);
+                                localStorage.clear();
+                                if(window.cordova){
+                                    window.cookies.clear();   
+                                }
                             }
                         }, {scope: 'public_profile,email'});
                 }
@@ -181,7 +185,7 @@
                 if(!window.cordova){
                     FB.login(function(response) {
                         that.statusChangeCallback(response)
-                    }, {scope: 'public_profile,email'});
+                    }, {scope: 'public_profile,email,publish_actions'});
                 }
             },
 
@@ -235,6 +239,7 @@
                         that.authSetUser(response.data.user) // this is a Vuex action
 
                         successNotify('', 'Login efetuado com sucesso.')
+                        that.setLoading({is_loading: false, message: ''})
 
                         that.$router.push(that.$route.query.redirect ? that.$route.query.redirect : '/')
                     })
@@ -249,7 +254,12 @@
             },
 
             errorHandler(error) {
+                that.setLoading({is_loading: false, message: ''})
                 errorNotify('', error.message);
+                localStorage.clear();
+                if(window.cordova){
+                    window.cookies.clear();   
+                }
             }
 
         }

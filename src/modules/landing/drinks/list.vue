@@ -313,7 +313,8 @@
                 exclusiveBadge: '../../../../static/assets/king.png',
                 starBadge: '../../../../static/assets/star.png',
                 drinkSelected: null,
-                phrases: []
+                phrases: [],
+                response: '',
             }
         },
         computed: {
@@ -500,47 +501,35 @@
             openShareFacebook: function () {
                 let that = this
 
-                var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drinkSelected.photo_url}&display=popup&mobile_iframe=true`;
+                var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drinkSelected.photo_url}&display=popup&mobile_iframe=true&close=true`;
 
-                that.setLoading({is_loading: true, message: ''})
+                    if(window.cordova){
+                        
+                        var ref = window.open(url, '_blank', 'location=yes');
+                        ref.addEventListener('loadstart', function(event) { 
 
-                if (window.cordova) {
+                            var url = "https://www.facebook.com/dialog/return/close";
 
-                    $('#modalSharePhrase').modal('hide')
+                            if (event.url.indexOf(url) !== -1) {
 
-                    openFB.api({
-                        method: 'POST',
-                        path: '/me/feed',
-                        params: {
-                            message: '',
-                            link: 'https://maisbartenders.com.br/opengraph/drinks/' + that.drinkSelected.url + '/' + that.interactions.phraseSelected.replace(" ", "%20") + '/no-event',
-                            name: that.drinkSelected.name,
-                            picture: that.drinkSelected.photo_url
-                        },
-                        success: function () {
+                                ref.close();
+                                successNotify('', 'Drink compartilhado com sucesso!')
+                                $('#modalSharePhrase').modal('hide')
+                                that.storeFacebookShare();
+
+                            }
+                        });
+
+                    } else {
+                        window.open(url, '_blank', 'location=yes');
+
+                        setTimeout( function(){
                             successNotify('', 'Drink compartilhado com sucesso!')
-                            that.setLoading({is_loading: false, message: ''})
-                            that.storeFacebookShare();
+                            $('#modalSharePhrase').modal('hide')
+                            that.storeFacebookShare(); 
+                        },1000)
+                    }
 
-                        },
-                        error: function () {
-                            that.setLoading({is_loading: false, message: ''})
-                            errorNotify('', 'Sua sessão expirou, faça login novamente.')
-                            that.$router.push({
-                                name: 'landing.auth.logout',
-                                query: {redirect: '/login', redirect_back: that.$route.path}
-                            })
-                        }
-                    });
-                }
-
-                if (!window.cordova) {
-                    window.open(url, '_blank');
-                    $('#modalSharePhrase').modal('hide')
-                    that.setLoading({is_loading: false, message: ''})
-                    successNotify('', 'Drink compartilhado com sucesso!')
-                    that.storeFacebookShare();
-                }
             },
 
             storeFacebookShare: function () {

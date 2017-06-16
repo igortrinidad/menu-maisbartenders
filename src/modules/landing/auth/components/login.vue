@@ -115,7 +115,11 @@
                     },
                     error (error) {
                         that.setLoading({is_loading: false, message: ''})
-                        errorNotify('Ops!', 'Login ou senha inválidos. Dica: Tente pelo Facebook.')
+                        errorNotify('Ops!', 'Login ou senha inválidos. Dica: Tente pelo Facebook.');
+                        localStorage.clear();
+                        if(window.cordova){
+                            window.cookies.clear();   
+                        }
                     }
                 })
 
@@ -135,8 +139,11 @@
                             if(response.status === 'connected') {
                                 that.statusChangeCallback(response)
                             } else {
-                                alert('Facebook login failed: ' + response.error);
                                 that.setLoading({is_loading: false, message: ''})
+                                alert('Facebook login failed: ' + response.error);
+                                if(window.cordova){
+                                    window.cookies.clear();   
+                                }
                             }
                         }, {scope: 'public_profile,email,publish_actions'});
                 }
@@ -151,12 +158,12 @@
 
             statusChangeCallback(response) {
                 let that = this
-                that.setLoading({is_loading: false, message: ''})
+                
                 if (response.status === 'connected') {
-                    
                     that.getUserInfo(response.authResponse.accessToken);
                 } else {
                     errorNotify('', 'É necessário fazer login para continuar.')
+                    that.setLoading({is_loading: false, message: ''})
                 }
             },
 

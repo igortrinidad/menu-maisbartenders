@@ -206,8 +206,8 @@
                            :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @click="openShareFacebook()"
-                                :disabled="!interactions.phraseSelected">Compartilhar no facebook
+                        <button type="button" class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block" @click="openShareFacebook()"
+                                :disabled="!interactions.phraseSelected">Compartilhar no Facebook
                         </button>
                     </div>
                 </div>
@@ -292,47 +292,34 @@
             openShareFacebook: function () {
                 let that = this
 
-                var url = `https://www.facebook.com/dialog/share?app_id=210359702307953&href=https://maisbartenders.com.br/opengraph/drinks/${that.drink.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drink.photo_url}&display=popup&mobile_iframe=true`;
+                var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.drink.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drink.photo_url}&display=popup&mobile_iframe=true`;
 
-                that.setLoading({is_loading: true, message: ''})
+                    if(window.cordova){
+                        
+                        var ref = window.open(url, '_blank', 'location=yes');
+                        ref.addEventListener('loadstart', function(event) { 
 
-                if (window.cordova) {
+                            var url = "https://www.facebook.com/dialog/return/close";
 
-                    $('#modalSharePhrase').modal('hide')
+                            if (event.url.indexOf(url) !== -1) {
+                                
+                                ref.close();
+                                successNotify('', 'Drink compartilhado com sucesso!')
+                                $('#modalSharePhrase').modal('hide')
+                                that.storeFacebookShare();
 
-                    openFB.api({
-                        method: 'POST',
-                        path: '/me/feed',
-                        params: {
-                            message: '',
-                            link: 'https://maisbartenders.com.br/opengraph/drinks/' + that.drink.url + '/' + that.interactions.phraseSelected.replace(" ", "%20") + '/no-event',
-                            name: that.drink.name,
-                            picture: that.drink.photo_url
-                        },
-                        success: function () {
+                            }
+                        });
+
+                    } else {
+                        window.open(url, '_blank', 'location=yes');
+
+                        setTimeout( function(){
                             successNotify('', 'Drink compartilhado com sucesso!')
-                            that.setLoading({is_loading: false, message: ''})
-                            that.storeFacebookShare();
-
-                        },
-                        error: function () {
-                            that.setLoading({is_loading: false, message: ''})
-                            errorNotify('', 'Sua sessão expirou, faça login novamente.')
-                            that.$router.push({
-                                name: 'landing.auth.logout',
-                                query: {redirect: '/login', redirect_back: that.$route.path}
-                            })
-                        }
-                    });
-                }
-
-                if (!window.cordova) {
-                    window.open(url, '_blank');
-                    $('#modalSharePhrase').modal('hide')
-                    that.setLoading({is_loading: false, message: ''})
-                    successNotify('', 'Drink compartilhado com sucesso!')
-                    that.storeFacebookShare();
-                }
+                            $('#modalSharePhrase').modal('hide')
+                            that.storeFacebookShare(); 
+                        },1000)
+                    }
             },
 
             checkDrinkNutrition: function () {
