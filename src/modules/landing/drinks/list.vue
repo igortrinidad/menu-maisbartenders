@@ -116,7 +116,8 @@
                                         <hr>
                                     </div>
                                 </router-link>
-                                <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
+                                <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">
+                                    Ingredientes
                                     <i class="fa pull-right"
                                        :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}"></i>
                                 </h5>
@@ -133,7 +134,7 @@
                                     </span>
                                 </div>
 
-                                <div class="m-t-15">
+                                <div class="">
                                     <div class="box-footer" v-if="isLogged">
                                         <button
                                             class="btn btn-default btn-sm btn-block m-b-10 btn-drink-action facebook btn-share"

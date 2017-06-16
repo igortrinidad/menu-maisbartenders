@@ -63,7 +63,7 @@
                 <div class="text-center">
                     <p class="sub-header">
                         Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
-                    <a href="#drinks" class="page-scroll btn btn-primary btn-block m-t-10">Ver Todos</a>
+                    <a v-scroll-to="'#drinks'" class="btn btn-primary btn-block m-t-10">Ver Todos</a>
                 </div>
             </div>
 

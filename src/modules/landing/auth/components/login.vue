@@ -215,6 +215,7 @@
                     .catch(function (error) {
                         errorNotify('Ops!', 'Erro ao efetuar login.')
                         that.setLoading({is_loading: false, message: ''})
+                        localStorage.clear();
                     });
             },
 

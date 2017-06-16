@@ -241,6 +241,7 @@
                     .catch(function (error) {
                         console.log(error)
                         errorNotify('Ops!', 'Erro ao efetuar login.')
+                        localStorage.clear();
                     });
             },
 

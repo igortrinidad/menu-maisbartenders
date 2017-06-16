@@ -148,9 +148,9 @@ hr.gray{ border-color: #2c3e50; }
 
 .box .box-footer{
     border: 1px solid #f0f1f2;
-    margin-top: 40px;
+    margin-top: 15px;
     border-radius: 4px;
-    padding: 20px 30px 10px 30px;
+    padding: 20px 30px 5px 30px;
 }
 .box .stars { margin-right: 3px; }
 
