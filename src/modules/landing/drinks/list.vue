@@ -283,8 +283,8 @@
                            :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @click="openShareFacebook()"
-                                :disabled="!interactions.phraseSelected">Compartilhar no facebook
+                        <button type="button" class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block" @click="openShareFacebook()"
+                                :disabled="!interactions.phraseSelected">Compartilhar no Facebook
                         </button>
                     </div>
                 </div>

@@ -27,6 +27,10 @@
                 localStorage.removeItem('provider');
                 localStorage.clear();
 
+                if(window.cordova){
+                    window.cookies.clear(function() {});   
+                }
+
                 this.$router.push({path: this.$route.query.redirect ? this.$route.query.redirect : '/', query: { redirect_back: this.$route.query.redirect_back}})
             }
         }

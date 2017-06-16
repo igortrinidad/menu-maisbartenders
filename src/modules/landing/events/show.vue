@@ -367,7 +367,7 @@
                     <div class="modal-body p-25">
 
                         <p>
-                            Escolha uma frase e compartilhe a felicidade que você esta em participar dessa festa linda.</p>
+                            Escolha uma frase e compartilhe no Facebook a felicidade que você esta em participar dessa festa linda.</p>
                         <br>
 
                         <p class="phrase" v-for="(phrase, index) in phrases"
@@ -375,8 +375,8 @@
                            :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" @click="openShareFacebook()"
-                                :disabled="!interactions.phraseSelected">Compartilhar no facebook
+                        <button type="button" class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block" @click="openShareFacebook()"
+                                :disabled="!interactions.phraseSelected">Compartilhar no Facebook
                         </button>
                     </div>
                 </div>

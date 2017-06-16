@@ -242,6 +242,9 @@
                         console.log(error)
                         errorNotify('Ops!', 'Erro ao efetuar login.')
                         localStorage.clear();
+                        if(window.cordova){
+                            window.cookies.clear();   
+                        }
                     });
             },
 

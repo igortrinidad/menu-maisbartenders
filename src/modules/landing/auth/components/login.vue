@@ -216,6 +216,9 @@
                         errorNotify('Ops!', 'Erro ao efetuar login.')
                         that.setLoading({is_loading: false, message: ''})
                         localStorage.clear();
+                        if(window.cordova){
+                            window.cookies.clear();   
+                        }
                     });
             },
 
@@ -236,6 +239,9 @@
                 that.setLoading({is_loading: false, message: ''})
                 errorNotify('', error.message);
                 localStorage.clear();
+                if(window.cordova){
+                    window.cookies.clear();   
+                }
             },
 
             getUserDrinkLikes(){
