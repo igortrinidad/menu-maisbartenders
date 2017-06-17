@@ -464,10 +464,12 @@
 
                 that.event.drinks.map((drink) => {
                     drink.items.map((item) => {
-                        if (arr.checkFromAttr('name', item.name)) {
-                            return false
-                        } else {
-                            arr.push({name: item.name, category: item.category})
+                        if(item.pivot.is_visible){
+                            if (arr.checkFromAttr('name', item.name)) {
+                                return false
+                            } else {
+                                arr.push({name: item.name, category: item.category})
+                            }  
                         }
                     });
                 });

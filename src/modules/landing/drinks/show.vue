@@ -330,7 +330,7 @@
                 that.drink.items.forEach(function (item) {
                     item.nutrients.forEach(function (nutri) {
 
-                        nutri.quantity = item.pivot.quantity / 100 * nutri.pivot.quantity;
+                        nutri.quantity = parseFloat(item.pivot.quantity) / 100 * parseFloat(nutri.pivot.quantity);
                         nutri.quantity = nutri.quantity.toFixed(2);
 
                         var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
