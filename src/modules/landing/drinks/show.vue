@@ -238,7 +238,7 @@
                 displayDrinks: false,
                 nutritional_facts: [],
                 alcoholStyles: [
-                    {label: 'Sem álcool', value: 2.5},
+                    {label: 'Sem álcool', value: 0},
                     {label: 'Leve', value: 2.5},
                     {label: 'Equilibrado', value: 5.0},
                     {label: 'Forte', value: 7.5},

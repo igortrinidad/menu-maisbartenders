@@ -163,6 +163,7 @@
                     { name: 'Barone', path: barone }
                 ],
                 styles: [
+                    {label: 'Sem álcool', value: 0},
                     { name: 'Leve', value: 2.5 },
                     { name: 'Normal', value: 5.0 },
                     { name: 'Forte', value: 7.5 },
