@@ -337,7 +337,7 @@
 
                         if (hasNutri) {
                             var index = that.nutritional_facts.indexFromAttr('name', nutri.name)
-                            that.nutritional_facts[index].quantity += nutri.quantity;
+                            that.nutritional_facts[index].quantity = parseFloat(that.nutritional_facts[index].quantity) + parseFloat(nutri.quantity);
                         } else {
                             that.nutritional_facts.push(nutri)
                         }
