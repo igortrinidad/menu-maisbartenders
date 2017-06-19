@@ -332,16 +332,20 @@
 
                         nutri.quantity = parseFloat(item.pivot.quantity) / 100 * parseFloat(nutri.pivot.quantity);
                         
+                        nutri.quantity = nutri.quantity.toFixed(2);
+                        
                         var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
 
                         if (hasNutri) {
                             var index = that.nutritional_facts.indexFromAttr('name', nutri.name)
                             that.nutritional_facts[index].quantity = parseFloat(that.nutritional_facts[index].quantity) + parseFloat(nutri.quantity);
+
+                            that.nutritional_facts[index].quantity = that.nutritional_facts[index].quantity.toFixed(2);
                         } else {
                             that.nutritional_facts.push(nutri)
                         }
 
-                        nutri.quantity = nutri.quantity.toFixed(2);
+                        
                     })
                 })
 
