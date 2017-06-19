@@ -118,7 +118,7 @@
                                                 <tbody>
                                                     <tr v-for="nutri in nutritional_facts_ordereds">
                                                         <td>{{nutri.name}}</td>
-                                                        <td class="text-center">{{nutri.quantity}} {{nutri.unity}}</td>
+                                                        <td class="text-center">{{nutri.quantity | formatNumber}} {{nutri.unity}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -331,8 +331,7 @@
                     item.nutrients.forEach(function (nutri) {
 
                         nutri.quantity = parseFloat(item.pivot.quantity) / 100 * parseFloat(nutri.pivot.quantity);
-                        
-                        nutri.quantity = nutri.quantity.toFixed(2);
+
                         
                         var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
 
@@ -340,7 +339,6 @@
                             var index = that.nutritional_facts.indexFromAttr('name', nutri.name)
                             that.nutritional_facts[index].quantity = parseFloat(that.nutritional_facts[index].quantity) + parseFloat(nutri.quantity);
 
-                            that.nutritional_facts[index].quantity = that.nutritional_facts[index].quantity.toFixed(2);
                         } else {
                             that.nutritional_facts.push(nutri)
                         }

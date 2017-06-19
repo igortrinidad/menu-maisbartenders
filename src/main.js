@@ -13,6 +13,9 @@ import VueScrollTo from 'vue-scrollto'
 
 import {cleanUser} from './models/User'
 
+import global_filters from './utils/global_filters'
+global_filters();
+
 //FACEBOOK SDK
 (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
