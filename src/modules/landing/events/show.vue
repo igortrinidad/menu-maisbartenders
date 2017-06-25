@@ -29,6 +29,10 @@
                     Aqui você irá conferir o Menu de Drinks do evento e poder demonstrar um pouquinho da sua alegria e felicidade em participar dessa festa linda, compartilhando em seu Facebook um ou mais drinks que você gostaria de experimentar no evento.</p>
                 <p>
                     Além de compartilhar com seus amigos os drinks que mais gostou, você pode salvar as receitas para pedir no dia do evento.</p>
+
+                <p>Você pode enviar o link deste evento para seus amigos por WhatsApp através clicando abaixo:</p>
+
+                <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i></button>
             </div>
 
             <div id="most-recommended" class="container">
@@ -382,6 +386,34 @@
                 </div>
             </div>
         </div>
+
+        <!-- MODAL FRASE FACEBOOK -->
+        <div class="modal fade" id="modalShareWhatsApp" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Escolha uma frase</h4>
+                    </div>
+                    <div class="modal-body p-25">
+
+                        <p>
+                            Escolha uma frase e compartilhe com seus amigos este evento no WhatsApp.</p>
+                        <br>
+
+                        <p class="phrase" v-for="(phrase, index) in whatsappPhrases"
+                           @click="interactions.whatsappPhraseSelected = phrase"
+                           :class="{'phraseSelected' : interactions.whatsappPhraseSelected == phrase}">{{phrase}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default m-b-10 btn-success btn-block" @click="openShareWhatsapp()"
+                                :disabled="!interactions.whatsappPhraseSelected">Compartilhar no WhatsApp <i class="fa fa-whatsapp"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -403,6 +435,7 @@
             return {
                 interactions: {
                     phraseSelected: '',
+                    whatsappPhraseSelected: '',
                     drinkSelected: drinkObj,
                     showTags: false,
                     drinksToShowInfo: [],
@@ -519,9 +552,25 @@
                 phrases.push(phrase1);
 
 
-
                 return phrases
 
+            },
+
+            whatsappPhrases: function(){
+                let that = this
+            
+                var phrases = [];
+
+                var phrase1 = `Olá, queria convidar você para conferir o cardápio do(a) ${that.event.name}.`;
+                phrases.push(phrase1);
+
+                var phrase1 = `Meu grande dia está chegando, confira aqui o cardápio dos drinks que vão bombar no ${that.event.name}!`;
+                phrases.push(phrase1);
+
+                var phrase1 = `Já escolheu os drinks do(a) ${that.event.name}?`;
+                phrases.push(phrase1);
+
+                return phrases;
             },
 
         },
@@ -541,6 +590,14 @@
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
+
+            openShareWhatsapp: function(){
+                let that = this
+            
+                var url = `https://api.whatsapp.com/send?text=${that.interactions.whatsappPhraseSelected} Acesse o link: https://maisbartenders.com.br/opengraph/events/${that.event.url}`;
+
+                window.open(url, '_system', null);
+            },
 
             openShareFacebook: function () {
                 let that = this

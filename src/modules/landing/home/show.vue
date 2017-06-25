@@ -98,7 +98,7 @@
                         </div>
 
                         <div class="col-md-12 col-xs-12">
-                             <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="tel:31 98213-4820">31 98213-4820 <i class="fa fa-whatsapp"></i></a>
+                             <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="tel:31 98213-4820">31 98213-4820 <i class="fa fa-phone"></i></a>
                         </div>
                     </div>
 
