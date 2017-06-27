@@ -5,7 +5,7 @@
                 <div class="col-sm-12">
                     <div class="text-center">
                         <h2>Entre em contato</h2>
-                        <h4 class="m-t-30 m-b-30">Contrate agora essa novidade para sua festa</h4>
+                        <h4 class="m-t-30 m-b-30">Contrate o melhor BAR para sua festa</h4>
 
                     </div>
                 </div>

@@ -16,6 +16,9 @@ import {cleanUser} from './models/User'
 import global_filters from './utils/global_filters'
 global_filters();
 
+import global_functions from './utils/global_functions'
+global_functions();
+
 //FACEBOOK SDK
 (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];

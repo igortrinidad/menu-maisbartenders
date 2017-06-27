@@ -156,16 +156,17 @@
                                         </i>
                                     </h5>
 
-                                    <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                    <div class="items" v-if="isLogged" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
                                         <span class="drink-item" v-for="(item, index) in drink.items" >
                                             <span v-show="item.pivot.is_visible">
                                                 {{ item.name }}
                                             </span>
                                         </span>
                                     </div>
+
                                     <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                        <span class="drink-item" v-if="!drink.items.length">
-                                            Não foi possível carregar items para este drink :(
+                                        <span class="drink-item" v-if="!isLogged">
+                                            Faça login para ver a lista de ingredientes ;)
                                         </span>
                                     </div>
 

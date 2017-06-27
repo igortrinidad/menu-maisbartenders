@@ -1,114 +1,130 @@
 <template>
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <button type="button" class="navbar-toggle" id="navbar-menu-button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                </button>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a class="close-navbar-mb mb-brand" @click="closeMenu()">Mais Bartenders</a>
-                    </li>
-                </ul>
 
+    <div>
+        
+        <side-menu :isOpened="sideMenuStatus"></side-menu>
+
+        <nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                        <button
+                            type="button"
+                            id="navbar-menu-button"
+                            class="navbar-toggle"
+                            @click="handleSideMenu()"
+                        >
+                            <span class="sr-only">Toggle navigation</span> Menu
+                            <i :class="sideMenuStatus ? 'fa fa-close' : 'fa fa-bars'"></i>
+                        </button>
+
+                        <router-link to="/" class="navbar-brand" style="padding: 11px">
+                            <img src="../../../../assets/logo_mb.png" style="width: 130px" alt="Mais Bartenders">
+                        </router-link>
+                    </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" aria-expanded="true">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="hidden">
+                            <a class="close-navbar-mb" href="#page-top"></a>
+                        </li>
+                        <li>
+                            <router-link
+                                :to="{name: 'landing.home.show'}"
+                                class="close-navbar-mb">
+                            Home
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link
+                                :to="{name: 'landing.events.list'}"
+                                class="close-navbar-mb">
+                            Eventos
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link
+                                :to="{name: 'landing.drinks.list'}"
+                                class="close-navbar-mb">
+                            Cardápio Completo
+                            </router-link>
+                        </li>
+
+                        <li v-if="!isLogged">
+                            <router-link
+                                :to="{name: 'landing.auth.login'}"
+                                class="close-navbar-mb">
+                            Login
+                            </router-link>
+                        </li>
+
+                        <li v-if="!isLogged">
+                            <router-link
+                                :to="{name: 'landing.auth.signup'}"
+                                class="close-navbar-mb">
+                            Cadastre-se
+                            </router-link>
+                        </li>
+
+                        <li>
+                            <router-link
+                                :to="{name: 'landing.contact'}"
+                                class="close-navbar-mb">
+                            Contato
+                            </router-link>
+                        </li>
+
+                        <li class="dropdown"  v-if="isLogged">
+                            <a href="#" class="dropdown-toggle user-logged-name" data-toggle="dropdown">
+                                <img :src="userPhoto" alt="" class="img-circle" width="32">
+                                {{currentUser.full_name}} <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <router-link
+                                        :to="{name: 'landing.user.preferences'}"
+                                        class="close-navbar-mb">
+                                    Meus drinks
+                                    </router-link>
+                                    <router-link
+                                        :to="{name: 'landing.user.show'}"
+                                        class="close-navbar-mb">
+                                    Meu perfil
+                                    </router-link>
+
+                                    <router-link
+                                        :to="{name: 'landing.auth.logout'}"
+                                        class="close-navbar-mb">
+                                        Sair
+                                    </router-link>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
             </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" aria-expanded="true">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
-                        <a class="close-navbar-mb" href="#page-top"></a>
-                    </li>
-                    <li @click="closeMenu()">
-                        <router-link
-                            :to="{name: 'landing.home.show'}"
-                            class="close-navbar-mb">
-                        Home
-                        </router-link>
-                    </li>
-                    <li @click="closeMenu()">
-                        <router-link
-                            :to="{name: 'landing.events.list'}"
-                            class="close-navbar-mb">
-                        Eventos
-                        </router-link>
-                    </li>
-                    <li @click="closeMenu()">
-                        <router-link
-                            :to="{name: 'landing.drinks.list'}"
-                            class="close-navbar-mb">
-                        Cardápio Completo
-                        </router-link>
-                    </li>
-
-                    <li v-if="!isLogged" @click="closeMenu()">
-                        <router-link
-                            :to="{name: 'landing.auth.login'}"
-                            class="close-navbar-mb">
-                        Login
-                        </router-link>
-                    </li>
-
-                    <li v-if="!isLogged" @click="closeMenu()">
-                        <router-link
-                            :to="{name: 'landing.auth.signup'}"
-                            class="close-navbar-mb">
-                        Cadastre-se
-                        </router-link>
-                    </li>
-
-                    <li @click="closeMenu()">
-                        <router-link
-                            :to="{name: 'landing.contact'}"
-                            class="close-navbar-mb">
-                        Contato
-                        </router-link>
-                    </li>
-
-                    <li class="dropdown"  v-if="isLogged">
-                        <a href="#" class="dropdown-toggle user-logged-name" data-toggle="dropdown">
-                            <img :src="userPhoto" alt="" class="img-circle" width="32">
-                            {{currentUser.full_name}} <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu" @click="closeMenu()">
-                            <li>
-                                <router-link
-                                    :to="{name: 'landing.user.preferences'}"
-                                    class="close-navbar-mb">
-                                Meus drinks
-                                </router-link>
-                                <router-link
-                                    :to="{name: 'landing.user.show'}"
-                                    class="close-navbar-mb">
-                                Meu perfil
-                                </router-link>
-
-                                <router-link
-                                    :to="{name: 'landing.auth.logout'}"
-                                    class="close-navbar-mb">
-                                    Sair
-                                </router-link>
-                            </li>
-
-                        </ul>
-                    </li>
-
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
+            <!-- /.container-fluid -->
+        </nav>
+        
+    </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
+    import sideMenu from '@/components/side-menu.vue'
     export default{
         name: 'landing-header',
+        components: {
+            sideMenu,
+        },
         data(){
-            return {}
+            return {
+                sideMenuStatus: false
+            }
         },
         computed: {
             ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
@@ -117,11 +133,9 @@
 
         },
         methods:{
-            closeMenu: function(){
-                if(window.innerWidth <= 768){
-                    $('#navbar-menu-button').click();
-                }
-            },
+            handleSideMenu() {
+                this.sideMenuStatus = !this.sideMenuStatus
+            }
         }
     }
 </script>

@@ -1,7 +1,6 @@
 import store from '../store'
 import {isEmpty} from 'lodash'
 import {localStorageGetItem} from '../utils/local'
-import prototypes from '../utils/prototypes'
 
 const needAuth = (auth, token) => auth !== undefined && auth && isEmpty(token)
 const preventsLogged = prevents => prevents === true
