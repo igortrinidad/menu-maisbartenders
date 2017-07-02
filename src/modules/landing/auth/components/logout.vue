@@ -21,11 +21,9 @@
                 this.authSetToken(null) // this is a Vuex action
                 this.authSetUser(null) // this is a Vuex action
 
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                localStorage.removeItem('default-auth-token');
-                localStorage.removeItem('provider');
+                var events = localStorage.getItem('events');
                 localStorage.clear();
+                localStorage.setItem('events', events);
 
                 if(window.cordova){
                     window.cookies.clear(function() {});   

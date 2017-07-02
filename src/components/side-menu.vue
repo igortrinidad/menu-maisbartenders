@@ -11,7 +11,7 @@
                     <!-- MENU -->
                     <div>
                         <ul class="main-menu">
-                            <li class="sub-menu"  v-if="isLogged">
+                            <li class="sub-menu"  v-if="isLogged && isOnline">
                                 <a href="#" class="sub-menu user-logged-name">
                                     <img :src="userPhoto" alt="" class="img-circle" width="32">
                                     {{currentUser.full_name}}
@@ -42,10 +42,10 @@
                             </li>
 
                             <li v-if="!isLogged">
-                                <router-link :to="{name: 'landing.auth.login'}">Login</router-link>
+                                <router-link :to="{name: 'landing.auth.login'}" v-if="isOnline">Login</router-link>
                             </li>
                             <li v-if="!isLogged">
-                                <router-link :to="{name: 'landing.auth.signup'}">Cadastre-se</router-link>
+                                <router-link :to="{name: 'landing.auth.signup'}" v-if="isOnline">Cadastre-se</router-link>
                             </li>
 
                             <li>
@@ -53,7 +53,7 @@
                             </li>
 
                             <li v-if="isLogged">
-                                <router-link :to="{name: 'landing.auth.logout'}" exact>Sair</router-link>
+                                <router-link :to="{name: 'landing.auth.logout'}" exact v-if="isOnline">Sair</router-link>
                             </li>
 
                         </ul>
@@ -61,7 +61,7 @@
 
             </div>
         </div>
-        <div class="side-menu-bg"></div>
+        <div class="side-menu-bg" id="side-menu-bg"></div>
 
     </div>
 
@@ -85,24 +85,39 @@
                     adminPublicPlaces: false,
                 },
                 hasEventSaved: false,
+                isOnline: true,
             }
         },
 
         computed: {
             ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
+
+
         },
 
         mounted() {
+            var that = this;
             var events = JSON.parse(localStorage.getItem('events'));
 
             if(Array.isArray(events) && events.length){
                 this.hasEventSaved = true;
             }
+
+            setInterval(function () {
+                that.checkConnection()
+            }, 10000)
         },
 
 
         methods: {
-
+            checkConnection: function () {
+                var that = this
+                if (navigator.onLine) {
+                    that.isOnline = true
+                } else {
+                    that.isOnline = false
+                }
+            },
         }
     }
 </script>

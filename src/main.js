@@ -51,7 +51,9 @@ Vue.axios.interceptors.response.use(function (response) {
         store.dispatch('authSetUser', cleanUser())
 
         //Limpa a storage
+        var events = localStorage.getItem('events');
         localStorage.clear();
+        localStorage.setItem('events', events);
 
         //redirect
         router.push({ name: 'landing.auth.login' })

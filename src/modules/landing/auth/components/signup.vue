@@ -174,7 +174,11 @@
                                 that.statusChangeCallback(response)
                             } else {
                                 alert('Facebook login failed: ' + response.error);
+                                
+                                var events = localStorage.getItem('events');
                                 localStorage.clear();
+                                localStorage.setItem('events', events);
+                        
                                 if(window.cordova){
                                     window.cookies.clear();   
                                 }
@@ -246,7 +250,11 @@
                     .catch(function (error) {
                         console.log(error)
                         errorNotify('Ops!', 'Erro ao efetuar login.')
+                        
+                        var events = localStorage.getItem('events');
                         localStorage.clear();
+                        localStorage.setItem('events', events);
+
                         if(window.cordova){
                             window.cookies.clear();   
                         }

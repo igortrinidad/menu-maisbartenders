@@ -116,7 +116,11 @@
                     error (error) {
                         that.setLoading({is_loading: false, message: ''})
                         errorNotify('Ops!', 'Login ou senha inválidos. Dica: Tente pelo Facebook.');
+
+                        var events = localStorage.getItem('events');
                         localStorage.clear();
+                        localStorage.setItem('events', events);
+
                         if(window.cordova){
                             window.cookies.clear();   
                         }
@@ -222,7 +226,11 @@
                     .catch(function (error) {
                         errorNotify('Ops!', 'Erro ao efetuar login.')
                         that.setLoading({is_loading: false, message: ''})
+                        
+                        var events = localStorage.getItem('events');
                         localStorage.clear();
+                        localStorage.setItem('events', events);
+
                         if(window.cordova){
                             window.cookies.clear();   
                         }
@@ -245,7 +253,11 @@
             errorHandler(error) {
                 that.setLoading({is_loading: false, message: ''})
                 errorNotify('', error.message);
+                
+                var events = localStorage.getItem('events');
                 localStorage.clear();
+                localStorage.setItem('events', events);
+
                 if(window.cordova){
                     window.cookies.clear();   
                 }

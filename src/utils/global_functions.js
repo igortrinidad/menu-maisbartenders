@@ -13,7 +13,9 @@ export default function(){
             event.target.id !== 'navbar-menu-button'
             && event.target.id !== 'side-menu-global-id'
             && !$(event.target).hasClass('sub-menu')
+            || event.target.id == 'side-menu-bg'
         ) {
+            console.log(event.target.id);
             if ($('#side-menu-global-id').hasClass('active')) {
                 $('#navbar-menu-button').click()
             }
