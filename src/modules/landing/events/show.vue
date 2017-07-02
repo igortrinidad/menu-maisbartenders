@@ -331,7 +331,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12 col-xs-1 text-right">
+                    <div class="col-md-12 col-xs-1 text-center m-t-10">
                         <button class="btn btn-primary" @click="saveEvent()">Salvar evento no dispositivo</button>
                     </div>
                 </div>
