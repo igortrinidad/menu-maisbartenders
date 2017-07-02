@@ -1,7 +1,10 @@
 import ShowHome from './home/show.vue'
 import EventShow from './events/show.vue'
 import EventList from './events/list.vue'
+import EventOffline from './events/offline-list.vue'
+import EventShowOffline from './events/offline-show.vue'
 import DrinkShow from './drinks/show.vue'
+import DrinkShowOffline from './drinks/offline-show.vue'
 import DrinkList from './drinks/list.vue'
 import CreateDrink from './drinks/create-drink.vue'
 import appLayout from './layout/main'
@@ -48,9 +51,27 @@ export default [
                 meta: { requiresAuth: false },
             },
             {
+                name: 'landing.events-offline.list',
+                path: '/eventos-salvos',
+                component: EventOffline,
+                meta: { requiresAuth: false },
+            },
+            {
+                name: 'landing.events.show-offline',
+                path: '/evento-salvo/:event_slug',
+                component: EventShowOffline,
+                meta: { requiresAuth: false },
+            },
+            {
                 name: 'landing.drinks.show',
                 path: '/drink/:drink_slug',
                 component: DrinkShow,
+                meta: { requiresAuth: false },
+            },
+            {
+                name: 'landing.drinks.show-offline',
+                path: '/drink-salvo/:drink_slug',
+                component: DrinkShowOffline,
                 meta: { requiresAuth: false },
             },
             {

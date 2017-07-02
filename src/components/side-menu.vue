@@ -33,6 +33,9 @@
                             <li>
                                 <router-link :to="{name: 'landing.events.list'}" exact>Eventos</router-link>
                             </li>
+                            <li>
+                                <router-link :to="{name: 'landing.events-offline.list'}" exact>Eventos salvos</router-link>
+                            </li>
 
                             <li>
                                 <router-link :to="{name: 'landing.drinks.list'}">Cardápio completo</router-link>
@@ -80,7 +83,8 @@
                 showDropdown: {
                     adminPlaces: false,
                     adminPublicPlaces: false,
-                }
+                },
+                hasEventSaved: false,
             }
         },
 
@@ -89,7 +93,11 @@
         },
 
         mounted() {
+            var events = JSON.parse(localStorage.getItem('events'));
 
+            if(Array.isArray(events) && events.length){
+                this.hasEventSaved = true;
+            }
         },
 
 

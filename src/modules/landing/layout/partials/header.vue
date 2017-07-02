@@ -19,7 +19,7 @@
                         </button>
 
                         <router-link to="/" class="navbar-brand" style="padding: 11px">
-                            <img src="../../../../assets/logo_mb.png" style="width: 130px" alt="Mais Bartenders">
+                            <img src="../../../../assets/logo_mb.png" class="logo-header" alt="Mais Bartenders">
                         </router-link>
                     </div>
 
@@ -41,6 +41,13 @@
                                 :to="{name: 'landing.events.list'}"
                                 class="close-navbar-mb">
                             Eventos
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link
+                                :to="{name: 'landing.events-offline.list'}"
+                                class="close-navbar-mb">
+                            Eventos salvos
                             </router-link>
                         </li>
                         <li>
@@ -123,13 +130,20 @@
         },
         data(){
             return {
-                sideMenuStatus: false
+                sideMenuStatus: false,
+                hasEventSaved: false,
             }
         },
         computed: {
             ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
         },
         mounted(){
+
+            var events = JSON.parse(localStorage.getItem('events'));
+
+            if(Array.isArray(events) && events.length){
+                this.hasEventSaved = true;
+            }
 
         },
         methods:{
@@ -164,8 +178,19 @@
         z-index: 1000 !important;
     }
 
+    .logo-header{
+        width: 110px;
+        margin-top: 0px;
+    }
+
 /* NAV BAR BREAKPOINT TO COLLAPSE ON IPAD AND OTHERS SMALL SCREENS */
 @media (max-width: 1200px) {
+
+    .logo-header{
+        width: 90px;
+        margin-top: 7px;
+        margin-left: 15px;
+    }
     .navbar-header {
         float: none;
     }
@@ -201,6 +226,8 @@
         display:block !important;
     }
 }
+
+
 
 /* NAV BAR BREAKPOINT TO COLLAPSE ON IPAD AND OTHERS SMALL SCREENS */
 

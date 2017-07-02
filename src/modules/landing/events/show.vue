@@ -329,6 +329,12 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-xs-1 text-right">
+                        <button class="btn btn-primary" @click="saveEvent()">Salvar evento no dispositivo</button>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -870,7 +876,71 @@
 
             handleLikedDrinks(drink_id){
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
-            }
+            },
+
+            saveEvent: function(){
+                let that = this
+            
+                var events = JSON.parse(localStorage.getItem('events'));
+
+                if(Array.isArray(events) && events.length){
+
+                    var index = events.indexFromAttr('id', that.event.id);
+
+                    if(index > -1){
+                        events[index] = that.event;
+                    } else {
+                        events.push(that.event);
+                    }
+
+                    var events = JSON.stringify(events);
+                    localStorage.setItem('events', events);
+                    successNotify('', 'Evento salvo no dispositivo.')  
+
+                } else {
+
+                    that.$swal({
+                      title: 'Informe uma senha deste dispositivo',
+                      input: 'number',
+                      showCancelButton: true,
+                      confirmButtonText: 'Salvar',
+                      showLoaderOnConfirm: true,
+                      preConfirm: function (pass) {
+                        return new Promise(function (resolve, reject) {
+
+                          setTimeout(function() {
+                            if (!pass) {
+                              reject('Insira uma senha.')
+                            } else {
+                              resolve()
+                            }
+                          }, 2000)
+                        })
+
+                      },
+                      allowOutsideClick: false
+                    }).then(function (pass) {
+
+                        var events = JSON.stringify([that.event]);
+                        localStorage.setItem('events', events);
+                        localStorage.setItem('device_pass', pass);
+
+                        that.$swal({
+                            type: 'success',
+                            title: 'Evento salvo com sucesso!',
+                            html: 'A senha do dispositivo é: ' + pass
+                        })
+
+                    })
+                    
+                }
+            },
+
+            saveNewEvent: function(){
+                let that = this
+            
+                
+            },
         }
     }
 </script>
