@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div v-if="drinkFound">
+        <div v-if="drinkFound" id="drink-show-offline">
             <header id="header-drink" class="header-greeting" v-bind:style="{ backgroundImage: drinkBackground}">
                 <div class="container">
                     <div class="col-md-6 col-md-offset-3 col-xs-12">
@@ -64,7 +64,7 @@
                             </p>
 
                             <div class="row">
-                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
                                     <h4 class="m-b-30">Mapa de sabor</h4>
                                     <canvas ref="createdDrinkChart"></canvas>
                                 </div>
@@ -103,14 +103,6 @@
 
                             </div>
 
-                            <hr>
-                            <button
-                                @click="back()"
-                                class="btn inline btn-xl m-t-30 m-b-30">
-                                Voltar
-                            </button>
-                            <hr>
-
                         </div>
                     </div>
                 </div>
@@ -132,6 +124,9 @@
         </div>
 
 
+        <button class="btn btn-default btn-fixed btn-xl" @click="back()"><i class="fa fa-chevron-left"></i> Voltar</button>
+
+
     </div>
 </template>
 
@@ -148,6 +143,8 @@
             return {
                 interactions: {
                     phraseSelected: '',
+                    idleTime: 0,
+                    interval: null,
                 },
                 drinkFound: true,
                 drink: drinkObj,
@@ -201,11 +198,42 @@
         },
         mounted(){
             this.getDrink();
+            this.checkIdleTime();
         },
         methods: {
 
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
 
+            back: function(){
+                var that = this;
+                clearInterval(that.interactions.interval);
+                window.history.back();
+            },
+
+            checkIdleTime: function(){
+                let that = this
+            
+                that.interactions.interval = setInterval(that.timerIncrement, 60000);
+                //Zero the idle timer on mouse movement.
+                $(window).scroll( function (e) {
+                    if(that.$route.name == 'landing.drinks.show-offline'){
+                        that.interactions.idleTime = 0;
+                    }
+                });
+
+                
+            },
+
+            timerIncrement: function(){
+                let that = this
+
+                that.interactions.idleTime++;
+                if (that.interactions.idleTime >= 1 && that.$route.name == 'landing.drinks.show-offline') { // 2 minutes
+                    clearInterval(that.interactions.interval);
+                    window.history.back()
+                }
+                
+            },
 
             checkDrinkNutrition: function () {
                 let that = this
@@ -241,8 +269,6 @@
                 const keys = ['Refrescante', 'Frutado/Doce', 'Amargo', 'Seco', 'Salgado', 'Álcool'];
 
                 const values = [this.drink.sour, this.drink.sweet, this.drink.bitter, this.drink.dry, this.drink.salt, alcohol.value];
-
-                console.log(values);
 
                 if (this.chart) this.chart.destroy()
                 this.chart = new Chart(this.$refs.createdDrinkChart, {

@@ -73,6 +73,7 @@
         },
         mounted(){
             this.getEvents();
+            this.checkIfHasCommentToSave();
         },
         methods: {
             ...mapActions(['setLoading']),
@@ -101,6 +102,43 @@
 
                     });
 
+
+            },
+
+            checkIfHasCommentToSave: function(){
+                let that = this
+            
+                var comments_to_save_later = JSON.parse(localStorage.getItem('comments_to_save_later'));
+
+                if(Array.isArray(comments_to_save_later) && comments_to_save_later.length){
+                    that.loopTo(comments_to_save_later)
+                }
+            },
+
+            loopTo: function(comments_to_save_later, i = 0){
+                let that = this
+            
+                if (i <= comments_to_save_later.length){
+                    that.saveComment(comments_to_save_later, i)
+                };
+            },
+
+            saveComment: function(comments_to_save_later, i){
+                let that = this
+            
+                that.$http.post('/guest/eventRunningComment', comments_to_save_later[i])
+                .then(function (response) {
+                    comments_to_save_later.splice(i, 1);
+                    localStorage.setItem('comments_to_save_later', JSON.stringify(comments_to_save_later));
+                    console.log('Salvou o comentario' + comments_to_save_later[i].comment)
+
+                    that.loopTo(comments_to_save_later, i)
+
+                })
+                .catch(function (error) {
+
+                });
+                
             },
         }
     }

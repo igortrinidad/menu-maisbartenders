@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <div v-if="eventFound">
             <header id="header-event" class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
                 <div class="container">

@@ -23,39 +23,44 @@
                 </div>
             </header>
 
-            <div id="most-recommended" class="container">
-                <div class="text-center">
-                    <h2>Best Sellers</h2>
-                    <p class="sub-header">Aqui está uma lista com as principais recomendações para você.</p>
-                </div>
-                <div class="swiper-row">
-                    <div class="swiper-container gallery-top" ref="swiper">
-                        <div class="swiper-wrapper">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div id="most-recommended" class="container">
+                        <div class="text-center">
+                            <h2>Best Sellers</h2>
+                            <p class="sub-header">Aqui está uma lista com as principais recomendações para você.</p>
+                        </div>
+                        <div class="swiper-row">
+                            <div class="swiper-container gallery-top" ref="swiper">
+                                <div class="swiper-wrapper">
 
-                            <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
-                                <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
-                                <!--
-                                <span class="swiper-stars">
-                                    <i class="fa fa-star" v-for="n in drink.priority"></i>
-                                </span>
-                                -->
-                                <div class="swiper-item-text">
-                                    <h3 class="title">{{ drink.name }}</h3>
-                                    <span class="subtitle">{{ drink.description }}</span>
+                                    <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
+                                        <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
+                                        <!--
+                                        <span class="swiper-stars">
+                                            <i class="fa fa-star" v-for="n in drink.priority"></i>
+                                        </span>
+                                        -->
+                                        <div class="swiper-item-text">
+                                            <h3 class="title">{{ drink.name }}</h3>
+                                            <span class="subtitle">{{ drink.description }}</span>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <div class="swiper-pagination"></div>
+                                <!-- Add Arrows -->
+                                <div class="swiper-button-next swiper-button-white"></div>
+                                <div class="swiper-button-prev swiper-button-white"></div>
                             </div>
                         </div>
-
-                        <div class="swiper-pagination"></div>
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next swiper-button-white"></div>
-                        <div class="swiper-button-prev swiper-button-white"></div>
+                        <div class="text-center">
+                            <p class="sub-header">
+                                Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
+                            <a v-scroll-to="'#drinks'" class="btn btn-primary btn-block m-t-10">Ver Todos</a>
+                        </div>
                     </div>
-                </div>
-                <div class="text-center">
-                    <p class="sub-header">
-                        Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
-                    <a v-scroll-to="'#drinks'" class="btn btn-primary btn-block m-t-10">Ver Todos</a>
+                    
                 </div>
             </div>
 
@@ -75,7 +80,7 @@
                                         :class="{'tag-selected': interactions.showTags}"
                                         @click="interactions.showTags = !interactions.showTags"
                                     >
-                                        <span class="tag-name">Mostrar filtros</span>
+                                        <span class="tag-name">Selecionar ingredientes</span>
                                     </button>
                                 </div>
                                 <div class="tag" v-if="interactions.showTags">
@@ -103,7 +108,7 @@
                         </div>
 
                         <p class="m-l-5">
-                            Localizamos {{drinksFiltered.length}} drinks em 0,{{Math.floor(Math.random() * 11)}}s</p>
+                            Localizamos <b>{{drinksFiltered.length}}</b> drinks.</p>
 
                     </div>
                 </div>
@@ -137,7 +142,7 @@
                                         </div>
                                     </span>
 
-                                    <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
+                                    <h5 class="cursor-pointer m-b-20" @click="drinkToShowToggle(drink)">Ver Ingredientes
                                         <i class="fa pull-right"
                                             :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
                                         </i>
@@ -168,72 +173,36 @@
                 </div>
             </section>
 
-            <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Ícones nos drinks</h4>
-                        </div>
-                        <div class="modal-body p-25 text-center">
-
-                            <div class="row">
-                                <div class="col-md-12 col-xs-12 text-center">
-                                <span class="modal-badge badge">
-                                    <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
-                                         title="Este Drink é exclusivo">
-                                </span>
-
-                                    <p>
-                                        Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12 col-xs-12 text-center">
-                                <span class="modal-badge badge">
-                                    <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo"
-                                         title="Este Drink é exclusivo">
-                                </span>
-
-                                    <p>
-                                        Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
             <section id="comments">
                 <div class="container">
+
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12 text-center">
+                            <button class="btn btn-xl" data-toggle="modal" data-target="#comment-modal">Enviar mensagem</button><br><br>
+                            <small class="m-t-20">
+                                Compartilhe um drink através do aplicativo <b>Menu Mais Bartenders</b> ou deixe aqui uma mensagem para o {{event.name}}.
+                            </small>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
 
-                            <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
-                            <small>
-                                Compartilhe um drink preferido e seus compartilhamentos serão exibidos aqui na página do {{event.name}}
-                            </small>
+                            <h4 class="m-b-20">Mensagens ({{pagination.total}})</h4>
+                            
 
-                            <span v-for="(comment, index) in comments">
-                                <div class="row">
-                                    <span class="interactions m-10">
+                            <span v-for="(comment, index) in commentsOrdereds">
+                                <div class="row" v-if="comment.guest">
+                                    <span class="interactions m-10 p-l-20 p-b-20">
                                         <div class="row">
                                             <div class="col-md-11 col-xs-9">
                                                 <br>
-                                                <span class="comment-user-name">{{comment.guest.full_name}}</span>
+                                                <span class="comment-user-name">{{comment.guest.full_name}}</span><br>
+                                                <span class="text-right comment-date"><i class="fa fa-clock-o"></i> {{comment.created_at | formatTimeHumanized}}</span>
                                             </div>
                                         </div>
                                         <p class="m-t-10">{{comment.comment}}</p>
-                                        <span
-                                            class="text-right comment-date">Criado em: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss')
-                                            }}</span>
+                                        
                                     </span>
                                 </div>
                             </span>
@@ -252,16 +221,7 @@
             </section>
 
             <div class="backsection">
-                <hr>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="text-center">
-                            <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.events-offline.list' }">
-                                Voltar para lista eventos
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
+
 
             </div>
 
@@ -293,6 +253,8 @@
                 </div>
             </header>
         </div>
+
+        <button class="btn btn-default btn-fixed btn-xl facebook" data-target="#comment-modal" data-toggle="modal">Deixe uma mensagem <i class="fa fa-comment"></i></button>
 
         <!-- MODAL FRASE FACEBOOK -->
         <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
@@ -349,6 +311,99 @@
                 </div>
             </div>
         </div>
+
+        <!-- MODAL BADGE HELP -->
+        <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Ícones nos drinks</h4>
+                    </div>
+                    <div class="modal-body p-25 text-center">
+
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 text-center">
+                            <span class="modal-badge badge">
+                                <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
+                                     title="Este Drink é exclusivo">
+                            </span>
+
+                                <p>
+                                    Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 text-center">
+                            <span class="modal-badge badge">
+                                <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo"
+                                     title="Este Drink é exclusivo">
+                            </span>
+
+                                <p>
+                                    Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL COMMENT -->
+        <div class="modal fade" id="comment-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Enviar mensagem</h4>
+                    </div>
+                    <div class="modal-body p-25">
+
+                        <p>Deixe aqui sua mensagem para o {{event.name}}.</p>
+
+                        <div class="form-group">
+                            <label>Nome*</label>
+                            <input class="form-control" v-model="newMessage.name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sobrenome*</label>
+                            <input class="form-control" v-model="newMessage.last_name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email*</label>
+                            <input class="form-control" v-model="newMessage.email">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mensagem*</label>
+                            <textarea class="form-control" v-model="newMessage.comment"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Quero receber novidades sobre a Mais Bartenders</label><br>
+                            <label class="switch">
+                              <input type="checkbox" v-model="newMessage.accept_mailling">
+                              <div class="slider round"></div>
+                            </label>
+                        </div>
+
+                        <button class="btn btn-primary btn-block facebook" @click="saveComment()" :disabled="!newMessage.comment || !newMessage.email || !newMessage.last_name || !newMessage.name">Deixar mensagem</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -358,6 +413,7 @@
     import {mapGetters, mapActions} from 'vuex'
     import eventObj from '../../../models/Event.js'
     import drinkObj from '../../../models/Drink.js'
+    var moment = require('moment');
 
     var Swiper = require('swiper')
 
@@ -381,15 +437,29 @@
                 itemsSelecteds: [],
                 displayDrinks: false,
                 comments: [],
-                pagination: {}
+                pagination: {},
+                newMessage: {
+                    event_id: '',
+                    name: '',
+                    last_name: '',
+                    email: '',
+                    comment: '',
+                    accept_mailling: false,
+                },
             }
         },
         computed: {
-            // Map the getters from Vuex to this component.
 
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
+
             eventBackground: function () {
                 return 'url(' + this.event.photo_url + ')';
+            },
+
+            commentsOrdereds: function(){
+                let that = this
+            
+                return _.orderBy(that.comments, 'created_at', 'desc');
             },
             itemsCategoriesOrdereds: function () {
                 return {
@@ -421,7 +491,6 @@
                     return that.checkIfDrinkHasItem(drink)
                 })
 
-                if (arr.length) successNotify('', `Localizamos ${arr.length} drinks em 0,${Math.floor(Math.random() * 7) + 1  }s`);
                 return arr;
             },
 
@@ -577,6 +646,66 @@
                 }
             },
 
+            saveComment: function(){
+                let that = this
+            
+                that.setLoading({is_loading: true, message: ''})
+                that.$http.post('/guest/eventRunningComment', that.newMessage)
+                    .then(function (response) {
+
+                        successNotify('', 'Comentário salvo com sucesso.');
+
+                        var message = {
+                            guest: {
+                                full_name: that.newMessage.name + ' ' + that.newMessage.last_name,
+                            },
+                            comment: that.newMessage.comment,
+                            created_at: moment().format('YYYY-MM-DD HH:mm:ss')
+                        }
+
+                        that.comments.push(message)
+                        that.cleanMessage();
+                    })
+                    .catch(function (error) {
+                        
+                        successNotify('', 'Comentário adicionado com sucesso.');
+                        var comments_to_save_later = JSON.parse(localStorage.getItem('comments_to_save_later'));
+
+                        if(Array.isArray(comments_to_save_later) && comments_to_save_later.length){
+                            comments_to_save_later.push(that.newMessage);
+                            localStorage.setItem('comments_to_save_later', JSON.stringify(comments_to_save_later));
+                        } else {
+                            comments_to_save_later = [that.newMessage];
+                            localStorage.setItem('comments_to_save_later', JSON.stringify(comments_to_save_later));
+                        }
+
+                        var message = {
+                            guest: {
+                                full_name: that.newMessage.name + ' ' + that.newMessage.last_name,
+                            },
+                            comment: that.newMessage.comment,
+                            created_at: moment().format('YYYY-MM-DD HH:mm:ss')
+                        }
+
+                        that.comments.push(message)
+                        that.cleanMessage();
+
+                    });
+                
+            },
+
+            cleanMessage: function(){
+                let that = this
+            
+                that.newMessage.name = '';
+                that.newMessage.last_name = '';
+                that.newMessage.email = '';
+                that.newMessage.comment = '';
+                $('#comment-modal').modal('hide');
+                that.setLoading({is_loading: false, message: 'Enviando'})
+                
+            },
+
             checkIfDrinkHasItem: function (drink) {
 
                 if (!this.filterOptions.length) return true
@@ -688,6 +817,7 @@
                 var events = JSON.parse(localStorage.getItem('events'));
                 var index = events.indexFromAttr('url', that.$route.params.event_slug)
                 that.$set(that, 'event', events[index]);
+                that.newMessage.event_id = that.event.id;
 
             },
 
@@ -1175,6 +1305,10 @@
 
     .btn-like:hover {
         color: #e74c3c;
+    }
+
+    .btn.facebook{
+        color: white;
     }
 
 </style>

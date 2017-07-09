@@ -148,7 +148,44 @@
         },
         methods:{
             handleSideMenu() {
-                this.sideMenuStatus = !this.sideMenuStatus
+                var that = this
+
+                if(!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline'){
+
+
+                    that.$swal({
+                        title: 'Confirmar',
+                        text: 'Informe a senha deste dispositivo para sair do evento',
+                        input: 'text',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonText: 'Sair do evento',
+                        showLoaderOnConfirm: true,
+                        preConfirm: function (pass) {
+                            return new Promise(function (resolve, reject) {
+                            
+                                var check = pass === localStorage.getItem('device_pass');
+
+                                setTimeout(function() {
+                                    if (!pass || !check) {
+                                        reject('Senha não confere.')
+                                    } else {
+                                        resolve()
+                                    }
+                                }, 1000)
+                            })
+
+                        },
+                        allowOutsideClick: false
+                    }).then(function (pass) {
+
+                        that.sideMenuStatus = !that.sideMenuStatus 
+
+                    })
+
+                } else {
+                    this.sideMenuStatus = !this.sideMenuStatus 
+                }
             }
         }
     }

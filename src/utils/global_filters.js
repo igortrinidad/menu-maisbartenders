@@ -1,5 +1,6 @@
 import accounting from 'accounting';
 import Vue from 'vue'
+var moment =  require('moment');
 
 export default function(){
 
@@ -19,6 +20,21 @@ Vue.filter('limitChar', function(value, count, finish){
 
          return value.substring(0,count)
     }
+})
+
+/**
+ * Format Uuid
+ * Display the last 12 characters (more significants)
+ * Ex: input: 29fe7b82-9e24-4e59-989a-242581a8e26a | output: 242581a8e26a
+ */
+
+Vue.filter('formatTimeHumanized', function(value){
+        
+        let ms = moment().diff(moment(value, "YYYY-MM-DD HH:mm:ss"));
+
+        let howMuchTime = moment.duration(ms).locale('pt-br').humanize();
+
+        return howMuchTime;
 })
 
 

@@ -1,6 +1,8 @@
 <template>
     <div>
 
+        <button class="btn btn-default btn-fixed btn-xl" @click="back()"><i class="fa fa-chevron-left"></i> Voltar</button>
+
         <div v-if="drinkFound">
             <header id="header-drink" class="header-greeting" v-bind:style="{ backgroundImage: drinkBackground}">
                 <div class="container">
@@ -293,6 +295,8 @@
 
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
 
+            back: () => window.history.back(),
+            
             openShareFacebook: function () {
                 let that = this
 
