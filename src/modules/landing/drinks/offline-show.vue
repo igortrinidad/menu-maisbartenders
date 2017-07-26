@@ -124,7 +124,7 @@
         </div>
 
 
-        <button class="btn btn-default btn-fixed btn-xl" @click="back()"><i class="fa fa-chevron-left"></i> Voltar</button>
+        <button class="btn btn-default btn-fixed btn-xl" @click="back()"><i class="fa fa-chevron-left"></i> Voltar ({{interactions.idleTime}})</button>
 
 
     </div>
@@ -143,7 +143,7 @@
             return {
                 interactions: {
                     phraseSelected: '',
-                    idleTime: 0,
+                    idleTime: 60,
                     interval: null,
                 },
                 drinkFound: true,
@@ -213,11 +213,11 @@
             checkIdleTime: function(){
                 let that = this
             
-                that.interactions.interval = setInterval(that.timerIncrement, 60000);
+                that.interactions.interval = setInterval(that.timerIncrement, 1000);
                 //Zero the idle timer on mouse movement.
                 $(window).scroll( function (e) {
                     if(that.$route.name == 'landing.drinks.show-offline'){
-                        that.interactions.idleTime = 0;
+                        that.interactions.idleTime = 60;
                     }
                 });
 
@@ -227,8 +227,8 @@
             timerIncrement: function(){
                 let that = this
 
-                that.interactions.idleTime++;
-                if (that.interactions.idleTime >= 1 && that.$route.name == 'landing.drinks.show-offline') { // 2 minutes
+                that.interactions.idleTime--;
+                if (that.interactions.idleTime <= 0 && that.$route.name == 'landing.drinks.show-offline') { // 2 minutes
                     clearInterval(that.interactions.interval);
                     window.history.back()
                 }

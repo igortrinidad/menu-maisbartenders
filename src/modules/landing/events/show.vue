@@ -24,16 +24,21 @@
                 </div>
             </header>
 
-            <div class="container m-t-20 text-center">
-                <p>Sejam bem vindos ao <b>Menu Interativo Mais Bartenders</b> do(a) {{event.name}}.</p>
-                <p>
-                    Aqui você irá conferir o Menu de Drinks do evento e poder demonstrar um pouquinho da sua alegria e felicidade em participar dessa festa linda, compartilhando em seu Facebook um ou mais drinks que você gostaria de experimentar no evento.</p>
-                <p>
-                    Além de compartilhar com seus amigos os drinks que mais gostou, você pode salvar as receitas para pedir no dia do evento.</p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 text-center">
+                        <p>Sejam bem vindos ao <b>Menu Interativo Mais Bartenders</b> do(a) {{event.name}}.</p>
+                        <p>
+                            Aqui você irá conferir o Menu de Drinks do evento e pode demonstrar um pouquinho da sua alegria em participar dessa festa linda, compartilhando em seu Facebook um ou mais drinks que você gostaria de experimentar no evento.</p>
+                        <p>
+                            Além de compartilhar com seus amigos os drinks que mais gostou, você pode salvar as receitas para pedir no dia do evento.</p>
 
-                <p>Você pode enviar o link deste evento para seus amigos por WhatsApp através clicando abaixo:</p>
+                        <p>Envie o cardápio do evento para seus amigos também por WhatsApp clicando abaixo:</p>
 
-                <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i></button>
+                    <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i></button>
+                    </div>
+                </div>
+                
             </div>
 
             <div id="most-recommended" class="container">
@@ -45,7 +50,7 @@
                     <div class="swiper-container gallery-top" ref="swiper">
                         <div class="swiper-wrapper">
 
-                            <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
+                            <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index" >
                                 <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
                                 <!--
                                 <span class="swiper-stars">
@@ -320,19 +325,11 @@
             </section>
 
             <div class="backsection">
+
                 <hr>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="text-center">
-                            <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.events.list' }">
-                                Voltar para lista eventos
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="row">
-                    <div class="col-md-12 col-xs-1 text-center m-t-10">
+                    <div class="col-md-12 col-xs-12 text-center m-t-10">
                         <button class="btn btn-primary" @click="saveEvent()">Salvar evento no dispositivo</button>
                     </div>
                 </div>
@@ -366,6 +363,8 @@
                 </div>
             </header>
         </div>
+
+        <button class="btn btn-default btn-fixed btn-xl" @click="back()"><i class="fa fa-chevron-left"></i> Voltar </button>
 
         <!-- MODAL FRASE FACEBOOK -->
         <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
@@ -598,6 +597,10 @@
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
+
+            back: function(){
+                window.history.back();
+            },
 
             openShareWhatsapp: function(){
                 let that = this
