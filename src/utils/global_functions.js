@@ -15,7 +15,6 @@ export default function(){
             && !$(event.target).hasClass('sub-menu')
             || event.target.id == 'side-menu-bg'
         ) {
-            console.log(event.target.id);
             if ($('#side-menu-global-id').hasClass('active')) {
                 $('#navbar-menu-button').click()
             }

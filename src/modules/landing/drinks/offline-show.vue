@@ -117,14 +117,14 @@
                     <div class="intro-text">
                         <div class="intro-heading">:(</div>
                         <div class="intro-heading">Não localizamos seu drink</div>
-                        <button class="btn btn-primary" @click="back()">Voltar</button>
+                        <button class="btn btn-primary" @click="backPage()">Voltar</button>
                     </div>
                 </div>
             </header>
         </div>
 
 
-        <button class="btn btn-default btn-fixed btn-xl" @click="back()"><i class="fa fa-chevron-left"></i> Voltar ({{interactions.idleTime}})</button>
+        <button class="btn btn-default btn-fixed btn-xl" @click="backPage()"><i class="fa fa-chevron-left"></i> Voltar ({{interactions.idleTime}}<span style="text-transform: lowercase;">s</span>)</button>
 
 
     </div>
@@ -204,15 +204,16 @@
 
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
 
-            back: function(){
+            backPage: function(){
                 var that = this;
                 clearInterval(that.interactions.interval);
+                this.interactions.idleTime = 60;
                 window.history.back();
             },
 
             checkIdleTime: function(){
                 let that = this
-            
+                
                 that.interactions.interval = setInterval(that.timerIncrement, 1000);
                 //Zero the idle timer on mouse movement.
                 $(window).scroll( function (e) {
@@ -335,10 +336,6 @@
                 }
 
                 return guest_avatar ? guest_avatar : '/static/assets/user_avatar.jpg'
-            },
-
-            back: function(){
-                window.history.back();
             },
 
         }

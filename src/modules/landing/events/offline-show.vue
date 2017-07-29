@@ -369,13 +369,13 @@
                         <p>Deixe aqui sua mensagem para o {{event.name}}.</p>
 
                         <div class="form-group">
-                            <label>Nome*</label>
-                            <input class="form-control" v-model="newMessage.name">
+                            <label>Primeiro Nome*</label>
+                            <input class="form-control" v-model="newMessage.name" placeholder="Somente o primeiro nome">
                         </div>
 
                         <div class="form-group">
                             <label>Sobrenome*</label>
-                            <input class="form-control" v-model="newMessage.last_name">
+                            <input class="form-control" v-model="newMessage.last_name" placeholder="Sobrenome">
                         </div>
 
                         <div class="form-group">
