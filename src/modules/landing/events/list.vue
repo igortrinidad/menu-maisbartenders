@@ -109,12 +109,23 @@
                     let url = encodeURI("http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg");
                     let fileName = "bitcoin.jpg";
 
-                    transfer.download(url, cordova.file.dataDirectory + fileName)
-                    .then((entry)=>{
-                        console.log('download complete: ' + entry.toURL());
-                    }, (error) => {
-                        console.log("error", "Error file transfert");
-                    });
+                    transfer.download(
+                        url,
+                        cordova.file.dataDirectory + fileName,
+                        // On Success
+                        function(entry) {
+                            console.log('Download completed');
+                        },
+                        // On Error
+                        function(error) {
+                            console.log('Download Error');
+                            console.log(error);
+                        },
+                        false,
+                        {
+                            headers: { "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA==" }
+                        }
+                    )
 
                 }
             },
