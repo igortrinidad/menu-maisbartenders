@@ -74,9 +74,40 @@
         mounted(){
             this.getEvents();
             this.checkIfHasCommentToSave();
+            this.download();
         },
         methods: {
             ...mapActions(['setLoading']),
+
+            download: function() {
+                if (window.cordova) {
+                    console.log(FileTransfer);
+
+                    const fileTransfer = new FileTransfer();
+                    const uri = encodeURI("https://s3.amazonaws.com/mais-bartenders-dev/events/daa8db33fea5a60bb314acf41d319cf7.jpg");
+
+                    fileTransfer.download(
+                        uri,
+                        fileURL,
+                        function(entry) {
+                            alert("download completed: " + entry.toURL());
+                        },
+                        function(error) {
+                            alert("error")
+                            console.log("download error source " + error.source);
+                            console.log("download error target " + error.target);
+                            console.log("download error code" + error.code);
+                        },
+                        false,
+                        {
+                            headers: {
+                                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+                            }
+                        }
+                    );
+
+                }
+            },
 
             eventGo: function(){
                 this.$router.push({name: 'landing.events.show', params: {event_slug: this.event_url}})
@@ -107,7 +138,7 @@
 
             checkIfHasCommentToSave: function(){
                 let that = this
-            
+
                 var comments_to_save_later = JSON.parse(localStorage.getItem('comments_to_save_later'));
 
                 if(Array.isArray(comments_to_save_later) && comments_to_save_later.length){
@@ -117,7 +148,7 @@
 
             loopTo: function(comments_to_save_later, i = 0){
                 let that = this
-            
+
                 if (i <= comments_to_save_later.length){
                     that.saveComment(comments_to_save_later, i)
                 };
@@ -125,7 +156,7 @@
 
             saveComment: function(comments_to_save_later, i){
                 let that = this
-            
+
                 that.$http.post('/guest/eventRunningComment', comments_to_save_later[i])
                 .then(function (response) {
                     comments_to_save_later.splice(i, 1);
@@ -138,7 +169,7 @@
                 .catch(function (error) {
 
                 });
-                
+
             },
         }
     }

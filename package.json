@@ -97,7 +97,8 @@
             "cordova-plugin-splashscreen": {},
             "com.bez4pieci.cookies": {},
             "cordova-plugin-inappbrowser": {},
-            "cordova-plugin-whitelist": {}
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-file-transfer": {}
         },
         "platforms": [
             "android",
