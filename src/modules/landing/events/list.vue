@@ -81,31 +81,9 @@
 
             download: function() {
                 if (window.cordova) {
-                    // const uri = encodeURI('https://s3.amazonaws.com/mais-bartenders-dev/events/daa8db33fea5a60bb314acf41d319cf7.jpg');
-                    // const file = 'evento.jpg';
-                    //
-                    // fileTransfer.download(
-                    //     uri,
-                    //     file,
-                    //     function(entry) {
-                    //         alert("download completed: " + entry.toURL());
-                    //     },
-                    //     function(error) {
-                    //         alert("error")
-                    //         console.log("download error source " + error.source);
-                    //         console.log("download error target " + error.target);
-                    //         console.log("download error code" + error.code);
-                    //     },
-                    //     false,
-                    //     {
-                    //         headers: {
-                    //             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-                    //         }
-                    //     }
-                    // );
 
                     const transfer = new FileTransfer();
-                    console.log(transfer);
+
                     let url = encodeURI("http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg");
                     let fileName = "bitcoin.jpg";
 
@@ -115,6 +93,7 @@
                         // On Success
                         function(entry) {
                             console.log('Download completed');
+                            console.log(entry);
                         },
                         // On Error
                         function(error) {
