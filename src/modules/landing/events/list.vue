@@ -83,7 +83,7 @@
                 if (window.cordova) {
                     const fileTransfer = new FileTransfer();
                     const uri = encodeURI('https://s3.amazonaws.com/mais-bartenders-dev/events/daa8db33fea5a60bb314acf41d319cf7.jpg');
-                    const file = 'https://s3.amazonaws.com/mais-bartenders-dev/events/daa8db33fea5a60bb314acf41d319cf7.jpg';
+                    const file = 'evento.jpg';
 
                     fileTransfer.download(
                         uri,
