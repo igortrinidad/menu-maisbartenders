@@ -81,8 +81,6 @@
 
             download: function() {
                 if (window.cordova) {
-                    const fileTransfer = new FileTransfer();
-                    console.log(fileTransfer);
                     // const uri = encodeURI('https://s3.amazonaws.com/mais-bartenders-dev/events/daa8db33fea5a60bb314acf41d319cf7.jpg');
                     // const file = 'evento.jpg';
                     //
@@ -106,7 +104,7 @@
                     //     }
                     // );
 
-                    const transfer = new Transfer();
+                    const transfer = new FileTransfer();
                     console.log(transfer);
                     let url = encodeURI("http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg");
                     let fileName = "bitcoin.jpg";
