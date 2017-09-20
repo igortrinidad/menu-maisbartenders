@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <section v-if="!events.length">
+        <section class="p-t-0" v-if="!events.length">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12 text-center">
