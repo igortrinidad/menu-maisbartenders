@@ -69,7 +69,11 @@
                     <div class="filter">
                         <div class="text-center">
                             <h3>Ingredientes:</h3>
-                            <p>Selecione os ingredientes de sua preferência.</p>
+                            <p>Selecione os ingredientes de sua preferência ou escreve abaixo o nome</p>
+
+                            <div class="form-group">
+                                <input class="form-control" v-model="interactions.search" placeholder="Digite o nome do drink">
+                            </div>
                         </div>
 
                         <div class="tags-list">
@@ -417,6 +421,23 @@
 
     var Swiper = require('swiper')
 
+    var filterList = function(arr, filterTerm) {
+    if (filterTerm === '') return arr
+    return deepFilter(arr, filterTerm)
+}
+
+var deepFilter = function(arr, filterTerm) {
+    return arr.filter(item => {
+
+        if (typeof item === 'object') {
+            return deepFilter(Object.values(item), filterTerm).length > 0;
+        }
+
+        return item.toString().indexOf(filterTerm) >= 0
+    })
+}
+
+
     export default {
         name: 'show-event',
         components: {
@@ -430,6 +451,7 @@
                     drinkSelected: drinkObj,
                     showTags: false,
                     drinksToShowInfo: [],
+                    search: ''
                 },
                 filterOptions: [],
                 eventFound: true,
@@ -487,11 +509,18 @@
 
             drinksFiltered: function () {
                 var that = this
+
                 var arr = this.event.drinks.filter(function (drink) {
+                    return drink.name.toLowerCase().indexOf(that.interactions.search.toLowerCase()) >= 0
+                });
+
+                
+
+                var arr2 = arr.filter(function (drink) {
                     return that.checkIfDrinkHasItem(drink)
                 })
 
-                return arr;
+                return arr2;
             },
 
             tags: function () {

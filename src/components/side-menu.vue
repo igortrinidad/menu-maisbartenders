@@ -11,6 +11,9 @@
                     <!-- MENU -->
                     <div>
                         <ul class="main-menu">
+                            <li>
+                                <a href="#" class="text-center" @click="$('#navbar-menu-button').click()">Fechar menu</a>
+                            </li>
                             <li class="sub-menu"  v-if="isLogged && isOnline">
                                 <a href="#" class="sub-menu user-logged-name">
                                     <img :src="userPhoto" alt="" class="img-circle" width="32">

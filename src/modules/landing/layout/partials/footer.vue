@@ -2,11 +2,11 @@
     <!-- Navigation -->
     <footer class="bg-footer">
         <div>
+        <!--
             <small class="created-by">Created By</small>
             <a class="" href="https://we-planner.com" target="_blank">We-Planner</a>
-            <router-link class="privacy" tag="a" :to="{ name: 'landing.privacy' }">
-                Termos de Uso e Política de Privacidade
-            </router-link>
+            <a class="" href="https://menu.maisbartenders.com.br/#/termos-de-uso-e-privacidade" target="_blank">Termos de uso e politica de privacidade</a>
+        -->
         </div>
     </footer>
 </template>

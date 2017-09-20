@@ -69,8 +69,8 @@ do
         echo "**********************************************";
         git commit -m "Build generated version: ${version}.";
         git push
-        echo "BRANCH ALTERADA PARA: MASTER"
         git checkout master;
+        echo "BRANCH ALTERADA PARA: MASTER"
         git merge development;
 
         git add -A;
@@ -78,11 +78,12 @@ do
         git push
 
         git checkout development
+        echo "BRANCH ALTERADA PARA: DEVELOPMENT"
         git merge master;
         git add -A;
         git commit -m "Merge from master: ${version}.";
 
-        echo "BRANCH ALTERADA PARA: DEVELOPMENT"
+        echo "FINISHING THE JOB"
         git push
         git pull
     fi
