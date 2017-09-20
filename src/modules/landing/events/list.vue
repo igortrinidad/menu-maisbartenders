@@ -82,30 +82,29 @@
             download: function() {
                 if (window.cordova) {
 
-                    const transfer = new FileTransfer();
+                    const fileTransfer = new FileTransfer()
+                    const uri = encodeURI('maisbartenders.com.br')
+                    const fileURL = 'https://s3.amazonaws.com/mais-bartenders-dev/events/daa8db33fea5a60bb314acf41d319cf7.jpg'
 
-                    let url = encodeURI("http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg");
-                    let fileName = "bitcoin.jpg";
-
-                    transfer.download(
-                        url,
-                        cordova.file.dataDirectory + fileName,
-                        // On Success
+                    fileTransfer.download(
+                        uri,
+                        fileURL,
                         function(entry) {
-                            console.log('Download completed');
+                            console.log('download complete: ' + entry.toURL());
                             console.log(entry);
                         },
-                        // On Error
                         function(error) {
-                            console.log('Download Error');
-                            console.log(error);
+                            console.log('download error source ' + error.source);
+                            console.log('download error target ' + error.target);
+                            console.log('download error code ' + error.code);
                         },
                         false,
                         {
-                            headers: { "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA==" }
+                            headers: {
+                                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+                            }
                         }
                     )
-
                 }
             },
 
