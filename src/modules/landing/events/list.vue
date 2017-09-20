@@ -82,30 +82,44 @@
             download: function() {
                 if (window.cordova) {
 
-                    const fileTransfer = new FileTransfer()
-                    const uri = encodeURI('maisbartenders.com.br')
-                    const fileURL = 'https://s3.amazonaws.com/mais-bartenders-dev/events/daa8db33fea5a60bb314acf41d319cf7.jpg'
+                    // const fileTransfer = new FileTransfer()
+                    // const uri = encodeURI('http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg')
+                    // const fileURL = ''
+                    //
+                    // fileTransfer.download(
+                    //     uri,
+                    //     fileURL,
+                    //     function(entry) {
+                    //         console.log('download complete: ' + entry.toURL());
+                    //         console.log(entry);
+                    //     },
+                    //     function(error) {
+                    //         console.log('download error source ' + error.source);
+                    //         console.log('download error target ' + error.target);
+                    //         console.log('download error code ' + error.code);
+                    //         console.log(error);
+                    //     },
+                    //     true,
+                    //     {
+                    //         headers: {
+                    //             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+                    //         }
+                    //     }
+                    // )
 
-                    fileTransfer.download(
-                        uri,
-                        fileURL,
+                    const ft = new FileTransfer()
+
+                    ft.download(
+                        'http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg',
+                        '/bitcoin1.jpg',
                         function(entry) {
-                            console.log('download complete: ' + entry.toURL());
                             console.log(entry);
                         },
-                        function(error) {
-                            console.log('download error source ' + error.source);
-                            console.log('download error target ' + error.target);
-                            console.log('download error code ' + error.code);
-                            console.log(error);
-                        },
-                        false,
-                        {
-                            headers: {
-                                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-                            }
+                        function(err) {
+                            console.log(err);
                         }
                     )
+
                 }
             },
 
