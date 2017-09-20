@@ -14,6 +14,7 @@ import NotFound from './pages/404.vue'
 import Forbidden from './pages/403.vue'
 import Privacy from './pages/privacy.vue'
 import Contact from './pages/contact.vue'
+import Simulator from './pages/simulator.vue'
 import { routes as auth } from './auth'
 
 //To test chart JS
@@ -129,6 +130,12 @@ export default [
                 name: 'landing.contact',
                 path: '/contato',
                 component: Contact
+
+            },
+            {
+                name: 'landing.simulator',
+                path: '/simulador',
+                component: Simulator
 
             },
             {

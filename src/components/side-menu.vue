@@ -25,7 +25,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            
+
                             <li>
                                 <router-link :to="{name: 'landing.home.show'}" exact>Home</router-link>
                             </li>
@@ -50,6 +50,10 @@
 
                             <li>
                                 <router-link :to="{name: 'landing.contact'}">Contato</router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{name: 'landing.simulator'}">Simulador</router-link>
                             </li>
 
                             <li v-if="isLogged">
