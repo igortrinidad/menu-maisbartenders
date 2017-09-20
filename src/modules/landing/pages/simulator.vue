@@ -171,7 +171,7 @@
                         <h4>Simulador</h4>
                         <small class="smallCaption">Quantidade indicada para seu evento.</small>
                         <br><br><br>
-                        <table class="table">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th class="text-center">Bebida</th>
@@ -401,5 +401,18 @@ export default {
 
 <style scoped>
 
+    .btn-xl { padding: 10px 20px; }
+
+    .btn:hover, .btn:focus, .btn.focus { color: #2c3e50 !important; }
+    .btn-xl:hover,
+    .btn-xl:focus,
+    .btn-xl:active,
+    .btn-xl.active,
+    .open .dropdown-toggle.btn-xl
+    { color: #2c3e50 !important; background-color: #FED13B; border-color: #FED13B; }
+
+    thead tr th {
+        vertical-align: middle;
+    }
 
 </style>
