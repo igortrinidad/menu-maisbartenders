@@ -1,32 +1,49 @@
 <template>
-   <div class="page">
+    <div class="page">
 
-        <div>
+        <div v-if="events.length">
             <div class="container m-t-30 text-center">
                 <h2>Eventos</h2>
             </div>
-        </div>
 
-        <div class="list-events">
-            <div class="container">
-                <div class="cols">
-                    <div v-for="(event, index) in events" class="col">
-                        <div tag="div" class="box event" :to="{name: 'landing.events.show-offiline', params: {event_slug: event.url}}">
+            <div class="list-events">
+                <div class="container">
+                    <div class="cols">
+                        <div v-for="(event, index) in events" class="col">
+                            <div tag="div" class="box event" :to="{name: 'landing.events.show-offiline', params: {event_slug: event.url}}">
 
-                            <router-link tag="span" :to="{name: 'landing.events.show-offline', params: {event_slug: event.url}}">
-                                <img :src="event.photo_url" :alt="event.name" class="event-gallery-image">
-                                <div class="details">
-                                    <h4 class="event-name">{{ event.name }}</h4>
-                                    <span class="description">{{ event.greeting }}</span>
-                                </div>
+                                <router-link tag="span" :to="{name: 'landing.events.show-offline', params: {event_slug: event.url}}">
+                                    <img :src="event.photo_url" :alt="event.name" class="event-gallery-image">
+                                    <div class="details">
+                                        <h4 class="event-name">{{ event.name }}</h4>
+                                        <span class="description">{{ event.greeting }}</span>
+                                    </div>
 
-                            </router-link >
-                            <button class="btn btn-sm btn-block btn-danger m-t-10" @click="removeEvent(event)">Excluir evento do dispositivo</button>
+                                </router-link >
+                                <button class="btn btn-sm btn-block btn-danger m-t-10" @click="removeEvent(event)">Excluir evento do dispositivo</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <section v-if="!events.length">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <h2 class="section-heading">Nenhum evento salvo ainda.</h2>
+                        <h3 class="section-subheading text-muted">Salve eventos agora mesmo para acessar a qualquer momento mesmo sem conexão com a internet</h3>
+                    </div>
+
+                    <div class="col-sm-12 text-center">
+                        <router-link tag="button" class="btn btn-xl" :to="{ name: 'landing.events.list' }" exact>
+                            Eventos
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+        </section>
 
    </div>
 </template>
@@ -50,7 +67,9 @@
 
         },
         mounted(){
-            this.events = JSON.parse(localStorage.getItem('events'));
+            if (JSON.parse(localStorage.getItem('events')) !== null) {
+                this.events = JSON.parse(localStorage.getItem('events'));
+            }
         },
         methods: {
             ...mapActions(['setLoading']),
@@ -70,7 +89,7 @@
                       showLoaderOnConfirm: true,
                       preConfirm: function (pass) {
                         return new Promise(function (resolve, reject) {
-                            
+
                             var check = pass === localStorage.getItem('device_pass');
 
                             setTimeout(function() {
@@ -95,7 +114,6 @@
                         })
 
                     })
-            
             },
 
         }
