@@ -38,7 +38,7 @@
                     <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i></button>
                     </div>
                 </div>
-                
+
             </div>
 
             <div id="most-recommended" class="container">
@@ -509,7 +509,7 @@
                                 return false
                             } else {
                                 arr.push({name: item.name, category: item.category})
-                            }  
+                            }
                         }
                     });
                 });
@@ -565,7 +565,7 @@
 
             whatsappPhrases: function(){
                 let that = this
-            
+
                 var phrases = [];
 
                 var phrase1 = `Olá, queria convidar você para conferir o cardápio do(a) ${that.event.name}.`;
@@ -604,7 +604,7 @@
 
             openShareWhatsapp: function(){
                 let that = this
-            
+
                 var url = `https://api.whatsapp.com/send?text=${that.interactions.whatsappPhraseSelected} Acesse o link: https://maisbartenders.com.br/opengraph/events/${that.event.url}`;
 
                 window.open(url, '_system', null);
@@ -616,14 +616,14 @@
                 var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/${that.event.url}&picture=${that.interactions.drinkSelected.photo_url}&display=popup&mobile_iframe=true&hashtag=${that.event.hashtag}`;
 
                     if(window.cordova){
-                        
+
                         var ref = window.open(url, '_blank', 'location=yes');
-                        ref.addEventListener('loadstart', function(event) { 
+                        ref.addEventListener('loadstart', function(event) {
 
                             var url = "https://www.facebook.com/dialog/return/close";
 
                             if (event.url.indexOf(url) !== -1) {
-                                
+
                                 ref.close();
                                 successNotify('', 'Drink compartilhado com sucesso!')
                                 $('#modalSharePhrase').modal('hide')
@@ -638,7 +638,7 @@
                         setTimeout( function(){
                             successNotify('', 'Drink compartilhado com sucesso!')
                             $('#modalSharePhrase').modal('hide')
-                            that.storeFacebookShare(); 
+                            that.storeFacebookShare();
                         },1000)
                     }
             },
@@ -866,7 +866,7 @@
 
                     })
                     .catch(function (error) {
-                    
+
                         if(!that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
                             that.removeUserDrinkLike({"drink_id": drink.id})
                             drink.likes_count = drink.likes_count - 1
@@ -882,10 +882,56 @@
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
             },
 
+            download: function() {
+                if (window.cordova) {
+
+                    // const fileTransfer = new FileTransfer()
+                    // const uri = encodeURI('http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg')
+                    // const fileURL = ''
+                    //
+                    // fileTransfer.download(
+                    //     uri,
+                    //     fileURL,
+                    //     function(entry) {
+                    //         console.log('download complete: ' + entry.toURL());
+                    //         console.log(entry);
+                    //     },
+                    //     function(error) {
+                    //         console.log('download error source ' + error.source);
+                    //         console.log('download error target ' + error.target);
+                    //         console.log('download error code ' + error.code);
+                    //         console.log(error);
+                    //     },
+                    //     true,
+                    //     {
+                    //         headers: {
+                    //             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+                    //         }
+                    //     }
+                    // )
+
+                    const ft = new FileTransfer()
+
+                    ft.download(
+                        'http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg',
+                        '/bitcoin1.jpg',
+                        function(entry) {
+                            console.log(entry);
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+
+                }
+            },
+
             saveEvent: function(){
                 let that = this
-            
+
                 var events = JSON.parse(localStorage.getItem('events'));
+
+                that.download()
 
                 if(Array.isArray(events) && events.length){
 
@@ -899,7 +945,7 @@
 
                     var events = JSON.stringify(events);
                     localStorage.setItem('events', events);
-                    successNotify('', 'Evento salvo no dispositivo.')  
+                    successNotify('', 'Evento salvo no dispositivo.')
 
                 } else {
 
@@ -936,14 +982,14 @@
                         })
 
                     })
-                    
+
                 }
             },
 
             saveNewEvent: function(){
                 let that = this
-            
-                
+
+
             },
         }
     }

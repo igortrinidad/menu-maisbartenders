@@ -74,54 +74,9 @@
         mounted(){
             this.getEvents();
             this.checkIfHasCommentToSave();
-            this.download();
         },
         methods: {
             ...mapActions(['setLoading']),
-
-            download: function() {
-                if (window.cordova) {
-
-                    // const fileTransfer = new FileTransfer()
-                    // const uri = encodeURI('http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg')
-                    // const fileURL = ''
-                    //
-                    // fileTransfer.download(
-                    //     uri,
-                    //     fileURL,
-                    //     function(entry) {
-                    //         console.log('download complete: ' + entry.toURL());
-                    //         console.log(entry);
-                    //     },
-                    //     function(error) {
-                    //         console.log('download error source ' + error.source);
-                    //         console.log('download error target ' + error.target);
-                    //         console.log('download error code ' + error.code);
-                    //         console.log(error);
-                    //     },
-                    //     true,
-                    //     {
-                    //         headers: {
-                    //             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-                    //         }
-                    //     }
-                    // )
-
-                    const ft = new FileTransfer()
-
-                    ft.download(
-                        'http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg',
-                        '/bitcoin1.jpg',
-                        function(entry) {
-                            console.log(entry);
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    )
-
-                }
-            },
 
             eventGo: function(){
                 this.$router.push({name: 'landing.events.show', params: {event_slug: this.event_url}})
