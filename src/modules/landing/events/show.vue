@@ -913,13 +913,19 @@
                     const ft = new FileTransfer()
 
                     ft.download(
-                        'http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg',
-                        '/bitcoin1.jpg',
+                        'https://s3.amazonaws.com/mais-bartenders-dev/events/daa8db33fea5a60bb314acf41d319cf7.jpg',
+                        '/daa8db33fea5a60bb314acf41d319cf7.jpg',
                         function(entry) {
                             console.log(entry);
                         },
                         function(err) {
                             console.log(err);
+                        },
+                        false,
+                        {
+                            headers: {
+                                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+                            }
                         }
                     )
 

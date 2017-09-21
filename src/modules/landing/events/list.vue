@@ -74,9 +74,49 @@
         mounted(){
             this.getEvents();
             this.checkIfHasCommentToSave();
+            if (window.cordova) {
+                this.createFolder();
+            }
         },
         methods: {
             ...mapActions(['setLoading']),
+
+            downloadFile: function(dir) {
+
+                const fileTransfer = new FileTransfer();
+                console.log(cordova.file.dataDirectory);
+
+                var filePath = cordova.file.dataDirectory + "/header-bg.jpg";
+                var uri = encodeURI("https://maisbartenders.com.br/img/header-bg.jpg");
+
+                fileTransfer.download(
+                    uri,
+                    filePath,
+                    function (entry) {
+                        console.log(entry);
+                    },
+                    function (error) {
+                        console.log(error);
+                    },
+                    true,
+                );
+            },
+
+            createFolder: function() {
+                let that = this
+
+                window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (entry) {
+                    entry.getDirectory("menumaisbartenders", {create: true, exclusive: false},
+                        function(entry) {
+                            that.downloadFile(entry.nativeURL)
+                            console.log(entry);
+                        },
+                        function(error) {
+                            console.log(error);
+                        }
+                    );
+                });
+            },
 
             eventGo: function(){
                 this.$router.push({name: 'landing.events.show', params: {event_slug: this.event_url}})
