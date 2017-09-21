@@ -884,7 +884,7 @@
             downloadFile: function(dir) {
                 let that = this
 
-                // that.setLoading({is_loading: true, message: 'Salvando arquivos'})
+                that.setLoading({is_loading: true, message: 'Salvando arquivos'})
                 let fileTransfer = new FileTransfer();
 
                 const fileName = `${ that.event.url }.${ that.event.photo_url.split('.').pop() }`
@@ -894,12 +894,12 @@
                    `${ dir }/${ fileName }`,
                    function(entry) {
                        console.log(entry);
-                    //    that.setLoading({is_loading: false, message: ''})
+                       that.setLoading({is_loading: false, message: ''})
                        successNotify('', 'Imagem do evento salva no dispositivo.')
                    },
                    function(error) {
                        console.log(error);
-                    //    that.setLoading({is_loading: false, message: ''})
+                       that.setLoading({is_loading: false, message: ''})
                        errorNotify('', 'Não foi possível salvar a imagem do evento no dispositivo.')
                    },
                    true
@@ -931,6 +931,10 @@
 
                 if(Array.isArray(events) && events.length){
 
+                    if (window.cordova) {
+                        that.createFolder()
+                    }
+
                     var index = events.indexFromAttr('id', that.event.id);
 
                     if(index > -1){
@@ -959,6 +963,9 @@
                               reject('Insira uma senha.')
                             } else {
                               resolve()
+                              if (window.cordova) {
+                                  that.createFolder()
+                              }
                             }
                           }, 2000)
                         })
@@ -970,10 +977,6 @@
                         var events = JSON.stringify([that.event]);
                         localStorage.setItem('events', events);
                         localStorage.setItem('device_pass', pass);
-
-                        if (window.cordova) {
-                            that.createFolder()
-                        }
 
                         that.$swal({
                             type: 'success',
