@@ -1,6 +1,6 @@
 <template>
    <div class="page">
-
+       <img :src="applicationDirectory" alt="">
         <div>
             <div class="container m-t-30 text-center">
                 <h2>Eventos</h2>
@@ -63,6 +63,7 @@
                 eventFound: true,
                 events: [],
                 event_url: '',
+                applicationDirectory: ''
             }
         },
         computed:{

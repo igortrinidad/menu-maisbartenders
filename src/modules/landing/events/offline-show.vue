@@ -60,7 +60,7 @@
                             <a v-scroll-to="'#drinks'" class="btn btn-primary btn-block m-t-10">Ver Todos</a>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -189,7 +189,7 @@
                         <div class="col-md-12 col-xs-12">
 
                             <h4 class="m-b-20">Mensagens ({{pagination.total}})</h4>
-                            
+
 
                             <span v-for="(comment, index) in commentsOrdereds">
                                 <div class="row" v-if="comment.guest">
@@ -202,7 +202,7 @@
                                             </div>
                                         </div>
                                         <p class="m-t-10">{{comment.comment}}</p>
-                                        
+
                                     </span>
                                 </div>
                             </span>
@@ -453,12 +453,13 @@
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
 
             eventBackground: function () {
-                return 'url(' + this.event.photo_url + ')';
+                const imageSystemPath = `${ cordova.file.dataDirectory }/${ this.event.url }.jpg`
+                return 'url(' + imageSystemPath + ')';
             },
 
             commentsOrdereds: function(){
                 let that = this
-            
+
                 return _.orderBy(that.comments, 'created_at', 'desc');
             },
             itemsCategoriesOrdereds: function () {
@@ -506,7 +507,7 @@
                                 return false
                             } else {
                                 arr.push({name: item.name, category: item.category})
-                            }  
+                            }
                         }
                     });
                 });
@@ -562,7 +563,7 @@
 
             whatsappPhrases: function(){
                 let that = this
-            
+
                 var phrases = [];
 
                 var phrase1 = `Olá, queria convidar você para conferir o cardápio do(a) ${that.event.name}.`;
@@ -597,7 +598,7 @@
 
             openShareWhatsapp: function(){
                 let that = this
-            
+
                 var url = `https://api.whatsapp.com/send?text=${that.interactions.whatsappPhraseSelected} Acesse o link: https://maisbartenders.com.br/opengraph/events/${that.event.url}`;
 
                 window.open(url, '_system', null);
@@ -609,14 +610,14 @@
                 var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/${that.event.url}&picture=${that.interactions.drinkSelected.photo_url}&display=popup&mobile_iframe=true&hashtag=${that.event.hashtag}`;
 
                     if(window.cordova){
-                        
+
                         var ref = window.open(url, '_blank', 'location=yes');
-                        ref.addEventListener('loadstart', function(event) { 
+                        ref.addEventListener('loadstart', function(event) {
 
                             var url = "https://www.facebook.com/dialog/return/close";
 
                             if (event.url.indexOf(url) !== -1) {
-                                
+
                                 ref.close();
                                 successNotify('', 'Drink compartilhado com sucesso!')
                                 $('#modalSharePhrase').modal('hide')
@@ -631,7 +632,7 @@
                         setTimeout( function(){
                             successNotify('', 'Drink compartilhado com sucesso!')
                             $('#modalSharePhrase').modal('hide')
-                            that.storeFacebookShare(); 
+                            that.storeFacebookShare();
                         },1000)
                     }
             },
@@ -648,7 +649,7 @@
 
             saveComment: function(){
                 let that = this
-            
+
                 that.setLoading({is_loading: true, message: ''})
                 that.$http.post('/guest/eventRunningComment', that.newMessage)
                     .then(function (response) {
@@ -667,7 +668,7 @@
                         that.cleanMessage();
                     })
                     .catch(function (error) {
-                        
+
                         successNotify('', 'Comentário adicionado com sucesso.');
                         var comments_to_save_later = JSON.parse(localStorage.getItem('comments_to_save_later'));
 
@@ -691,19 +692,19 @@
                         that.cleanMessage();
 
                     });
-                
+
             },
 
             cleanMessage: function(){
                 let that = this
-            
+
                 that.newMessage.name = '';
                 that.newMessage.last_name = '';
                 that.newMessage.email = '';
                 that.newMessage.comment = '';
                 $('#comment-modal').modal('hide');
                 that.setLoading({is_loading: false, message: 'Enviando'})
-                
+
             },
 
             checkIfDrinkHasItem: function (drink) {
@@ -823,7 +824,7 @@
 
             showDrink: function(drink){
                 let that = this
-            
+
                 localStorage.setItem('drink', JSON.stringify(drink));
                 that.$router.push({name: 'landing.drinks.show-offline', params: {drink_slug: drink.url}});
             },
@@ -915,7 +916,7 @@
 
                     })
                     .catch(function (error) {
-                    
+
                         if(!that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
                             that.removeUserDrinkLike({"drink_id": drink.id})
                             drink.likes_count = drink.likes_count - 1
@@ -933,7 +934,7 @@
 
             saveEvent: function(){
                 let that = this
-            
+
                 var events = JSON.parse(localStorage.getItem('events'));
 
                 if(Array.isArray(events) && events.length){
@@ -948,7 +949,7 @@
 
                     var events = JSON.stringify(events);
                     localStorage.setItem('events', events);
-                    successNotify('', 'Evento salvo no dispositivo.')  
+                    successNotify('', 'Evento salvo no dispositivo.')
 
                 } else {
                     var events = JSON.stringify([that.event]);

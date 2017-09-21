@@ -881,7 +881,7 @@
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
             },
 
-            downloadFile: function(dir) {
+            downloadFile: function() {
                 let that = this
 
                 that.setLoading({is_loading: true, message: 'Salvando arquivos'})
@@ -891,7 +891,7 @@
 
                 fileTransfer.download(
                    that.event.photo_url,
-                   `${ dir }/${ fileName }`,
+                   `${ cordova.file.dataDirectory }/${ fileName }`,
                    function(entry) {
                        console.log(entry);
                        that.setLoading({is_loading: false, message: ''})
@@ -906,23 +906,23 @@
                 );
             },
 
-            createFolder: function() {
-                let that = this
-
-                window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (entry) {
-                    entry.getDirectory('menumaisbartenders', {create: true, exclusive: false},
-                        function(entry) {
-                            that.downloadFile(entry.nativeURL)
-                            console.log('created dir');
-                            console.log(entry);
-                        },
-                        function(error) {
-                            console.log('error dir');
-                            console.log(error);
-                        }
-                    );
-                });
-            },
+            // downloadFile: function() {
+            //     let that = this
+            //
+            //     window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (entry) {
+            //         entry.getDirectory('menumaisbartenders', {create: true, exclusive: false},
+            //             function(entry) {
+            //                 that.downloadFile(entry.nativeURL)
+            //                 console.log('created dir');
+            //                 console.log(entry);
+            //             },
+            //             function(error) {
+            //                 console.log('error dir');
+            //                 console.log(error);
+            //             }
+            //         );
+            //     });
+            // },
 
             saveEvent: function(){
                 let that = this
@@ -932,7 +932,7 @@
                 if(Array.isArray(events) && events.length){
 
                     if (window.cordova) {
-                        that.createFolder()
+                        that.downloadFile()
                     }
 
                     var index = events.indexFromAttr('id', that.event.id);
@@ -964,7 +964,7 @@
                             } else {
                               resolve()
                               if (window.cordova) {
-                                  that.createFolder()
+                                  that.downloadFile()
                               }
                             }
                           }, 2000)
