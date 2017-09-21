@@ -769,7 +769,6 @@
                         that.event = response.data;
                         that.eventFound = true
                         that.setLoading({is_loading: false, message: ''})
-
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -882,62 +881,53 @@
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
             },
 
-            download: function() {
-                if (window.cordova) {
+            downloadFile: function(dir) {
+                let that = this
 
-                    // const fileTransfer = new FileTransfer()
-                    // const uri = encodeURI('http://s14.postimg.org/i8qvaxyup/bitcoin1.jpg')
-                    // const fileURL = ''
-                    //
-                    // fileTransfer.download(
-                    //     uri,
-                    //     fileURL,
-                    //     function(entry) {
-                    //         console.log('download complete: ' + entry.toURL());
-                    //         console.log(entry);
-                    //     },
-                    //     function(error) {
-                    //         console.log('download error source ' + error.source);
-                    //         console.log('download error target ' + error.target);
-                    //         console.log('download error code ' + error.code);
-                    //         console.log(error);
-                    //     },
-                    //     true,
-                    //     {
-                    //         headers: {
-                    //             "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-                    //         }
-                    //     }
-                    // )
+                // that.setLoading({is_loading: true, message: 'Salvando arquivos'})
+                let fileTransfer = new FileTransfer();
 
-                    const ft = new FileTransfer()
+                const fileName = `${ that.event.url }.${ that.event.photo_url.split('.').pop() }`
 
-                    ft.download(
-                        'https://s3.amazonaws.com/mais-bartenders-dev/events/daa8db33fea5a60bb314acf41d319cf7.jpg',
-                        '/daa8db33fea5a60bb314acf41d319cf7.jpg',
+                fileTransfer.download(
+                   that.event.photo_url,
+                   `${ dir }/${ fileName }`,
+                   function(entry) {
+                       console.log(entry);
+                    //    that.setLoading({is_loading: false, message: ''})
+                       successNotify('', 'Imagem do evento salva no dispositivo.')
+                   },
+                   function(error) {
+                       console.log(error);
+                    //    that.setLoading({is_loading: false, message: ''})
+                       errorNotify('', 'Não foi possível salvar a imagem do evento no dispositivo.')
+                   },
+                   true
+                );
+            },
+
+            createFolder: function() {
+                let that = this
+
+                window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (entry) {
+                    entry.getDirectory('menumaisbartenders', {create: true, exclusive: false},
                         function(entry) {
+                            that.downloadFile(entry.nativeURL)
+                            console.log('created dir');
                             console.log(entry);
                         },
-                        function(err) {
-                            console.log(err);
-                        },
-                        false,
-                        {
-                            headers: {
-                                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-                            }
+                        function(error) {
+                            console.log('error dir');
+                            console.log(error);
                         }
-                    )
-
-                }
+                    );
+                });
             },
 
             saveEvent: function(){
                 let that = this
 
                 var events = JSON.parse(localStorage.getItem('events'));
-
-                that.download()
 
                 if(Array.isArray(events) && events.length){
 
@@ -980,6 +970,10 @@
                         var events = JSON.stringify([that.event]);
                         localStorage.setItem('events', events);
                         localStorage.setItem('device_pass', pass);
+
+                        if (window.cordova) {
+                            that.createFolder()
+                        }
 
                         that.$swal({
                             type: 'success',
