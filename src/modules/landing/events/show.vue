@@ -3,43 +3,34 @@
 
         <div v-if="eventFound">
             <header id="header-event" class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
-                <div class="container">
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="intro-text">
-                        <span class="text-box">
-                            <span class="event-name" v-bind:style="{ color: event.title_hex}">
-                                {{event.name}}
-                            </span>
-                        </span>
-                            <br>
-                            <span class="text-box">
-                            <span class="event-greeting m-b-30" v-bind:style="{ color: event.title_hex}">
-                                {{ event.greeting }}
-                            </span>
-                        </span>
-                            <br>
-                            <a href="#most-recommended" v-scroll-to="'#most-recommended'" class="btn btn-xl m-t-30">Escolher drinks</a>
-                        </div>
-                    </div>
-                </div>
+                <button class="btn btn-default btn-back" @click="back()"><i class="fa fa-chevron-left"></i> Voltar </button>
             </header>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 col-xs-12 text-center">
-                        <p>Sejam bem vindos ao <b>Menu Interativo Mais Bartenders</b> do(a) {{event.name}}.</p>
-                        <p>
-                            Aqui você irá conferir o Menu de Drinks do evento e pode demonstrar um pouquinho da sua alegria em participar dessa festa linda, compartilhando em seu Facebook um ou mais drinks que você gostaria de experimentar no evento.</p>
-                        <p>
-                            Além de compartilhar com seus amigos os drinks que mais gostou, você pode salvar as receitas para pedir no dia do evento.</p>
-
-                        <p>Envie o cardápio do evento para seus amigos também por WhatsApp clicando abaixo:</p>
-
-                    <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i></button>
+            <section class="section p-t-30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <h2 class="m-t-0">{{ event.name }}</h2>
+                            <div v-html="event.greeting">
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="col-sm-12 text-center" v-if="event.hashtag">
+                            <small class="text-muted">Hashtag do evento</small>
+                            <div class="hashtag m-t-15">
+                                <span class="label label-primary m-r-5 f-16">
+                                    {{ event.hashtag }}
+                                </span>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12 col-xs-12 text-center">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i>
+                            </button>
+                        </div> -->
                     </div>
                 </div>
+            </section>
 
-            </div>
 
             <div id="most-recommended" class="container">
                 <div class="text-center">
@@ -330,7 +321,9 @@
 
                 <div class="row">
                     <div class="col-md-12 col-xs-12 text-center m-t-10">
-                        <button class="btn btn-primary" @click="saveEvent()">Salvar evento no dispositivo</button>
+                        <h2>Salvar evento no dispositivo</h2>
+                        <small class="text-muted">Abra quando quiser, mesmo sem conexão com a internet</small>
+                        <button class="btn btn-primary m-t-20" @click="saveEvent()">Salvar</button>
                     </div>
                 </div>
             </div>
@@ -363,8 +356,6 @@
                 </div>
             </header>
         </div>
-
-        <button class="btn btn-default btn-fixed btn-xl" @click="back()"><i class="fa fa-chevron-left"></i> Voltar </button>
 
         <!-- MODAL FRASE FACEBOOK -->
         <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
@@ -999,6 +990,25 @@
 </script>
 
 <style scoped>
+
+    /*Hashtag*/
+    .hashtag .label.label-primary {
+        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        background-color: #222;
+        border-color: #222;
+        color: rgba(254, 209, 54,.9);
+    }
+
+    .header-greeting{
+        position: relative;
+    }
+    .btn-back {
+        position: absolute;
+        top: 94px; left: 15px;
+        border-color: #fed136 !important;
+        background-color: #fed136 !important;
+        color: #000 !important
+    }
 
     /* END SWIPER */
 
