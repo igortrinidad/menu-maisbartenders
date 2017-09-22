@@ -42,7 +42,7 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right" v-if="isLogged">
-                        
+
                         <router-link  tag="li" to="/" exact>
                             <a>Home</a>
                         </router-link>
@@ -74,7 +74,7 @@
 
 
                     <ul class="nav navbar-nav navbar-right" v-if="isLogged && checkRole('admin')">
-                        
+
                             <router-link  tag="li" to="/" exact>
                                 <a>Home</a>
                             </router-link>
@@ -167,7 +167,7 @@
                                     </li>
                                 </ul>
                             </li>
-                    </ul>   
+                    </ul>
 
                 </div>
             </div>
@@ -198,11 +198,10 @@
         methods:{
             handleSideMenu() {
                 this.sideMenuStatus = !this.sideMenuStatus
-            }
+            },
         }
     }
 </script>
 
 <style scoped>
-
 </style>

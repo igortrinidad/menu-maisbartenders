@@ -6,6 +6,14 @@ export default function(){
         $(this).parent().toggleClass('toggled');
     });
 
+    $(window).bind('scroll', function () {
+        if ($(window).scrollTop() > 420) {
+            $('.navbar-transparent').removeClass('transparent');
+        } else {
+            $('.navbar-transparent').addClass('transparent');
+        }
+    })
+
     // wait for click in document to dispatch a click in menu button to close it
     // this will not close menu if click to open subitems in menu
     $(document).on('click', (event) => {
@@ -137,7 +145,7 @@ Array.prototype.changeFromAttr = function arrayObjectIndexOf(anchor, identifier,
 Array.prototype.applySumFromAttrInArray = function arrayObjectIndexOf(anchor, identifier, attrToSum) {
     var value = 0;
     for (var i = 0, len = this.length; i < len; i++) {
-        
+
         if (this[i][anchor] === identifier) {
                 value = value + this[i][attrToSum];
         }
@@ -149,7 +157,7 @@ Array.prototype.applySumFromAttrInArray = function arrayObjectIndexOf(anchor, id
 Array.prototype.sumAttrInArray = function arrayObjectIndexOf(attrToSum) {
     var value = 0;
     for (var i = 0, len = this.length; i < len; i++) {
-        
+
         value = value + this[i][attrToSum];
 
     }

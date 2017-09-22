@@ -1,10 +1,10 @@
 <template>
 
     <div>
-        
+
         <side-menu :isOpened="sideMenuStatus"></side-menu>
 
-        <nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
+        <nav class="navbar navbar-default navbar-fixed-top navbar-shrink" :class="navbarTransparent ? 'navbar-transparent transparent' : ''">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -116,7 +116,7 @@
             </div>
             <!-- /.container-fluid -->
         </nav>
-        
+
     </div>
 </template>
 
@@ -132,12 +132,19 @@
             return {
                 sideMenuStatus: false,
                 hasEventSaved: false,
+                navbarTransparent: false,
             }
         },
         computed: {
             ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
         },
+        watch: {
+            '$route': function() {
+                this.setNavbarTransparent()
+            }
+        },
         mounted(){
+            this.setNavbarTransparent()
 
             var events = JSON.parse(localStorage.getItem('events'));
 
@@ -147,6 +154,15 @@
 
         },
         methods:{
+
+            setNavbarTransparent() {
+                if (this.$route.name === 'landing.events.show') {
+                    this.navbarTransparent = true
+                } else {
+                    this.navbarTransparent = false
+                }
+            },
+
             handleSideMenu() {
                 var that = this
 
@@ -163,7 +179,7 @@
                         showLoaderOnConfirm: true,
                         preConfirm: function (pass) {
                             return new Promise(function (resolve, reject) {
-                            
+
                                 var check = pass === localStorage.getItem('device_pass');
 
                                 setTimeout(function() {
@@ -179,12 +195,12 @@
                         allowOutsideClick: false
                     }).then(function (pass) {
 
-                        that.sideMenuStatus = !that.sideMenuStatus 
+                        that.sideMenuStatus = !that.sideMenuStatus
 
                     })
 
                 } else {
-                    this.sideMenuStatus = !this.sideMenuStatus 
+                    this.sideMenuStatus = !this.sideMenuStatus
                 }
             }
         }
@@ -192,6 +208,13 @@
 </script>
 
 <style scoped>
+
+    .navbar { transition: ease .4s !important; }
+    .transparent {
+        background-color: rgba(0, 0, 0, .2) !important;
+        transition: ease .4s !important;
+    }
+
     .mb-brand{
         margin: 0px 0 0 15px;
         font-size: 20px;

@@ -1004,7 +1004,7 @@
     }
     .btn-back {
         position: absolute;
-        top: 94px; left: 15px;
+        top: 94px; left: 25px;
         border-color: #fed136 !important;
         background-color: #fed136 !important;
         color: #000 !important
