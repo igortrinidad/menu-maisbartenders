@@ -10,7 +10,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12 text-center">
-                            <h2 class="m-t-0">{{ event.name }}</h2>
+                            <h1 class="m-t-0">{{ event.name }}</h1>
                             <div v-html="event.greeting">
                             </div>
                             <hr>
@@ -72,8 +72,8 @@
                 <div class="container">
                     <div class="filter">
                         <div class="text-center">
-                            <h3>Ingredientes:</h3>
-                            <p>Selecione os ingredientes de sua preferência.</p>
+                            <h2>Ingredientes: </h2>
+                            <p class="sub-header">Selecione os ingredientes de sua preferência.</p>
                         </div>
 
                         <div class="tags-list">
@@ -276,10 +276,14 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
 
-                            <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
-                            <small>
-                                Compartilhe um drink preferido e seus compartilhamentos serão exibidos aqui na página do {{event.name}}
-                            </small>
+                            <div class="text-center">
+                                <h2>Comentários:</h2>
+                                <p class="sub-header">{{ pagination.total > 0 ? `${ pagination.total } comentários` : 'Nenhum comentário ainda'}}</p>
+
+                                <p class="text-muted m-b-0 m-t-10">
+                                    Compartilhe um drink preferido e seus compartilhamentos serão exibidos aqui na página do {{event.name}}
+                                </p>
+                            </div>
 
                             <span v-for="(comment, index) in comments">
                                 <div class="row">
