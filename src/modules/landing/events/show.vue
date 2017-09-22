@@ -32,7 +32,20 @@
             </section>
 
 
-            <section class="section" style="background-color: rgba(44, 60, 80, .07)">
+            <section class="section p-relative box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
+
+                <!-- Event Date -->
+                <div class="the_date">
+                    <span class="the_date_border"></span>
+                    <span class="date_d">{{ event.date | moment('DD') }}</span>
+                    <span class="date_m">{{ event.date | moment('MMM') }}</span>
+                    <span class="date_y">{{ event.date | moment('YYYY') }}</span>
+                </div>
+                <h2 class="text-center">
+                    <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
+                </h2>
+                <!-- / Event Date -->
+
                 <div id="most-recommended" class="container">
                     <div class="text-center">
                         <h2>Best Sellers</h2>
@@ -274,7 +287,7 @@
             </div>
 
 
-            <section id="comments" style="background-color: rgba(44, 60, 80, .07)">
+            <section id="comments" class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
@@ -1360,8 +1373,46 @@
         color: #e74c3c;
     }
 
-    section {
-        padding: 60px 0 !important;
+    .box-shadow-divider {
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, .1), 0px -2px 3px rgba(0, 0, 0, .1);
     }
+
+    /* The_Date */
+    .the_date{
+        color: #DEB62F;
+    }
+    .the_date{
+        width: 100px; height: 100px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        flex-flow: row wrap;
+        background-color: rgba(0, 0, 0, 1);
+        border-color: #000;
+        position: absolute;
+        top: -50px; left: 50%;
+        margin-left: -50px;
+        padding: 15px 10px;
+    }
+    .the_date_border {
+        position: absolute;
+        width: 90px; height: 90px;
+        top: 50%; left: 50%;
+        margin-top: -45px;
+        margin-left: -45px;
+        border-radius: 50%;
+        border: 2px solid;
+    }
+    .the_date .date_y,
+    .the_date .date_m,
+    .the_date .date_d {
+        width: 100%;
+        text-align: center;
+        font-weight: 700;
+        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    }
+    .the_date .date_y{ font-size: 20px; align-self: flex-end; }
+    .the_date .date_m{ font-size: 12px; align-self: center; }
+    .the_date .date_d{ font-size: 16px; align-self: flex-start;}
 
 </style>
