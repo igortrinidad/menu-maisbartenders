@@ -45,6 +45,9 @@
                     <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
                 </h2>
                 <!-- / Event Date -->
+            </section>
+
+            <section>
 
                 <div id="most-recommended" class="container">
                     <div class="text-center">
@@ -84,7 +87,7 @@
                 </div>
             </section>
 
-            <section id="drinks">
+            <section id="drinks" class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
                 <div class="container">
                     <div class="filter">
                         <div class="text-center">
@@ -287,7 +290,7 @@
             </div>
 
 
-            <section id="comments" class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
+            <section id="comments">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
@@ -336,7 +339,7 @@
             </section>
 
             <section class="backsection">
-
+                <hr>
                 <div class="row">
                     <div class="col-md-12 col-xs-12 text-center m-t-10">
                         <h2>Salvar evento no dispositivo</h2>
