@@ -464,6 +464,11 @@ hr.gray{ border-color: #2c3e50; }
         background-size: cover;
         -o-background-size: cover;
     }
+    @media (max-width: 350px) {
+        .header-greeting {
+            height: 400px;
+        }
+    }
 
     .stars{
         color: #fed136;

@@ -6,7 +6,7 @@
                 <button class="btn btn-default btn-back" @click="back()"><i class="fa fa-chevron-left"></i> Voltar </button>
             </header>
 
-            <section class="section">
+            <section class="section p-t-30">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12 text-center">
