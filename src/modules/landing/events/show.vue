@@ -369,6 +369,7 @@
                     <div class="col-md-12 col-xs-12 text-center m-t-10">
                         <h2>Salvar evento no dispositivo</h2>
                         <small class="text-muted">Abra quando quiser, mesmo sem conexão com a internet</small>
+                        <br>
                         <button class="btn btn-primary m-t-20" @click="saveEvent()">Salvar</button>
                     </div>
                 </div>
