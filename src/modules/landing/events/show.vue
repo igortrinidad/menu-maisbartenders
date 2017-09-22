@@ -45,6 +45,31 @@
                     <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
                 </h2>
                 <!-- / Event Date -->
+
+                <div class="m-t-30" v-if="!eventHasHappened">
+                    <h2 class="countdown-title text-center">Faltam</h2>
+                    <div class="card-body card-padding">
+                        <div class="countdown">
+                            <span class="countdown-d">
+                                <strong>{{ remain.days }}</strong>
+                                <small>Dias</small>
+                            </span>
+                            <span class="countdown-h">
+                                <strong>{{ remain.hours }}</strong>
+                                <small>Horas</small>
+                            </span>
+                            <span class="countdown-m">
+                                <strong>{{ remain.minutes }}</strong>
+                                <small>Minutos</small>
+                            </span>
+                            <span class="countdown-s">
+                                <strong>{{ remain.seconds }}</strong>
+                                <small>Segundos</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
             </section>
 
             <section>
@@ -442,6 +467,7 @@
     import {mapGetters, mapActions} from 'vuex'
     import eventObj from '../../../models/Event.js'
     import drinkObj from '../../../models/Drink.js'
+    import moment from 'moment'
 
     var Swiper = require('swiper')
 
@@ -459,13 +485,20 @@
                     showTags: false,
                     drinksToShowInfo: [],
                 },
+                eventHasHappened: false,
                 filterOptions: [],
                 eventFound: true,
                 event: eventObj,
                 itemsSelecteds: [],
                 displayDrinks: false,
                 comments: [],
-                pagination: {}
+                pagination: {},
+                remain: {
+                    days: 0,
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0
+                }
             }
         },
         computed: {
@@ -599,6 +632,7 @@
             this.getEvent();
             this.getEventComments();
             this.initSwiper();
+            this.checkRemainTime();
         },
 
         filters: {
@@ -609,6 +643,24 @@
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
+
+            checkRemainTime: function(){
+                let that = this
+                var then = that.event.date + that.event.time;
+                if (moment(then).diff(moment()) < 0) {
+                    that.eventHasHappened = true
+                } else {
+                    setInterval( function(){
+                        var then = that.event.date + that.event.time;
+                        var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
+                        var d = moment.duration(ms);
+                        that.remain.days = d.days();
+                        that.remain.hours = d.hours();
+                        that.remain.minutes = d.minutes();
+                        that.remain.seconds = d.seconds();
+                    }, 1000)
+                }
+            },
 
             back: function(){
                 window.history.back();
@@ -1417,5 +1469,40 @@
     .the_date .date_y{ font-size: 20px; align-self: flex-end; }
     .the_date .date_m{ font-size: 12px; align-self: center; }
     .the_date .date_d{ font-size: 16px; align-self: flex-start;}
+
+    /* CountDown */
+    .countdown {
+        max-width: 500px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .countdown-d,
+    .countdown-h,
+    .countdown-m,
+    .countdown-s {
+        width:auto;
+        text-align: center;
+        display: inline-block;
+        margin: 0 10px;
+    }
+    .countdown strong{
+        display: block;
+        font-size: 70px;
+        font-weight: 300;
+    }
+    .countdown small{
+        display: block;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    @media (max-width: 350px) {
+        .countdown strong{
+            font-size: 50px;
+        }
+        .countdown small{
+            font-size: 12px;
+        }
+    }
 
 </style>
