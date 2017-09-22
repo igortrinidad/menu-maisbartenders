@@ -6,7 +6,7 @@
                 <button class="btn btn-default btn-back" @click="back()"><i class="fa fa-chevron-left"></i> Voltar </button>
             </header>
 
-            <section class="section p-t-30">
+            <section class="section">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12 text-center">
@@ -23,50 +23,53 @@
                                 </span>
                             </div>
                         </div>
-                        <!-- <div class="col-md-12 col-xs-12 text-center">
+                        <div class="col-md-12 col-xs-12 text-center m-t-30">
                             <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i>
                             </button>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </section>
 
 
-            <div id="most-recommended" class="container">
-                <div class="text-center">
-                    <h2>Best Sellers</h2>
-                    <p class="sub-header">Aqui está uma lista com as principais recomendações para você.</p>
-                </div>
-                <div class="swiper-row">
-                    <div class="swiper-container gallery-top" ref="swiper">
-                        <div class="swiper-wrapper">
+            <section class="section" style="background-color: rgba(44, 60, 80, .07)">
+                <div id="most-recommended" class="container">
+                    <div class="text-center">
+                        <h2>Best Sellers</h2>
+                        <p class="sub-header">Aqui está uma lista com as principais recomendações para você.</p>
+                    </div>
+                    <div class="swiper-row">
+                        <div class="swiper-container gallery-top" ref="swiper">
+                            <div class="swiper-wrapper">
 
-                            <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index" >
-                                <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
-                                <!--
-                                <span class="swiper-stars">
-                                    <i class="fa fa-star" v-for="n in drink.priority"></i>
-                                </span>
-                                -->
-                                <div class="swiper-item-text">
-                                    <h3 class="title">{{ drink.name }}</h3>
-                                    <span class="subtitle">{{ drink.description }}</span>
+                                <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index" >
+                                    <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
+                                    <!--
+                                    <span class="swiper-stars">
+                                        <i class="fa fa-star" v-for="n in drink.priority"></i>
+                                    </span>
+                                    -->
+                                    <div class="swiper-item-text">
+                                        <h3 class="title">{{ drink.name }}</h3>
+                                        <span class="subtitle">{{ drink.description }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="swiper-pagination"></div>
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next swiper-button-white"></div>
-                        <div class="swiper-button-prev swiper-button-white"></div>
+                            <div class="swiper-pagination"></div>
+                            <!-- Add Arrows -->
+
+                            <div class="swiper-button-next swiper-button-white" v-if="especialDrinks.length > 1"></div>
+                            <div class="swiper-button-prev swiper-button-white" v-if="especialDrinks.length > 1"></div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="sub-header">
+                            Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
+                        <a v-scroll-to="'#drinks'" class="btn btn-primary btn-block m-t-10">Ver Todos</a>
                     </div>
                 </div>
-                <div class="text-center">
-                    <p class="sub-header">
-                        Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
-                    <a v-scroll-to="'#drinks'" class="btn btn-primary btn-block m-t-10">Ver Todos</a>
-                </div>
-            </div>
+            </section>
 
             <section id="drinks">
                 <div class="container">
@@ -271,7 +274,7 @@
             </div>
 
 
-            <section id="comments">
+            <section id="comments" style="background-color: rgba(44, 60, 80, .07)">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
@@ -319,9 +322,7 @@
                 </div>
             </section>
 
-            <div class="backsection">
-
-                <hr>
+            <section class="backsection">
 
                 <div class="row">
                     <div class="col-md-12 col-xs-12 text-center m-t-10">
@@ -330,7 +331,7 @@
                         <button class="btn btn-primary m-t-20" @click="saveEvent()">Salvar</button>
                     </div>
                 </div>
-            </div>
+            </section>
 
         </div>
 
@@ -1052,7 +1053,7 @@
     }
 
     #drinks {
-        background-color: rgba(44, 60, 80, .07);
+        background-color: #fff;
         padding: 80px 0;
     }
 
@@ -1357,6 +1358,10 @@
 
     .btn-like:hover {
         color: #e74c3c;
+    }
+
+    section {
+        padding: 60px 0 !important;
     }
 
 </style>
