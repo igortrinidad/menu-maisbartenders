@@ -1,6 +1,10 @@
 {
     "name": "weplanner-places-front",
+<<<<<<< HEAD
     "version": "1.5.10",
+=======
+    "version": "1.6.11",
+>>>>>>> a680d352f228dc3abcb2284827b5d3a4322022ee
     "description": "We Planner Places Front",
     "author": "Matheus Lima <contato@matheuslima.com.br>",
     "private": true,
