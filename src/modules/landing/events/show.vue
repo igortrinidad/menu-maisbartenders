@@ -835,6 +835,9 @@
                         that.eventFound = true
                         that.setLoading({is_loading: false, message: ''})
                         that.event.typeImg = that.event.photo_url.split('.').pop()
+                        that.event.drinks.forEach(function (drink) {
+                            drink.typeImg = drink.photo_url.split('.').pop()
+                        })
                         console.log(that.event);
 
                     })

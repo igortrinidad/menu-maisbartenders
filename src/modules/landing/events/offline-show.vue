@@ -597,7 +597,7 @@
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
 
             systemUrlToGetDrinks: function (drink) {
-                return `${ cordova.file.dataDirectory }/drink-${ drink.url }.png`
+                return `${ cordova.file.dataDirectory }/drink-${ drink.url }.${ drink.typeImg }`
             },
 
             openShareWhatsapp: function(){
