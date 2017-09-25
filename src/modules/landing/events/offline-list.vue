@@ -75,7 +75,7 @@
             ...mapActions(['setLoading']),
 
             systemUrl: function (event) {
-                return `${ cordova.file.dataDirectory }/evento-${ event.url }.jpg`
+                return `${ cordova.file.dataDirectory }/evento-${ event.url }.${ event.typeImg }`
             },
 
             eventGo: function(){
