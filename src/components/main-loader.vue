@@ -3,7 +3,7 @@
         <div class="loading-spinner">
             <pulse-loader :loading="true":color="'#FEC503'" :size="'30px'" class="loader"></pulse-loader>
            <div v-if="loader.message != ''">
-               <h3>{{loader.message}}</h3>
+               <h3 class="text-center">{{loader.message}}</h3>
            </div>
         </div>
     </div>

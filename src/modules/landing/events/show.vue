@@ -35,18 +35,18 @@
             <section class="section p-relative box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
 
                 <!-- Event Date -->
-                <div class="the_date">
+                <!-- <div class="the_date">
                     <span class="the_date_border"></span>
                     <span class="date_d">{{ event.date | moment('DD') }}</span>
                     <span class="date_m">{{ event.date | moment('MMM') }}</span>
                     <span class="date_y">{{ event.date | moment('YYYY') }}</span>
-                </div>
+                </div> -->
                 <h2 class="text-center">
                     <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
                 </h2>
                 <!-- / Event Date -->
 
-                <div class="m-t-30" v-if="!eventHasHappened">
+                <!-- <div class="m-t-30" v-if="!eventHasHappened">
                     <h2 class="countdown-title text-center">Faltam</h2>
                     <div class="card-body card-padding">
                         <div class="countdown">
@@ -68,7 +68,7 @@
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
             </section>
 
@@ -494,12 +494,12 @@
                 displayDrinks: false,
                 comments: [],
                 pagination: {},
-                remain: {
-                    days: 0,
-                    hours: 0,
-                    minutes: 0,
-                    seconds: 0
-                }
+                // remain: {
+                //     days: 0,
+                //     hours: 0,
+                //     minutes: 0,
+                //     seconds: 0
+                // }
             }
         },
         computed: {
@@ -633,7 +633,7 @@
             this.getEvent();
             this.getEventComments();
             this.initSwiper();
-            this.checkRemainTime();
+            // this.checkRemainTime();
         },
 
         filters: {
@@ -645,23 +645,23 @@
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
 
-            checkRemainTime: function(){
-                let that = this
-                var then = that.event.date + that.event.time;
-                if (moment(then).diff(moment()) < 0) {
-                    that.eventHasHappened = true
-                } else {
-                    setInterval( function(){
-                        var then = that.event.date + that.event.time;
-                        var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
-                        var d = moment.duration(ms);
-                        that.remain.days = d.days();
-                        that.remain.hours = d.hours();
-                        that.remain.minutes = d.minutes();
-                        that.remain.seconds = d.seconds();
-                    }, 1000)
-                }
-            },
+            // checkRemainTime: function(){
+            //     let that = this
+            //     var then = that.event.date + that.event.time;
+            //     if (moment(then).diff(moment()) < 0) {
+            //         that.eventHasHappened = true
+            //     } else {
+            //         setInterval( function(){
+            //             var then = that.event.date + that.event.time;
+            //             var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
+            //             var d = moment.duration(ms);
+            //             that.remain.days = d.days();
+            //             that.remain.hours = d.hours();
+            //             that.remain.minutes = d.minutes();
+            //             that.remain.seconds = d.seconds();
+            //         }, 1000)
+            //     }
+            // },
 
             back: function(){
                 window.history.back();
@@ -834,6 +834,7 @@
                         that.event = response.data;
                         that.eventFound = true
                         that.setLoading({is_loading: false, message: ''})
+                        console.log(that.event);
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -946,21 +947,20 @@
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
             },
 
-            downloadFile: function() {
+            // Saving Event Image
+            downloadEventCoverPhoto: function() {
                 let that = this
-
-                that.setLoading({is_loading: true, message: 'Salvando arquivos'})
                 let fileTransfer = new FileTransfer();
 
-                const fileName = `${ that.event.url }.${ that.event.photo_url.split('.').pop() }`
+                const eventFile = `evento-${ that.event.url }.${ that.event.photo_url.split('.').pop() }`
 
+                that.setLoading({is_loading: true, message: 'Salvando imagem do evento'})
                 fileTransfer.download(
                    that.event.photo_url,
-                   `${ cordova.file.dataDirectory }/${ fileName }`,
+                   `${ cordova.file.dataDirectory }/${ eventFile }`,
                    function(entry) {
                        console.log(entry);
                        that.setLoading({is_loading: false, message: ''})
-                       successNotify('', 'Imagem do evento salva no dispositivo.')
                    },
                    function(error) {
                        console.log(error);
@@ -971,23 +971,33 @@
                 );
             },
 
-            // downloadFile: function() {
-            //     let that = this
-            //
-            //     window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (entry) {
-            //         entry.getDirectory('menumaisbartenders', {create: true, exclusive: false},
-            //             function(entry) {
-            //                 that.downloadFile(entry.nativeURL)
-            //                 console.log('created dir');
-            //                 console.log(entry);
-            //             },
-            //             function(error) {
-            //                 console.log('error dir');
-            //                 console.log(error);
-            //             }
-            //         );
-            //     });
-            // },
+            // Saving Drinks Images
+            downloadDrinks: function() {
+                let that = this
+                let fileTransfer = new FileTransfer();
+
+                that.setLoading({is_loading: true, message: `Salvando imagens dos drinks`})
+
+                that.event.drinks.map(function(drink, index) {
+                    const drinkFile = `drink-${ drink.url }.${ drink.photo_url.split('.').pop() }`
+
+                    fileTransfer.download(
+                       drink.photo_url,
+                       `${ cordova.file.dataDirectory }/${ drinkFile }`,
+                       function(entry) {
+                           console.log(entry);
+                       },
+                       function(error) {
+                           console.log(error);
+                           errorNotify('', 'Não foi possível salvar a imagem do evento no dispositivo.')
+                       },
+                       true
+                    );
+                })
+
+                that.setLoading({is_loading: false, message: ''})
+
+            },
 
             saveEvent: function(){
                 let that = this
@@ -997,7 +1007,8 @@
                 if(Array.isArray(events) && events.length){
 
                     if (window.cordova) {
-                        that.downloadFile()
+                        that.downloadEventCoverPhoto()
+                        that.downloadDrinks()
                     }
 
                     var index = events.indexFromAttr('id', that.event.id);
@@ -1029,7 +1040,8 @@
                             } else {
                               resolve()
                               if (window.cordova) {
-                                  that.downloadFile()
+                                  that.downloadEventCoverPhoto()
+                                  that.downloadDrinks()
                               }
                             }
                           }, 2000)
