@@ -68,7 +68,7 @@
                                     <h4 class="m-b-30">Mapa de sabor</h4>
                                     <canvas ref="createdDrinkChart"></canvas>
                                 </div>
-                                
+
                                 <!--
                                 <div class="col-md-6 col-xs-12">
                                     <h4 class="m-b-30">Informação nutricional</h4>
@@ -166,7 +166,8 @@
 
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
             drinkBackground: function () {
-                return 'url(' + this.drink.photo_url + ')';
+                const imageSystemPath = `${ cordova.file.dataDirectory }/evento-${ this.event.url }.jpg`
+                return 'url(' + imageSystemPath + ')';
             },
 
             phrases: function () {
@@ -213,7 +214,7 @@
 
             checkIdleTime: function(){
                 let that = this
-                
+
                 that.interactions.interval = setInterval(that.timerIncrement, 1000);
                 //Zero the idle timer on mouse movement.
                 $(window).scroll( function (e) {
@@ -222,7 +223,7 @@
                     }
                 });
 
-                
+
             },
 
             timerIncrement: function(){
@@ -233,7 +234,7 @@
                     clearInterval(that.interactions.interval);
                     window.history.back()
                 }
-                
+
             },
 
             checkDrinkNutrition: function () {
@@ -246,7 +247,7 @@
 
                         nutri.quantity = parseFloat(item.pivot.quantity) / 100 * parseFloat(nutri.pivot.quantity);
 
-                        
+
                         var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
 
                         if (hasNutri) {
@@ -257,7 +258,7 @@
                             that.nutritional_facts.push(nutri)
                         }
 
-                        
+
                     })
                 })
 
