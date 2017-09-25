@@ -156,7 +156,7 @@
         methods:{
 
             setNavbarTransparent() {
-                if (this.$route.name === 'landing.events.show') {
+                if (this.$route.name === 'landing.events.show' || this.$route.name === 'landing.events.show-offline') {
                     this.navbarTransparent = true
                 } else {
                     this.navbarTransparent = false

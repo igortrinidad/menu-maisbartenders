@@ -2,67 +2,32 @@
     <div>
         <div v-if="eventFound">
             <header id="header-event" class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
-                <div class="container">
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="intro-text">
-                        <span class="text-box">
-                            <span class="event-name" v-bind:style="{ color: event.title_hex}">
-                                {{event.name}}
-                            </span>
-                        </span>
-                            <br>
-                            <span class="text-box">
-                            <span class="event-greeting m-b-30" v-bind:style="{ color: event.title_hex}">
-                                {{ event.greeting }}
-                            </span>
-                        </span>
-                            <br>
-                            <a href="#most-recommended" v-scroll-to="'#most-recommended'" class="btn btn-xl m-t-30">Escolher drinks</a>
-                        </div>
-                    </div>
-                </div>
             </header>
 
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <div id="most-recommended" class="container">
-                        <div class="text-center">
-                            <h2>Best Sellers</h2>
-                            <p class="sub-header">Aqui está uma lista com as principais recomendações para você.</p>
+            <section class="section p-t-30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <h1 class="m-t-0">{{ event.name }}</h1>
+                            <div v-html="event.greeting">
+                            </div>
+                            <hr>
                         </div>
-                        <div class="swiper-row">
-                            <div class="swiper-container gallery-top" ref="swiper">
-                                <div class="swiper-wrapper">
-
-                                    <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
-                                        <img :src="systemUrlToGetDrinks(drink)" :alt="drink.name" class="swiper-image" width="100%"/>
-                                        <!--
-                                        <span class="swiper-stars">
-                                            <i class="fa fa-star" v-for="n in drink.priority"></i>
-                                        </span>
-                                        -->
-                                        <div class="swiper-item-text">
-                                            <h3 class="title">{{ drink.name }}</h3>
-                                            <span class="subtitle">{{ drink.description }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="swiper-pagination"></div>
-                                <!-- Add Arrows -->
-                                <div class="swiper-button-next swiper-button-white"></div>
-                                <div class="swiper-button-prev swiper-button-white"></div>
+                        <div class="col-sm-12 text-center" v-if="event.hashtag">
+                            <small class="text-muted">Hashtag do evento</small>
+                            <div class="hashtag m-t-15">
+                                <span class="label label-primary m-r-5 f-16">
+                                    {{ event.hashtag }}
+                                </span>
                             </div>
                         </div>
-                        <div class="text-center">
-                            <p class="sub-header">
-                                Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
-                            <a v-scroll-to="'#drinks'" class="btn btn-primary btn-block m-t-10">Ver Todos</a>
+                        <div class="col-md-12 col-xs-12 text-center m-t-30">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i>
+                            </button>
                         </div>
                     </div>
-
                 </div>
-            </div>
+            </section>
 
             <section id="drinks">
                 <div class="container">
