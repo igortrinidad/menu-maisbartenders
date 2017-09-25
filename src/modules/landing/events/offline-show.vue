@@ -29,6 +29,46 @@
                 </div>
             </section>
 
+            <section class="section p-relative box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
+
+                <!-- Event Date -->
+                <!-- <div class="the_date">
+                    <span class="the_date_border"></span>
+                    <span class="date_d">{{ event.date | moment('DD') }}</span>
+                    <span class="date_m">{{ event.date | moment('MMM') }}</span>
+                    <span class="date_y">{{ event.date | moment('YYYY') }}</span>
+                </div> -->
+                <h2 class="text-center">
+                    <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
+                </h2>
+                <!-- / Event Date -->
+
+                <!-- <div class="m-t-30" v-if="!eventHasHappened">
+                    <h2 class="countdown-title text-center">Faltam</h2>
+                    <div class="card-body card-padding">
+                        <div class="countdown">
+                            <span class="countdown-d">
+                                <strong>{{ remain.days }}</strong>
+                                <small>Dias</small>
+                            </span>
+                            <span class="countdown-h">
+                                <strong>{{ remain.hours }}</strong>
+                                <small>Horas</small>
+                            </span>
+                            <span class="countdown-m">
+                                <strong>{{ remain.minutes }}</strong>
+                                <small>Minutos</small>
+                            </span>
+                            <span class="countdown-s">
+                                <strong>{{ remain.seconds }}</strong>
+                                <small>Segundos</small>
+                            </span>
+                        </div>
+                    </div>
+                </div> -->
+
+            </section>
+
             <section id="drinks">
                 <div class="container">
                     <div class="filter">
