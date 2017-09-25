@@ -35,7 +35,7 @@
                                 <div class="swiper-wrapper">
 
                                     <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
-                                        <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
+                                        <img :src="systemUrlToGetDrinks(drink)" :alt="drink.name" class="swiper-image" width="100%"/>
                                         <!--
                                         <span class="swiper-stars">
                                             <i class="fa fa-star" v-for="n in drink.priority"></i>
@@ -134,7 +134,7 @@
                                     </div>
 
                                     <span @click="showDrink(drink)">
-                                        <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                                        <img :src="systemUrlToGetDrinks(drink)" :alt="drink.name" class="drink-gallery-image">
                                         <div class="details">
                                             <h3 class="drink-name">{{ drink.name }}</h3>
                                             <span class="description">{{ drink.description }}</span>
@@ -453,9 +453,9 @@
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
 
             eventBackground: function () {
-                const imageSystemPath = `${ cordova.file.dataDirectory }/${ this.event.url }.jpg`
-                return 'url(' + imageSystemPath + ')';
+                return `url('${ cordova.file.dataDirectory }/evento-${ this.event.url }.${ this.event.typeImg }')`
             },
+
 
             commentsOrdereds: function(){
                 let that = this
@@ -595,6 +595,10 @@
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
+
+            systemUrlToGetDrinks: function (drink) {
+                return `${ cordova.file.dataDirectory }/drink-${ drink.url }.png`
+            },
 
             openShareWhatsapp: function(){
                 let that = this
