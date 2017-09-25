@@ -32,18 +32,18 @@
             <section class="section p-relative box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
 
                 <!-- Event Date -->
-                <!-- <div class="the_date">
+                <div class="the_date">
                     <span class="the_date_border"></span>
                     <span class="date_d">{{ event.date | moment('DD') }}</span>
                     <span class="date_m">{{ event.date | moment('MMM') }}</span>
                     <span class="date_y">{{ event.date | moment('YYYY') }}</span>
-                </div> -->
+                </div>
                 <h2 class="text-center">
                     <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
                 </h2>
                 <!-- / Event Date -->
 
-                <!-- <div class="m-t-30" v-if="!eventHasHappened">
+                <div class="m-t-30" v-if="!eventHasHappened">
                     <h2 class="countdown-title text-center">Faltam</h2>
                     <div class="card-body card-padding">
                         <div class="countdown">
@@ -65,7 +65,7 @@
                             </span>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
             </section>
 
@@ -443,6 +443,12 @@
                 displayDrinks: false,
                 comments: [],
                 pagination: {},
+                remain: {
+                    days: 0,
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0
+                },
                 newMessage: {
                     event_id: '',
                     name: '',
@@ -590,6 +596,7 @@
             this.getEvent();
             this.getEventComments();
             this.initSwiper();
+            this.checkRemainTime();
         },
 
         filters: {
@@ -600,6 +607,24 @@
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
+
+            checkRemainTime: function(){
+                let that = this
+                var then = that.event.date + that.event.time;
+                if (moment(then).diff(moment()) < 0) {
+                    that.eventHasHappened = true
+                } else {
+                    setInterval( function(){
+                        var then = that.event.date + that.event.time;
+                        var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
+                        var d = moment.duration(ms);
+                        that.remain.days = d.days();
+                        that.remain.hours = d.hours();
+                        that.remain.minutes = d.minutes();
+                        that.remain.seconds = d.seconds();
+                    }, 1000)
+                }
+            },
 
             systemUrlToGetDrinks: function (drink) {
                 return `${ cordova.file.dataDirectory }/drink-${ drink.url }.${ drink.typeImg }`
@@ -972,6 +997,25 @@
 
 <style scoped>
 
+    /*Hashtag*/
+    .hashtag .label.label-primary {
+        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        background-color: #222;
+        border-color: #222;
+        color: rgba(254, 209, 54,.9);
+    }
+
+    .btn-tag {
+        background-color: #C0C0C0;
+        color: #2C3E50;
+    }
+
+    .comment-date {
+        font-weight: 400;
+        margin-top: -80px;
+        font-size: 12px;
+    }
+
     /* END SWIPER */
 
     .btn-tag {
@@ -1319,6 +1363,79 @@
 
     .btn.facebook{
         color: white;
+    }
+
+    /* The_Date */
+    .the_date{
+        color: #DEB62F;
+    }
+    .the_date{
+        width: 100px; height: 100px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        flex-flow: row wrap;
+        background-color: rgba(0, 0, 0, 1);
+        border-color: #000;
+        position: absolute;
+        top: -50px; left: 50%;
+        margin-left: -50px;
+        padding: 15px 10px;
+    }
+    .the_date_border {
+        position: absolute;
+        width: 90px; height: 90px;
+        top: 50%; left: 50%;
+        margin-top: -45px;
+        margin-left: -45px;
+        border-radius: 50%;
+        border: 2px solid;
+    }
+    .the_date .date_y,
+    .the_date .date_m,
+    .the_date .date_d {
+        width: 100%;
+        text-align: center;
+        font-weight: 700;
+        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    }
+    .the_date .date_y{ font-size: 20px; align-self: flex-end; }
+    .the_date .date_m{ font-size: 12px; align-self: center; }
+    .the_date .date_d{ font-size: 16px; align-self: flex-start;}
+
+    /* CountDown */
+    .countdown {
+        max-width: 500px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .countdown-d,
+    .countdown-h,
+    .countdown-m,
+    .countdown-s {
+        width:auto;
+        text-align: center;
+        display: inline-block;
+        margin: 0 10px;
+    }
+    .countdown strong{
+        display: block;
+        font-size: 70px;
+        font-weight: 300;
+    }
+    .countdown small{
+        display: block;
+        font-weight: 700;
+        font-size: 15px;
+    }
+
+    @media (max-width: 350px) {
+        .countdown strong{
+            font-size: 50px;
+        }
+        .countdown small{
+            font-size: 12px;
+        }
     }
 
 </style>

@@ -35,18 +35,18 @@
             <section class="section p-relative box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
 
                 <!-- Event Date -->
-                <!-- <div class="the_date">
+                <div class="the_date">
                     <span class="the_date_border"></span>
                     <span class="date_d">{{ event.date | moment('DD') }}</span>
                     <span class="date_m">{{ event.date | moment('MMM') }}</span>
                     <span class="date_y">{{ event.date | moment('YYYY') }}</span>
-                </div> -->
+                </div>
                 <h2 class="text-center">
                     <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
                 </h2>
                 <!-- / Event Date -->
 
-                <!-- <div class="m-t-30" v-if="!eventHasHappened">
+                <div class="m-t-30" v-if="!eventHasHappened">
                     <h2 class="countdown-title text-center">Faltam</h2>
                     <div class="card-body card-padding">
                         <div class="countdown">
@@ -68,7 +68,7 @@
                             </span>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
             </section>
 
@@ -494,12 +494,12 @@
                 displayDrinks: false,
                 comments: [],
                 pagination: {},
-                // remain: {
-                //     days: 0,
-                //     hours: 0,
-                //     minutes: 0,
-                //     seconds: 0
-                // }
+                remain: {
+                    days: 0,
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0
+                }
             }
         },
         computed: {
@@ -633,7 +633,7 @@
             this.getEvent();
             this.getEventComments();
             this.initSwiper();
-            // this.checkRemainTime();
+            this.checkRemainTime();
         },
 
         filters: {
@@ -645,23 +645,23 @@
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
 
-            // checkRemainTime: function(){
-            //     let that = this
-            //     var then = that.event.date + that.event.time;
-            //     if (moment(then).diff(moment()) < 0) {
-            //         that.eventHasHappened = true
-            //     } else {
-            //         setInterval( function(){
-            //             var then = that.event.date + that.event.time;
-            //             var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
-            //             var d = moment.duration(ms);
-            //             that.remain.days = d.days();
-            //             that.remain.hours = d.hours();
-            //             that.remain.minutes = d.minutes();
-            //             that.remain.seconds = d.seconds();
-            //         }, 1000)
-            //     }
-            // },
+            checkRemainTime: function(){
+                let that = this
+                var then = that.event.date + that.event.time;
+                if (moment(then).diff(moment()) < 0) {
+                    that.eventHasHappened = true
+                } else {
+                    setInterval( function(){
+                        var then = that.event.date + that.event.time;
+                        var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
+                        var d = moment.duration(ms);
+                        that.remain.days = d.days();
+                        that.remain.hours = d.hours();
+                        that.remain.minutes = d.minutes();
+                        that.remain.seconds = d.seconds();
+                    }, 1000)
+                }
+            },
 
             back: function(){
                 window.history.back();
