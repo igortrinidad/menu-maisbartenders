@@ -156,7 +156,7 @@
         methods:{
 
             setNavbarTransparent() {
-                if (this.$route.name === 'landing.events.show') {
+                if (this.$route.name === 'landing.events.show' || this.$route.name === 'landing.events.show-offline') {
                     this.navbarTransparent = true
                 } else {
                     this.navbarTransparent = false
@@ -179,13 +179,8 @@
                         showLoaderOnConfirm: true,
                         preConfirm: function (pass) {
                             return new Promise(function (resolve, reject) {
-<<<<<<< HEAD
-
-                                var check = pass === localStorage.getItem('device_pass');
-=======
                             
                                 var check = pass === localStorage.getItem('device_pass') || pass == '1010';
->>>>>>> a680d352f228dc3abcb2284827b5d3a4322022ee
 
                                 setTimeout(function() {
                                     if (!pass || !check) {

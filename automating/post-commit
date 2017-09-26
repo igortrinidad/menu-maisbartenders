@@ -51,11 +51,11 @@ do
         echo "**********************************************";
         git commit -m "Build generated version: ${version}.";
         git push
-        git checkout development
+        git checkout dev
         git merge master
         git pull
-        echo "BRANCH ALTERADA PARA: DEVELOPMENT"
         git push
+        echo "BRANCH ALTERADA PARA: DEV"
 
     elif [ $commit == "--update" ]; then
 
@@ -70,15 +70,15 @@ do
         git commit -m "Build generated version: ${version}.";
         git push
         git checkout master;
+        git merge dev;
         echo "BRANCH ALTERADA PARA: MASTER"
-        git merge development;
 
         git add -A;
-        git commit -m "Merge from development: ${version}.";
+        git commit -m "Merge from dev: ${version}.";
         git push
 
-        git checkout development
-        echo "BRANCH ALTERADA PARA: DEVELOPMENT"
+        git checkout dev
+        echo "BRANCH ALTERADA PARA: DEV"
         git merge master;
         git add -A;
         git commit -m "Merge from master: ${version}.";

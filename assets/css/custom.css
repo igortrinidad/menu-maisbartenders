@@ -3,6 +3,9 @@
  * margin, margin-top, margin-bottom, margin-left, margin-right
  */
 
+body{
+    min-height: 1000px;
+}
 
 .m-0 {
     margin: 0px !important;

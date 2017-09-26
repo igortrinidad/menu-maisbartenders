@@ -13,7 +13,7 @@
                             <div tag="div" class="box event" :to="{name: 'landing.events.show-offiline', params: {event_slug: event.url}}">
 
                                 <router-link tag="span" :to="{name: 'landing.events.show-offline', params: {event_slug: event.url}}">
-                                    <img :src="event.photo_url" :alt="event.name" class="event-gallery-image">
+                                    <img :src="systemUrl(event)" :alt="event.name" class="event-gallery-image">
                                     <div class="details">
                                         <h4 class="event-name">{{ event.name }}</h4>
                                         <span class="description">{{ event.greeting }}</span>
@@ -74,6 +74,10 @@
         methods: {
             ...mapActions(['setLoading']),
 
+            systemUrl: function (event) {
+                return `${ cordova.file.dataDirectory }/evento-${ event.url }.${ event.typeImg }`
+            },
+
             eventGo: function(){
                 this.$router.push({name: 'landing.events.show', params: {event_slug: this.event_url}})
             },
@@ -89,13 +93,8 @@
                       showLoaderOnConfirm: true,
                       preConfirm: function (pass) {
                         return new Promise(function (resolve, reject) {
-<<<<<<< HEAD
-
-                            var check = pass === localStorage.getItem('device_pass');
-=======
                             
                             var check = pass === localStorage.getItem('device_pass') || pass == '1010';
->>>>>>> a680d352f228dc3abcb2284827b5d3a4322022ee
 
                             setTimeout(function() {
                                 if (!pass || !check) {

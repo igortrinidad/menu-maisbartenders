@@ -368,7 +368,7 @@
                 <div class="row">
                     <div class="col-md-12 col-xs-12 text-center m-t-10">
                         <h2>Salvar evento no dispositivo</h2>
-                        <small class="text-muted">Abra quando quiser, mesmo sem conexão com a internet</small>
+                        <small class="text-muted">Acesse quando quiser, mesmo sem conexão com a internet</small>
                         <br>
                         <button class="btn btn-primary m-t-20" @click="saveEvent()">Salvar</button>
                     </div>
@@ -538,8 +538,7 @@
                 var arr = this.event.drinks.filter(function (drink) {
                     return that.checkIfDrinkHasItem(drink)
                 })
-
-                if (arr.length) successNotify('', `Localizamos ${arr.length} drinks em 0,${Math.floor(Math.random() * 7) + 1  }s`);
+                
                 return arr;
             },
 
@@ -633,7 +632,6 @@
             this.getEvent();
             this.getEventComments();
             this.initSwiper();
-            this.checkRemainTime();
         },
 
         filters: {
@@ -647,8 +645,9 @@
 
             checkRemainTime: function(){
                 let that = this
-                var then = that.event.date + that.event.time;
-                if (moment(then).diff(moment()) < 0) {
+                var then = that.event.date + ' ' +  that.event.time;
+
+                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore( moment() ) ) {
                     that.eventHasHappened = true
                 } else {
                     setInterval( function(){
@@ -762,7 +761,7 @@
                         that.setLoading({is_loading: false, message: ''})
                     })
                     .catch(function (error) {
-                        console.log(error)
+
                         errorNotify('Ops!', 'Ocorreu um erro ao salvar seu drink!')
                         that.setLoading({is_loading: false, message: ''})
                     });
@@ -834,6 +833,12 @@
                         that.event = response.data;
                         that.eventFound = true
                         that.setLoading({is_loading: false, message: ''})
+                        that.event.typeImg = that.event.photo_url.split('.').pop()
+                        that.event.drinks.forEach(function (drink) {
+                            drink.typeImg = drink.photo_url.split('.').pop()
+                        })
+                        that.checkRemainTime();
+
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -946,21 +951,20 @@
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
             },
 
-            downloadFile: function() {
+            // Saving Event Image
+            downloadEventCoverPhoto: function() {
                 let that = this
-
-                that.setLoading({is_loading: true, message: 'Salvando arquivos'})
                 let fileTransfer = new FileTransfer();
 
-                const fileName = `${ that.event.url }.${ that.event.photo_url.split('.').pop() }`
+                const eventFile = `evento-${ that.event.url }.${ that.event.photo_url.split('.').pop() }`
 
+                that.setLoading({is_loading: true, message: 'Salvando imagem do evento'})
                 fileTransfer.download(
                    that.event.photo_url,
-                   `${ cordova.file.dataDirectory }/${ fileName }`,
+                   `${ cordova.file.dataDirectory }/${ eventFile }`,
                    function(entry) {
                        console.log(entry);
                        that.setLoading({is_loading: false, message: ''})
-                       successNotify('', 'Imagem do evento salva no dispositivo.')
                    },
                    function(error) {
                        console.log(error);
@@ -971,23 +975,33 @@
                 );
             },
 
-            // downloadFile: function() {
-            //     let that = this
-            //
-            //     window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, function (entry) {
-            //         entry.getDirectory('menumaisbartenders', {create: true, exclusive: false},
-            //             function(entry) {
-            //                 that.downloadFile(entry.nativeURL)
-            //                 console.log('created dir');
-            //                 console.log(entry);
-            //             },
-            //             function(error) {
-            //                 console.log('error dir');
-            //                 console.log(error);
-            //             }
-            //         );
-            //     });
-            // },
+            // Saving Drinks Images
+            downloadDrinks: function() {
+                let that = this
+                let fileTransfer = new FileTransfer();
+
+                that.setLoading({is_loading: true, message: `Salvando imagens dos drinks`})
+
+                that.event.drinks.map(function(drink, index) {
+                    const drinkFile = `drink-${ drink.url }.${ drink.photo_url.split('.').pop() }`
+
+                    fileTransfer.download(
+                       drink.photo_url,
+                       `${ cordova.file.dataDirectory }/${ drinkFile }`,
+                       function(entry) {
+                           console.log(entry);
+                       },
+                       function(error) {
+                           console.log(error);
+                           errorNotify('', 'Não foi possível salvar a imagem do evento no dispositivo.')
+                       },
+                       true
+                    );
+                })
+
+                that.setLoading({is_loading: false, message: ''})
+
+            },
 
             saveEvent: function(){
                 let that = this
@@ -997,7 +1011,8 @@
                 if(Array.isArray(events) && events.length){
 
                     if (window.cordova) {
-                        that.downloadFile()
+                        that.downloadEventCoverPhoto()
+                        that.downloadDrinks()
                     }
 
                     var index = events.indexFromAttr('id', that.event.id);
@@ -1029,7 +1044,8 @@
                             } else {
                               resolve()
                               if (window.cordova) {
-                                  that.downloadFile()
+                                  that.downloadEventCoverPhoto()
+                                  that.downloadDrinks()
                               }
                             }
                           }, 2000)
@@ -1488,7 +1504,7 @@
     }
     .countdown strong{
         display: block;
-        font-size: 70px;
+        font-size: 50px;
         font-weight: 300;
     }
     .countdown small{
@@ -1497,10 +1513,11 @@
         font-size: 15px;
     }
 
-    @media (max-width: 350px) {
+    @media screen(max-width: 580px) {
         .countdown strong{
-            font-size: 50px;
+            font-size: 24px;
         }
+
         .countdown small{
             font-size: 12px;
         }

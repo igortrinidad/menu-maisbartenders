@@ -1,6 +1,7 @@
 export default {
 	event_type: 'Casamento',
 	date: '10/10/2017',
+	time: '10:00:00',
 	name: 'Casamento Joana e João',
 	url: '',
 	greeting: '',
