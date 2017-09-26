@@ -538,8 +538,7 @@
                 var arr = this.event.drinks.filter(function (drink) {
                     return that.checkIfDrinkHasItem(drink)
                 })
-
-                if (arr.length) successNotify('', `Localizamos ${arr.length} drinks em 0,${Math.floor(Math.random() * 7) + 1  }s`);
+                
                 return arr;
             },
 
@@ -633,7 +632,6 @@
             this.getEvent();
             this.getEventComments();
             this.initSwiper();
-            this.checkRemainTime();
         },
 
         filters: {
@@ -647,8 +645,9 @@
 
             checkRemainTime: function(){
                 let that = this
-                var then = that.event.date + that.event.time;
-                if (moment(then).diff(moment()) < 0) {
+                var then = that.event.date + ' ' +  that.event.time;
+
+                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore( moment() ) ) {
                     that.eventHasHappened = true
                 } else {
                     setInterval( function(){
@@ -762,7 +761,7 @@
                         that.setLoading({is_loading: false, message: ''})
                     })
                     .catch(function (error) {
-                        console.log(error)
+
                         errorNotify('Ops!', 'Ocorreu um erro ao salvar seu drink!')
                         that.setLoading({is_loading: false, message: ''})
                     });
@@ -838,7 +837,7 @@
                         that.event.drinks.forEach(function (drink) {
                             drink.typeImg = drink.photo_url.split('.').pop()
                         })
-                        console.log(that.event);
+                        that.checkRemainTime();
 
                     })
                     .catch(function (error) {
@@ -1505,7 +1504,7 @@
     }
     .countdown strong{
         display: block;
-        font-size: 70px;
+        font-size: 50px;
         font-weight: 300;
     }
     .countdown small{
@@ -1514,10 +1513,11 @@
         font-size: 15px;
     }
 
-    @media (max-width: 350px) {
+    @media screen(max-width: 580px) {
         .countdown strong{
-            font-size: 50px;
+            font-size: 24px;
         }
+
         .countdown small{
             font-size: 12px;
         }

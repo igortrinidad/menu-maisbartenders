@@ -27,7 +27,6 @@
                                 <img :src="event.photo_url" :alt="event.name" class="event-gallery-image">
                                 <div class="details">
                                     <h4 class="event-name">{{ event.name }}</h4>
-                                    <span class="description">{{ event.greeting }}</span>
                                 </div>
 
                             </router-link >

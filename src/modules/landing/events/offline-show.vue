@@ -596,7 +596,6 @@
             this.getEvent();
             this.getEventComments();
             this.initSwiper();
-            this.checkRemainTime();
         },
 
         filters: {
@@ -610,8 +609,9 @@
 
             checkRemainTime: function(){
                 let that = this
-                var then = that.event.date + that.event.time;
-                if (moment(then).diff(moment()) < 0) {
+                var then = that.event.date + ' ' +  that.event.time;
+
+                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore( moment() ) ) {
                     that.eventHasHappened = true
                 } else {
                     setInterval( function(){
@@ -853,6 +853,7 @@
                 var index = events.indexFromAttr('url', that.$route.params.event_slug)
                 that.$set(that, 'event', events[index]);
                 that.newMessage.event_id = that.event.id;
+                that.checkRemainTime();
 
             },
 

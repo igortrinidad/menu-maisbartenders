@@ -166,8 +166,7 @@
 
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
             drinkBackground: function () {
-                const imageSystemPath = `${ cordova.file.dataDirectory }/evento-${ this.event.url }.jpg`
-                return 'url(' + imageSystemPath + ')';
+                return `url('${ cordova.file.dataDirectory }/drink-${ this.drink.url }.${ this.drink.typeImg }')`
             },
 
             phrases: function () {
