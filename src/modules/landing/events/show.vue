@@ -646,8 +646,6 @@
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
 
             getFormatedDates: function () {
-                // console.log(this.event.date);
-                // console.log(moment(this.event.date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
                 this.formatedDay = moment(this.event.date, 'DD/MM/YYYY').format('DD')
                 this.formatedMonth = moment(this.event.date, 'DD/MM/YYYY').format('MM')
                 this.formatedYear = moment(this.event.date, 'DD/MM/YYYY').format('YYYY')
