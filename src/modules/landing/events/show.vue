@@ -647,7 +647,7 @@
 
             getFormatedDates: function () {
                 this.formatedDay = moment(this.event.date, 'DD/MM/YYYY').format('DD')
-                this.formatedMonth = moment(this.event.date, 'DD/MM/YYYY').format('MM')
+                this.formatedMonth = moment(this.event.date, 'DD/MM/YYYY').locale('pt-BR').format('MMM')
                 this.formatedYear = moment(this.event.date, 'DD/MM/YYYY').format('YYYY')
             },
 
