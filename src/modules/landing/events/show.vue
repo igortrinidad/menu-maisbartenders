@@ -33,13 +33,12 @@
 
 
             <section class="section p-relative box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
-
                 <!-- Event Date -->
                 <div class="the_date">
                     <span class="the_date_border"></span>
-                    <span class="date_d">{{ event.date | moment('DD') }}</span>
-                    <span class="date_m">{{ event.date | moment('MMM') }}</span>
-                    <span class="date_y">{{ event.date | moment('YYYY') }}</span>
+                    <span class="date_d">{{ formatedDay }}</span>
+                    <span class="date_m">{{ formatedMonth }}</span>
+                    <span class="date_y">{{ formatedYear }}</span>
                 </div>
                 <h2 class="text-center">
                     <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
@@ -479,6 +478,9 @@
         },
         data () {
             return {
+                formatedDay: '',
+                formatedMonth: '',
+                formatedYear: '',
                 interactions: {
                     phraseSelected: '',
                     whatsappPhraseSelected: '',
@@ -538,7 +540,7 @@
                 var arr = this.event.drinks.filter(function (drink) {
                     return that.checkIfDrinkHasItem(drink)
                 })
-                
+
                 return arr;
             },
 
@@ -642,6 +644,14 @@
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
+
+            getFormatedDates: function () {
+                // console.log(this.event.date);
+                // console.log(moment(this.event.date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+                this.formatedDay = moment(this.event.date, 'DD/MM/YYYY').format('DD')
+                this.formatedMonth = moment(this.event.date, 'DD/MM/YYYY').format('MM')
+                this.formatedYear = moment(this.event.date, 'DD/MM/YYYY').format('YYYY')
+            },
 
             checkRemainTime: function(){
                 let that = this
@@ -832,6 +842,7 @@
 
                         that.event = response.data;
                         that.eventFound = true
+                        that.getFormatedDates()
                         that.setLoading({is_loading: false, message: ''})
                         that.event.typeImg = that.event.photo_url.split('.').pop()
                         that.event.drinks.forEach(function (drink) {
