@@ -450,6 +450,9 @@ var deepFilter = function(arr, filterTerm) {
         },
         data () {
             return {
+                formatedDay: '',
+                formatedMonth: '',
+                formatedYear: '',
                 interactions: {
                     phraseSelected: '',
                     whatsappPhraseSelected: '',
@@ -526,7 +529,7 @@ var deepFilter = function(arr, filterTerm) {
                     return drink.name.toLowerCase().indexOf(that.interactions.search.toLowerCase()) >= 0
                 });
 
-                
+
 
                 var arr2 = arr.filter(function (drink) {
                     return that.checkIfDrinkHasItem(drink)
@@ -635,6 +638,12 @@ var deepFilter = function(arr, filterTerm) {
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
+
+            getFormatedDates: function () {
+                this.formatedDay = moment(this.event.date, 'DD/MM/YYYY').format('DD')
+                this.formatedMonth = moment(this.event.date, 'DD/MM/YYYY').locale('pt-BR').format('MMM')
+                this.formatedYear = moment(this.event.date, 'DD/MM/YYYY').format('YYYY')
+            },
 
             checkRemainTime: function(){
                 let that = this
@@ -882,8 +891,8 @@ var deepFilter = function(arr, filterTerm) {
                 var index = events.indexFromAttr('url', that.$route.params.event_slug)
                 that.$set(that, 'event', events[index]);
                 that.newMessage.event_id = that.event.id;
+                that.getFormatedDates();
                 that.checkRemainTime();
-
             },
 
             showDrink: function(drink){
