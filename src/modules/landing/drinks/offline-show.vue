@@ -313,14 +313,39 @@
             },
 
 
-
             getDrink: function () {
                 let that = this
 
                 that.drink = JSON.parse(localStorage.getItem('drink'));
                 //that.checkDrinkNutrition();
-                that.drawChart();
 
+                that.drawChart();
+                that.countDrinkOpenned();
+
+            },
+
+            countDrinkOpenned: function() {
+                let that = this
+
+                let drinks = JSON.parse(localStorage.getItem('drinksWithOpenedTimes'))
+                let countDrinks = []
+
+                if (drinks.length) {
+                    drinks.forEach((drink) => {
+                        if (drink.url === that.drink.url) {
+                            drink.opened_times++
+                        }
+                    })
+
+                    localStorage.removeItem('drinksWithOpenedTimes')
+                    localStorage.setItem('drinksWithOpenedTimes', JSON.stringify(drinks))
+
+                } else {
+                    drinks = []
+                    that.drink.opened_times = 1
+                    drinks.push(that.drink)
+                    localStorage.setItem('drinksWithOpenedTimes', JSON.stringify(drinks))
+                }
             },
 
             handleGuestAvatar(guest){

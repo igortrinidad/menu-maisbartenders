@@ -40,7 +40,7 @@
                     <span class="date_m">{{ formatedMonth }}</span>
                     <span class="date_y">{{ formatedYear }}</span>
                 </div>
-                
+
                 <h2 class="text-center" v-if="!eventHasHappened">
                     <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
                 </h2>
@@ -852,7 +852,6 @@
                             drink.typeImg = drink.photo_url.split('.').pop()
                         })
                         that.checkRemainTime();
-
                     })
                     .catch(function (error) {
                         console.log(error)
