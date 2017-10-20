@@ -327,7 +327,6 @@
             countDrinkOpenned: function() {
                 let that = this
                 let drinks = JSON.parse(localStorage.getItem('drinksWithOpenedTimes'))
-                console.log(drinks);
 
                 let countDrinks = []
 

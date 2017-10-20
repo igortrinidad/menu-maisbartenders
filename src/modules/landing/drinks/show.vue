@@ -295,35 +295,6 @@
 
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'removeDrinkFromSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
 
-            countDrinkOpenned: function() {
-                let that = this
-                let drinks = JSON.parse(localStorage.getItem('drinksWithOpenedTimes'))
-                console.log(drinks);
-
-                let countDrinks = []
-
-                if (drinks) {
-                    const index = _.findIndex(drinks, { 'url': that.drink.url })
-                    if (index < 0) {
-                        drinks.push(that.drink)
-                    }
-                    drinks.forEach((drink) => {
-                        if (drink.url === that.drink.url) {
-                            drink.opened_times++
-                        }
-                    })
-
-                    localStorage.removeItem('drinksWithOpenedTimes')
-                    localStorage.setItem('drinksWithOpenedTimes', JSON.stringify(drinks))
-
-                } else {
-                    drinks = []
-                    that.drink.opened_times = 1
-                    drinks.push(that.drink)
-                    localStorage.setItem('drinksWithOpenedTimes', JSON.stringify(drinks))
-                }
-            },
-
             back: () => window.history.back(),
 
             openShareFacebook: function () {
@@ -498,8 +469,6 @@
                         that.checkDrinkNutrition();
                         that.setLoading({is_loading: false, message: ''})
                         that.drawChart();
-                        that.countDrinkOpenned();
-
                     })
                     .catch(function (error) {
                         console.log(error)
