@@ -421,8 +421,6 @@
                 that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
 
-                        drink.opened_times = 0
-
                         that.addDrinkToSavedDrinks(drink) // this is a Vuex action
 
                         that.setLoading({is_loading: false, message: ''})
@@ -471,26 +469,6 @@
                         that.checkDrinkNutrition();
                         that.setLoading({is_loading: false, message: ''})
                         that.drawChart();
-
-                        if (localStorage.getItem('user')) {
-
-                            const saved_drinks = JSON.parse(localStorage.getItem('user')).user.saved_drinks
-
-                            if (saved_drinks.length) {
-
-                                const index = _.findIndex(saved_drinks, { 'url' : that.drink.url })
-                                if (index > -1) {
-                                    that.removeDrinkFromSavedDrinks(saved_drinks[index])
-                                    console.log('salvou');
-                                    if (saved_drinks[index].opened_times === null) {
-                                        saved_drinks[index].opened_times = 1
-                                    } else {
-                                        saved_drinks[index].opened_times++
-                                    }
-                                    that.addDrinkToSavedDrinks(saved_drinks[index])
-                                }
-                            }
-                        }
 
                     })
                     .catch(function (error) {
