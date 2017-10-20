@@ -659,7 +659,7 @@
                 let that = this
                 var then = that.event.date + ' ' +  that.event.time;
 
-                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore( moment() ) ) {
+                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore(moment()) ) {
                     that.eventHasHappened = true
                 } else {
                     setInterval( function(){
