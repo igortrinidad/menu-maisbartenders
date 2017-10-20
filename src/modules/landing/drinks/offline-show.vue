@@ -326,11 +326,17 @@
 
             countDrinkOpenned: function() {
                 let that = this
-
                 let drinks = JSON.parse(localStorage.getItem('drinksWithOpenedTimes'))
+                console.log(drinks);
+
                 let countDrinks = []
 
-                if (drinks.length) {
+                if (drinks) {
+                    const index = _.findIndex(drinks, { 'url': that.drink.url })
+                    if (index < 0) {
+                        that.drink.opened_times = 0
+                        drinks.push(that.drink)
+                    }
                     drinks.forEach((drink) => {
                         if (drink.url === that.drink.url) {
                             drink.opened_times++
