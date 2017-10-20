@@ -46,6 +46,10 @@
                 </h2>
                 <!-- / Event Date -->
 
+                <div class="m-t-30" v-if="eventHasHappened">
+                    <h2 class="countdown-title text-center">Esse evento já passou</h2>
+                </div>
+
                 <div class="m-t-30" v-if="!eventHasHappened">
                     <h2 class="countdown-title text-center">Faltam</h2>
                     <div class="card-body card-padding">
@@ -656,7 +660,7 @@
                 let that = this
                 var then = that.event.date + ' ' +  that.event.time;
 
-                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore( moment() ) ) {
+                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore(moment()) ) {
                     that.eventHasHappened = true
                 } else {
                     setInterval( function(){
