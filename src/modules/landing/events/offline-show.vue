@@ -43,10 +43,6 @@
                 </h2>
                 <!-- / Event Date -->
 
-                <div class="m-t-30" v-if="eventHasHappened">
-                    <h2 class="countdown-title text-center">Esse evento já passou</h2>
-                </div>
-
                 <div class="m-t-30" v-if="!eventHasHappened">
                     <h2 class="countdown-title text-center">Faltam</h2>
                     <div class="card-body card-padding">
