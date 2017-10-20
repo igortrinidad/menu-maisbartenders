@@ -293,24 +293,24 @@
         },
         methods: {
 
-            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'removeDrinkFromSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
 
             back: () => window.history.back(),
-            
+
             openShareFacebook: function () {
                 let that = this
 
                 var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.drink.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drink.photo_url}&display=popup&mobile_iframe=true`;
 
                     if(window.cordova){
-                        
+
                         var ref = window.open(url, '_blank', 'location=yes');
-                        ref.addEventListener('loadstart', function(event) { 
+                        ref.addEventListener('loadstart', function(event) {
 
                             var url = "https://www.facebook.com/dialog/return/close";
 
                             if (event.url.indexOf(url) !== -1) {
-                                
+
                                 ref.close();
                                 successNotify('', 'Drink compartilhado com sucesso!')
                                 $('#modalSharePhrase').modal('hide')
@@ -325,7 +325,7 @@
                         setTimeout( function(){
                             successNotify('', 'Drink compartilhado com sucesso!')
                             $('#modalSharePhrase').modal('hide')
-                            that.storeFacebookShare(); 
+                            that.storeFacebookShare();
                         },1000)
                     }
             },
@@ -340,7 +340,7 @@
 
                         nutri.quantity = parseFloat(item.pivot.quantity) / 100 * parseFloat(nutri.pivot.quantity);
 
-                        
+
                         var hasNutri = that.nutritional_facts.findFromAttr('name', nutri.name)
 
                         if (hasNutri) {
@@ -351,7 +351,7 @@
                             that.nutritional_facts.push(nutri)
                         }
 
-                        
+
                     })
                 })
 
@@ -421,6 +421,8 @@
                 that.$http.post('/guest/addDrinkPreference', data)
                     .then(function (response) {
 
+                        drink.opened_times = 0
+
                         that.addDrinkToSavedDrinks(drink) // this is a Vuex action
 
                         that.setLoading({is_loading: false, message: ''})
@@ -469,6 +471,26 @@
                         that.checkDrinkNutrition();
                         that.setLoading({is_loading: false, message: ''})
                         that.drawChart();
+
+                        if (localStorage.getItem('user')) {
+
+                            const saved_drinks = JSON.parse(localStorage.getItem('user')).user.saved_drinks
+
+                            if (saved_drinks.length) {
+
+                                const index = _.findIndex(saved_drinks, { 'url' : that.drink.url })
+                                if (index > -1) {
+                                    that.removeDrinkFromSavedDrinks(saved_drinks[index])
+                                    console.log('salvou');
+                                    if (saved_drinks[index].opened_times === null) {
+                                        saved_drinks[index].opened_times = 1
+                                    } else {
+                                        saved_drinks[index].opened_times++
+                                    }
+                                    that.addDrinkToSavedDrinks(saved_drinks[index])
+                                }
+                            }
+                        }
 
                     })
                     .catch(function (error) {
@@ -565,7 +587,7 @@
 
                     })
                     .catch(function (error) {
-                    
+
                         if(!this.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
                             that.removeUserDrinkLike({"drink_id": drink.id})
                             drink.likes_count = drink.likes_count - 1

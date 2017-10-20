@@ -8,7 +8,7 @@
                         <div class="intro-text">
                         <span class="text-box">
                             <span class="event-name">
-                                {{drink.name}}
+                                {{drink.name}} 1
                             </span>
                         </span>
                             <br>
