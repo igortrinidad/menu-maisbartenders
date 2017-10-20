@@ -40,10 +40,15 @@
                     <span class="date_m">{{ formatedMonth }}</span>
                     <span class="date_y">{{ formatedYear }}</span>
                 </div>
-                <h2 class="text-center">
+                
+                <h2 class="text-center" v-if="!eventHasHappened">
                     <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
                 </h2>
                 <!-- / Event Date -->
+
+                <div class="m-t-30" v-if="eventHasHappened">
+                    <h2 class="countdown-title text-center">Esse evento já passou</h2>
+                </div>
 
                 <div class="m-t-30" v-if="!eventHasHappened">
                     <h2 class="countdown-title text-center">Faltam</h2>
@@ -655,7 +660,7 @@
                 let that = this
                 var then = that.event.date + ' ' +  that.event.time;
 
-                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore( moment() ) ) {
+                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore(moment()) ) {
                     that.eventHasHappened = true
                 } else {
                     setInterval( function(){
