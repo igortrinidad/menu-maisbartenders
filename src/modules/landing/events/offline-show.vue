@@ -34,11 +34,11 @@
                 <!-- Event Date -->
                 <div class="the_date">
                     <span class="the_date_border"></span>
-                    <span class="date_d">{{ event.date | moment('DD') }}</span>
-                    <span class="date_m">{{ event.date | moment('MMM') }}</span>
-                    <span class="date_y">{{ event.date | moment('YYYY') }}</span>
+                    <span class="date_d">{{ formatedDay }}</span>
+                    <span class="date_m">{{ formatedMonth }}</span>
+                    <span class="date_y">{{ formatedYear }}</span>
                 </div>
-                <h2 class="text-center">
+                <h2 class="text-center" v-if="!eventHasHappened">
                     <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
                 </h2>
                 <!-- / Event Date -->
@@ -129,17 +129,17 @@
                                 <div tag="div" class="drink"
                                      :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                     <div class="badges">
-                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
-                                          data-target="#badge-help">
-                                        <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
-                                             title="Este Drink é exclusivo">
-                                    </span>
-                                        <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
+                                        <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
                                               data-target="#badge-help">
-                                        <img class="zoom" src="../../../assets/images/star.png"
-                                             alt="Este drink está entre os BEST SELLERS"
-                                             title="Este drink está entre os BEST SELLERS">
-                                    </span>
+                                            <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
+                                                 title="Este Drink é exclusivo">
+                                        </span>
+                                            <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
+                                                  data-target="#badge-help">
+                                            <img class="zoom" src="../../../assets/images/star.png"
+                                                 alt="Este drink está entre os BEST SELLERS"
+                                                 title="Este drink está entre os BEST SELLERS">
+                                        </span>
                                     </div>
 
                                     <span @click="showDrink(drink)">
@@ -427,20 +427,20 @@
     var Swiper = require('swiper')
 
     var filterList = function(arr, filterTerm) {
-    if (filterTerm === '') return arr
-    return deepFilter(arr, filterTerm)
-}
+        if (filterTerm === '') return arr
+        return deepFilter(arr, filterTerm)
+    }
 
-var deepFilter = function(arr, filterTerm) {
-    return arr.filter(item => {
+    var deepFilter = function(arr, filterTerm) {
+        return arr.filter(item => {
 
-        if (typeof item === 'object') {
-            return deepFilter(Object.values(item), filterTerm).length > 0;
-        }
+            if (typeof item === 'object') {
+                return deepFilter(Object.values(item), filterTerm).length > 0;
+            }
 
-        return item.toString().indexOf(filterTerm) >= 0
-    })
-}
+            return item.toString().indexOf(filterTerm) >= 0
+        })
+    }
 
 
     export default {
@@ -453,6 +453,7 @@ var deepFilter = function(arr, filterTerm) {
                 formatedDay: '',
                 formatedMonth: '',
                 formatedYear: '',
+                eventHasHappened: false,
                 interactions: {
                     phraseSelected: '',
                     whatsappPhraseSelected: '',
