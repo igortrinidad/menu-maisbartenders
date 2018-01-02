@@ -3,14 +3,14 @@
 
         <side-menu :isOpened="sideMenuStatus"></side-menu>
 
+        <button type="button" class="hamburger" :class="{ 'back': title !== 'logo' }" @click="handleSideMenu()">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </button>
+
         <nav class="navbar navbar-default navbar-fixed-top navbar-shrink" :class="navbarTransparent ? 'navbar-transparent transparent' : ''">
             <div class="container">
-
-                <button type="button" class="hamburger" :class="{ 'back': title !== 'logo' }" @click="handleSideMenu()">
-                    <span class="line"></span>
-                    <span class="line"></span>
-                    <span class="line"></span>
-                </button>
 
                 <div class="text-center m-10">
                     <img v-if="title === 'logo'" src="../assets/logo_mb.png" class="logo-header" alt="Mais Bartenders">
@@ -148,8 +148,7 @@
         height: 43px;
         color: #fff;
         display: flex;
-        margin: 20px 0;
-        padding:0 30px;
+        padding: 27px 30px;
         font-weight: 700;
         display: flex;
         align-items: center;
@@ -179,8 +178,9 @@
         cursor: pointer;
         transition: all 0.3s ease-in-out;
         width: 30px;
-        position: absolute;
-        top: calc(50% - 14.5px); left: 15px;
+        position: fixed;
+        top: 23px; left: 15px;
+        z-index: 99999;
     }
 
     .hamburger:focus { outline: none; }
@@ -229,9 +229,9 @@
 
     /* Hamburger Turns into Back */
     .hamburger.back { width: 20px; }
-    .hamburger.back .line:nth-child(1) { transform: translateY(3px) rotate(-35deg); }
+    .hamburger.back .line:nth-child(1) { transform: translateY(2px) rotate(-45deg); }
     .hamburger.back .line:nth-child(2) { opacity: 0; }
-    .hamburger.back .line:nth-child(3) { transform: translateY(-3px) rotate(35deg); }
+    .hamburger.back .line:nth-child(3) { transform: translateY(-2px) rotate(45deg); }
 
 </style>
 

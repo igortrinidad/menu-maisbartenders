@@ -1,9 +1,6 @@
 <template lang="html">
     <div>
         <div ref="sidemenu" id="side-menu-global-id" :class="isOpened ? 'side-menu active' : 'side-menu'">
-            <div class="header">
-                <img class="logo" src="../assets/logo_mb_2.png"/>
-            </div>
 
             <div class="items">
 
@@ -135,12 +132,13 @@
         width: 250px;
         min-height: 100vh;
         background: #fff;
-        z-index: 99999;
+        z-index: 77777;
         box-shadow: 0 2px 4px rgba(0, 0, 0, .4);
         transition: ease .4s;
-        padding: 0;
+        padding: 50px 0 0 0;
         overflow-y: scroll;
     }
+
     .side-menu-bg {
         content: '';
         position: fixed;
@@ -152,7 +150,7 @@
         width: 100vw;
         height: 100vh;
         background: rgba(0, 0, 0, .3);
-        z-index: 9999;
+        z-index: 66666;
         transition: ease .1s;
         padding: 0;
     }
