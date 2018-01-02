@@ -6,7 +6,7 @@
 
         <div v-if="eventFound">
             <header id="header-event" class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
-                <button class="btn btn-default btn-back" @click="back()"><i class="fa fa-chevron-left"></i> Voltar </button>
+
             </header>
 
             <section class="section p-t-30">
