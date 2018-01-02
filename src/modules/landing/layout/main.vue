@@ -26,7 +26,7 @@
         computed:{
             ...mapGetters(['isLogged'])
         },
-        mounted(){
+        mounted() {
             this.location = window.location.href
 
             if(this.isLogged){

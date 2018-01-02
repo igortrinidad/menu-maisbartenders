@@ -1,5 +1,8 @@
 <template>
    <div class="page">
+
+       <main-header :title="'Eventos'" />
+
        <img :src="applicationDirectory" alt="">
         <div>
             <div class="container m-t-30 text-center">
@@ -65,10 +68,12 @@
     import { mapGetters, mapActions } from 'vuex'
     import pagination from '@/components/pagination'
 
+    import mainHeader from '@/components/main-header.vue'
+
     export default {
         name: 'list-events',
-        components:{
-            pagination
+        components: {
+            mainHeader
         },
         data () {
             return {

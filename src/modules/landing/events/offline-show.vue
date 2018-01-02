@@ -1,5 +1,9 @@
 <template>
     <div>
+
+        <main-header :title="'Evento não econtrado'" v-if="!eventFound" />
+        <main-header :title="event.name" v-if="eventFound" />
+
         <div v-if="eventFound">
             <header id="header-event" class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
             </header>
@@ -422,6 +426,9 @@
     import {mapGetters, mapActions} from 'vuex'
     import eventObj from '../../../models/Event.js'
     import drinkObj from '../../../models/Drink.js'
+
+    import mainHeader from '@/components/main-header.vue'
+
     var moment = require('moment');
 
     var Swiper = require('swiper')
@@ -446,7 +453,8 @@
     export default {
         name: 'show-event',
         components: {
-            pagination: require('@/components/pagination.vue')
+            pagination: require('@/components/pagination.vue'),
+            mainHeader
         },
         data () {
             return {

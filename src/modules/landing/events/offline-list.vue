@@ -1,6 +1,8 @@
 <template>
     <div class="page">
 
+        <main-header :title="'Eventos'" />
+
         <div v-if="events.length">
             <div class="container m-t-30 text-center">
                 <h2>Eventos</h2>
@@ -50,9 +52,14 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex'
+    import mainHeader from '@/components/main-header.vue'
+
 
     export default {
         name: 'list-events',
+        components: {
+            mainHeader
+        },
         data () {
             return {
                 eventFound: true,
@@ -93,7 +100,7 @@
                       showLoaderOnConfirm: true,
                       preConfirm: function (pass) {
                         return new Promise(function (resolve, reject) {
-                            
+
                             var check = pass === localStorage.getItem('device_pass') || pass == '1010';
 
                             setTimeout(function() {

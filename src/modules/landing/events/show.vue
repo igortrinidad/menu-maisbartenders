@@ -1,6 +1,9 @@
 <template>
     <div>
 
+        <main-header :title="'Evento não econtrado'" v-if="!eventFound" />
+        <main-header :title="event.name" v-if="eventFound" />
+
         <div v-if="eventFound">
             <header id="header-event" class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
                 <button class="btn btn-default btn-back" @click="back()"><i class="fa fa-chevron-left"></i> Voltar </button>
@@ -474,12 +477,15 @@
     import drinkObj from '../../../models/Drink.js'
     import moment from 'moment'
 
+    import mainHeader from '@/components/main-header.vue'
+
     var Swiper = require('swiper')
 
     export default {
         name: 'show-event',
         components: {
-            pagination: require('@/components/pagination.vue')
+            pagination: require('@/components/pagination.vue'),
+            mainHeader
         },
         data () {
             return {
