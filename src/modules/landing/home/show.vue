@@ -1,7 +1,9 @@
 <template>
    <div>
 
-    <div>
+       <main-header :title="'logo'" />
+
+        <!-- #Header -->
         <header id="header-home" class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
             <div class="container" >
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
@@ -17,131 +19,143 @@
                 </div>
             </div>
         </header>
-    </div>
 
-    <section id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Sobre</h2>
-                    <p class=" text-description m-t-30">O<span class="text-selected"> Cardápio Interativo </span>é uma exclusiva ferramenta criada pela<span class="text-selected"> Mais Bartenders </span>para quebrar a barreira de interação de você e seus convidados com sua festa. Levando a <span class="text-selected">experiência</span> e socialização do evento a um nível totalmente novo.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Como funciona</h2>
-                    <p class="text-description m-t-30">Ao contratar os serviços de drinks <b>Mais Bartenders</b> e nosso exclusivo <b>Menu Interativo</b>, nós criamos uma página <b>exclusiva e personalizada </b>para seu evento.
-                    <router-link tag="a" :to="{name: 'landing.events.show', params: {event_slug: 'joana-e-joao'}}">
-                        Veja um exemplo
-                    </router-link>
-                    </p>
-
-                    <p class="text-description m-t-30">
-                        E aí começa a brincadeira: você poderá enviar para seus convidados conhecerem e interagirem com o cardápio mesmo antes da festa.
-                    </p>
-                    <p class="text-description m-t-30">
-                        Seus convidados vão conhecer os drinks incluídos em sua proposta, salvar as receitas que mais gostaram e compartilhar no facebook com frases criativas - aumentando ainda mais a <span class="text-selected">expectativa</span> para o grande dia.
-                    </p>
-
-                    <img class="m-t-30 m-b-30 img-gif" src="https://media.giphy.com/media/vQqeT3AYg8S5O/giphy.gif" >
-
-                    <p class="text-description m-t-30">
-                        Mas ainda não acabou!
-                    </p>
-
-                    <p class="text-description m-t-30">
-                        A experiência do Cardápio Interativo acontece também na festa. Seus convidados que não conheceram o <span class="text-selected">Cardápio Interativo</span> antes do grande dia, poderão acessar o seu <span class="text-selected">Cardápio Interativo</span> mesmo do local do evento e interagirem da mesma forma. Imagina isso!
-                    </p>
-
-                    <p class="text-description m-t-30">
-                        É muito legal não é mesmo?
-                    </p>
-
-                    <img class="m-t-30 m-b-30 img-gif" src="https://media.giphy.com/media/QMkPpxPDYY0fu/giphy.gif" />
-
-                    <p class="text-description m-t-30">
-                        Entre em contato agora e tenha um <span class="text-selected">Cardápio Interativo</span> também em sua festa! :)
-                    </p>
-
-                    <a href="#contact" v-scroll-to="'#contact'" class="page-scroll btn btn-xl">Contato</a>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
-                    <h2 class="section-heading">Contato</h2>
-                    <h4 class="m-t-30 m-b-30">Contrate agora essa novidade para sua festa</h4>
-
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12">
-                            <button title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" @click="openWhatsapp()">Envie um WhatsApp agora</button>
-                        </div>
+        <!-- #Sobre -->
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">Sobre</h2>
+                        <p class=" text-description m-t-30">O<span class="text-selected"> Cardápio Interativo </span>é uma exclusiva ferramenta criada pela<span class="text-selected"> Mais Bartenders </span>para quebrar a barreira de interação de você e seus convidados com sua festa. Levando a <span class="text-selected">experiência</span> e socialização do evento a um nível totalmente novo.</p>
                     </div>
-                    <br>
-                    <p class="text-description">ou clique para ligar</p>
-                    <br>
-
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12 m-b-10">
-                            <a title="Clique para ligar!" class="btn btn-xl btn-block inline" href="tel:31 3296-5673">31 3296-5673 <i class="fa fa-phone"></i></a>
-                        </div>
-
-                        <div class="col-md-12 col-xs-12">
-                             <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="tel:31 98213-4820">31 98213-4820 <i class="fa fa-phone"></i></a>
-                        </div>
-                    </div>
-
-                    <span style="font-size:19px">
-
-
-                    </span>
-
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
+        <!-- #Como funciona -->
+        <section id="about">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">Como funciona</h2>
+                        <p class="text-description m-t-30">Ao contratar os serviços de drinks <b>Mais Bartenders</b> e nosso exclusivo <b>Menu Interativo</b>, nós criamos uma página <b>exclusiva e personalizada </b>para seu evento.
+                        <router-link tag="a" :to="{name: 'landing.events.show', params: {event_slug: 'joana-e-joao'}}">
+                            Veja um exemplo
+                        </router-link>
+                        </p>
+
+                        <p class="text-description m-t-30">
+                            E aí começa a brincadeira: você poderá enviar para seus convidados conhecerem e interagirem com o cardápio mesmo antes da festa.
+                        </p>
+                        <p class="text-description m-t-30">
+                            Seus convidados vão conhecer os drinks incluídos em sua proposta, salvar as receitas que mais gostaram e compartilhar no facebook com frases criativas - aumentando ainda mais a <span class="text-selected">expectativa</span> para o grande dia.
+                        </p>
+
+                        <img class="m-t-30 m-b-30 img-gif" src="https://media.giphy.com/media/vQqeT3AYg8S5O/giphy.gif" >
+
+                        <p class="text-description m-t-30">
+                            Mas ainda não acabou!
+                        </p>
+
+                        <p class="text-description m-t-30">
+                            A experiência do Cardápio Interativo acontece também na festa. Seus convidados que não conheceram o <span class="text-selected">Cardápio Interativo</span> antes do grande dia, poderão acessar o seu <span class="text-selected">Cardápio Interativo</span> mesmo do local do evento e interagirem da mesma forma. Imagina isso!
+                        </p>
+
+                        <p class="text-description m-t-30">
+                            É muito legal não é mesmo?
+                        </p>
+
+                        <img class="m-t-30 m-b-30 img-gif" src="https://media.giphy.com/media/QMkPpxPDYY0fu/giphy.gif" />
+
+                        <p class="text-description m-t-30">
+                            Entre em contato agora e tenha um <span class="text-selected">Cardápio Interativo</span> também em sua festa! :)
+                        </p>
+
+                        <a href="#contact" v-scroll-to="'#contact'" class="page-scroll btn btn-xl">Contato</a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- #Contato -->
+        <section id="contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
+                        <h2 class="section-heading">Contato</h2>
+                        <h4 class="m-t-30 m-b-30">Contrate agora essa novidade para sua festa</h4>
+
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12">
+                                <button title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" @click="openWhatsapp()">Envie um WhatsApp agora</button>
+                            </div>
+                        </div>
+                        <br>
+                        <p class="text-description">ou clique para ligar</p>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 m-b-10">
+                                <a title="Clique para ligar!" class="btn btn-xl btn-block inline" href="tel:31 3296-5673">31 3296-5673 <i class="fa fa-phone"></i></a>
+                            </div>
+
+                            <div class="col-md-12 col-xs-12">
+                                 <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="tel:31 98213-4820">31 98213-4820 <i class="fa fa-phone"></i></a>
+                            </div>
+                        </div>
+
+                        <span style="font-size:19px">
+
+
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </section>
 
    </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
+
     import eventObj from '../../../models/Event.js'
+    import mainHeader from '@/components/main-header.vue'
 
     var Swiper = require('swiper')
 
     export default {
         name: 'show-home',
+
+        components: {
+            mainHeader,
+        },
+
         data () {
             return {
 
             }
+
         },
+
         computed:{
             // Map the getters from Vuex to this component.
-
             ...mapGetters(['currentUser', 'isLogged']),
 
         },
+
         mounted(){
+
         },
+
         methods: {
 
             openWhatsapp: function(){
                 let that = this
-            
+
                 if(that.isLogged){
                     var url = `https://api.whatsapp.com/send?phone=+553182134820&text=[MENU MAIS BARTENDERS] Olá Mais Bartenders, tudo bem? Meu nome é ${that.currentUser.full_name}.`;
                 } else {
