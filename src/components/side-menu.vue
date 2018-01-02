@@ -132,7 +132,7 @@
         width: 250px;
         min-height: 100vh;
         background: #fff;
-        z-index: 77777;
+        z-index: 777;
         box-shadow: 0 2px 4px rgba(0, 0, 0, .4);
         padding: 50px 0 0 0;
         overflow-y: scroll;
@@ -150,7 +150,7 @@
         width: 100vw;
         height: 100vh;
         background: rgba(0, 0, 0, 0);
-        z-index: 66666;
+        z-index: 666;
         transition: ease .1s;
         padding: 0;
     }

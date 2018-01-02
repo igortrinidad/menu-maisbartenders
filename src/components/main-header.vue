@@ -103,7 +103,6 @@
 
                 if (this.left > 0 && this.left < 250) {
                     $('#side-menu-global-id').transition({ y: 0, x: x }, 0)
-                    console.log(this.left/200);
                     if (this.left/200 <= 0.9) {
                         $('.side-menu-bg').transition({ background: `rgba(0, 0, 0, ${ this.left/200 })` }, 0)
                     }
@@ -205,7 +204,7 @@
     }
 
     .navbar{
-        z-index: 1000 !important;
+        z-index: 555 !important;
     }
 
     .title-header {
@@ -235,7 +234,7 @@
         width: 30px;
         position: fixed;
         top: 33px; left: 15px;
-        z-index: 99999;
+        z-index: 999;
     }
 
     .hamburger:focus { outline: none; }
