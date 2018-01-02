@@ -1,5 +1,8 @@
 <template lang="html">
     <section>
+
+        <main-header :title="'Simulador'" />
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -201,11 +204,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import mainHeader from '@/components/main-header.vue'
 
 export default {
     name: 'simulator',
     components: {
-
+        mainHeader
     },
     data() {
         return {

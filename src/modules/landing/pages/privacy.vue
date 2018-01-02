@@ -1,5 +1,8 @@
 <template lang="html">
     <section>
+
+        <main-header :title="'Termos de uso e Privacidade'" />
+
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
@@ -8,31 +11,31 @@
                     </div>
                     <div class="text-justify">
                         <p>Atualizado em: 13/06/2017.</p>
- 
+
 
                         <p>Este documento estabelece as condições e Termos de Uso e Política de Privacidade do Menu Interativo Mais Bartenders ("Aplicativo", "Site", "Plataforma"), um site e aplicativo empresarial criado e administrado pela Mais Bartenders. ("Mais Bartenders", "Nós"), empresa de eventos registrada no Brasil sob o CNPJ nº 11.834.266/0001-56.</p>
- 
+
                         <p>Os termos deste documento são aplicáveis a todos os usuários da Mais Bartenders, registrados ou não, e independemente da forma de utilização, se pelo site menu.maisbartenders.com.br, ou pela versão de aplicativo móvel Menu Mais Bartenders.</p>
- 
+
                         <h4>Aceitação dos Termos de Uso</h4>
                         <p>Antes de começar a usar os serviços da Mais Bartenders, solicitamos que você leia estes Termos de Uso. Utilizando, <strong>acessando ou criando uma conta no Menu Interativo Mais Bartenders, você atesta que leu, entendeu e concordou com esses Termos de Uso, assim como, atesta que você tem idade superior à necessária para consumir e ter acesso à conteúdos referentes a bebidas alcoólicas no país em que se encontra.</strong> É importante que você saiba que a aceitação destes Termos de Uso equivale à contratação dos Serviços nos exatos termos referidos abaixo, que disciplinam as relações jurídicas entre a Mais Bartenders, na condição de prestador do Serviço, e você, na condição de usuário. Por esse motivo, o encorajamos a ler este documento até o final. Se você não concordar com algumas das disposições deste documento, assim como da nossa Política de Privacidade, você não deverá utilizar, acessar, ou criar uma conta no Mais Bartenders.</p>
- 
+
                         <h4>Alterações dos Termos de Uso</h4>
                         <p>A Mais Bartenders se reserva o direito de promover, a qualquer tempo, alterações nos Termos de Uso do Menu Interativo Mais Bartenders, assim como da Política de Privacidade em caso de conveniência ou necessidade, e que se aplicarão a todos usuários imediatamente após a inclusão da nova versão em nosso site. A data da última alteração é apresentada no final deste documento. A Mais Bartenders irá notificá-lo através do email cadastrado quando houver alterações, mas é sua responsabilidade checar esta página de tempos em tempos para verificar as atualizações. A continuidade da utilização dos serviços oferecidos pelo Menu Interativo Mais Bartenders após a alteração do documento e publicação no site constitui aceitação implícita dos novos Termos de Uso e Políticas de Privacidade. Lembramos que você tem o direito de cessar sua utilização ou acesso à Plataforma, assim como excluir sua conta do Menu Interativo Mais Bartenders a hora que desejar sem custo.</p>
- 
- 
+
+
                         <h4>Descrição da Plataforma</h4>
                         <p>O Menu Interativo Mais Bartenders é um aplicativo online para clientes da empresa Mais Bartenders e para seus convidados acessarem e interagirem com o cardápio de seus eventos.</p>
- 
+
                         <h4>Sua conta</h4>
                         <p>Você não precisa ter uma conta no Menu Interativo Mais Bartenders para utilizá-lo, no entanto, se você quiser fazer uso de todas as funcionalidades da Plataforma, ou ter uma experiência personalizada, é necessário que você realize o seu cadastro.
 Quando você se cadastra no Menu Interativo Mais Bartenders, você nos fornece informações, sem se limitar a, nome, email, telefone, nome da empresa que está cadastrando, cnpj, endereço e dependendo do método utilizado, uma senha de acesso para sua conta. Você deve garantir que todas as informações que você nos fornecer são, e permanecem, válidas. Todas as informações que você escolheu para fornecer sobre si mesmo ou sobre terceiros serão tratadas de acordo com nossa Política de Privacidade.
 Ressaltamos que em qualquer modalidade de contratação o uso do Mais Bartenders é pessoal, intransferível, revogável e estritamente privado para usuários únicos, conforme o item "Seu uso da plataforma". São, assim, vedadas quaisquer formas de compartilhamento de senhas entre mais de um usuário, bem como a subrogação dos direitos decorrentes da aceitação desses termos.
 Caso a intensidade incomum de acesso ou a utilização simultânea de uma mesma senha de acesso a partir de diversos dispositivos indiquem a utilização fraudulenta do Serviço por parte de um determinado usuário, a Mais Bartenders se reserva o direito de fiscalizar estas práticas e, em caso de confirmação do mau uso, punir o usuário com encerramento da conta, sem prejuízo da aplicação de outras medidas que entender pertinentes.
 Você pode encerrar sua conta no Menu Interativo Mais Bartenders a qualquer momento, através da sua página de configurações. O encerramento da sua conta está sujeita às condições descritas no item "Encerramento da Conta".</p>
- 
+
 <h4>Seu uso da Plataforma</h4>
-<p>Quando você utiliza, acessa, ou cria uma conta no Menu Interativo Mais Bartenders, você passa a ter acesso às ferramentas da Plataforma. 
+<p>Quando você utiliza, acessa, ou cria uma conta no Menu Interativo Mais Bartenders, você passa a ter acesso às ferramentas da Plataforma.
 Você deve consentir que o seu uso da Plataforma estará em conformidade com esses Termos de Uso, incluindo sem se limitar a, os seguintes termos:</p>
  <p>
 Você não pode copiar, capturar, ou tentar copiar ou capturar qualquer conteúdo de mídia ou textos da Plataforma.</p>
@@ -68,18 +71,18 @@ Você não pode usar qualquer meio automático de acesso, ou de registro de cont
 <p>
 Caso você encontre qualquer conteúdo, ou presencie qualquer ato que infrinja alguma das disposições acimas, solicitamos que você entre em contato conosco pelo endereço de e-mail legal@maisbartenders.com.br, para que possamos tomar as medidas cabíveis.
 </p>
- 
+
 <h4>Seu conteúdo</h4>
 <p>
 O Mais Bartenders permite que você envie conteúdos como, sem se limitar a: fotos, mensagens instantâneas, compartilhe links no seu perfil do Facebook. Todo o conteúdo que você enviar, armazenar e ou disponibilizar aos usuários na Plataforma é de sua inteira responsabilidade, de sua propriedade e controlado somente por você. Nós não reivindicamos nenhum direito de propriedade sobre o seu conteúdo, e você reconhece e concorda que o seu conteúdo continua sob sua exclusiva responsabilidade. Dessa forma, você como dono, controlador e responsável pelo conteúdo que carregou no Menu Interativo Mais Bartenders, poderá excluí-lo ou solicitar sua exclusão a qualquer momento, mediante envio de email para legal@maisbartenders.com.br.
 A Mais Bartenders, assim como seus funcionários, agentes, diretores, executivos e acionistas, não possui capacidade de rever o conteúdo criado ou carregado por seus usuários, não assumindo qualquer obrigação de monitorar conteúdos impróprio que tenham sido carregados pelos usuários, em violação destes Termos de Uso ou lei aplicável, e que podem, eventualmente, infringir quaisquer direitos de terceiros. Contudo, envidaremos nossos melhores esforços para excluir e ou corrigir quaisquer tais conteúdos tão logo tenhamos notícia de sua existência, colocando à disposição dos usuários um canal de comunicação através do email legal@maisbartenders.com.br.
 </p>
- 
+
 <h4>Concessão de licença</h4>
 <p>
 Ao carregar o seu conteúdo para o Menu Interativo Mais Bartenders, você concede à Mais Bartenders uma licença mundial, não-exclusiva, livre de royalties e limitada aos direitos necessários para a Mais Bartenders poder copiar, transferir, armazenar, transmitir, reproduzir, distribuir, compartilhar e executar publicamente todo o conteúdo que você enviar ao Menu Interativo Mais Bartenders e sobre os quais, de acordo com estes Termos de Uso, você se responsabiliza integralmente.
  </p>
- 
+
 <h4>Representações e garantias</h4>
 <p>
 Você aqui declara e garante à Mais Bartenders que:
@@ -90,7 +93,7 @@ O seu conteúdo não é ofensivo, abusivo, difamatório, obsceno, racista, sexua
 Seu conteúdo não criará qualquer responsabilidade por parte da Mais Bartenders, suas subsidiárias, afiliadas, sucessores e cessionários, e seus respectivos funcionários, agentes, diretores, administradores e ou acionistas.
 A Mais Bartenders reserva-se o direitos de remover seu conteúdo, suspender ou cancelar o seu acesso à plataforma e/ou buscar todos os recursos legais, caso você viole quaisquer declarações ou garantias anteriores. Além disso você garante e declara que responderá integralmente perante à Mais Bartenders e perante a terceiros, civil e criminalmente, por quaisquer conteúdos postados por você que violem as condições desses Termos ou os direitos da Mais Bartenders e/ou de terceiros.
 </p>
- 
+
 <h4>Isenção/Limitação de responsabilidade</h4>
 <p>
 A Mais Bartenders não é responsável por e não dá nenhuma garantia expressa ou implícita a respeito dos ou sobre a exatidão e a confiabilidade dos (a) serviços, produtos e outros bens anunciados na Plataforma; (b) conteúdos postados pelos usuários; e (c) Serviços Vinculados (em conjunto, Conteúdos de Terceiros).
@@ -138,7 +141,7 @@ Em todos os casos, o encerramento de conta, no entanto, seus dados pessoais perm
 Assim como respeitamos a propriedade intelectual de terceiros, também requeremos que a nossa propriedade intelectual, tais como nossa marca, software, design, fotos, fotos de drinks, informações nutricionais, ilustrações e quaisquer outros elementos da Plataforma sejam respeitadas. Por isso, é importante que você saiba que o Menu Interativo Mais Bartenders, seu software, site, aplicativo e marca são propriedades da Mais Bartenders e estão protegidos pelas leis que regulam a propriedade intelectual.
 Qualquer violação de marca, ideias ou patentes será devidamente comunicada às autoridades competentes e penalizada nos termos da Lei 9.279/96, 9.609/98 e 9.610/98.
 </p>
- 
+
 
 <h4>Disposições Gerais</h4>
 <p>
@@ -146,7 +149,7 @@ Este Termo de Uso e Política de Privacidade, juntamente constituem um acordo co
 Fica eleito o foro da cidade de Belo Horizonte-MG com exclusão de qualquer outro por mais privilegiado que seja, para dirimir quaisquer disputas envolvendo os presente Termos ou os Serviços.
 Caso você tenha mais alguma dúvida sobre sua utilização do Menu Interativo Mais Bartenders, por favor envie um email para legal@maisbartenders.com.br.
 </p>
- 
+
 Data: 13/06/2017.
 </p>
                     </div>
@@ -172,8 +175,16 @@ Data: 13/06/2017.
 </template>
 
 <script>
-export default {
-}
+    import mainHeader from '@/components/main-header.vue'
+
+    export default {
+
+        name: 'landing-pages-privacy',
+        components: {
+            mainHeader
+        }
+
+    }
 </script>
 
 <style scoped>

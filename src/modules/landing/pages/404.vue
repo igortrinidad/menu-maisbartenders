@@ -5,7 +5,7 @@
         <h4 class="text-muted">A página que você está procurando não foi encontrada.</h4>
 
         <div class="row m-t-20">
-            <router-link to="/" class="btn btn-primary">Voltar para home</router-link>
+            <router-link to="/" class="btn btn-primary" exact>Voltar para home</router-link>
         </div>
 
     </div>

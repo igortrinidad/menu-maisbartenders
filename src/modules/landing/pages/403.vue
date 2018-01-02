@@ -5,7 +5,7 @@
         <h4 class="text-info">Você não tem permissão para acessar este recurso.</h4>
 
         <div class="row m-t-20">
-            <router-link to="/" class="btn btn-success">Voltar para home</router-link>
+            <router-link to="/" class="btn btn-success" exact>Voltar para home</router-link>
         </div>
 
     </div>
@@ -14,6 +14,8 @@
 <script>
     export default{
         name: 'landing-403',
+        components: {
+        },
         data(){
             return {}
         },
@@ -29,4 +31,3 @@
         padding-top: 80px;
     }
 </style>
-

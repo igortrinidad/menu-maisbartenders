@@ -1,5 +1,8 @@
 <template lang="html">
     <section>
+
+        <main-header :title="'Contato'" />
+
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
@@ -118,9 +121,11 @@
 <script>
 import vSelect from 'vue-select'
 import {mapGetters, mapActions} from 'vuex'
+import mainHeader from '@/components/main-header.vue'
+
 export default {
     name: 'contact',
-    components: { vSelect },
+    components: { vSelect, mainHeader },
     data() {
         return {
             services: ['Orçamentos', 'Informações', 'Sugestões'],
@@ -148,7 +153,7 @@ export default {
 
         openWhatsapp: function(){
             let that = this
-        
+
             if(that.isLogged){
                 var url = `https://api.whatsapp.com/send?phone=+553182134820&text=[MENU MAIS BARTENDERS] Olá Mais Bartenders, tudo bem? Meu nome é ${that.currentUser.full_name}.`;
             } else {
@@ -157,7 +162,7 @@ export default {
 
             window.open(url, '_system', null);
         },
-        
+
         validateForm: function() {
             if (!this.contact.name) return { validated: false, message: 'Informe seu nome' }
             if (!this.contact.email) return { validated: false, message: 'Informe seu e-mail' }
