@@ -34,6 +34,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-12" v-show="events.length">
+                        <div class="text-center">
+                            <pagination :source="pagination" @navigate="getEvents" :range="6"></pagination>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -54,13 +63,18 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex'
+    import pagination from '@/components/pagination'
 
     export default {
         name: 'list-events',
+        components:{
+            pagination
+        },
         data () {
             return {
                 eventFound: true,
                 events: [],
+                pagination: {},
                 event_url: '',
                 applicationDirectory: ''
             }
@@ -82,15 +96,18 @@
                 this.$router.push({name: 'landing.events.show', params: {event_slug: this.event_url}})
             },
 
-            getEvents: function(){
+            getEvents: function(page){
                 let that = this
+
+                page = page ? page : 1
 
                 that.setLoading({is_loading: true, message: ''})
 
-                that.$http.get('/events/fetchAll')
+                that.$http.get(`/events/fetchAll?page=${page}`)
                     .then(function (response) {
 
-                        that.events = response.data;
+                        that.events = response.data.events
+                        that.pagination = response.data.pagination
                         that.eventFound = true;
                         that.setLoading({is_loading: false, message: ''})
 

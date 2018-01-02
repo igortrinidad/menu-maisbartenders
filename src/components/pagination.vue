@@ -1,6 +1,6 @@
 <template>
-    <nav>
-        <ul class="pagination" :class="paginatorClass">
+    <nav id="paginator">
+        <ul class="pagination">
             <li title="Anterior" :class="{ disabled: source.current_page == 1 }">
                 <a href="#previous" @click="prev($event, source.current_page-1)" :disabled="source.current_page == 1"
                    aria-label="Previous">
@@ -28,7 +28,7 @@
 
     export default {
         name: 'pagination',
-        props: ['source', 'paginatorClass'],
+        props: ['source', 'range'],
 
         data () {
             return {
@@ -41,6 +41,7 @@
             navigate (ev, page) {
                 ev.preventDefault()
                 this.$emit('navigate', page)
+                $('html, body').stop().animate({ scrollTop: 0 }, 500, 'easeInOutExpo');
             },
 
             next (ev, page) {
@@ -123,8 +124,32 @@
         watch: {
             source () {
                 let s = this.source
-                this.pages = this.generatePagesArray(s.current_page, s.total, s.per_page, 12)
+
+                let range  = this.range ? this.range : 12
+                this.pages = this.generatePagesArray(s.current_page, s.total, s.per_page, range)
             }
         }
     }
 </script>
+<style scoped>
+    /* Pagination */
+    #paginator .pagination > li > a,
+    #paginator .pagination > li > span {
+        background-color: transparent;
+        border: 1px solid #fed136;
+        color: #fed136 !important;
+    }
+
+    #paginator .pagination > li.active > a,
+    #paginator .pagination > li.active > span {
+        background-color: transparent;
+        color: #2C3E50 !important;
+        font-weight: bold;
+    }
+
+    #paginator .pagination > li.disabled > a,
+    #paginator .pagination > li.disabled > span {
+
+        color: #cccccc !important;
+    }
+</style>

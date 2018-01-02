@@ -851,6 +851,7 @@
                         that.event.drinks.forEach(function (drink) {
                             drink.typeImg = drink.photo_url.split('.').pop()
                         })
+                        that.event.drink_categories = _.orderBy(that.event.drink_categories,['name_pt'], ['asc'])
                         that.checkRemainTime();
                     })
                     .catch(function (error) {
