@@ -4,7 +4,7 @@
 
             <div class="items">
 
-                    <!-- MENU -->
+                <!-- MENU -->
                 <div>
                     <ul class="main-menu">
                         <li class="sub-menu"  v-if="isLogged && isOnline">
@@ -149,7 +149,7 @@
         bottom: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(0, 0, 0, .3);
+        background: rgba(0, 0, 0, .9);
         z-index: 66666;
         transition: ease .1s;
         padding: 0;

@@ -1,6 +1,9 @@
 <template>
     <div>
 
+        <main-header :title="drink.name" v-if="drinkFound" />
+        <main-header :title="'Drink não localizado'" v-if="!drinkFound" />
+
         <div v-if="drinkFound" id="drink-show-offline">
             <header id="header-drink" class="header-greeting" v-bind:style="{ backgroundImage: drinkBackground}">
                 <div class="container">
@@ -133,11 +136,13 @@
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import drinkObj from '../../../models/Drink.js'
+    import mainHeader from '@/components/main-header.vue'
 
     export default {
         name: 'show-drink',
         components: {
-            pagination: require('@/components/pagination.vue')
+            pagination: require('@/components/pagination.vue'),
+            mainHeader
         },
         data () {
             return {

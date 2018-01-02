@@ -1,6 +1,8 @@
 <template>
     <div class="page">
 
+        <main-header :title="'Drinks'" />
+
         <div class="container m-t-30 text-center">
             <h2>Best Sellers</h2>
             <span class="sub-header">Aqui está uma lista com as principais recomendações para você.</span>
@@ -298,9 +300,13 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex'
+    import mainHeader from '@/components/main-header.vue'
 
     export default {
         name: 'list-drink',
+        components: {
+            mainHeader
+        },
         data () {
             return {
                 interactions: {
@@ -349,9 +355,9 @@
                                 return false
                             } else {
                                 arr.push({name: item.name, category: item.category})
-                            }  
+                            }
                         }
-                        
+
                     });
                 });
 
@@ -509,9 +515,9 @@
                 var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drinkSelected.photo_url}&display=popup&mobile_iframe=true&close=true`;
 
                     if(window.cordova){
-                        
+
                         var ref = window.open(url, '_blank', 'location=yes');
-                        ref.addEventListener('loadstart', function(event) { 
+                        ref.addEventListener('loadstart', function(event) {
 
                             var url = "https://www.facebook.com/dialog/return/close";
 
@@ -531,7 +537,7 @@
                         setTimeout( function(){
                             successNotify('', 'Drink compartilhado com sucesso!')
                             $('#modalSharePhrase').modal('hide')
-                            that.storeFacebookShare(); 
+                            that.storeFacebookShare();
                         },1000)
                     }
 
@@ -579,7 +585,7 @@
 
                     })
                     .catch(function (error) {
-                    
+
                         if(!this.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
                             that.removeUserDrinkLike({"drink_id": drink.id})
                             drink.likes_count = drink.likes_count - 1

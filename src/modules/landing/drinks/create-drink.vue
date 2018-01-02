@@ -1,5 +1,8 @@
 <template lang="html">
     <div class="page">
+
+        <main-header :title="'Crie seu drink'" />
+
         <div class="container">
             <div class="text-center">
                 <h2>Crie seu drink personalizado!</h2>
@@ -145,10 +148,15 @@
     import ilha_bela_baixo from '../../../assets/mockup/ilha_bela_baixo.png'
     import barone from '../../../assets/mockup/barone.png'
 
+    import mainHeader from '@/components/main-header.vue'
+
     export default {
 
         name: 'create-drink',
-        components: {vSelect},
+        components: {
+            vSelect,
+            mainHeader
+        },
         data () {
             return {
                 isNewDrink: true,

@@ -17,9 +17,6 @@ import Contact from './pages/contact.vue'
 import Simulator from './pages/simulator.vue'
 import { routes as auth } from './auth'
 
-//To test chart JS
-import TestChart from './drinks/test-chart.vue'
-
 
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_operator
 // Thus a new array is created, containing all objects that match the routes.
@@ -101,13 +98,6 @@ export default [
                 path: '/preferencias',
                 component: UserPreferences,
                 meta: { requiresAuth: true},
-            },
-
-            {
-                name: 'landing.user.testchart',
-                path: '/test-chart',
-                component: TestChart,
-                meta: { requiresAuth: false},
             },
 
             ,{
