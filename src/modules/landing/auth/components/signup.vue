@@ -1,11 +1,12 @@
 <template>
     <div>
 
+        <main-header :title="'Cadastre-se'" />
+
         <section id="login" v-if="$auth.ready()">
             <div class="container">
                 <div class="row m-b-30">
-                    <div class="col-lg-12">
-                        <h2 class="section-heading">Cadastre-se</h2>
+                    <div class="col-lg-12 text-center">
                         <h4 class="text-muted m-t-30">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
                     </div>
                 </div>
@@ -84,6 +85,11 @@
                         </div>
                     </div>
                 </div>
+
+                <p class="text-muted text-center">
+                    Já possui cadastro? <router-link :to="{name: 'landing.auth.login'}">Faça login.</router-link>
+                </p>
+
             </div>
         </section>
 
@@ -94,10 +100,15 @@
     import {mapGetters, mapActions} from 'vuex'
     import eventObj from '@/models/Event.js'
 
+    import mainHeader from '@/components/main-header.vue'
+
     var Swiper = require('swiper')
 
     export default {
         name: 'signup',
+        components: {
+            mainHeader
+        },
         data () {
             return {
                 interactions: {
@@ -174,13 +185,13 @@
                                 that.statusChangeCallback(response)
                             } else {
                                 alert('Facebook login failed: ' + response.error);
-                                
+
                                 var events = localStorage.getItem('events');
                                 localStorage.clear();
                                 localStorage.setItem('events', events);
-                        
+
                                 if(window.cordova){
-                                    window.cookies.clear();   
+                                    window.cookies.clear();
                                 }
                             }
                         }, {scope: 'public_profile,email'});
@@ -250,13 +261,13 @@
                     .catch(function (error) {
                         console.log(error)
                         errorNotify('Ops!', 'Erro ao efetuar login.')
-                        
+
                         var events = localStorage.getItem('events');
                         localStorage.clear();
                         localStorage.setItem('events', events);
 
                         if(window.cordova){
-                            window.cookies.clear();   
+                            window.cookies.clear();
                         }
                     });
             },
@@ -266,7 +277,7 @@
                 errorNotify('', error.message);
                 localStorage.clear();
                 if(window.cordova){
-                    window.cookies.clear();   
+                    window.cookies.clear();
                 }
             }
 

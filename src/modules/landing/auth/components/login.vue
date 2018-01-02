@@ -6,7 +6,7 @@
     <section id="login" v-if="$auth.ready()">
         <div class="container">
             <div class="row m-b-30">
-                <div class="col-lg-12">
+                <div class="col-lg-12 text-center">
                     <h4 class="text-muted m-t-30">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
                 </div>
             </div>
@@ -31,7 +31,6 @@
             </div>
 
             <div class="row m-t-20" v-if="interactions.showEmailLogin" @keydown.enter="login">
-
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="form-group">
                         <label>Email</label>
@@ -52,6 +51,11 @@
                     </div>
                 </div>
             </div>
+
+            <p class="text-muted text-center">
+                Não possui cadastro? <router-link :to="{name: 'landing.auth.signup'}">cadastre-se aqui.</router-link>
+            </p>
+
         </div>
     </section>
 
