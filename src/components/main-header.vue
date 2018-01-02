@@ -62,7 +62,9 @@
         },
         mounted(){
             this.setNavbarTransparent()
-            this.mountMenuHammer()
+            if (this.$route.path === '/') {
+                this.mountMenuHammer()
+            }
 
             var events = JSON.parse(localStorage.getItem('events'));
 
