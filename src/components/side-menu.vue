@@ -1,6 +1,6 @@
 <template lang="html">
     <div>
-        <div ref="sidemenu" id="side-menu-global-id" :class="isOpened ? 'side-menu active' : 'side-menu'">
+        <div ref="sidemenu" id="side-menu-global-id" class="side-menu active">
 
             <div class="items">
 
@@ -74,9 +74,9 @@
     export default {
         name: 'side-menu',
         props: {
-            isOpened: {
-                type: Boolean,
-                required: true
+            left: {
+                type: Number,
+                default: 0
             }
         },
         data() {
@@ -128,15 +128,15 @@
     .side-menu {
         position: fixed;
         top: 0;
-        left: -100vw;
+        left: 0;
         width: 250px;
         min-height: 100vh;
         background: #fff;
         z-index: 77777;
         box-shadow: 0 2px 4px rgba(0, 0, 0, .4);
-        transition: ease .4s;
         padding: 50px 0 0 0;
         overflow-y: scroll;
+        transform: translateX(-280px);
     }
 
     .side-menu-bg {
@@ -149,16 +149,10 @@
         bottom: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(0, 0, 0, .9);
+        background: rgba(0, 0, 0, 0);
         z-index: 66666;
         transition: ease .1s;
         padding: 0;
-    }
-
-    .side-menu.active + .side-menu-bg { display: block; }
-    .side-menu.active {
-        left: 0;
-        transition: ease .4s;
     }
 
     /* Menu Header */

@@ -34,6 +34,7 @@
         "izitoast": "^1.1.1",
         "jquery": "^3.2.1",
         "jquery.easing": "^1.4.1",
+        "jquery.transit": "^0.9.12",
         "moment": "^2.18.1",
         "slug": "^0.9.1",
         "sweetalert2": "^6.6.4",

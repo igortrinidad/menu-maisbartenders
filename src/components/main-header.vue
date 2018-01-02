@@ -1,7 +1,8 @@
 <template>
     <div>
 
-        <side-menu :isOpened="sideMenuStatus"></side-menu>
+        <side-menu v-if="title === 'logo'" />
+        <div id="hammer-menu" ref="hammerMenu" v-if="title === 'logo'"></div>
 
         <button type="button" class="hamburger" :class="{ 'back': title !== 'logo' }" @click="handleSideMenu()">
             <span class="line"></span>
@@ -25,8 +26,11 @@
 </template>
 
 <script>
-    import sideMenu from '@/components/side-menu.vue'
     import { mapGetters } from 'vuex'
+    import { transition } from 'jquery.transit'
+
+    import Hammer from 'hammerjs'
+    import sideMenu from '@/components/side-menu.vue'
 
     export default {
         name: 'main-header',
@@ -44,6 +48,8 @@
                 sideMenuStatus: false,
                 hasEventSaved: false,
                 navbarTransparent: false,
+                left: 0,
+                menu: false
             }
         },
         computed: {
@@ -56,6 +62,7 @@
         },
         mounted(){
             this.setNavbarTransparent()
+            this.mountMenuHammer()
 
             var events = JSON.parse(localStorage.getItem('events'));
 
@@ -74,9 +81,58 @@
                 }
             },
 
-            // toggleMenu() {
-            //     $('.hamburger').toggleClass('is-active')
-            // },
+            mountMenuHammer() {
+                let that = this
+                if (that.hammerMenu) {
+                    that.hammerMenu = false
+                }
+                that.hammerMenu = new Hammer(that.$refs.hammerMenu)
+                that.hammerMenu.get('pan').set({ direction: Hammer.DIRECTION_ALL })
+                that.hammerMenu.on('panleft panright panup pandown tap press', function(ev) {
+                    that.animateMenu(ev)
+                })
+                $(that.$refs.hammerMenu).bind('touchend', function(ev) {
+                    that.touchMenuEnd()
+                })
+            },
+
+            animateMenu(ev) {
+                this.left = ev.center.x
+                const x = -250 + this.left
+                $('.side-menu-bg').css({ display: 'block' })
+
+                if (this.left > 0 && this.left < 250) {
+                    $('#side-menu-global-id').transition({ y: 0, x: x }, 0)
+                    console.log(this.left/200);
+                    if (this.left/200 <= 0.9) {
+                        $('.side-menu-bg').transition({ background: `rgba(0, 0, 0, ${ this.left/200 })` }, 0)
+                    }
+                }
+            },
+
+            touchMenuEnd() {
+                // Fecha o menu
+                if (this.left < 100) {
+                    this.left = 0
+                    this.menu = false
+
+                    $('.hamburger').removeClass('is-active')
+                    $('.side-menu-bg').css({ display: 'none' })
+
+                    $('#side-menu-global-id').transition({ y: 0, x: -280 }, 300)
+                    $('.side-menu-bg').transition({ background: 'rgba(0, 0, 0, 0)' }, 300)
+                    $(this.$refs.hammerMenu).transition({ y: 0, x: 0 }, 0)
+                }
+                // Abre o menu
+                else {
+                    this.menu = true
+                    $('.side-menu-bg').css({ display: 'block' })
+                    $('.hamburger').addClass('is-active')
+                    $('#side-menu-global-id').transition({ y: 0, x: 0 }, 300)
+                    $(this.$refs.hammerMenu).transition({ y: 0, x: 260 }, 0)
+                    $('.side-menu-bg').transition({ background: 'rgba(0, 0, 0, 0.9' }, 300)
+                }
+            },
 
             handleSideMenu() {
                 var that = this
@@ -86,7 +142,16 @@
                     that.$router.go(-1)
 
                 } else {
-                    $('.hamburger').toggleClass('is-active')
+
+                    // toggle menu by click
+                    if (!that.menu) {
+                        that.left = 250
+                    } else {
+                        that.left = 0
+                    }
+
+                    that.touchMenuEnd()
+
 
                     if(!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline'){
 
@@ -225,6 +290,15 @@
 
     @media (max-width: 768px) {
         .hamburger { top: 23px; }
+    }
+
+    /* Hammer Menu */
+    #hammer-menu {
+        position: fixed;
+        top: 74px; left: -50px; bottom: 0;
+        width: 100px;
+        background: transparent;
+        z-index: 77777;
     }
 
 </style>
