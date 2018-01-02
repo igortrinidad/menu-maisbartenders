@@ -1,6 +1,6 @@
 <template>
     <div>
-        <main-header />
+        <main-header :title="'Casamento Fulano E Fulana'" />
     </div>
 </template>
 

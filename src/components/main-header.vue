@@ -5,113 +5,17 @@
 
         <nav class="navbar navbar-default navbar-fixed-top navbar-shrink" :class="navbarTransparent ? 'navbar-transparent transparent' : ''">
             <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                        <button
-                            type="button"
-                            id="navbar-menu-button"
-                            class="navbar-toggle"
-                            @click="handleSideMenu()"
-                        >
-                            <span class="sr-only">Toggle navigation</span> Menu
-                            <i :class="sideMenuStatus ? 'fa fa-close' : 'fa fa-bars'"></i>
-                        </button>
 
-                        <span style="padding-top: 25px;" disabled>
-                            <img src="../assets/logo_mb.png" class="logo-header" alt="Mais Bartenders" style="margin-top: 15px;">
-                        </span>
-                    </div>
+                <button type="button" class="hamburger" @click="toggleMenu()">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </button>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" aria-expanded="true">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="hidden">
-                            <a class="close-navbar-mb" href="#page-top"></a>
-                        </li>
-                        <li>
-                            <router-link
-                                :to="{name: 'landing.home.show'}"
-                                class="close-navbar-mb">
-                            Home
-                            </router-link>
-                        </li>
-                        <li>
-                            <router-link
-                                :to="{name: 'landing.events.list'}"
-                                class="close-navbar-mb">
-                            Eventos
-                            </router-link>
-                        </li>
-                        <li>
-                            <router-link
-                                :to="{name: 'landing.events-offline.list'}"
-                                class="close-navbar-mb">
-                            Eventos salvos
-                            </router-link>
-                        </li>
-                        <li>
-                            <router-link
-                                :to="{name: 'landing.drinks.list'}"
-                                class="close-navbar-mb">
-                            Cardápio Completo
-                            </router-link>
-                        </li>
-
-                        <li v-if="!isLogged">
-                            <router-link
-                                :to="{name: 'landing.auth.login'}"
-                                class="close-navbar-mb">
-                            Login
-                            </router-link>
-                        </li>
-
-                        <li v-if="!isLogged">
-                            <router-link
-                                :to="{name: 'landing.auth.signup'}"
-                                class="close-navbar-mb">
-                            Cadastre-se
-                            </router-link>
-                        </li>
-
-                        <li>
-                            <router-link
-                                :to="{name: 'landing.contact'}"
-                                class="close-navbar-mb">
-                            Contato
-                            </router-link>
-                        </li>
-
-                        <li class="dropdown"  v-if="isLogged">
-                            <a href="#" class="dropdown-toggle user-logged-name" data-toggle="dropdown">
-                                <img :src="userPhoto" alt="" class="img-circle" width="32">
-                                {{currentUser.full_name}} <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <router-link
-                                        :to="{name: 'landing.user.preferences'}"
-                                        class="close-navbar-mb">
-                                    Meus drinks
-                                    </router-link>
-                                    <router-link
-                                        :to="{name: 'landing.user.show'}"
-                                        class="close-navbar-mb">
-                                    Meu perfil
-                                    </router-link>
-
-                                    <router-link
-                                        :to="{name: 'landing.auth.logout'}"
-                                        class="close-navbar-mb">
-                                        Sair
-                                    </router-link>
-                                </li>
-
-                            </ul>
-                        </li>
-
-                    </ul>
+                <div class="text-center m-10">
+                    <img v-if="title === 'logo'" src="../assets/logo_mb.png" class="logo-header" alt="Mais Bartenders">
+                    <span v-if="title !== 'logo'" class="title-header t-overflow">{{ title }}</span>
                 </div>
-                <!-- /.navbar-collapse -->
             </div>
             <!-- /.container-fluid -->
         </nav>
@@ -124,6 +28,12 @@
 
     export default {
         name: 'main-header',
+        props: {
+            title: {
+                type: String,
+                required: true
+            }
+        },
         components: {
             sideMenu,
         },
@@ -162,8 +72,14 @@
                 }
             },
 
+            toggleMenu() {
+                $('.hamburger').toggleClass('is-active')
+            },
+
             handleSideMenu() {
                 var that = this
+
+                // $('hamburger').toggleClass("is-active")
 
                 if(!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline'){
 
@@ -209,85 +125,102 @@
 <style scoped>
 
     .navbar { transition: ease .4s !important; }
+
     .transparent {
         background-color: rgba(0, 0, 0, .2) !important;
         transition: ease .4s !important;
-    }
-
-    .mb-brand{
-        margin: 0px 0 0 15px;
-        font-size: 20px;
-    }
-
-    @media(max-width:768px){
-        .mb-brand{
-            margin: 10px 0 0 15px;
-        }
-
-        .navbar-default .navbar-toggle {
-            margin-top: 20px;
-        }
-    }
-
-    .user-logged-name{
-        top: -4px;
     }
 
     .navbar{
         z-index: 1000 !important;
     }
 
+    .title-header {
+        width: 100%;
+        color: #fff;
+        display: block;
+        margin-top: 19px;
+        padding: 0 0 0 30px;
+        font-weight: 700;
+    }
+
     .logo-header{
         width: 110px;
-        margin-top: 0px;
+        margin-top: 10px;
     }
 
-/* NAV BAR BREAKPOINT TO COLLAPSE ON IPAD AND OTHERS SMALL SCREENS */
-@media (max-width: 1200px) {
+    /* NAV BAR BREAKPOINT TO COLLAPSE ON IPAD AND OTHERS SMALL SCREENS */
+    @media (max-width: 1200px) {
 
-    .logo-header{
-        width: 90px;
-        margin-top: 7px;
-        margin-left: 15px;
+        .logo-header{
+            width: 90px;
+        }
+
     }
-    .navbar-header {
-        float: none;
+
+    /* Hamburger Button Effect */
+
+    .hamburger {
+        background: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        width: 30px;
+        position: absolute;
+        top: calc(50% - 14.5px); left: 15px;
     }
-    .navbar-left,.navbar-right {
-        float: none !important;
+
+    .hamburger:focus { outline: none; }
+
+    .hamburger.is-active {
+      animation: smallbig 0.6s forwards;
     }
-    .navbar-toggle {
+
+    .hamburger .line {
+        width: 100%;
+        height: 3px;
+        background-color: #f7941e;
         display: block;
+        margin: 5px 0;
+        transition: all 0.3s ease-in-out;
+        border-radius: 4px;
     }
-    .navbar-collapse {
-        border-top: 1px solid transparent;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-    }
-    .navbar-fixed-top {
-        top: 0;
-        border-width: 0 0 1px;
-    }
-    .navbar-collapse.collapse {
-        display: none!important;
-    }
-    .navbar-nav {
-        float: none!important;
-        margin-top: 7.5px;
-    }
-    .navbar-nav>li {
-        float: none;
-    }
-    .navbar-nav>li>a {
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-    .collapse.in{
-        display:block !important;
-    }
-}
 
+    .hamburger.is-active .line:nth-child(1),
+    .hamburger.is-active .line:nth-child(2),
+    .hamburger.is-active .line:nth-child(3) {
+      transition-delay: 0.2s;
+    }
 
+    .hamburger.is-active .line:nth-child(2) {
+      opacity: 0;
+    }
 
-/* NAV BAR BREAKPOINT TO COLLAPSE ON IPAD AND OTHERS SMALL SCREENS */
+    .hamburger.is-active .line:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.is-active .line:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    @keyframes smallbig {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(0);
+        }
+    }
+
+    /* Text OverFlow */
+    .t-overflow {
+        overflow: hidden;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
 </style>
