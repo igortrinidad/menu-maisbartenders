@@ -1,27 +1,21 @@
 <template>
     <div>
         <main-loader></main-loader>
-
-        <app-header></app-header>
-
         <router-view></router-view>
-
-        <app-footer></app-footer>
-
     </div>
 </template>
 
 <script>
-    import appHeader from './partials/header.vue'
-    import appFooter from './partials/footer.vue'
-    import mainLoader from '@/components/main-loader.vue'
     import { mapGetters, mapActions } from 'vuex'
+
+    // import appHeader from './partials/header.vue'
+    // import appFooter from './partials/footer.vue'
+
+    import mainLoader from '@/components/main-loader.vue'
 
     export default{
         name: 'landing-layout',
         components:{
-            appHeader,
-            appFooter,
             mainLoader
         },
         data(){
