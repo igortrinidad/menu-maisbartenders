@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <side-menu v-if="title === 'logo'" />
         <div id="hammer-menu" ref="hammerMenu" v-if="title === 'logo'"></div>
 
@@ -49,7 +48,8 @@
                 hasEventSaved: false,
                 navbarTransparent: false,
                 left: 0,
-                menu: false
+                menu: false,
+                rotateIcon: 0
             }
         },
         computed: {
@@ -101,10 +101,30 @@
             animateMenu(ev) {
                 this.left = ev.center.x
                 const x = -250 + this.left
+
+                // Animate Icon
+                if (ev.type === 'panright') {
+                    this.rotateIcon++
+                }
+                if (ev.type === 'panleft') {
+                    this.rotateIcon--
+                }
+                if (this.rotateIcon >= 0 && this.rotateIcon <= 45) {
+                    $('.hamburger .line:nth-child(1)').transition({ top: '8px', rotate: `-${ this.rotateIcon }deg` }, 0);
+                    $('.hamburger .line:nth-child(2)').css({ opacity: 0 });
+                    $('.hamburger .line:nth-child(3)').transition({ top: '-8px', rotate: `${ this.rotateIcon }deg` }, 0);
+                }
+
+                // Display overlay
                 $('.side-menu-bg').css({ display: 'block' })
 
+                // Move Menu Content && Animate Overlay
                 if (this.left > 0 && this.left < 250) {
+
+                    // Move Menu Content
                     $('#side-menu-global-id').transition({ y: 0, x: x }, 0)
+
+                    // Animate Overlay
                     if (this.left/200 <= 0.9) {
                         $('.side-menu-bg').transition({ background: `rgba(0, 0, 0, ${ this.left/200 })` }, 0)
                     }
@@ -117,7 +137,7 @@
                     this.left = 0
                     this.menu = false
 
-                    $('.hamburger').removeClass('is-active')
+                    this.fixIcon(false)
                     $('.side-menu-bg').css({ display: 'none' })
 
                     $('#side-menu-global-id').transition({ y: 0, x: -280 }, 300)
@@ -127,11 +147,23 @@
                 // Abre o menu
                 else {
                     this.menu = true
-                    $('.side-menu-bg').css({ display: 'block' })
+                    this.fixIcon(true)
                     $('.hamburger').addClass('is-active')
                     $('#side-menu-global-id').transition({ y: 0, x: 0 }, 300)
                     $(this.$refs.hammerMenu).transition({ y: 0, x: 260 }, 0)
                     $('.side-menu-bg').transition({ background: 'rgba(0, 0, 0, 0.9' }, 300)
+                }
+            },
+
+            fixIcon(toOpen) {
+                if (toOpen) {
+                    $('.hamburger .line:nth-child(1)').transition({ top: '8px', rotate: `-45deg` }, 300);
+                    $('.hamburger .line:nth-child(2)').transition({ opacity: 0 });
+                    $('.hamburger .line:nth-child(3)').transition({ top: '-8px', rotate: `45deg` }, 300);
+                } else {
+                    $('.hamburger .line:nth-child(1)').transition({ top: '0', rotate: `0deg` }, 300);
+                    $('.hamburger .line:nth-child(2)').transition({ opacity: 1 });
+                    $('.hamburger .line:nth-child(3)').transition({ top: '0', rotate: `0deg` }, 300);
                 }
             },
 
@@ -251,26 +283,8 @@
         background-color: #f7941e;
         display: block;
         margin: 5px 0;
-        transition: all 0.3s ease-in-out;
         border-radius: 4px;
-    }
-
-    .hamburger.is-active .line:nth-child(1),
-    .hamburger.is-active .line:nth-child(2),
-    .hamburger.is-active .line:nth-child(3) {
-      transition-delay: 0.2s;
-    }
-
-    .hamburger.is-active .line:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.is-active .line:nth-child(1) {
-      transform: translateY(8px) rotate(45deg);
-    }
-
-    .hamburger.is-active .line:nth-child(3) {
-      transform: translateY(-8px) rotate(-45deg);
+        position: relative;
     }
 
     @keyframes smallbig {
