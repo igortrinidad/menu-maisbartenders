@@ -156,19 +156,9 @@
     }
 
     .logo-header{
-        width: 110px;
+        width: 90px;
         margin-top: 10px;
     }
-
-    /* NAV BAR BREAKPOINT TO COLLAPSE ON IPAD AND OTHERS SMALL SCREENS */
-    @media (max-width: 1200px) {
-
-        .logo-header{
-            width: 90px;
-        }
-
-    }
-
     /* Hamburger Button Effect */
 
     .hamburger {
@@ -179,7 +169,7 @@
         transition: all 0.3s ease-in-out;
         width: 30px;
         position: fixed;
-        top: 23px; left: 15px;
+        top: 33px; left: 15px;
         z-index: 99999;
     }
 
@@ -232,6 +222,10 @@
     .hamburger.back .line:nth-child(1) { transform: translateY(2px) rotate(-45deg); }
     .hamburger.back .line:nth-child(2) { opacity: 0; }
     .hamburger.back .line:nth-child(3) { transform: translateY(-2px) rotate(45deg); }
+
+    @media (max-width: 768px) {
+        .hamburger { top: 23px; }
+    }
 
 </style>
 
