@@ -7,67 +7,64 @@
 
             <div class="items">
 
-
                     <!-- MENU -->
-                    <div>
-                        <ul class="main-menu">
-                            <li>
-                                <a href="#" class="text-center" @click="$('#navbar-menu-button').click()">Fechar menu</a>
-                            </li>
-                            <li class="sub-menu"  v-if="isLogged && isOnline">
-                                <a href="#" class="sub-menu user-logged-name">
-                                    <img :src="userPhoto" alt="" class="img-circle" width="32">
-                                    {{currentUser.full_name}}
-                                </a>
-                                <ul>
-                                    <li>
-                                        <router-link :to="{name: 'landing.user.preferences'}">Meus drinks</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link :to="{name: 'landing.user.show'}">Meu perfil</router-link>
-                                    </li>
-                                </ul>
-                            </li>
+                <div>
+                    <ul class="main-menu">
+                        <li class="sub-menu"  v-if="isLogged && isOnline">
+                            <a href="#" class="sub-menu user-logged-name">
+                                <img :src="userPhoto" alt="" class="img-circle" width="32">
+                                {{currentUser.full_name}}
+                            </a>
+                            <ul>
+                                <li>
+                                    <router-link :to="{name: 'landing.user.preferences'}">Meus drinks</router-link>
+                                </li>
+                                <li>
+                                    <router-link :to="{name: 'landing.user.show'}">Meu perfil</router-link>
+                                </li>
+                            </ul>
+                        </li>
 
-                            <li>
-                                <router-link :to="{name: 'landing.home.show'}" exact>Home</router-link>
-                            </li>
+                        <li>
+                            <router-link :to="{name: 'landing.home.show'}" exact>Home</router-link>
+                        </li>
 
-                            <li>
-                                <router-link :to="{name: 'landing.events.list'}" exact>Eventos</router-link>
-                            </li>
-                            <li>
-                                <router-link :to="{name: 'landing.events-offline.list'}" exact>Eventos salvos</router-link>
-                            </li>
+                        <li>
+                            <router-link :to="{name: 'landing.events.list'}" exact>Eventos</router-link>
+                        </li>
+                        <li>
+                            <router-link :to="{name: 'landing.events-offline.list'}" exact>Eventos salvos</router-link>
+                        </li>
 
-                            <li>
-                                <router-link :to="{name: 'landing.drinks.list'}">Cardápio completo</router-link>
-                            </li>
+                        <li>
+                            <router-link :to="{name: 'landing.drinks.list'}">Cardápio completo</router-link>
+                        </li>
 
-                            <li v-if="!isLogged">
-                                <router-link :to="{name: 'landing.auth.login'}" v-if="isOnline">Login</router-link>
-                            </li>
-                            <li v-if="!isLogged">
-                                <router-link :to="{name: 'landing.auth.signup'}" v-if="isOnline">Cadastre-se</router-link>
-                            </li>
+                        <li v-if="!isLogged">
+                            <router-link :to="{name: 'landing.auth.login'}" v-if="isOnline">Login</router-link>
+                        </li>
+                        <li v-if="!isLogged">
+                            <router-link :to="{name: 'landing.auth.signup'}" v-if="isOnline">Cadastre-se</router-link>
+                        </li>
 
-                            <li>
-                                <router-link :to="{name: 'landing.contact'}">Contato</router-link>
-                            </li>
+                        <li>
+                            <router-link :to="{name: 'landing.contact'}">Contato</router-link>
+                        </li>
 
-                            <li>
-                                <router-link :to="{name: 'landing.simulator'}">Simulador</router-link>
-                            </li>
+                        <li>
+                            <router-link :to="{name: 'landing.simulator'}">Simulador</router-link>
+                        </li>
 
-                            <li v-if="isLogged">
-                                <router-link :to="{name: 'landing.auth.logout'}" exact v-if="isOnline">Sair</router-link>
-                            </li>
+                        <li v-if="isLogged">
+                            <router-link :to="{name: 'landing.auth.logout'}" exact v-if="isOnline">Sair</router-link>
+                        </li>
 
-                        </ul>
-                    </div>
+                    </ul>
+                </div>
 
             </div>
         </div>
+
         <div class="side-menu-bg" id="side-menu-bg"></div>
 
     </div>

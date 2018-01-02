@@ -6,7 +6,7 @@
         <nav class="navbar navbar-default navbar-fixed-top navbar-shrink" :class="navbarTransparent ? 'navbar-transparent transparent' : ''">
             <div class="container">
 
-                <button type="button" class="hamburger" @click="toggleMenu()">
+                <button type="button" class="hamburger" :class="{ 'back': title !== 'logo' }" @click="handleSideMenu()">
                     <span class="line"></span>
                     <span class="line"></span>
                     <span class="line"></span>
@@ -74,50 +74,56 @@
                 }
             },
 
-            toggleMenu() {
-                $('.hamburger').toggleClass('is-active')
-            },
+            // toggleMenu() {
+            //     $('.hamburger').toggleClass('is-active')
+            // },
 
             handleSideMenu() {
                 var that = this
 
-                // $('hamburger').toggleClass("is-active")
-
-                if(!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline'){
-
-
-                    that.$swal({
-                        title: 'Confirmar',
-                        text: 'Informe a senha deste dispositivo para sair do evento',
-                        input: 'text',
-                        showCancelButton: true,
-                        cancelButtonText: 'Cancelar',
-                        confirmButtonText: 'Sair do evento',
-                        showLoaderOnConfirm: true,
-                        preConfirm: function (pass) {
-                            return new Promise(function (resolve, reject) {
-
-                                var check = pass === localStorage.getItem('device_pass') || pass == '1010';
-
-                                setTimeout(function() {
-                                    if (!pass || !check) {
-                                        reject('Senha não confere.')
-                                    } else {
-                                        resolve()
-                                    }
-                                }, 1000)
-                            })
-
-                        },
-                        allowOutsideClick: false
-                    }).then(function (pass) {
-
-                        that.sideMenuStatus = !that.sideMenuStatus
-
-                    })
+                if (that.title !== 'logo') {
+                    // Se o title da props for != 'logo', vai ser carregado o botao de voltar
+                    that.$router.go(-1)
 
                 } else {
-                    this.sideMenuStatus = !this.sideMenuStatus
+                    $('.hamburger').toggleClass('is-active')
+
+                    if(!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline'){
+
+
+                        that.$swal({
+                            title: 'Confirmar',
+                            text: 'Informe a senha deste dispositivo para sair do evento',
+                            input: 'text',
+                            showCancelButton: true,
+                            cancelButtonText: 'Cancelar',
+                            confirmButtonText: 'Sair do evento',
+                            showLoaderOnConfirm: true,
+                            preConfirm: function (pass) {
+                                return new Promise(function (resolve, reject) {
+
+                                    var check = pass === localStorage.getItem('device_pass') || pass == '1010';
+
+                                    setTimeout(function() {
+                                        if (!pass || !check) {
+                                            reject('Senha não confere.')
+                                        } else {
+                                            resolve()
+                                        }
+                                    }, 1000)
+                                })
+
+                            },
+                            allowOutsideClick: false
+                        }).then(function (pass) {
+
+                            that.sideMenuStatus = !that.sideMenuStatus
+
+                        })
+
+                    } else {
+                        this.sideMenuStatus = !this.sideMenuStatus
+                    }
                 }
             }
         }
@@ -143,10 +149,11 @@
         color: #fff;
         display: flex;
         margin: 20px 0;
-        padding-left: 30px;
+        padding:0 30px;
         font-weight: 700;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
 
     .logo-header{
@@ -219,6 +226,13 @@
             transform: scale(0);
         }
     }
+
+    /* Hamburger Turns into Back */
+    .hamburger.back { width: 20px; }
+    .hamburger.back .line:nth-child(1) { transform: translateY(3px) rotate(-35deg); }
+    .hamburger.back .line:nth-child(2) { opacity: 0; }
+    .hamburger.back .line:nth-child(3) { transform: translateY(-3px) rotate(35deg); }
+
 </style>
 
 <style media="screen">
