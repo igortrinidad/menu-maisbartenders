@@ -14,7 +14,9 @@
 
                 <div class="text-center m-10">
                     <img v-if="title === 'logo'" src="../assets/logo_mb.png" class="logo-header" alt="Mais Bartenders">
-                    <span v-if="title !== 'logo'" class="title-header t-overflow">{{ title }}</span>
+                    <span v-if="title !== 'logo'" class="title-header">
+                        <span class="t-overflow">{{ title }}</span>
+                    </span>
                 </div>
             </div>
             <!-- /.container-fluid -->
@@ -137,11 +139,14 @@
 
     .title-header {
         width: 100%;
+        height: 43px;
         color: #fff;
-        display: block;
-        margin-top: 19px;
-        padding: 0 0 0 30px;
+        display: flex;
+        margin: 20px 0;
+        padding-left: 30px;
         font-weight: 700;
+        display: flex;
+        align-items: center;
     }
 
     .logo-header{
@@ -214,13 +219,15 @@
             transform: scale(0);
         }
     }
+</style>
 
-    /* Text OverFlow */
-    .t-overflow {
-        overflow: hidden;
-        text-decoration: none;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+<style media="screen">
 
+/* Text OverFlow */
+.t-overflow {
+    overflow: hidden;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 </style>
