@@ -12,6 +12,11 @@ html, body {
     font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+body {
+    min-height: 100vh !important;
+}
+
+
 .text-muted {
     color: #777;
 }
