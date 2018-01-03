@@ -23,11 +23,11 @@
                     </g>
                 </svg>
             </div>
-            <h4 class="title-section">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
+            <h4 class="title-section m-b-20 m-t-10">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
 
             <!-- Login Options -->
-            <div class="text-center m-t-30 m-b-30">
-                <button class="btn btn-mb-facebook btn-block m-b-30" @click="facebookLogin()">
+            <div class="text-center m-b-10">
+                <button class="btn btn-mb-facebook btn-block m-b-10" @click="facebookLogin()">
                     Cadastrar Facebook
                 </button>
 
