@@ -75,6 +75,43 @@
 
             <section id="drinks">
                 <div class="container">
+                    <div class="container">
+                        <div class="filter">
+                            <div class="text-center">
+                                <h2>Categorias: </h2>
+                                <p class="sub-header">Selecione uma ou mais categorias.</p>
+                            </div>
+
+                            <div class="tags-list">
+                                <div class="tags">
+                                    <div class="tag">
+                                        <button
+                                            type="button"
+                                            :class="{'tag-selected': interactions.showCategories}"
+                                            @click="interactions.showCategories = !interactions.showCategories"
+                                        >
+                                            <span class="tag-name">Mostrar categorias</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tags-list" v-if="interactions.showCategories">
+                                <div class="tags">
+                                    <div class="tag" v-for="category in event.drink_categories">
+                                        <button
+                                            class="button-tag"
+                                            :class="{ 'tag-selected': filterCategory.indexOf(category.slug_pt) > -1 }"
+                                            type="button"
+                                            @click="applyCategoryFilter(category.slug_pt, $event)"
+                                        >{{ category.name_pt }}<span class="close-tag">x</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="filter">
                         <div class="text-center">
                             <h3>Ingredientes:</h3>
@@ -220,13 +257,12 @@
                                 </div>
                             </span>
 
-                            <div v-if="pagination.total > 0">
-                                <pagination
-                                    :source="pagination"
-                                    @navigate="navigate"
-                                    :paginator-class="'pagination-sm'"
-                                >
-                                </pagination>
+                            <div class="row">
+                                <div class="col-sm-12" v-show="comments.length">
+                                    <div class="text-center">
+                                        <pagination :source="pagination" @navigate="navigate" :range="6"></pagination>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -428,6 +464,7 @@
     import drinkObj from '../../../models/Drink.js'
 
     import mainHeader from '@/components/main-header.vue'
+    import pagination from '@/components/pagination'
 
     var moment = require('moment');
 
@@ -453,7 +490,7 @@
     export default {
         name: 'show-event',
         components: {
-            pagination: require('@/components/pagination.vue'),
+            pagination,
             mainHeader
         },
         data () {
@@ -468,7 +505,8 @@
                     drinkSelected: drinkObj,
                     showTags: false,
                     drinksToShowInfo: [],
-                    search: ''
+                    search: '',
+                    showCategories: false
                 },
                 filterOptions: [],
                 eventFound: true,
@@ -491,6 +529,7 @@
                     comment: '',
                     accept_mailling: false,
                 },
+                filterCategory: []
             }
         },
         computed: {
@@ -541,7 +580,7 @@
 
 
                 var arr2 = arr.filter(function (drink) {
-                    return that.checkIfDrinkHasItem(drink)
+                    return that.checkIfDrinkHasItem(drink) && that.checkIfDrinkHasCategory(drink)
                 })
 
                 return arr2;
@@ -552,7 +591,7 @@
 
                 var arr = [];
 
-                that.event.drinks.map((drink) => {
+                that.drinksFiltered.map((drink) => {
                     drink.items.map((item) => {
                         if(item.pivot.is_visible){
                             if (arr.checkFromAttr('name', item.name)) {
@@ -636,7 +675,7 @@
 
             this.getEvent();
             this.getEventComments();
-            this.initSwiper();
+
         },
 
         filters: {
@@ -799,6 +838,17 @@
                 )
             },
 
+            checkIfDrinkHasCategory: function (drink) {
+
+                if (!this.filterCategory.length) return true
+                return (
+                    _.chain(drink.categories)
+                        .map((i) => i.slug_pt)
+                        .some(item => this.filterCategory.includes(item))
+                        .value()
+                )
+            },
+
             applyFilterOptions: function (item, event) {
                 const index = this.filterOptions.indexOf(item)
 
@@ -902,6 +952,7 @@
                 that.newMessage.event_id = that.event.id;
                 that.getFormatedDates();
                 that.checkRemainTime();
+                that.initSwiper();
             },
 
             showDrink: function(drink){
@@ -1039,6 +1090,16 @@
                     successNotify('', 'Evento salvo no dispositivo.')
                 }
             },
+
+            applyCategoryFilter(category_slug){
+                let index = this.filterCategory.indexOf(category_slug)
+
+                if (index > -1) {
+                    this.filterCategory.splice(index, 1)
+                } else {
+                    this.filterCategory.push(category_slug)
+                }
+            }
         }
     }
 </script>

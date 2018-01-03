@@ -73,7 +73,8 @@
     export default {
         name: 'list-events',
         components: {
-            mainHeader
+            mainHeader,
+            pagination
         },
         data () {
             return {

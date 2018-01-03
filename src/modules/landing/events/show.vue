@@ -90,7 +90,7 @@
                         <div class="swiper-container gallery-top" ref="swiper">
                             <div class="swiper-wrapper">
 
-                                <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index" >
+                                <div class="swiper-slide" v-for="(drink, index) in especialDrinks" :key="index" >
                                     <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
                                     <!--
                                     <span class="swiper-stars">
@@ -120,6 +120,43 @@
             </section>
 
             <section id="drinks" class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
+                <div class="container">
+                    <div class="filter">
+                        <div class="text-center">
+                            <h2>Categorias: </h2>
+                            <p class="sub-header">Selecione uma ou mais categorias.</p>
+                        </div>
+
+                        <div class="tags-list">
+                            <div class="tags">
+                                <div class="tag">
+                                    <button
+                                        type="button"
+                                        :class="{'tag-selected': interactions.showCategories}"
+                                        @click="interactions.showCategories = !interactions.showCategories"
+                                    >
+                                        <span class="tag-name">Mostrar categorias</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tags-list" v-if="interactions.showCategories">
+                            <div class="tags">
+                                <div class="tag" v-for="category in event.drink_categories">
+                                    <button
+                                        class="button-tag"
+                                        :class="{ 'tag-selected': filterCategory.indexOf(category.slug_pt) > -1 }"
+                                        type="button"
+                                        @click="applyCategoryFilter(category.slug_pt, $event)"
+                                    >{{ category.name_pt }}<span class="close-tag">x</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="container">
                     <div class="filter">
                         <div class="text-center">
@@ -357,13 +394,12 @@
                                 </div>
                             </span>
 
-                            <div v-if="pagination.total > 0">
-                                <pagination
-                                    :source="pagination"
-                                    @navigate="navigate"
-                                    :paginator-class="'pagination-sm'"
-                                >
-                                </pagination>
+                            <div class="row">
+                                <div class="col-sm-12" v-show="comments.length">
+                                    <div class="text-center">
+                                        <pagination :source="pagination" @navigate="navigate" :range="6"></pagination>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -478,13 +514,14 @@
     import moment from 'moment'
 
     import mainHeader from '@/components/main-header.vue'
+    import pagination from '@/components/pagination'
 
     var Swiper = require('swiper')
 
     export default {
         name: 'show-event',
         components: {
-            pagination: require('@/components/pagination.vue'),
+            pagination,
             mainHeader
         },
         data () {
@@ -498,6 +535,8 @@
                     drinkSelected: drinkObj,
                     showTags: false,
                     drinksToShowInfo: [],
+                    drinksToShowInfo: [],
+                    showCategories: false
                 },
                 eventHasHappened: false,
                 filterOptions: [],
@@ -512,7 +551,8 @@
                     hours: 0,
                     minutes: 0,
                     seconds: 0
-                }
+                },
+                filterCategory: []
             }
         },
         computed: {
@@ -549,7 +589,7 @@
             drinksFiltered: function () {
                 var that = this
                 var arr = this.event.drinks.filter(function (drink) {
-                    return that.checkIfDrinkHasItem(drink)
+                    return that.checkIfDrinkHasItem(drink) && that.checkIfDrinkHasCategory(drink)
                 })
 
                 return arr;
@@ -560,7 +600,7 @@
 
                 var arr = [];
 
-                that.event.drinks.map((drink) => {
+                that.drinksFiltered.map((drink) => {
                     drink.items.map((item) => {
                         if(item.pivot.is_visible){
                             if (arr.checkFromAttr('name', item.name)) {
@@ -644,7 +684,7 @@
 
             this.getEvent();
             this.getEventComments();
-            this.initSwiper();
+
         },
 
         filters: {
@@ -743,6 +783,17 @@
                     _.chain(drink.items)
                         .map((i) => i.name)
                         .some(item => this.filterOptions.includes(item))
+                        .value()
+                )
+            },
+
+            checkIfDrinkHasCategory: function (drink) {
+
+                if (!this.filterCategory.length) return true
+                return (
+                    _.chain(drink.categories)
+                        .map((i) => i.slug_pt)
+                        .some(item => this.filterCategory.includes(item))
                         .value()
                 )
             },
@@ -859,6 +910,7 @@
                         })
                         that.event.drink_categories = _.orderBy(that.event.drink_categories,['name_pt'], ['asc'])
                         that.checkRemainTime();
+                        that.initSwiper();
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -1095,6 +1147,16 @@
 
 
             },
+
+            applyCategoryFilter(category_slug){
+                let index = this.filterCategory.indexOf(category_slug)
+
+                if (index > -1) {
+                    this.filterCategory.splice(index, 1)
+                } else {
+                    this.filterCategory.push(category_slug)
+                }
+            }
         }
     }
 </script>
