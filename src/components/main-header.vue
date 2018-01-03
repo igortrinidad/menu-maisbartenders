@@ -148,6 +148,7 @@
                 else {
                     this.menu = true
                     this.fixIcon(true)
+                    $('.side-menu-bg').css({ display: 'block' })
                     $('.hamburger').addClass('is-active')
                     $('#side-menu-global-id').transition({ y: 0, x: 0 }, 300)
                     $(this.$refs.hammerMenu).transition({ y: 0, x: 260 }, 0)
