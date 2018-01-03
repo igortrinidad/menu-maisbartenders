@@ -1,5 +1,8 @@
 <template>
     <div class="page">
+
+        <main-header :title="'Meus drinks'" />
+
         <div>
             <div class="container m-t-30 text-center">
                 <h2>Meus drinks</h2>
@@ -144,12 +147,17 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex'
+    import mainHeader from '@/components/main-header.vue'
+
     import userObj from '../../../models/User.js'
 
     var Swiper = require('swiper')
 
     export default {
         name: 'user-preferences',
+        components: {
+            mainHeader
+        },
         data () {
             return {
                 interactions: {

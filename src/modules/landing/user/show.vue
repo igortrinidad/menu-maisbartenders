@@ -1,6 +1,8 @@
 <template>
    <div class="page">
 
+       <main-header :title="'Meus dados'" />
+
         <div class="container">
             <div class="m-t-30 text-center">
                 <h2>Meus dados</h2>
@@ -105,12 +107,12 @@
                                         <i class="fa fa-facebook fa-lg button-icon"></i>
                                         {{interactions.socialProviders.facebook ? 'Conectado ao' : 'Conectar com'}} Facebook
                                     </button>
-                                    
+
                                 </div>
                             </div>
 
                         </div>
-                        
+
                         <hr>
                         <div class="form-group">
                             <button class="btn btn-xl btn-block btn-primary" @click.prevent="save()">Atualizar cadastro</button>
@@ -126,6 +128,7 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex'
+    import mainHeader from '@/components/main-header.vue'
     import userObj from '../../../models/User.js'
     import {cloneDeep} from 'lodash'
 
@@ -133,6 +136,9 @@
 
     export default {
         name: 'show-user',
+        components: {
+            mainHeader
+        },
         data () {
             return {
                 interactions: {
