@@ -1,3 +1,7 @@
-body {
-    min-height: 200vh;
+.card {
+    border-radius: 10px;
+}
+
+.card-title {
+    color: #222;
 }

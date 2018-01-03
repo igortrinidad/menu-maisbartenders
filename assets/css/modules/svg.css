@@ -11,7 +11,7 @@ path.fix { transform: translate(2px, 2px); }
 path.non-fill.animated {
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
-    animation: draw 1.5s linear forwards;
+    animation: draw 1s linear forwards;
 }
 
 @keyframes draw {

@@ -3,3 +3,20 @@ body {
     background-color: #FFF;
     color: #FB923B;
 }
+
+.container-colored {
+    background-color: #FB923B;
+    padding: 30px 0;
+    box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, .1);
+}
+
+.first-container {
+    padding-top: 130px;
+    overflow-y: hidden;
+}
+
+@media (max-width: 768px) {
+    .first-container {
+        padding-top: 110px;
+    }
+}

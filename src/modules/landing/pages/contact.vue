@@ -1,13 +1,13 @@
 <template lang="html">
-    <section>
+    <div class="first-container">
 
         <main-header :title="'Entre em contato'" />
 
-        <div class="container">
 
+        <!-- Icon SVG + Title -->
+        <div class="container">
             <div class="svg-container">
                 <svg viewBox="0 0 90 90">
-
                     <defs>
                         <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
                             <stop offset="0%"   stop-color="#FB923B"/>
@@ -29,86 +29,97 @@
             </div>
 
             <h4 class="title-section">Contrate o melhor BAR para sua festa</h4>
-
-            <!-- Card Form -->
-            <div class="card">
-                <div class="card-body card-padding">
-                    <form @submit.prevent="submitForm()">
-                        <div class="form-group">
-                            <label class="cursor-pointer" for="contact-name">Nome</label>
-                            <input
-                                id="contact-name"
-                                class="form-control"
-                                placeholder="Seu nome"
-                                type="text"
-                                v-model="contact.name"
-                            >
-                        </div>
-                        <div class="form-group">
-                            <label class="cursor-pointer" for="contact-email">E-mail</label>
-                            <input
-                                id="contact-email"
-                                class="form-control"
-                                placeholder="Seu E-mail"
-                                type="email"
-                                v-model="contact.email"
-                            >
-                        </div>
-                        <div class="form-group">
-                            <label class="cursor-pointer" for="contact-phone">Celular</label>
-                            <input
-                                id="contact-phone"
-                                class="form-control"
-                                placeholder="Seu número de ceular com ddd"
-                                type="text"
-                                v-model="contact.phone"
-                            >
-                        </div>
-                        <div class="form-group">
-                            <label for="drink-style">Assunto</label>
-                            <v-select
-                                id="drink-style"
-                                :label="'name'"
-                                :options="services"
-                                :multiple="false"
-                                placeholder="Escolha uma opção."
-                                v-model="contact.subject"
-                            >
-                                <span slot="no-options">Não foi possível localizar uma opção :(</span>
-                            </v-select>
-                        </div>
-                        <div class="form-group">
-                            <label class="cursor-pointer" for="contact-msg">Mensagem</label>
-                            <textarea
-                                id="contact-msg"
-                                class="form-control"
-                                placeholder="Sua mensagem"
-                                type="text"
-                                v-model="contact.message"
-                            >
-                            </textarea>
-                        </div>
-                        <button class="btn btn-block btn-xl m-t-30" type="submit">Enviar</button>
-                    </form>
-                </div>
-            </div>
-            <!-- / Card Form -->
-
-            <!-- Card Call -->
-            <div class="card text-center">
-                <div class="card-body card-padding">
-                    <button title="Clique para enviar uma mensagem no WhatsApp!" @click="openWhatsapp()" class="btn btn-xl btn-block inline">Envie um WhatsApp agora</button>
-
-                    <p class="m-t-10 text-description">ou clique para ligar</p>
-
-                    <a title="Clique para ligar!" class="btn btn-xl btn-block inline" href="tel:31 3296-5673">31 3296-5673</a>
-                    <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="tel:31 98213-4820">31 98213-4820</a>
-                </div>
-            </div>
-            <!-- / Card Call -->
-
         </div>
-    </section>
+
+        <div class="container-colored">
+            <div class="container">
+                <!-- Card Form -->
+                <div class="card">
+                    <div class="card-body card-padding">
+                        <form @submit.prevent="submitForm()">
+                            <div class="form-group">
+                                <label class="cursor-pointer" for="contact-name">Nome</label>
+                                <input
+                                    id="contact-name"
+                                    class="form-control"
+                                    placeholder="Seu nome"
+                                    type="text"
+                                    v-model="contact.name"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label class="cursor-pointer" for="contact-email">E-mail</label>
+                                <input
+                                    id="contact-email"
+                                    class="form-control"
+                                    placeholder="Seu E-mail"
+                                    type="email"
+                                    v-model="contact.email"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label class="cursor-pointer" for="contact-phone">Celular</label>
+                                <input
+                                    id="contact-phone"
+                                    class="form-control"
+                                    placeholder="Seu número de ceular com ddd"
+                                    type="text"
+                                    v-model="contact.phone"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="drink-style">Assunto</label>
+                                <v-select
+                                    id="drink-style"
+                                    :label="'name'"
+                                    :options="services"
+                                    :multiple="false"
+                                    placeholder="Escolha uma opção."
+                                    v-model="contact.subject"
+                                >
+                                    <span slot="no-options">Não foi possível localizar uma opção :(</span>
+                                </v-select>
+                            </div>
+                            <div class="form-group">
+                                <label class="cursor-pointer" for="contact-msg">Mensagem</label>
+                                <textarea
+                                    id="contact-msg"
+                                    class="form-control"
+                                    placeholder="Sua mensagem"
+                                    type="text"
+                                    v-model="contact.message"
+                                >
+                                </textarea>
+                            </div>
+
+                            <div class="text-center m-t-30">
+                                <button class="btn btn-mb-primary" type="submit">Deixe sua mensagem</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- / Card Form -->
+
+                <!-- Card Call -->
+                <div class="card text-center m-b-0">
+                    <div class="card-body card-padding">
+
+                        <h5 class="card-title">WhatsApp <i class="fa fa-whatsapp"></i></h5>
+
+                        <button title="Clique para enviar uma mensagem no WhatsApp!" @click="openWhatsapp()" class="btn btn-xs btn-mb-primary">Envie um WhatsApp agora</button>
+
+                        <div class="m-t-30">
+                            <h5 class="card-title">Ligue agora <i class="fa fa-phone"></i></h5>
+                            <a title="Fixo - Clique para ligar!" class="btn btn-xs btn-mb-primary" href="tel:31 3296-5673">31 3296-5673</a>
+                            <a title="Celular - Clique para ligar!" class="btn btn-xs btn-mb-primary" href="tel:31 98213-4820">31 98213-4820</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Card Call -->
+            </div>
+        </div>
+
+    </div>
 </template>
 
 <script>
