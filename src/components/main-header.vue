@@ -139,7 +139,7 @@
 
                     this.fixIcon(false)
                     $('.side-menu-bg').css({ display: 'none' })
-
+                    $('.hamburger').removeClass('is-active')
                     $('#side-menu-global-id').transition({ y: 0, x: -280 }, 300)
                     $('.side-menu-bg').transition({ background: 'rgba(0, 0, 0, 0)' }, 300)
                     $(this.$refs.hammerMenu).transition({ y: 0, x: 0 }, 0)
