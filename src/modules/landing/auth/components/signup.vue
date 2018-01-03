@@ -26,19 +26,19 @@
             <h4 class="title-section">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
 
             <!-- Login Options -->
-            <div class="text-center m-b-30">
-                <button class="btn btn-mb-facebook btn-xs m-5" @click="facebookLogin()">
+            <div class="text-center m-t-30 m-b-30">
+                <button class="btn btn-mb-facebook btn-block m-b-30" @click="facebookLogin()">
                     Cadastrar Facebook
                 </button>
 
-                <button class="btn btn-mb-info btn-xs m-5" @click="interactions.showEmailLogin = true">
+                <button class="btn btn-mb-info btn-block" @click="interactions.showEmailLogin = true">
                     Cadastrar Email
                 </button>
             </div>
         </div>
 
         <!-- Signup -->
-        <div class="container-colored">
+        <div class="container-colored" :class="{ 'bottom-fixed': !interactions.showEmailLogin }">
             <div id="login" v-if="$auth.ready()">
                 <div class="container">
 
@@ -110,7 +110,8 @@
                         <div class="card-body card-padding">
                             <div class="text-center">
                                 <h5 class="card-title">Já possui cadastro?</h5>
-                                <router-link tag="button" class="btn btn-mb-primary" :to="{name: 'landing.auth.login'}">Faça login</router-link>
+                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.auth.login'}">Faça login</router-link>
+                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.home.show'}" exact>Voltar para home</router-link>
                             </div>
                         </div>
                     </div>

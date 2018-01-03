@@ -26,26 +26,26 @@
             <h4 class="title-section">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
 
             <!-- Login Options -->
-            <div class="text-center m-b-30">
-                <button class="btn btn-mb-facebook btn-xs m-5" @click="facebookLogin()">
-                    Entrar com Facebook
+            <div class="text-center m-t-30 m-b-30">
+                <button class="btn btn-mb-facebook btn-block m-b-30" @click="facebookLogin()">
+                    Login Facebook
                 </button>
 
-                <button class="btn btn-mb-info btn-xs m-5" @click="interactions.showEmailLogin = true">
-                    Login com Email
+                <button class="btn btn-mb-info btn-block" @click="interactions.showEmailLogin = true">
+                    Login Email
                 </button>
             </div>
         </div>
 
         <!-- Login -->
-        <div class="container-colored">
+        <div class="container-colored" :class="{ 'bottom-fixed': !interactions.showEmailLogin }">
             <div id="login" v-if="$auth.ready()">
                 <div class="container">
 
-                    <div class="card m-b-0">
+                    <div class="card" v-if="interactions.showEmailLogin">
                         <div class="card-body card-padding">
 
-                            <div class="row m-t-20" v-if="interactions.showEmailLogin" @keydown.enter="login">
+                            <div class="row m-t-20" @keydown.enter="login">
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group">
                                         <label for="login-email">Email</label>
@@ -67,9 +67,15 @@
                                 </div>
                             </div>
 
+                        </div>
+                    </div>
+
+                    <div class="card m-b-0">
+                        <div class="card-body card-padding">
                             <div class="text-center">
                                 <h5 class="card-title">Não possui cadastro?</h5>
-                                <router-link tag="button" class="btn btn-mb-primary" :to="{name: 'landing.auth.signup'}">Cadastre-se aqui.</router-link>
+                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.auth.signup'}" exact>Cadastre-se aqui</router-link>
+                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.home.show'}" exact>Voltar para home</router-link>
                             </div>
                         </div>
                     </div>
