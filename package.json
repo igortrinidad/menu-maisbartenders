@@ -1,8 +1,8 @@
 {
-    "name": "weplanner-places-front",
+    "name": "menu-maisbartenders",
     "version": "2.4.8",
-    "description": "We Planner Places Front",
-    "author": "Matheus Lima <contato@matheuslima.com.br>",
+    "description": "App Menu Mais Bartenders",
+    "author": "We-Planner <contato@we-planner.com>",
     "private": true,
     "scripts": {
         "dev": "node build/dev-server.js",
@@ -82,7 +82,7 @@
         "url-loader": "^0.5.7",
         "vue-loader": "^11.1.4",
         "vue-style-loader": "^2.0.0",
-        "vue-template-compiler": "^2.4.4",
+        "vue-template-compiler": "^2.5.13",
         "webpack": "^2.2.1",
         "webpack-bundle-analyzer": "^2.2.1",
         "webpack-dev-middleware": "^1.10.0",
