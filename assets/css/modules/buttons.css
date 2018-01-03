@@ -1,11 +1,29 @@
 .btn.btn-xs {
     padding: 7.5px 14.5px !important;
+    font-size: 11px;
+    font-weight: 700 !important;
 }
-.btn.btn-mb-primary{
-    background: -webkit-linear-gradient(left, #f7941e, #f66439);
-    border: 1px solid transparent;
+
+.btn {
     border-radius: 100px;
     padding: 15px 25px;
+    font-weight: 700 !important;
+}
+
+.btn.btn-mb-primary {
+    background: -webkit-linear-gradient(left, #f7941e, #f66439);
+    border: 1px solid transparent;
     color: #fff;
-    font-weight: 700;
+}
+
+.btn.btn-mb-info {
+    background: -webkit-linear-gradient(left, #3498db, #1f76b1);
+    border: 1px solid transparent;
+    color: #fff;
+}
+
+.btn.btn-mb-facebook {
+    background: -webkit-linear-gradient(left, #4267b2, #3b5998);
+    border: 1px solid transparent;
+    color: #fff;
 }

@@ -1,98 +1,123 @@
 <template>
-    <div>
+    <div class="first-container">
 
         <main-header :title="'Cadastre-se'" />
 
-        <section id="login" v-if="$auth.ready()">
-            <div class="container">
-                <div class="row m-b-30">
-                    <div class="col-lg-12 text-center">
-                        <h4 class="text-muted m-t-30">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
-                    </div>
-                </div>
+        <!-- Logo + Title -->
+        <div class="container">
+            <div class="svg-container">
+                <svg viewBox="0 0 90 90">
+                    <defs>
+                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%"   stop-color="#FB923B"/>
+                            <stop offset="100%" stop-color="#F66439"/>
+                        </linearGradient>
+                    </defs>
 
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <button class="btn btn-info btn-block facebook" @click="facebookLogin()">
-                                <i class="fa fa-facebook fa-lg button-icon"></i> Cadastre-se com Facebook
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <button class="btn btn-info btn-block" @click="interactions.showEmailLogin = true">
-                                <i class="fa fa-email fa-lg button-icon"></i> Cadastre-se com Email
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row m-t-20" v-if="interactions.showEmailLogin">
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <label>Nome</label>
-                            <input class="form-control" v-model="guest.name">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <label>Sobrenome</label>
-                            <input class="form-control" v-model="guest.last_name">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input class="form-control" v-model="guest.email">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <label>Telefone</label>
-                            <input class="form-control" v-model="guest.phone">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <label>Senha</label>
-                            <input class="form-control" type="password" v-model="guest.password">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <label>Confirmar senha</label>
-                            <input class="form-control" type="password" v-model="guest.password_confirmation">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <label>Foto</label>
-                            <input class="form-control" type="file" v-on:change="loadPhoto">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="form-group">
-                            <button class="btn btn-xl btn-primary" @click.prevent="signup()">Cadastrar</button>
-                        </div>
-                    </div>
-                </div>
-
-                <p class="text-muted text-center">
-                    Já possui cadastro? <router-link :to="{name: 'landing.auth.login'}">Faça login.</router-link>
-                </p>
-
+                    <g transform="translate(-2.7877853,62.500941)">
+                        <g transform="matrix(3.9793611,0,0,3.9793611,-3.2721775,-67.931684)">
+                            <path class="non-fill-xs animated" stroke="url(#linear)"
+                                d="M 14.585786,11 12.292893,8.7071068 c -0.390524,-0.3905243 -0.390524,-1.0236893 0,-1.4142136 0.390524,-0.3905243 1.02369,-0.3905243 1.414214,0 l 4,3.9999998 c 0.390524,0.390524 0.390524,1.02369 0,1.414214 l -4,4 c -0.390524,0.390524 -1.02369,0.390524 -1.414214,0 -0.390524,-0.390525 -0.390524,-1.02369 0,-1.414214 L 14.585786,13 H 7 C 6.4477152,13 6,12.552285 6,12 6,11.447715 6.4477152,11 7,11 Z M 3.428327,6.8496192 C 6.2728037,2.115615 12.416377,0.58385025 17.150381,3.428327 21.884385,6.2728037 23.41615,12.416377 20.571673,17.150381 17.727196,21.884385 11.583624,23.41615 6.8496192,20.571673 5.4312948,19.719458 4.2684755,18.550512 3.4333679,17.162236 3.148683,16.688978 3.3015515,16.074544 3.7748093,15.789859 4.2480671,15.505175 4.862501,15.658043 5.147186,16.131301 5.814698,17.240967 6.7434521,18.174615 7.8796954,18.857338 11.666899,21.13292 16.581757,19.907508 18.857338,16.120305 21.13292,12.333101 19.907508,7.418243 16.120305,5.1426616 12.333101,2.8670802 7.418243,4.092492 5.1426616,7.8796954 4.8582139,8.3530958 4.2438566,8.5062723 3.7704562,8.2218246 3.2970558,7.9373769 3.1438793,7.3230197 3.428327,6.8496192 Z"
+                            />
+                        </g>
+                    </g>
+                </svg>
             </div>
-        </section>
+            <h4 class="title-section">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
 
+            <!-- Login Options -->
+            <div class="text-center m-b-30">
+                <button class="btn btn-mb-facebook btn-xs m-5" @click="facebookLogin()">
+                    Cadastrar Facebook
+                </button>
+
+                <button class="btn btn-mb-info btn-xs m-5" @click="interactions.showEmailLogin = true">
+                    Cadastrar Email
+                </button>
+            </div>
+        </div>
+
+        <!-- Signup -->
+        <div class="container-colored">
+            <div id="login" v-if="$auth.ready()">
+                <div class="container">
+
+                    <div class="card" v-if="interactions.showEmailLogin">
+                        <div class="card-body card-padding">
+                            <div class="row m-t-20">
+                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="signup-name">Nome</label>
+                                        <input id="signup-name" class="form-control" v-model="guest.name" placeholder="Nome">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="signup-lastname">Sobrenome</label>
+                                        <input id="signup-lastname" class="form-control" v-model="guest.last_name" placeholder="Sobrenome">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="signup-email">Email</label>
+                                        <input id="signup-email" class="form-control" v-model="guest.email" placeholder="Email">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="signup-phone">Telefone</label>
+                                        <input id="signup-phone" class="form-control" v-model="guest.phone" placeholder="Telefone">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="signup-password">Senha</label>
+                                        <input id="signup-password" class="form-control" type="password" v-model="guest.password" placeholder="Senha">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="signup-confirm">Confirmar senha</label>
+                                        <input id="signup-confirm" class="form-control" type="password" v-model="guest.password_confirmation" placeholder="Confirmar senha">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="signup-photo">Foto</label>
+                                        <input id="signup-photo" class="form-control" type="file" v-on:change="loadPhoto">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                                    <div class="form-group text-center">
+                                        <button class="btn btn-mb-primary" @click.prevent="signup()">Cadastrar</button>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card m-b-0">
+                        <div class="card-body card-padding">
+                            <div class="text-center">
+                                <h5 class="card-title">Já possui cadastro?</h5>
+                                <router-link tag="button" class="btn btn-mb-primary" :to="{name: 'landing.auth.login'}">Faça login</router-link>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

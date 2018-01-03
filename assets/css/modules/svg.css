@@ -4,6 +4,8 @@
 }
 .non-fill { fill: transparent; stroke-width: 2px; }
 
+.non-fill-xs { fill: transparent; stroke-width: 1px; }
+
 path.fix { transform: translate(2px, 2px); }
 
 
@@ -11,6 +13,12 @@ path.fix { transform: translate(2px, 2px); }
 path.non-fill.animated {
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
+    animation: draw 1s linear forwards;
+}
+
+path.non-fill-xs.animated {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
     animation: draw 1s linear forwards;
 }
 
