@@ -1,7 +1,12 @@
 <template>
-   <div>
+   <div class="first-container">
 
        <main-header :title="'logo'" />
+
+       <!-- Icon SVG + Title -->
+       <div class="container">
+           <h4 class="title-section">Categorias...</h4>
+       </div>
 
        <!-- <header id="header-home" class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
             <div class="container" >
