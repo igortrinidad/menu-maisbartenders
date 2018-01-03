@@ -148,10 +148,10 @@
                                     <!-- aqui eu preciso adicionar uma tag fixa 'button tag' e uma outra para cada tipo de categoria, fruta ou bebida,nao sei e o o melhor jeito assim: -->
                                     <button
                                         class="button-tag"
-                                        :class="{ 'tag-selected': filterOptions.indexOf(tag.name) > -1 }"
+                                        :class="{ 'tag-selected': filterOptions.indexOf(tag.name_pt) > -1 }"
                                         type="button"
-                                        @click="applyFilterOptions(tag.name, $event)"
-                                    >{{ tag.name }}<span class="close-tag">x</span>
+                                        @click="applyFilterOptions(tag.name_pt, $event)"
+                                    >{{ tag.name_pt }}<span class="close-tag">x</span>
                                     </button>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@
                                     <div class="items" v-if="isLogged" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
                                         <span class="drink-item" v-for="(item, index) in drink.items" >
                                             <span v-show="item.pivot.is_visible">
-                                                {{ item.name }}
+                                                {{ item.name_pt }}
                                             </span>
                                         </span>
                                     </div>
@@ -594,10 +594,10 @@
                 that.drinksFiltered.map((drink) => {
                     drink.items.map((item) => {
                         if(item.pivot.is_visible){
-                            if (arr.checkFromAttr('name', item.name)) {
+                            if (arr.checkFromAttr('name', item.name_pt)) {
                                 return false
                             } else {
-                                arr.push({name: item.name, category: item.category})
+                                arr.push({name: item.name_pt, category: item.category})
                             }
                         }
                     });
@@ -832,7 +832,7 @@
                 if (!this.filterOptions.length) return true
                 return (
                     _.chain(drink.items)
-                        .map((i) => i.name)
+                        .map((i) => i.name_pt)
                         .some(item => this.filterOptions.includes(item))
                         .value()
                 )

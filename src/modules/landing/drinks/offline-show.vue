@@ -58,7 +58,7 @@
 
                             <p class="m-t-30 text-muted">
                             <span v-for="item in drink.items" v-if="item.pivot.is_visible && isLogged">
-                                <strong class="f-20" v-show="item.pivot.is_visible">{{item.name}}</strong><br>
+                                <strong class="f-20" v-show="item.pivot.is_visible">{{item.name_pt}}</strong><br>
                             </span>
 
                             <span class="drink-item" v-if="!isLogged">

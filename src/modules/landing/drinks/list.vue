@@ -13,7 +13,7 @@
             <div class="swiper-container gallery-top" ref="swiper">
                 <div class="swiper-wrapper">
 
-                    <div class="swiper-slide" v-for="(drink, index) in especialDrinks" key="index">
+                    <div class="swiper-slide" v-for="(drink, index) in especialDrinks" :key="index">
                         <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
                         <!--
                         <span class="swiper-stars">
@@ -70,11 +70,11 @@
                                 <!-- aqui eu preciso adicionar uma tag fixa 'button tag' e uma outra para cada tipo de categoria, fruta ou bebida,nao sei e o o melhor jeito assim: -->
                                 <button
                                     class="button-tag"
-                                    :class="{ 'tag-selected': filterOptions.indexOf(tag.name) > -1 }"
+                                    :class="{ 'tag-selected': filterOptions.indexOf(tag.name_pt) > -1 }"
                                     type="button"
-                                    @click="applyFilterOptions(tag.name, $event)"
+                                    @click="applyFilterOptions(tag.name_pt, $event)"
                                 >
-                                    {{ tag.name }}
+                                    {{ tag.name_pt }}
                                     <span class="close-tag">x</span>
                                 </button>
                             </div>
@@ -351,10 +351,10 @@
                     drink.items.map((item) => {
 
                         if(item.pivot.is_visible){
-                            if (arr.checkFromAttr('name', item.name)) {
+                            if (arr.checkFromAttr('name_pt', item.name_pt)) {
                                 return false
                             } else {
-                                arr.push({name: item.name, category: item.category})
+                                arr.push({name_pt: item.name_pt, category: item.category})
                             }
                         }
 
@@ -408,7 +408,7 @@
                 if (!this.filterOptions.length) return true
                 return (
                     _.chain(drink.items)
-                        .map((i) => i.name)
+                        .map((i) => i.name_pt)
                         .some(item => this.filterOptions.includes(item))
                         .value()
                 )

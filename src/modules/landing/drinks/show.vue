@@ -95,7 +95,7 @@
 
                             <p class="m-t-30 text-muted">
                             <span v-for="item in drink.items" v-if="item.pivot.is_visible && isLogged">
-                                <strong class="f-20" v-show="item.pivot.is_visible">{{item.name}}</strong><br>
+                                <strong class="f-20" v-show="item.pivot.is_visible">{{item.name_pt}}</strong><br>
                             </span>
 
                             <span class="drink-item" v-if="!isLogged">
@@ -124,7 +124,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr v-for="nutri in nutritional_facts_ordereds">
-                                                        <td>{{nutri.name}}</td>
+                                                        <td>{{nutri.name_pt}}</td>
                                                         <td class="text-center">{{nutri.quantity | formatNumber}} {{nutri.unity}}</td>
                                                     </tr>
                                                 </tbody>
