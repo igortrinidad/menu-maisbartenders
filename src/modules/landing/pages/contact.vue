@@ -1,119 +1,112 @@
 <template lang="html">
     <section>
 
-        <main-header :title="'Contato'" />
+        <main-header :title="'Entre em contato'" />
 
         <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="text-center">
-                        <h2>Entre em contato</h2>
-                        <h4 class="m-t-30 m-b-30">Contrate o melhor BAR para sua festa</h4>
 
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="contact-box">
-                        <form @submit.prevent="submitForm()">
-                            <div class="form-group">
-                                <label class="cursor-pointer" for="contact-name">Nome</label>
-                                <input
-                                    id="contact-name"
-                                    class="form-control"
-                                    placeholder="Seu nome"
-                                    type="text"
-                                    v-model="contact.name"
-                                >
-                            </div>
-                            <div class="form-group">
-                                <label class="cursor-pointer" for="contact-email">E-mail</label>
-                                <input
-                                    id="contact-email"
-                                    class="form-control"
-                                    placeholder="Seu E-mail"
-                                    type="email"
-                                    v-model="contact.email"
-                                >
-                            </div>
-                            <div class="form-group">
-                                <label class="cursor-pointer" for="contact-phone">Celular</label>
-                                <input
-                                    id="contact-phone"
-                                    class="form-control"
-                                    placeholder="Seu número de ceular com ddd"
-                                    type="text"
-                                    v-model="contact.phone"
-                                >
-                            </div>
-                            <div class="form-group">
-                                <label for="drink-style">Assunto</label>
-                                <v-select
-                                    id="drink-style"
-                                    :label="'name'"
-                                    :options="services"
-                                    :multiple="false"
-                                    placeholder="Escolha uma opção."
-                                    v-model="contact.subject"
-                                >
-                                    <span slot="no-options">Não foi possível localizar uma opção :(</span>
-                                </v-select>
-                            </div>
-                            <div class="form-group">
-                                <label class="cursor-pointer" for="contact-msg">Mensagem</label>
-                                <textarea
-                                    id="contact-msg"
-                                    class="form-control"
-                                    placeholder="Sua mensagem"
-                                    type="text"
-                                    v-model="contact.message"
-                                >
-                                </textarea>
-                            </div>
-                            <button class="btn btn-block btn-xl m-t-30" type="submit">Enviar</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="contact-box">
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12">
-                                <button title="Clique para enviar uma mensagem no WhatsApp!" @click="openWhatsapp()" class="btn btn-xl btn-block inline">Envie um WhatsApp agora</button>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="text-center">
-                            <p class="text-description">ou clique para ligar</p>
-                        </div>
-                        <br>
+            <div class="svg-container">
+                <svg viewBox="0 0 90 90">
 
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 m-b-10">
-                                <a title="Clique para ligar!" class="btn btn-xl btn-block inline" href="tel:31 3296-5673">31 3296-5673 <i class="fa fa-phone"></i></a>
-                            </div>
+                    <defs>
+                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%"   stop-color="#FB923B"/>
+                            <stop offset="100%" stop-color="#F66439"/>
+                        </linearGradient>
+                    </defs>
 
-                            <div class="col-md-12 col-xs-12">
-                                 <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="tel:31 98213-4820">31 98213-4820 <i class="fa fa-phone"></i></a>
-                            </div>
+                    <g id="phone-svg" transform="translate(-6.5004535,-959.86214)">
+                        <g transform="translate(-926.99994,1103)">
+                            <path class="non-fill fix animated" stroke="url(#linear)"
+                                d="m 969.89458,-87.40339 c 2.1795,2.28415 4.80929,3.69432 7.29207,3.97744 2.54299,0.24277 5.22869,-0.59673 8.19796,-3.91112 0.92015,-1.02707 1.92827,-2.2162 3.62395,-2.78427 1.69567,-0.56805 3.73326,-0.21549 5.89993,0.95019 4.13354,3.13892 8.39641,6.31786 12.46271,9.54593 1.9385,1.93845 2.4375,4.49156 1.812,6.49655 -0.6254,2.00499 -1.9654,3.52366 -3.2041,4.7951 -6.90552,7.19568 -15.08521,10.673 -23.11337,9.45737 -7.75498,-1.34253 -15.2594,-6.77414 -23.57759,-15.09232 -3.57547,-3.57546 -6.36097,-6.36098 -9.89949,-9.89949 -8.31818,-8.31818 -13.74979,-15.8226 -15.09231,-23.57759 -1.59624,-9.5909 3.49885,-17.39765 9.45732,-23.11336 1.27145,-1.23864 2.79011,-2.57867 4.7951,-3.20412 2.00499,-0.62544 4.55809,-0.12649 6.49655,1.81197 3.22808,4.0663 6.40701,8.32923 9.54594,12.46275 1.16566,2.16666 1.51823,4.20425 0.95017,5.89993 -0.56806,1.6957 -1.75719,2.70381 -2.78426,3.62396 -3.31439,2.96926 -4.17696,5.65729 -3.91112,8.19796 0.26005,2.485291 1.69293,5.11291 3.97744,7.29206"
+                            />
+                            <path class="non-fill fix animated" stroke="url(#linear)"
+                                d="m 971.89021,-140.52839 c 0.0573,1.0473 1.06232,1.948 2.10958,1.8906 23.21965,0 41.99991,18.7803 41.99991,42 -0.015,1.0566 0.9433,2.0285 2,2.0285 1.0568,0 2.015,-0.9719 2,-2.0285 0,-25.3814 -20.61846,-46 -45.99991,-46 -1.19787,-0.01 -2.12962,1.075 -2.10958,2.1094 z m 0,12 c 0.0573,1.0473 1.06232,1.948 2.10958,1.8906 16.59222,0 29.99991,13.4077 29.99991,30 -0.015,1.0566 0.9433,2.0285 2,2.0285 1.0568,0 2.015,-0.9719 2,-2.0285 0,-18.754 -15.24593,-34 -33.99991,-34 -1.24903,0.01 -2.12965,1.145 -2.10958,2.1094 z"
+                            />
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+            <h4 class="title-section">Contrate o melhor BAR para sua festa</h4>
+
+            <!-- Card Form -->
+            <div class="card">
+                <div class="card-body card-padding">
+                    <form @submit.prevent="submitForm()">
+                        <div class="form-group">
+                            <label class="cursor-pointer" for="contact-name">Nome</label>
+                            <input
+                                id="contact-name"
+                                class="form-control"
+                                placeholder="Seu nome"
+                                type="text"
+                                v-model="contact.name"
+                            >
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label class="cursor-pointer" for="contact-email">E-mail</label>
+                            <input
+                                id="contact-email"
+                                class="form-control"
+                                placeholder="Seu E-mail"
+                                type="email"
+                                v-model="contact.email"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label class="cursor-pointer" for="contact-phone">Celular</label>
+                            <input
+                                id="contact-phone"
+                                class="form-control"
+                                placeholder="Seu número de ceular com ddd"
+                                type="text"
+                                v-model="contact.phone"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="drink-style">Assunto</label>
+                            <v-select
+                                id="drink-style"
+                                :label="'name'"
+                                :options="services"
+                                :multiple="false"
+                                placeholder="Escolha uma opção."
+                                v-model="contact.subject"
+                            >
+                                <span slot="no-options">Não foi possível localizar uma opção :(</span>
+                            </v-select>
+                        </div>
+                        <div class="form-group">
+                            <label class="cursor-pointer" for="contact-msg">Mensagem</label>
+                            <textarea
+                                id="contact-msg"
+                                class="form-control"
+                                placeholder="Sua mensagem"
+                                type="text"
+                                v-model="contact.message"
+                            >
+                            </textarea>
+                        </div>
+                        <button class="btn btn-block btn-xl m-t-30" type="submit">Enviar</button>
+                    </form>
                 </div>
             </div>
-        </div>
+            <!-- / Card Form -->
 
-        <div class="backsection">
-            <div class="container">
-                <hr>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="text-center">
-                            <h3>Volte para o início</h3>
-                            <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.home.show' }">
-                                Voltar
-                            </router-link>
-                        </div>
-                    </div>
+            <!-- Card Call -->
+            <div class="card text-center">
+                <div class="card-body card-padding">
+                    <button title="Clique para enviar uma mensagem no WhatsApp!" @click="openWhatsapp()" class="btn btn-xl btn-block inline">Envie um WhatsApp agora</button>
+
+                    <p class="m-t-10 text-description">ou clique para ligar</p>
+
+                    <a title="Clique para ligar!" class="btn btn-xl btn-block inline" href="tel:31 3296-5673">31 3296-5673</a>
+                    <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="tel:31 98213-4820">31 98213-4820</a>
                 </div>
             </div>
+            <!-- / Card Call -->
+
         </div>
     </section>
 </template>

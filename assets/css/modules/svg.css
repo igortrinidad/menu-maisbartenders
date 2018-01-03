@@ -1,0 +1,19 @@
+.svg-container {
+    max-width: 80px;
+    margin: 0 auto;
+}
+.non-fill { fill: transparent; stroke-width: 2px; }
+
+path.fix { transform: translate(2px, 2px); }
+
+
+/* Desnha Linha */
+path.non-fill.animated {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: draw 1.5s linear forwards;
+}
+
+@keyframes draw {
+    to { stroke-dashoffset: 0; }
+}
