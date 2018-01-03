@@ -54,8 +54,9 @@
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
-                                    <div class="form-group">
+                                    <div class="form-group" style="position: relative">
                                         <label for="login-password">Senha</label>
+                                        <i class="input-icon fa" :class="{ 'fa-eye': interactions.passwordHidden, 'fa-eye-slash': !interactions.passwordHidden }" @click="handlePassword()"></i>
                                         <input id="login-password" class="form-control" type="password" v-model="password" placeholder="Informe sua senha">
                                     </div>
                                 </div>
@@ -106,6 +107,7 @@
             return {
                 interactions: {
                     showEmailLogin: false,
+                    passwordHidden: true
                 },
                 email: null,
                 password: null,
@@ -130,6 +132,15 @@
              * Map the actions from Vuex to this component.
              */
             ...mapActions(['authSetToken', 'authSetUser', 'setLoading', 'setUserDrinkLikes']),
+
+            handlePassword() {
+                this.interactions.passwordHidden = !this.interactions.passwordHidden
+                if (this.interactions.passwordHidden) {
+                    document.getElementById('login-password').type = 'password';
+                } else {
+                    document.getElementById('login-password').type = 'text';
+                }
+            },
 
             login () {
                 var that = this
@@ -330,5 +341,17 @@
 
     .btn:active{
         transform: scale(0.99);
+    }
+    .input-icon {
+        position: absolute;
+        right: 10px;
+        top: 41px;
+        color: #6d6969;
+        cursor: pointer;
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .input-icon { display: block; }
     }
 </style>
