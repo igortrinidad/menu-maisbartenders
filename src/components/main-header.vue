@@ -280,7 +280,7 @@
     .hamburger .line {
         width: 100%;
         height: 3px;
-        background: linear-gradient(left, #f7941e, #f66439);;
+        background: linear-gradient(left, #FB923B, #f66439);
         display: block;
         margin: 5px 0;
         border-radius: 4px;

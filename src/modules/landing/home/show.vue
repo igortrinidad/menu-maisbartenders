@@ -3,8 +3,7 @@
 
        <main-header :title="'logo'" />
 
-        <!-- #Header -->
-        <header id="header-home" class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
+       <!-- <header id="header-home" class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
             <div class="container" >
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="intro-text">
@@ -20,7 +19,6 @@
             </div>
         </header>
 
-        <!-- #Sobre -->
         <section>
             <div class="container">
                 <div class="row">
@@ -32,7 +30,6 @@
             </div>
         </section>
 
-        <!-- #Como funciona -->
         <section id="about">
             <div class="container">
                 <div class="row">
@@ -79,7 +76,6 @@
             </div>
         </section>
 
-        <!-- #Contato -->
         <section id="contact">
             <div class="container">
                 <div class="row">
@@ -114,7 +110,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
    </div>
 </template>
