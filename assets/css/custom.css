@@ -2,11 +2,6 @@
  * Margin Class
  * margin, margin-top, margin-bottom, margin-left, margin-right
  */
-
-body {
-    min-height: 100vh;
-}
-
 .m-0 {
     margin: 0px !important;
 }
