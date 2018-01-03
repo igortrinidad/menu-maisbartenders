@@ -54,6 +54,10 @@
 </script>
 
 <style>
+
+@import '../../../../assets/css/general.css';
+@import '../../../../assets/css/template_standart.css';
+
 .btn-drink-action{
     font-weight: 700 !important;
     text-transform: uppercase;
