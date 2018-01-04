@@ -468,7 +468,7 @@
 
     var moment = require('moment');
 
-    var Swiper = require('swiper')
+    import Swiper from "swiper"
 
     var filterList = function(arr, filterTerm) {
         if (filterTerm === '') return arr

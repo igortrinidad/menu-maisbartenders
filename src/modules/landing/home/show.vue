@@ -5,7 +5,31 @@
 
        <!-- Icon SVG + Title -->
        <div class="container">
-           <h4 class="title-section">Categorias...</h4>
+           <div class="swiper-container swiper-gallery" ref="swiperWelcome">
+               <div class="swiper-wrapper text-center m-b-20">
+                   <div class="swiper-slide">
+                       <p class="f-14 f-300">Lorem ipsum dolor sit amet</p>
+                       <img class="img" height="220px" src="http://via.placeholder.com/1200x1200/FB923B/ffffff?text=Slide%201" />
+                   </div>
+                   <div class="swiper-slide">
+                       <p class="f-14 f-300">Lorem ipsum dolor sit amet</p>
+                       <img class="img" height="220px" src="http://via.placeholder.com/1200x1200/FB923B/ffffff?text=Slide%202" />
+                   </div>
+                   <div class="swiper-slide">
+                       <p class="f-14 f-300">Lorem ipsum dolor sit amet</p>
+                       <img class="img" height="220px" src="http://via.placeholder.com/1200x1200/FB923B/ffffff?text=Slide%203" />
+                   </div>
+               </div>
+               <div class="swiper-pagination"></div>
+           </div>
+
+           <div class="col-sm-12 text-center">
+               <router-link
+                   :to="{name: 'landing.drinks.list'}"
+                   class="btn btn-xl ">
+                   Ir para cardápio completo
+               </router-link>
+           </div>
        </div>
 
        <!-- <header id="header-home" class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
@@ -125,8 +149,7 @@
 
     import eventObj from '../../../models/Event.js'
     import mainHeader from '@/components/main-header.vue'
-
-    var Swiper = require('swiper')
+    import Swiper from "swiper"
 
     export default {
         name: 'show-home',
@@ -149,7 +172,7 @@
         },
 
         mounted(){
-
+            this.initSwiper()
         },
 
         methods: {
@@ -165,8 +188,22 @@
 
                 window.open(url, '_system', null);
             },
-        },
-        mounted() {
+
+            initSwiper() {
+                let that = this
+
+                that.$nextTick(()=>{
+                    var swiperWelcome = new Swiper(that.$refs.swiperWelcome, {
+                        spaceBetween: 0,
+                        slidesPerView: 1,
+                        pagination: {
+                            el: '.swiper-pagination',
+                            type: 'bullets',
+                            clickable: true,
+                        }
+                    })
+                })
+            },
         }
     }
 </script>

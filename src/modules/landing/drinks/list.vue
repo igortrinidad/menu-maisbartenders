@@ -40,6 +40,44 @@
         </div>
 
         <section id="drinks">
+
+            <div class="container">
+                <div class="filter">
+                    <div class="text-center">
+                        <h2>Categorias: </h2>
+                        <p class="sub-header">Selecione uma ou mais categorias.</p>
+                    </div>
+
+                    <div class="tags-list">
+                        <div class="tags">
+                            <div class="tag">
+                                <button
+                                    type="button"
+                                    :class="{'tag-selected': interactions.showCategories}"
+                                    @click="interactions.showCategories = !interactions.showCategories"
+                                >
+                                    <span class="tag-name">Mostrar categorias</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tags-list" v-if="interactions.showCategories">
+                        <div class="tags">
+                            <div class="tag" v-for="category in categories">
+                                <button
+                                    class="button-tag"
+                                    :class="{ 'tag-selected': filterCategories.indexOf(category.slug_pt) > -1 }"
+                                    type="button"
+                                    @click="applyCategoryFilter(category.slug_pt, $event)"
+                                >{{ category.name_pt }}<span class="close-tag">x</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="container">
                 <div class="filter">
                     <div class="text-center">
@@ -301,6 +339,7 @@
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import mainHeader from '@/components/main-header.vue'
+    import Swiper from "swiper"
 
     export default {
         name: 'list-drink',
@@ -313,6 +352,7 @@
                     showTags: false,
                     drinksToShowInfo: [],
                     phraseSelected: '',
+                    showCategories: false
                 },
                 drinkFetcheds: [],
                 filterOptions: [],
@@ -322,6 +362,8 @@
                 drinkSelected: null,
                 phrases: [],
                 response: '',
+                categories: [],
+                filterCategories: []
             }
         },
         computed: {
@@ -335,7 +377,7 @@
             drinksFiltered: function () {
                 var that = this
                 var arr = this.drinks.filter(function (drink) {
-                    return that.checkIfDrinkHasItem(drink)
+                    return that.checkIfDrinkHasItem(drink) && that.checkIfDrinkHasCategory(drink)
                 })
 
                 if (arr.length) successNotify('', `Localizamos ${arr.length} drinks em 0,${Math.floor(Math.random() * 7) + 1  }s`);
@@ -347,7 +389,7 @@
 
                 var arr = [];
 
-                that.drinks.map((drink) => {
+                that.drinksFiltered.map((drink) => {
                     drink.items.map((item) => {
 
                         if(item.pivot.is_visible){
@@ -437,10 +479,9 @@
                     .then(function (response) {
 
                         // Lista de drinks
-                        that.drinkFetcheds = response.data;
-
-                        that.initSwiper();
-
+                        that.drinkFetcheds = response.data.drinks
+                        that.categories = response.data.categories
+                        that.initSwiper()
                         that.setLoading({is_loading: false, message: ''})
 
                     })
@@ -599,7 +640,28 @@
 
             handleLikedDrinks(drink_id){
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
-            }
+            },
+
+            applyCategoryFilter(category_slug){
+                let index = this.filterCategories.indexOf(category_slug)
+
+                if (index > -1) {
+                    this.filterCategories.splice(index, 1)
+                } else {
+                    this.filterCategories.push(category_slug)
+                }
+            },
+
+            checkIfDrinkHasCategory: function (drink) {
+
+                if (!this.filterCategories.length) return true
+                return (
+                    _.chain(drink.categories)
+                        .map((i) => i.slug_pt)
+                        .some(item => this.filterCategories.includes(item))
+                        .value()
+                )
+            },
         }
     }
 </script>

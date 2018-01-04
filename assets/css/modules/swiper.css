@@ -1,0 +1,73 @@
+/* no-overflow */
+.swiper-container.no-overflow {
+    overflow: visible !important
+}
+
+/* Swiper Pagination */
+.swiper-pagination-bullet {
+    background-color: transparent !important;
+    opacity: 1 !important;
+    width: 9px !important; height: 9px !important;
+    border: 1px solid #FB923B;
+}
+.swiper-pagination-bullet-active { background-color: #FB923B !important; opacity: 1 !important; }
+
+/* Change color from pagination */
+.swiper-pagination-info .swiper-pagination-bullet { border: 1px solid #FFFD7B ; }
+.swiper-pagination-info .swiper-pagination-bullet-active { background-color: #FFFD7B !important; }
+
+/* Change color from pagination */
+.swiper-pagination-success .swiper-pagination-bullet { border: 1px solid #8BF3FB ; }
+.swiper-pagination-success .swiper-pagination-bullet-active { background-color: #8BF3FB !important; }
+
+
+/* Swiper Pagination PRIMARY COLOR */
+.swiper-pagination.primary .swiper-pagination-bullet {
+    background-color: transparent !important;
+    opacity: 1 !important;
+    width: 8px !important; height: 8px !important;
+    border: 1px solid #88C657;
+}
+.swiper-pagination.primary .swiper-pagination-bullet-active { background-color: #88C657 !important; opacity: 1 !important; }
+
+.swiper-pagination-bullet { margin: 0 5px !important; }
+
+/* Navigation */
+.swiper-button-next.transparent,
+.swiper-button-prev.transparent {
+    background-image: none;
+    width: 40%;
+    top: 0;
+    height: 100%;
+    margin-top: 0;
+    z-index: 20;
+}
+.swiper-button-next.transparent { right: 0; }
+.swiper-button-prev.transparent { left: 0; }
+
+/* Scroll Bar */
+.swiper-scrollbar {
+    top: 8px !important;
+}
+
+/* Swiper Gallery */
+.swiper-container.swiper-gallery { margin-top: -15px; }
+.swiper-container.swiper-gallery .swiper-slide {
+    width: 100%;
+    height: 40vh !important;
+    display: block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.swiper-container.swiper-gallery .swiper-button-next,
+.swiper-container.swiper-gallery .swiper-button-prev {
+    background-image: none;
+    width: 40%;
+    top: 0;
+    height: 100%;
+    margin-top: 0;
+}
+.swiper-container.swiper-gallery .swiper-button-next { right: 0; }
+.swiper-container.swiper-gallery .swiper-button-prev { left: 0; }

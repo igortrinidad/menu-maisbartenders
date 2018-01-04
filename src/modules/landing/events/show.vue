@@ -1,8 +1,8 @@
 <template>
     <div>
 
-        <main-header :title="'Evento não econtrado'" v-if="!eventFound" />
-        <main-header :title="event.name" v-if="eventFound" />
+        <main-header :title="'Evento não econtrado'" v-if="!eventFound"/>
+        <main-header :title="event.name" v-if="eventFound"/>
 
         <div v-if="eventFound">
             <header id="header-event" class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
@@ -27,7 +27,8 @@
                             </div>
                         </div>
                         <div class="col-md-12 col-xs-12 text-center m-t-30">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">
+                                Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i>
                             </button>
                         </div>
                     </div>
@@ -90,7 +91,7 @@
                         <div class="swiper-container gallery-top" ref="swiper">
                             <div class="swiper-wrapper">
 
-                                <div class="swiper-slide" v-for="(drink, index) in especialDrinks" :key="index" >
+                                <div class="swiper-slide" v-for="(drink, index) in especialDrinks" :key="index">
                                     <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
                                     <!--
                                     <span class="swiper-stars">
@@ -113,7 +114,8 @@
                     </div>
                     <div class="text-center">
                         <p class="sub-header">
-                            Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os ingredientes que preferir.</p>
+                            Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os
+                            ingredientes que preferir.</p>
                         <a v-scroll-to="'#drinks'" class="btn btn-primary btn-block m-t-10">Ver Todos</a>
                     </div>
                 </div>
@@ -237,19 +239,21 @@
 
                                     <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
                                         <i class="fa pull-right"
-                                            :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
+                                           :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
                                         </i>
                                     </h5>
 
-                                    <div class="items" v-if="isLogged" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                        <span class="drink-item" v-for="(item, index) in drink.items" >
+                                    <div class="items" v-if="isLogged"
+                                         :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                        <span class="drink-item" v-for="(item, index) in drink.items">
                                             <span v-show="item.pivot.is_visible">
                                                 {{ item.name_pt }}
                                             </span>
                                         </span>
                                     </div>
 
-                                    <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                    <div class="items"
+                                         :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
                                         <span class="drink-item" v-if="!isLogged">
                                             Faça login para ver a lista de ingredientes ;)
                                         </span>
@@ -279,10 +283,13 @@
                                         >Compartilhar no Facebook
                                         </button>
 
-                                        <button @click.prevent="likeDrink(drink)" class="btn btn-sm m-b-10 btn-like btn-block">
+                                        <button @click.prevent="likeDrink(drink)"
+                                                class="btn btn-sm m-b-10 btn-like btn-block">
                                             <span class="text-muted">{{drink.likes_count}}</span>
-                                            <i class="fa fa-heart fa-lg text-danger" v-if="handleLikedDrinks(drink.id)"></i>
-                                            <i class="fa fa-heart-o fa-lg text-danger" v-if="!handleLikedDrinks(drink.id)"></i>
+                                            <i class="fa fa-heart fa-lg text-danger"
+                                               v-if="handleLikedDrinks(drink.id)"></i>
+                                            <i class="fa fa-heart-o fa-lg text-danger"
+                                               v-if="!handleLikedDrinks(drink.id)"></i>
                                         </button>
                                     </div>
 
@@ -334,7 +341,8 @@
                                 </span>
 
                                     <p>
-                                        Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.</p>
+                                        Os drinks que estão marcados com este ícone são drink exclusivos Mais
+                                        Bartenders, criados e desenvolvidos por nossa equipe.</p>
                                 </div>
                             </div>
                             <hr>
@@ -346,7 +354,8 @@
                                 </span>
 
                                     <p>
-                                        Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
+                                        Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos
+                                        eventos.</p>
                                 </div>
                             </div>
                             <br>
@@ -366,10 +375,12 @@
 
                             <div class="text-center">
                                 <h2>Comentários:</h2>
-                                <p class="sub-header">{{ pagination.total > 0 ? `${ pagination.total } comentários` : 'Nenhum comentário ainda'}}</p>
+                                <p class="sub-header">{{ pagination.total > 0 ? `${ pagination.total } comentários` :
+                                    'Nenhum comentário ainda'}}</p>
 
                                 <p class="text-muted m-b-0 m-t-10">
-                                    Compartilhe um drink preferido e seus compartilhamentos serão exibidos aqui na página do {{event.name}}
+                                    Compartilhe um drink preferido e seus compartilhamentos serão exibidos aqui na
+                                    página do {{event.name}}
                                 </p>
                             </div>
 
@@ -459,7 +470,8 @@
                     <div class="modal-body p-25">
 
                         <p>
-                            Escolha uma frase e compartilhe no Facebook a felicidade que você esta em participar dessa festa linda.</p>
+                            Escolha uma frase e compartilhe no Facebook a felicidade que você esta em participar dessa
+                            festa linda.</p>
                         <br>
 
                         <p class="phrase" v-for="(phrase, index) in phrases"
@@ -467,7 +479,9 @@
                            :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block" @click="openShareFacebook()"
+                        <button type="button"
+                                class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block"
+                                @click="openShareFacebook()"
                                 :disabled="!interactions.phraseSelected">Compartilhar no Facebook
                         </button>
                     </div>
@@ -495,8 +509,10 @@
                            :class="{'phraseSelected' : interactions.whatsappPhraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default m-b-10 btn-success btn-block" @click="openShareWhatsapp()"
-                                :disabled="!interactions.whatsappPhraseSelected">Compartilhar no WhatsApp <i class="fa fa-whatsapp"></i>
+                        <button type="button" class="btn btn-default m-b-10 btn-success btn-block"
+                                @click="openShareWhatsapp()"
+                                :disabled="!interactions.whatsappPhraseSelected">Compartilhar no WhatsApp <i
+                            class="fa fa-whatsapp"></i>
                         </button>
                     </div>
                 </div>
@@ -507,16 +523,15 @@
 
 <script>
     import Vue from 'vue'
+
     Vue.use(require('vue-moment'));
     import {mapGetters, mapActions} from 'vuex'
     import eventObj from '../../../models/Event.js'
     import drinkObj from '../../../models/Drink.js'
     import moment from 'moment'
-
     import mainHeader from '@/components/main-header.vue'
     import pagination from '@/components/pagination'
-
-    var Swiper = require('swiper')
+    import Swiper from "swiper"
 
     export default {
         name: 'show-event',
@@ -524,7 +539,7 @@
             pagination,
             mainHeader
         },
-        data () {
+        data() {
             return {
                 formatedDay: '',
                 formatedMonth: '',
@@ -602,7 +617,7 @@
 
                 that.drinksFiltered.map((drink) => {
                     drink.items.map((item) => {
-                        if(item.pivot.is_visible){
+                        if (item.pivot.is_visible) {
                             if (arr.checkFromAttr('name_pt', item.name_pt)) {
                                 return false
                             } else {
@@ -661,7 +676,7 @@
 
             },
 
-            whatsappPhrases: function(){
+            whatsappPhrases: function () {
                 let that = this
 
                 var phrases = [];
@@ -679,7 +694,7 @@
             },
 
         },
-        mounted(){
+        mounted() {
             var that = this
 
             this.getEvent();
@@ -694,7 +709,7 @@
             },
         },
         methods: {
-            ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
 
             getFormatedDates: function () {
                 this.formatedDay = moment(this.event.date, 'DD/MM/YYYY').format('DD')
@@ -702,16 +717,16 @@
                 this.formatedYear = moment(this.event.date, 'DD/MM/YYYY').format('YYYY')
             },
 
-            checkRemainTime: function(){
+            checkRemainTime: function () {
                 let that = this
-                var then = that.event.date + ' ' +  that.event.time;
+                var then = that.event.date + ' ' + that.event.time;
 
-                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore(moment()) ) {
+                if (moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore(moment())) {
                     that.eventHasHappened = true
                 } else {
-                    setInterval( function(){
+                    setInterval(function () {
                         var then = that.event.date + that.event.time;
-                        var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
+                        var ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(moment());
                         var d = moment.duration(ms);
                         that.remain.days = d.days();
                         that.remain.hours = d.hours();
@@ -721,11 +736,11 @@
                 }
             },
 
-            back: function(){
+            back: function () {
                 window.history.back();
             },
 
-            openShareWhatsapp: function(){
+            openShareWhatsapp: function () {
                 let that = this
 
                 var url = `https://api.whatsapp.com/send?text=${that.interactions.whatsappPhraseSelected} Acesse o link: https://maisbartenders.com.br/opengraph/events/${that.event.url}`;
@@ -738,32 +753,32 @@
 
                 var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/${that.event.url}&picture=${that.interactions.drinkSelected.photo_url}&display=popup&mobile_iframe=true&hashtag=${that.event.hashtag}`;
 
-                    if(window.cordova){
+                if (window.cordova) {
 
-                        var ref = window.open(url, '_blank', 'location=yes');
-                        ref.addEventListener('loadstart', function(event) {
+                    var ref = window.open(url, '_blank', 'location=yes');
+                    ref.addEventListener('loadstart', function (event) {
 
-                            var url = "https://www.facebook.com/dialog/return/close";
+                        var url = "https://www.facebook.com/dialog/return/close";
 
-                            if (event.url.indexOf(url) !== -1) {
+                        if (event.url.indexOf(url) !== -1) {
 
-                                ref.close();
-                                successNotify('', 'Drink compartilhado com sucesso!')
-                                $('#modalSharePhrase').modal('hide')
-                                that.storeFacebookShare();
-
-                            }
-                        });
-
-                    } else {
-                        window.open(url, '_blank', 'location=yes');
-
-                        setTimeout( function(){
+                            ref.close();
                             successNotify('', 'Drink compartilhado com sucesso!')
                             $('#modalSharePhrase').modal('hide')
                             that.storeFacebookShare();
-                        },1000)
-                    }
+
+                        }
+                    });
+
+                } else {
+                    window.open(url, '_blank', 'location=yes');
+
+                    setTimeout(function () {
+                        successNotify('', 'Drink compartilhado com sucesso!')
+                        $('#modalSharePhrase').modal('hide')
+                        that.storeFacebookShare();
+                    }, 1000)
+                }
             },
 
             drinkToShowToggle: function (drink) {
@@ -908,7 +923,7 @@
                         that.event.drinks.forEach(function (drink) {
                             drink.typeImg = drink.photo_url.split('.').pop()
                         })
-                        that.event.drink_categories = _.orderBy(that.event.drink_categories,['name_pt'], ['asc'])
+                        that.event.drink_categories = _.orderBy(that.event.drink_categories, ['name_pt'], ['asc'])
                         that.checkRemainTime();
                         that.initSwiper();
                     })
@@ -947,7 +962,7 @@
 
             },
 
-            navigate(page){
+            navigate(page) {
                 let that = this
                 that.$http.get('/events/comments/' + that.$route.params.event_slug + '?page=' + page)
                     .then(function (response) {
@@ -971,22 +986,22 @@
                     });
             },
 
-            handleGuestAvatar(guest){
+            handleGuestAvatar(guest) {
 
                 let guest_avatar = null
 
-                if(guest.photo_url){
+                if (guest.photo_url) {
                     guest_avatar = guest.photo_url
                 }
 
-                if( guest.social_providers.length){
+                if (guest.social_providers.length) {
                     guest_avatar = guest.social_providers.find(provider => provider.provider === 'facebook').photo_url
                 }
 
                 return guest_avatar ? guest_avatar : '/static/assets/user_avatar.jpg'
             },
 
-            likeDrink(drink){
+            likeDrink(drink) {
                 let that = this
 
                 let data = {
@@ -994,7 +1009,7 @@
                     guest_id: that.currentUser.id
                 }
 
-                if(that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                if (that.userDrinkLikes.checkFromAttr('drink_id', drink.id)) {
                     that.removeUserDrinkLike({"drink_id": drink.id})
                     drink.likes_count = drink.likes_count - 1
                 } else {
@@ -1008,7 +1023,7 @@
                     })
                     .catch(function (error) {
 
-                        if(!that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                        if (!that.userDrinkLikes.checkFromAttr('drink_id', drink.id)) {
                             that.removeUserDrinkLike({"drink_id": drink.id})
                             drink.likes_count = drink.likes_count - 1
                         } else {
@@ -1019,12 +1034,12 @@
                     });
             },
 
-            handleLikedDrinks(drink_id){
+            handleLikedDrinks(drink_id) {
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
             },
 
             // Saving Event Image
-            downloadEventCoverPhoto: function() {
+            downloadEventCoverPhoto: function () {
                 let that = this
                 let fileTransfer = new FileTransfer();
 
@@ -1032,42 +1047,42 @@
 
                 that.setLoading({is_loading: true, message: 'Salvando imagem do evento'})
                 fileTransfer.download(
-                   that.event.photo_url,
-                   `${ cordova.file.dataDirectory }/${ eventFile }`,
-                   function(entry) {
-                       console.log(entry);
-                       that.setLoading({is_loading: false, message: ''})
-                   },
-                   function(error) {
-                       console.log(error);
-                       that.setLoading({is_loading: false, message: ''})
-                       errorNotify('', 'Não foi possível salvar a imagem do evento no dispositivo.')
-                   },
-                   true
+                    that.event.photo_url,
+                    `${ cordova.file.dataDirectory }/${ eventFile }`,
+                    function (entry) {
+                        console.log(entry);
+                        that.setLoading({is_loading: false, message: ''})
+                    },
+                    function (error) {
+                        console.log(error);
+                        that.setLoading({is_loading: false, message: ''})
+                        errorNotify('', 'Não foi possível salvar a imagem do evento no dispositivo.')
+                    },
+                    true
                 );
             },
 
             // Saving Drinks Images
-            downloadDrinks: function() {
+            downloadDrinks: function () {
                 let that = this
                 let fileTransfer = new FileTransfer();
 
                 that.setLoading({is_loading: true, message: `Salvando imagens dos drinks`})
 
-                that.event.drinks.map(function(drink, index) {
+                that.event.drinks.map(function (drink, index) {
                     const drinkFile = `drink-${ drink.url }.${ drink.photo_url.split('.').pop() }`
 
                     fileTransfer.download(
-                       drink.photo_url,
-                       `${ cordova.file.dataDirectory }/${ drinkFile }`,
-                       function(entry) {
-                           console.log(entry);
-                       },
-                       function(error) {
-                           console.log(error);
-                           errorNotify('', 'Não foi possível salvar a imagem do evento no dispositivo.')
-                       },
-                       true
+                        drink.photo_url,
+                        `${ cordova.file.dataDirectory }/${ drinkFile }`,
+                        function (entry) {
+                            console.log(entry);
+                        },
+                        function (error) {
+                            console.log(error);
+                            errorNotify('', 'Não foi possível salvar a imagem do evento no dispositivo.')
+                        },
+                        true
                     );
                 })
 
@@ -1075,12 +1090,12 @@
 
             },
 
-            saveEvent: function(){
+            saveEvent: function () {
                 let that = this
 
                 var events = JSON.parse(localStorage.getItem('events'));
 
-                if(Array.isArray(events) && events.length){
+                if (Array.isArray(events) && events.length) {
 
                     if (window.cordova) {
                         that.downloadEventCoverPhoto()
@@ -1089,7 +1104,7 @@
 
                     var index = events.indexFromAttr('id', that.event.id);
 
-                    if(index > -1){
+                    if (index > -1) {
                         events[index] = that.event;
                     } else {
                         events.push(that.event);
@@ -1102,29 +1117,29 @@
                 } else {
 
                     that.$swal({
-                      title: 'Informe uma senha deste dispositivo',
-                      input: 'number',
-                      showCancelButton: true,
-                      confirmButtonText: 'Salvar',
-                      showLoaderOnConfirm: true,
-                      preConfirm: function (pass) {
-                        return new Promise(function (resolve, reject) {
+                        title: 'Informe uma senha deste dispositivo',
+                        input: 'number',
+                        showCancelButton: true,
+                        confirmButtonText: 'Salvar',
+                        showLoaderOnConfirm: true,
+                        preConfirm: function (pass) {
+                            return new Promise(function (resolve, reject) {
 
-                          setTimeout(function() {
-                            if (!pass) {
-                              reject('Insira uma senha.')
-                            } else {
-                              resolve()
-                              if (window.cordova) {
-                                  that.downloadEventCoverPhoto()
-                                  that.downloadDrinks()
-                              }
-                            }
-                          }, 2000)
-                        })
+                                setTimeout(function () {
+                                    if (!pass) {
+                                        reject('Insira uma senha.')
+                                    } else {
+                                        resolve()
+                                        if (window.cordova) {
+                                            that.downloadEventCoverPhoto()
+                                            that.downloadDrinks()
+                                        }
+                                    }
+                                }, 2000)
+                            })
 
-                      },
-                      allowOutsideClick: false
+                        },
+                        allowOutsideClick: false
                     }).then(function (pass) {
 
                         var events = JSON.stringify([that.event]);
@@ -1142,13 +1157,13 @@
                 }
             },
 
-            saveNewEvent: function(){
+            saveNewEvent: function () {
                 let that = this
 
 
             },
 
-            applyCategoryFilter(category_slug){
+            applyCategoryFilter(category_slug) {
                 let index = this.filterCategory.indexOf(category_slug)
 
                 if (index > -1) {
@@ -1165,18 +1180,20 @@
 
     /*Hashtag*/
     .hashtag .label.label-primary {
-        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
         background-color: #222;
         border-color: #222;
-        color: rgba(254, 209, 54,.9);
+        color: rgba(254, 209, 54, .9);
     }
 
-    .header-greeting{
+    .header-greeting {
         position: relative;
     }
+
     .btn-back {
         position: absolute;
-        top: 94px; left: 25px;
+        top: 94px;
+        left: 25px;
         border-color: #fed136 !important;
         background-color: #fed136 !important;
         color: #000 !important
@@ -1532,11 +1549,13 @@
     }
 
     /* The_Date */
-    .the_date{
+    .the_date {
         color: #DEB62F;
     }
-    .the_date{
-        width: 100px; height: 100px;
+
+    .the_date {
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
         display: flex;
         justify-content: center;
@@ -1544,30 +1563,47 @@
         background-color: rgba(0, 0, 0, 1);
         border-color: #000;
         position: absolute;
-        top: -50px; left: 50%;
+        top: -50px;
+        left: 50%;
         margin-left: -50px;
         padding: 15px 10px;
     }
+
     .the_date_border {
         position: absolute;
-        width: 90px; height: 90px;
-        top: 50%; left: 50%;
+        width: 90px;
+        height: 90px;
+        top: 50%;
+        left: 50%;
         margin-top: -45px;
         margin-left: -45px;
         border-radius: 50%;
         border: 2px solid;
     }
+
     .the_date .date_y,
     .the_date .date_m,
     .the_date .date_d {
         width: 100%;
         text-align: center;
         font-weight: 700;
-        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif !important;
+        font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     }
-    .the_date .date_y{ font-size: 20px; align-self: flex-end; }
-    .the_date .date_m{ font-size: 12px; align-self: center; }
-    .the_date .date_d{ font-size: 16px; align-self: flex-start;}
+
+    .the_date .date_y {
+        font-size: 20px;
+        align-self: flex-end;
+    }
+
+    .the_date .date_m {
+        font-size: 12px;
+        align-self: center;
+    }
+
+    .the_date .date_d {
+        font-size: 16px;
+        align-self: flex-start;
+    }
 
     /* CountDown */
     .countdown {
@@ -1575,32 +1611,39 @@
         margin: 0 auto;
         text-align: center;
     }
+
     .countdown-d,
     .countdown-h,
     .countdown-m,
     .countdown-s {
-        width:auto;
+        width: auto;
         text-align: center;
         display: inline-block;
         margin: 0 10px;
     }
-    .countdown strong{
+
+    .countdown strong {
         display: block;
         font-size: 50px;
         font-weight: 300;
     }
-    .countdown small{
+
+    .countdown small {
         display: block;
         font-weight: 700;
         font-size: 15px;
     }
 
-    @media screen(max-width: 580px) {
-        .countdown strong{
+    @media screen(max-width:
+
+    580px
+
+    ) {
+        .countdown strong {
             font-size: 24px;
         }
 
-        .countdown small{
+        .countdown small {
             font-size: 12px;
         }
     }
