@@ -80,48 +80,8 @@
 
             </section>
 
+
             <section>
-
-                <div id="most-recommended" class="container">
-                    <div class="text-center">
-                        <h2>Best Sellers</h2>
-                        <p class="sub-header">Aqui está uma lista com as principais recomendações para você.</p>
-                    </div>
-                    <div class="swiper-row">
-                        <div class="swiper-container gallery-top" ref="swiper">
-                            <div class="swiper-wrapper">
-
-                                <div class="swiper-slide" v-for="(drink, index) in especialDrinks" :key="index">
-                                    <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
-                                    <!--
-                                    <span class="swiper-stars">
-                                        <i class="fa fa-star" v-for="n in drink.priority"></i>
-                                    </span>
-                                    -->
-                                    <div class="swiper-item-text">
-                                        <h3 class="title">{{ drink.name }}</h3>
-                                        <span class="subtitle">{{ drink.description }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="swiper-pagination"></div>
-                            <!-- Add Arrows -->
-
-                            <div class="swiper-button-next swiper-button-white" v-if="especialDrinks.length > 1"></div>
-                            <div class="swiper-button-prev swiper-button-white" v-if="especialDrinks.length > 1"></div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <p class="sub-header">
-                            Ainda não decidiu? Não se preocupe você pode ver todos o cardápio e filtrar os drinks com os
-                            ingredientes que preferir.</p>
-                        <a v-scroll-to="'#drinks'" class="btn btn-primary btn-block m-t-10">Ver Todos</a>
-                    </div>
-                </div>
-            </section>
-
-            <section id="drinks" class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
                 <div class="container">
                     <div class="filter">
                         <div class="text-center">
@@ -206,6 +166,9 @@
 
                     </div>
                 </div>
+            </section>
+
+            <section id="drinks" class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
 
                 <div class="list-drinks">
                     <div class="container">
@@ -531,7 +494,6 @@
     import moment from 'moment'
     import mainHeader from '@/components/main-header.vue'
     import pagination from '@/components/pagination'
-    import Swiper from "swiper"
 
     export default {
         name: 'show-event',
@@ -629,11 +591,6 @@
 
                 return _.orderBy(arr, 'category', 'asc');
 
-            },
-
-            especialDrinks: function () {
-
-                return this.event.drinks.map((drink) => drink.priority >= 4 ? drink : undefined).filter((drink) => drink !== undefined)
             },
 
             phrases: function () {
@@ -890,23 +847,6 @@
                         , [])
                     .value()
             },
-
-            initSwiper: function () {
-                var that = this;
-
-                setTimeout(function () {
-                    var galleryTop = new Swiper(that.$refs.swiper, {
-                        nextButton: '.swiper-button-next',
-                        prevButton: '.swiper-button-prev',
-                        spaceBetween: 10,
-                    });
-
-                    galleryTop.update(true)
-
-                }, 200)
-
-            },
-
             getEvent: function () {
                 let that = this
 
@@ -925,7 +865,6 @@
                         })
                         that.event.drink_categories = _.orderBy(that.event.drink_categories, ['name_pt'], ['asc'])
                         that.checkRemainTime();
-                        that.initSwiper();
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -1453,82 +1392,6 @@
         background: #2C3E50;
     }
 
-    /* Swiper Fix */
-
-    .swiper-container {
-        margin: 30px 0;
-    }
-
-    .swiper-button-prev, .swiper-button-next {
-        top: 50%;
-        margin-top: -22px;
-    }
-
-    .swiper-button-prev {
-        left: 3rem
-    }
-
-    .swiper-button-next {
-        right: 3rem
-    }
-
-    .swiper-item-text {
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        padding: 2rem 3rem;
-        background: rgba(0, 0, 0, .6);
-        color: rgba(255, 255, 255, .8);
-
-    }
-
-    .swiper-image {
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-    }
-
-    .swiper-item-text .title {
-        margin: 0 0 5px 0;
-    }
-
-    .swiper-item-text .subtitle {
-        text-transform: uppercase;
-        letter-spacing: 0px;
-        max-width: 100%;
-        display: block;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    @media (max-width: 414px) {
-        .swiper-item-text {
-            padding: 2rem;
-        }
-
-        .swiper-item-text .subtitle {
-            display: none;
-        }
-    }
-
-    .swiper-stars {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        display: block;
-        padding: 3rem;
-        color: #fed136;
-        text-align: right;
-    }
-
-    .swiper-stars i {
-        margin-right: 10px;
-        font-size: 2rem;
-        text-shadow: 1px 3px 3px rgba(0, 0, 0, .2);
-    }
-
     .btn-share {
         margin-top: 5px;
         font-weight: 100;
@@ -1634,11 +1497,7 @@
         font-size: 15px;
     }
 
-    @media screen(max-width:
-
-    580px
-
-    ) {
+    @media (max-width: 580px) {
         .countdown strong {
             font-size: 24px;
         }

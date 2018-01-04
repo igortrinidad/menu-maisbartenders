@@ -1,128 +1,49 @@
 <template>
     <div class="page">
 
-        <main-header :title="'Drinks'" />
+        <main-header :title="'Drinks'"/>
 
-        <div class="container m-t-30 text-center">
-            <h2>Best Sellers</h2>
-            <span class="sub-header">Aqui está uma lista com as principais recomendações para você.</span>
-        </div>
+        <div class="main">
+            <!-- CATEGORIES -->
+            <div class="container" v-show="!interactions.finished_loading_category && !interactions.is_loading"
+                 :class="{'cat-is-selected' : currentCategory}">
 
-        <!-- SWIPER -->
-        <div class="swiper-row">
-            <div class="swiper-container gallery-top" ref="swiper">
-                <div class="swiper-wrapper">
+                <h3 class="text-center">Categorias</h3>
 
-                    <div class="swiper-slide" v-for="(drink, index) in especialDrinks" :key="index">
-                        <img :src="drink.photo_url" :alt="drink.name" class="swiper-image" width="100%"/>
-                        <!--
-                        <span class="swiper-stars">
-                           <i class="fa fa-star" v-for="n in drink.priority"></i>
-                       </span>
-                       -->
-                        <div class="swiper-item-text">
-                            <h3 class="title">{{ drink.name }}</h3>
-                            <span class="subtitle">{{ drink.description }}</span>
-                        </div>
-                    </div>
-                </div>
+                <p class="text-center section-subheading text-muted">Selecione uma categoria para ver os drinks</p>
 
-                <div class="swiper-pagination"></div>
-                <!-- Add Arrows -->
-                <div class="swiper-button-next swiper-button-white"></div>
-                <div class="swiper-button-prev swiper-button-white"></div>
-            </div>
-        </div>
-
-        <div class="text-center container backsection">
-            <span class="sub-header">Ainda não decidiu? não se preocupe você pode ver todos os drinks e filtrar com os nossos ingredientes que você preferir.</span>
-            <a href="#drinks" v-scroll-to="'#drinks'" class="page-scroll btn btn-primary btn-block m-t-10">Ver todos</a>
-        </div>
-
-        <section id="drinks">
-
-            <div class="container">
-                <div class="filter">
-                    <div class="text-center">
-                        <h2>Categorias: </h2>
-                        <p class="sub-header">Selecione uma ou mais categorias.</p>
-                    </div>
-
-                    <div class="tags-list">
-                        <div class="tags">
-                            <div class="tag">
-                                <button
-                                    type="button"
-                                    :class="{'tag-selected': interactions.showCategories}"
-                                    @click="interactions.showCategories = !interactions.showCategories"
-                                >
-                                    <span class="tag-name">Mostrar categorias</span>
-                                </button>
+                <div class="col-row-categories">
+                    <!-- ALL -->
+                    <div class="col-categories">
+                        <div class="card-cat text-center"
+                             @click="selectCategory(categoryAll)"
+                             :class="{'bounce' : currentCategory == categoryAll}">
+                            <div class="p-10">
+                                <img src="../../../assets/logo_mb_2.png" class="icon-img icon-img-l m-t-5">
+                                <p class="f-default m-t-10">{{categoryAll['name_pt']}}</p>
                             </div>
                         </div>
                     </div>
-
-                    <div class="tags-list" v-if="interactions.showCategories">
-                        <div class="tags">
-                            <div class="tag" v-for="category in categories">
-                                <button
-                                    class="button-tag"
-                                    :class="{ 'tag-selected': filterCategories.indexOf(category.slug_pt) > -1 }"
-                                    type="button"
-                                    @click="applyCategoryFilter(category.slug_pt, $event)"
-                                >{{ category.name_pt }}<span class="close-tag">x</span>
-                                </button>
+                    <!-- ALL -->
+                    <div class="col-categories" v-for="category in categories">
+                        <div class="card-cat text-center"
+                             @click="selectCategory(category)"
+                             :class="{
+                                    'bounce' : currentCategory && currentCategory == category
+                                }">
+                            <div class="p-10">
+                                <img :src="category.photo_url" class="icon-img icon-img-l m-t-5">
+                                <p class="f-default m-t-10">{{category['name_pt']}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- CATEGORIES -->
+        </div>
 
-            <div class="container">
-                <div class="filter">
-                    <div class="text-center">
-                        <h3>Ingredientes:</h3>
-                        <span class="sub-header">Selecione os ingredientes de sua preferência.</span>
-                    </div>
-
-                    <div class="mb-tags">
-                        <div class="tags">
-                            <div class="tag">
-                                <button type="button" :class="{'tag-selected': interactions.showTags}"
-                                        @click="interactions.showTags = !interactions.showTags">
-                                    <span class="tag-name">Mostrar filtros</span>
-                                </button>
-                            </div>
-                            <div class="tag" v-if="interactions.showTags">
-                                <button type="button" :class="{'tag-selected': filterOptions.length}"
-                                        @click="clearFilter()">
-                                    <span class="tag-name">Limpar filtro</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-tags" v-if="interactions.showTags">
-                        <div class="tags">
-                            <div class="tag" v-for="tag in tags">
-                                <!-- aqui eu preciso adicionar uma tag fixa 'button tag' e uma outra para cada tipo de categoria, fruta ou bebida,nao sei e o o melhor jeito assim: -->
-                                <button
-                                    class="button-tag"
-                                    :class="{ 'tag-selected': filterOptions.indexOf(tag.name_pt) > -1 }"
-                                    type="button"
-                                    @click="applyFilterOptions(tag.name_pt, $event)"
-                                >
-                                    {{ tag.name_pt }}
-                                    <span class="close-tag">x</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h5 class="m-l-5">Localizamos {{drinksFiltered.length}} drinks em 0,{{Math.floor(Math.random() * 11)}}s</h5>
-
-                </div>
-            </div>
+        <section class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)"
+                 v-show="interactions.finished_loading_category">
 
             <div class="mb-drinks">
                 <div class="container">
@@ -161,8 +82,9 @@
                                     <i class="fa pull-right"
                                        :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}"></i>
                                 </h5>
-                                <div class="items" v-if="isLogged" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                    <span class="drink-item" v-for="(item, index) in drink.items" >
+                                <div class="items" v-if="isLogged"
+                                     :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                    <span class="drink-item" v-for="(item, index) in drink.items">
                                         <span v-show="item.pivot.is_visible">
                                             {{ item.name }}
                                         </span>
@@ -236,7 +158,7 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
+            <div class="container m-b-60">
                 <hr class="gray">
                 <div class="row">
                     <div class="col-sm-12">
@@ -249,6 +171,12 @@
                     </div>
                 </div>
             </div>
+
+            <button type="button" class="btn btn-primary btn-block btn-fixed-bottom"
+                    @click.prevent="resetCategory()"
+                    v-if="interactions.finished_loading_category">
+                Alterar categoria
+            </button>
         </section>
 
         <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
@@ -269,7 +197,8 @@
                                </span>
 
                                 <p>
-                                    Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.</p>
+                                    Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders,
+                                    criados e desenvolvidos por nossa equipe.</p>
                             </div>
                         </div>
                         <hr>
@@ -305,7 +234,7 @@
             </div>
         </div>
 
-        <!--Modal Share-->]
+        <!--Modal Share-->
         <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -324,7 +253,9 @@
                            :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block" @click="openShareFacebook()"
+                        <button type="button"
+                                class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block"
+                                @click="openShareFacebook()"
                                 :disabled="!interactions.phraseSelected">Compartilhar no Facebook
                         </button>
                     </div>
@@ -339,20 +270,20 @@
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import mainHeader from '@/components/main-header.vue'
-    import Swiper from "swiper"
 
     export default {
         name: 'list-drink',
         components: {
             mainHeader
         },
-        data () {
+        data() {
             return {
                 interactions: {
                     showTags: false,
                     drinksToShowInfo: [],
                     phraseSelected: '',
-                    showCategories: false
+                    finished_loading_category: false,
+                    is_loading: true,
                 },
                 drinkFetcheds: [],
                 filterOptions: [],
@@ -363,7 +294,15 @@
                 phrases: [],
                 response: '',
                 categories: [],
-                filterCategories: []
+                filterCategories: [],
+                currentCategory: null,
+                categoryAll: {
+                    name_en: 'All categories',
+                    name_pt: 'Todas as categorias',
+                    slug_pt: 'todas',
+                    slug_en: 'all',
+                    photo_url: ''
+                },
             }
         },
         computed: {
@@ -376,43 +315,21 @@
 
             drinksFiltered: function () {
                 var that = this
-                var arr = this.drinks.filter(function (drink) {
-                    return that.checkIfDrinkHasItem(drink) && that.checkIfDrinkHasCategory(drink)
-                })
+                if (that.currentCategory) {
+                    var arr = this.drinks.filter(function (drink) {
+                        return that.checkIfDrinkHasCategory(drink)
+                    })
 
-                if (arr.length) successNotify('', `Localizamos ${arr.length} drinks em 0,${Math.floor(Math.random() * 7) + 1  }s`);
-                return arr;
-            },
-
-            tags: function () {
-                let that = this
-
-                var arr = [];
-
-                that.drinksFiltered.map((drink) => {
-                    drink.items.map((item) => {
-
-                        if(item.pivot.is_visible){
-                            if (arr.checkFromAttr('name_pt', item.name_pt)) {
-                                return false
-                            } else {
-                                arr.push({name_pt: item.name_pt, category: item.category})
-                            }
-                        }
-
-                    });
-                });
-
-                return _.orderBy(arr, 'category', 'asc');
-
+                    if (arr.length) successNotify('', `Localizamos ${arr.length} drinks em 0,${Math.floor(Math.random() * 7) + 1  }s`);
+                    return arr;
+                }
             },
 
             especialDrinks: function () {
                 return this.drinks.map((drink) => drink.priority >= 4 ? drink : undefined).filter((drink) => drink !== undefined)
             }
         },
-        mounted(){
-            this.initSwiper()
+        mounted() {
             this.getDrinks()
         },
 
@@ -428,21 +345,6 @@
                 } else {
                     that.interactions.drinksToShowInfo.push(drink)
                 }
-            },
-            initSwiper: function () {
-                var that = this;
-
-                setTimeout(function () {
-                    var galleryTop = new Swiper(that.$refs.swiper, {
-                        nextButton: '.swiper-button-next',
-                        prevButton: '.swiper-button-prev',
-                        spaceBetween: 10,
-                    });
-
-                    galleryTop.update(true)
-
-                }, 200)
-
             },
 
             checkIfDrinkHasItem: function (drink) {
@@ -481,8 +383,9 @@
                         // Lista de drinks
                         that.drinkFetcheds = response.data.drinks
                         that.categories = response.data.categories
-                        that.initSwiper()
+                        that.interactions.is_loading = false
                         that.setLoading({is_loading: false, message: ''})
+
 
                     })
                     .catch(function (error) {
@@ -520,7 +423,7 @@
 
             },
 
-            setDrinkSelected(drink){
+            setDrinkSelected(drink) {
                 let that = this
                 that.drinkSelected = drink
                 that.sharePhrases()
@@ -529,7 +432,7 @@
 
             },
 
-            sharePhrases(){
+            sharePhrases() {
                 let that = this
 
                 var phrases = [];
@@ -555,32 +458,32 @@
 
                 var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drinkSelected.photo_url}&display=popup&mobile_iframe=true&close=true`;
 
-                    if(window.cordova){
+                if (window.cordova) {
 
-                        var ref = window.open(url, '_blank', 'location=yes');
-                        ref.addEventListener('loadstart', function(event) {
+                    var ref = window.open(url, '_blank', 'location=yes');
+                    ref.addEventListener('loadstart', function (event) {
 
-                            var url = "https://www.facebook.com/dialog/return/close";
+                        var url = "https://www.facebook.com/dialog/return/close";
 
-                            if (event.url.indexOf(url) !== -1) {
+                        if (event.url.indexOf(url) !== -1) {
 
-                                ref.close();
-                                successNotify('', 'Drink compartilhado com sucesso!')
-                                $('#modalSharePhrase').modal('hide')
-                                that.storeFacebookShare();
-
-                            }
-                        });
-
-                    } else {
-                        window.open(url, '_blank', 'location=yes');
-
-                        setTimeout( function(){
+                            ref.close();
                             successNotify('', 'Drink compartilhado com sucesso!')
                             $('#modalSharePhrase').modal('hide')
                             that.storeFacebookShare();
-                        },1000)
-                    }
+
+                        }
+                    });
+
+                } else {
+                    window.open(url, '_blank', 'location=yes');
+
+                    setTimeout(function () {
+                        successNotify('', 'Drink compartilhado com sucesso!')
+                        $('#modalSharePhrase').modal('hide')
+                        that.storeFacebookShare();
+                    }, 1000)
+                }
 
             },
 
@@ -605,7 +508,7 @@
 
             },
 
-            likeDrink(drink){
+            likeDrink(drink) {
                 let that = this
 
                 let data = {
@@ -613,7 +516,7 @@
                     guest_id: that.currentUser.id
                 }
 
-                if(that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                if (that.userDrinkLikes.checkFromAttr('drink_id', drink.id)) {
                     that.removeUserDrinkLike({"drink_id": drink.id})
                     drink.likes_count = drink.likes_count - 1
                 } else {
@@ -627,7 +530,7 @@
                     })
                     .catch(function (error) {
 
-                        if(!this.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
+                        if (!this.userDrinkLikes.checkFromAttr('drink_id', drink.id)) {
                             that.removeUserDrinkLike({"drink_id": drink.id})
                             drink.likes_count = drink.likes_count - 1
                         } else {
@@ -638,11 +541,11 @@
                     });
             },
 
-            handleLikedDrinks(drink_id){
+            handleLikedDrinks(drink_id) {
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
             },
 
-            applyCategoryFilter(category_slug){
+            applyCategoryFilter(category_slug) {
                 let index = this.filterCategories.indexOf(category_slug)
 
                 if (index > -1) {
@@ -654,6 +557,8 @@
 
             checkIfDrinkHasCategory: function (drink) {
 
+                if (this.currentCategory && this.currentCategory.slug_en == 'all' || this.currentCategory && this.currentCategory.slug_pt == 'todas') return true
+
                 if (!this.filterCategories.length) return true
                 return (
                     _.chain(drink.categories)
@@ -662,6 +567,23 @@
                         .value()
                 )
             },
+
+            selectCategory(category) {
+                let that = this
+                that.currentCategory = category;
+                that.applyCategoryFilter(category.slug_pt)
+
+                setTimeout(function () {
+                    that.interactions.is_loading = false;
+                    that.interactions.finished_loading_category = true;
+                }, 500);
+            },
+
+            resetCategory() {
+                let that = this
+                that.currentCategory = null;
+                that.interactions.finished_loading_category = false;
+            }
         }
     }
 </script>
@@ -694,5 +616,48 @@
     .btn-like:hover {
         color: #e74c3c;
     }
+
+    section {
+        padding: 25px 0;
+    }
+
+    .box-shadow-divider {
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, .1), 0px -2px 3px rgba(0, 0, 0, .1);
+    }
+
+    .icon-img {
+        display: block;
+        width: auto;
+        height: 40px;
+        margin: 21px auto 0 auto;
+    }
+
+    .icon-img.icon-img-l {
+        width: auto;
+        height: 60px;
+    }
+
+    .card-cat-col {
+        padding-right: 10px;
+        padding-left: 10px;
+        margin-top: 20px;
+    }
+
+    .card-cat {
+        background-color: #FFFFFF;
+        border-radius: 15px;
+        cursor: pointer;
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
+    }
+
+    .main {
+        padding: 5px 0;
+        position: relative;
+    }
+
+    .m-b-60 {
+        margin-bottom: 60px;
+    }
+
 
 </style>

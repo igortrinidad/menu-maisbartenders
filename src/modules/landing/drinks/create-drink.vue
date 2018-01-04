@@ -42,7 +42,7 @@
                 <label for="drink-ingredients">Ingredientes</label>
                 <v-select
                     id="drink-ingredients"
-                    :label="'name'"
+                    :label="'name_pt'"
                     :options="ingredients"
                     :multiple="true"
                     v-model="selectedIngredients"
@@ -171,7 +171,7 @@
                     { name: 'Barone', path: barone }
                 ],
                 styles: [
-                    {label: 'Sem álcool', value: 0},
+                    {name: 'Sem álcool', value: 0},
                     { name: 'Leve', value: 2.5 },
                     { name: 'Normal', value: 5.0 },
                     { name: 'Forte', value: 7.5 },
@@ -204,7 +204,7 @@
 
                 this.ingredientsFetcheds.map((drink) => {
                     drink.items.map((item) => {
-                        if(arr.checkFromAttr('name', item.name)){
+                        if(arr.checkFromAttr('name_pt', item.name_pt)){
                             return false
                         } else {
                             arr.push(item)
@@ -326,7 +326,7 @@
                 let that = this
                 that.$http.get('/drinks/fetchAll')
                     .then(function (response) {
-                        that.ingredientsFetcheds = response.data
+                        that.ingredientsFetcheds = response.data.drinks
                     })
                     .catch(function (error) {
                         console.log(error)
