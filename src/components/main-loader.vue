@@ -1,7 +1,7 @@
 <template>
     <div class="loading-wrapper" v-if="loader.is_loading">
         <div class="loading-spinner">
-            <pulse-loader :loading="true":color="'#FEC503'" :size="'30px'" class="loader"></pulse-loader>
+            <pulse-loader :loading="true":color="'#FB923B'" :size="'30px'" class="loader"></pulse-loader>
            <div v-if="loader.message != ''">
                <h3 class="text-center">{{loader.message}}</h3>
            </div>
