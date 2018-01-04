@@ -6,7 +6,7 @@
 
 .non-fill.xs { stroke-width: 1px; }
 
-.non-fill-xs { fill: transparent; stroke-width: 1px; }
+.non-fill-xs { fill: transparent; stroke-width: .4px; }
 
 path.fix { transform: translate(2px, 2px); }
 

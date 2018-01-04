@@ -119,22 +119,22 @@
 
 
         <!-- Modal Party Reaction -->
-        <div class="modal" id="modalReaction" tabindex="-1" data-backdrop="false"  aria-labelledby="myModalLabel">
-            <div class="modal-dialog" >
+        <div class="modal" id="modalReaction" tabindex="-1" data-backdrop="false">
+            <div class="modal-dialog container-reaction">
                 <div class="text-center">
-                    <br><br><br><br>
-                    <img src="https://maisbartenders.com.br/img/cheers.gif" alt="Brindando aos noivos por contratarem a melhor empresa de Belo Horizonte" style="max-width: 100%"/>
+                    <div class="reaction-pic" :style="`background-image: url('https://maisbartenders.com.br/img/cheers.gif')`">
+                    </div>
                 </div>
             </div>
         </div>
         <!-- / Modal Party Reaction -->
 
         <!-- Modal Cry Reaction -->
-        <div class="modal" id="modalReactionCry" tabindex="-1" data-backdrop="false"  aria-labelledby="myModalLabel">
-            <div class="modal-dialog" >
+        <div class="modal" id="modalReactionCry" tabindex="-1" data-backdrop="false">
+            <div class="modal-dialog container-reaction">
                 <div class="text-center">
-                    <br><br><br><br>
-                    <img src="https://maisbartenders.com.br/img/sadness.gif" alt="Não chore" style="max-width: 100%"/>
+                    <div class="reaction-pic" :style="`background-image: url('https://maisbartenders.com.br/img/sadness.gif')`">
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,15 +142,20 @@
 
         <!-- Modal ALERT -->
         <div class="modal" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <br><br><br><br>
             <div class="modal-dialog" role="document">
 
                 <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <h4>Atenção</h4>
-                        <small>Por favor, preencha todas as informações.</small>
+                    <div class="modal-body text-center" style="margin-top: 100px">
+                        <h4 class="title-section m-0 m-b-10">Atenção</h4>
+                        <small class="smallCaption">Por favor, preencha todas as informações.</small>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="">
+                            <span>Essa janela fecha em: {{ timeToClose }}s</span>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <!-- / Modal Alert -->
@@ -190,7 +195,6 @@
                             </div>
                         </div>
 
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-block btn-mb-primary" data-dismiss="modal">Fechar</button>
@@ -213,6 +217,7 @@ export default {
     },
     data() {
         return {
+            timeToClose: 0,
             interactions: {
                 prospectIsSending: false,
                 workerIsSending: false,
@@ -390,9 +395,20 @@ export default {
         checkAlert: function(){
             if(this.sum < 0.1 || !this.is_clicked_bar || !this.is_clicked_mb || this.bevSelected.length < 1){
                 $('#modalAlert').modal('show');
+
+                let that = this
+                that.timeToClose = 5
+                var time = setInterval(() => {
+                    if (that.timeToClose > 1) {
+                        that.timeToClose--
+                    } else {
+                        clearInterval(time)
+                    }
+                }, 1000);
+
                 setTimeout(function(){
                     $('#modalAlert').modal('hide');
-                }, 4500);
+                }, 5000);
                 return false;
             } else {
                 return true;
@@ -418,6 +434,22 @@ export default {
         line-height: 1.3;
         font-size: 12px;
         margin-top: 10px;
+    }
+
+    .container-reaction {
+        position: fixed;
+        top: -10px; left: -10px; right: -10px; bottom: -10px;
+    }
+
+    .reaction-pic {
+        width: 200px; height: 200px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        top: calc(50% - 100px);
+        left: calc(50% - 100px);
+        box-shadow: 0 0 50px rgba(0, 0, 0, .8);
     }
 
 </style>
