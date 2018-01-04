@@ -1,153 +1,82 @@
 <template>
-   <div class="first-container">
+    <div class="first-container">
 
-       <main-header :title="'logo'" />
+        <main-header :title="'logo'" />
 
-       <!-- Icon SVG + Title -->
-       <div class="container">
-           <div class="swiper-container swiper-gallery" ref="swiperWelcome">
-               <div class="swiper-wrapper text-center m-b-20">
-                   <div class="swiper-slide">
-                       <p class="f-14 f-300">Lorem ipsum dolor sit amet</p>
-                       <img class="img" height="220px" src="http://via.placeholder.com/1200x1200/FB923B/ffffff?text=Slide%201" />
-                   </div>
-                   <div class="swiper-slide">
-                       <p class="f-14 f-300">Lorem ipsum dolor sit amet</p>
-                       <img class="img" height="220px" src="http://via.placeholder.com/1200x1200/FB923B/ffffff?text=Slide%202" />
-                   </div>
-                   <div class="swiper-slide">
-                       <p class="f-14 f-300">Lorem ipsum dolor sit amet</p>
-                       <img class="img" height="220px" src="http://via.placeholder.com/1200x1200/FB923B/ffffff?text=Slide%203" />
-                   </div>
-               </div>
-               <div class="swiper-pagination"></div>
-           </div>
+        <!-- Icon SVG + Title -->
+        <div class="container">
 
-           <div class="col-sm-12 text-center">
-               <router-link
-                   :to="{name: 'landing.drinks.list'}"
-                   class="btn btn-xl ">
-                   Ir para cardápio completo
-               </router-link>
-           </div>
-       </div>
+            <div class="svg-container">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%"   stop-color="#FB923B"/>
+                            <stop offset="100%" stop-color="#F66439"/>
+                        </linearGradient>
+                    </defs>
 
-       <!-- <header id="header-home" class="header-greeting" v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
-            <div class="container" >
-                <div class="col-md-6 col-md-offset-3 col-xs-12">
-                    <div class="intro-text">
-                        <span class="text-box">
-                            <span class="event-name">
-                                Cardápio Interativo Mais Bartenders
-                            </span>
-                        </span>
-                        <br>
-                        <a href="#about" v-scroll-to="'#about'" class="page-scroll btn btn-xl m-t-30">Saiba mais</a>
-                    </div>
-                </div>
+                    <path class="non-fill xl fix animated" stroke="url(#linear)"
+                        d="m 90.266653,1.6 c -0.3,-0.7 -1,-1.1 -1.8,-1.1 H 2.4666534 c -0.8,0 -1.49999999,0.4 -1.79999999,1.1 -0.3,0.7 -0.2,1.5 0.3,2.1 L 43.666653,53.8 c 0,0.1 0,0.3 0,0.4 v 30.4 h -11.4 c -1.1,0 -2,0.9 -2,1.9 0,1 0.9,1.9 2,1.9 h 26.5 c 1.1,0 2,-0.9 2,-1.9 0,-1 -0.9,-1.9 -2,-1.9 h -11.3 V 54.2 c 0,-0.2 0,-0.3 -0.1,-0.5 l 42.6,-50 c 0.5,-0.6 0.6,-1.4 0.3,-2.1 z M 45.466653,50 6.6666534,4.4 H 84.366653 Z"
+                    />
+                </svg>
             </div>
-        </header>
 
-        <section>
+            <h4 class="title-section">Encontre os melhores drinks!</h4>
+        </div>
+
+        <div class="container-colored">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <h2 class="section-heading">Sobre</h2>
-                        <p class=" text-description m-t-30">O<span class="text-selected"> Cardápio Interativo </span>é uma exclusiva ferramenta criada pela<span class="text-selected"> Mais Bartenders </span>para quebrar a barreira de interação de você e seus convidados com sua festa. Levando a <span class="text-selected">experiência</span> e socialização do evento a um nível totalmente novo.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section id="about">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-lg-12 text-center">
-                        <h2 class="section-heading">Como funciona</h2>
-                        <p class="text-description m-t-30">Ao contratar os serviços de drinks <b>Mais Bartenders</b> e nosso exclusivo <b>Menu Interativo</b>, nós criamos uma página <b>exclusiva e personalizada </b>para seu evento.
-                        <router-link tag="a" :to="{name: 'landing.events.show', params: {event_slug: 'joana-e-joao'}}">
-                            Veja um exemplo
-                        </router-link>
-                        </p>
-
-                        <p class="text-description m-t-30">
-                            E aí começa a brincadeira: você poderá enviar para seus convidados conhecerem e interagirem com o cardápio mesmo antes da festa.
-                        </p>
-                        <p class="text-description m-t-30">
-                            Seus convidados vão conhecer os drinks incluídos em sua proposta, salvar as receitas que mais gostaram e compartilhar no facebook com frases criativas - aumentando ainda mais a <span class="text-selected">expectativa</span> para o grande dia.
-                        </p>
-
-                        <img class="m-t-30 m-b-30 img-gif" src="https://media.giphy.com/media/vQqeT3AYg8S5O/giphy.gif" >
-
-                        <p class="text-description m-t-30">
-                            Mas ainda não acabou!
-                        </p>
-
-                        <p class="text-description m-t-30">
-                            A experiência do Cardápio Interativo acontece também na festa. Seus convidados que não conheceram o <span class="text-selected">Cardápio Interativo</span> antes do grande dia, poderão acessar o seu <span class="text-selected">Cardápio Interativo</span> mesmo do local do evento e interagirem da mesma forma. Imagina isso!
-                        </p>
-
-                        <p class="text-description m-t-30">
-                            É muito legal não é mesmo?
-                        </p>
-
-                        <img class="m-t-30 m-b-30 img-gif" src="https://media.giphy.com/media/QMkPpxPDYY0fu/giphy.gif" />
-
-                        <p class="text-description m-t-30">
-                            Entre em contato agora e tenha um <span class="text-selected">Cardápio Interativo</span> também em sua festa! :)
-                        </p>
-
-                        <a href="#contact" v-scroll-to="'#contact'" class="page-scroll btn btn-xl">Contato</a>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
-                        <h2 class="section-heading">Contato</h2>
-                        <h4 class="m-t-30 m-b-30">Contrate agora essa novidade para sua festa</h4>
-
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12">
-                                <button title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" @click="openWhatsapp()">Envie um WhatsApp agora</button>
+                <!-- Mais Bartenders -->
+                <div class="row" v-if="categories.length">
+                    <div class="col-sm-12">
+                        <div class="p-5">
+                            <div class="card m-0 text-center">
+                                <div class="card-body card-padding">
+                                    <img class="cat-icon" :src="categories[0].photo_url" alt="">
+                                    <div class="m-t-5">
+                                        <h6 class="card-title m-b-0">{{ categories[0].description }}</h6>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <br>
-                        <p class="text-description">ou clique para ligar</p>
-                        <br>
-
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 m-b-10">
-                                <a title="Clique para ligar!" class="btn btn-xl btn-block inline" href="tel:31 3296-5673">31 3296-5673 <i class="fa fa-phone"></i></a>
-                            </div>
-
-                            <div class="col-md-12 col-xs-12">
-                                 <a title="Clique para enviar uma mensagem no WhatsApp!" class="btn btn-xl btn-block inline" href="tel:31 98213-4820">31 98213-4820 <i class="fa fa-phone"></i></a>
-                            </div>
-                        </div>
-
-                        <span style="font-size:19px">
-
-
-                        </span>
-
                     </div>
                 </div>
-            </div>
-        </section> -->
 
-   </div>
+                <!-- Categories -->
+                <div class="categories">
+                    <div class="category" v-for="(category, indexCategory) in categories" v-if="indexCategory > 0">
+                        <div tag="div" class="card m-0 text-center">
+                            <div class="card-body card-padding">
+                                <img class="cat-icon" :src="category.photo_url" alt="">
+                                <div class="m-t-5">
+                                    <h6 class="card-title m-b-0">{{ category.description }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call To Create Drink -->
+                <div class="text-center m-t-30 p-5">
+                    <h5 class="m-b-20" style="color: #fff">Não encontrou o drink que procura ?</h5>
+
+                    <button type="button" class="btn btn-block btn-mb-primary-reverse">
+                        Crie o seu próprio drink
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
 
-    import eventObj from '../../../models/Event.js'
+    import eventObj from '@/models/Event.js'
+    import CategoriesModel from '@/models/Categories.js'
     import mainHeader from '@/components/main-header.vue'
     import Swiper from "swiper"
 
@@ -160,7 +89,7 @@
 
         data () {
             return {
-
+                categories: []
             }
 
         },
@@ -171,11 +100,18 @@
 
         },
 
-        mounted(){
+        mounted() {
             this.initSwiper()
+            this.getCategories()
         },
 
         methods: {
+
+            getCategories() {
+                let that = this
+
+                that.categories = CategoriesModel.map((category) => category)
+            },
 
             openWhatsapp: function(){
                 let that = this
@@ -218,6 +154,12 @@
     .img-gif{
         max-width: 90%;
     }
+
+    .cat-icon {
+        width: auto;
+        height: 60px;
+    }
+
 
     #contact{
         background-color: #F7F7F7;

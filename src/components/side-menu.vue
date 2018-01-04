@@ -2,55 +2,65 @@
     <div>
         <div ref="sidemenu" id="side-menu-global-id" class="side-menu active">
 
+
+            <div class="header text-center" v-if="isLogged && isOnline">
+                <img :src="userPhoto" alt="" class="img-circle" width="64">
+                <div class="m-t-10">
+                    Olá, {{ currentUser.name }} {{ currentUser.last_name.charAt(0) }}.
+                </div>
+            </div>
+
             <div class="items">
 
                 <!-- MENU -->
                 <div>
                     <ul class="main-menu">
-                        <li class="sub-menu"  v-if="isLogged && isOnline">
-                            <a href="#" class="sub-menu user-logged-name">
-                                <img :src="userPhoto" alt="" class="img-circle" width="32">
-                                {{currentUser.full_name}}
-                            </a>
-                            <ul>
-                                <li>
-                                    <router-link :to="{name: 'landing.user.preferences'}">Meus drinks</router-link>
-                                </li>
-                                <li>
-                                    <router-link :to="{name: 'landing.user.show'}">Meu perfil</router-link>
-                                </li>
-                            </ul>
-                        </li>
 
-                        <li>
-                            <router-link :to="{name: 'landing.home.show'}" exact>Home</router-link>
-                        </li>
+                        <div class="border-inside-card" v-if="isLogged && isOnline">
+                            <li>
+                                <router-link :to="{name: 'landing.user.preferences'}">Meus drinks</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name: 'landing.user.show'}">Meu perfil</router-link>
+                            </li>
+                        </div>
 
-                        <li>
-                            <router-link :to="{name: 'landing.events.list'}" exact>Eventos</router-link>
-                        </li>
-                        <li>
-                            <router-link :to="{name: 'landing.events-offline.list'}" exact>Eventos salvos</router-link>
-                        </li>
+                        <div class="border-inside-card">
+                            <li>
+                                <router-link :to="{name: 'landing.home.show'}" exact>Home</router-link>
+                            </li>
 
-                        <li>
-                            <router-link :to="{name: 'landing.drinks.list'}">Cardápio completo</router-link>
-                        </li>
+                            <li>
+                                <router-link :to="{name: 'landing.events.list'}" exact>Eventos</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name: 'landing.events-offline.list'}" exact>Eventos salvos</router-link>
+                            </li>
 
-                        <li v-if="!isLogged">
-                            <router-link :to="{name: 'landing.auth.login'}" v-if="isOnline">Login</router-link>
-                        </li>
-                        <li v-if="!isLogged">
-                            <router-link :to="{name: 'landing.auth.signup'}" v-if="isOnline">Cadastre-se</router-link>
-                        </li>
+                            <li>
+                                <router-link :to="{name: 'landing.drinks.list'}">Cardápio completo</router-link>
+                            </li>
+                        </div>
 
-                        <li>
-                            <router-link :to="{name: 'landing.contact'}">Contato</router-link>
-                        </li>
+                        <div class="border-inside-card" v-if="!isLogged">
+                            <li>
+                                <router-link :to="{name: 'landing.auth.login'}" v-if="isOnline">Login</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{name: 'landing.auth.signup'}" v-if="isOnline">Cadastre-se</router-link>
+                            </li>
+                        </div>
 
-                        <li>
-                            <router-link :to="{name: 'landing.simulator'}">Simulador</router-link>
-                        </li>
+                        <div class="border-inside-card">
+                            <li>
+                                <router-link :to="{name: 'landing.contact'}">Contato</router-link>
+                            </li>
+
+                            <li>
+                                <router-link :to="{name: 'landing.simulator'}">Simulador</router-link>
+                            </li>
+                        </div>
+
 
                         <li v-if="isLogged">
                             <router-link :to="{name: 'landing.auth.logout'}" exact v-if="isOnline">Sair</router-link>
@@ -157,179 +167,50 @@
 
     /* Menu Header */
     .side-menu .header {
-        background: #f2f2f2;
-        padding: 11px 40px;
-        width: 100%;
+        background: transparent;
+        padding: 10px 5px;
+        width: 60%;
+        position: absolute;
+        top: 0; right: 0;
         overflow: hidden;
-        display: flex;
-        align-items: center;
     }
     .side-menu .header .logo {
         width: 110px;
         margin: 0 auto;
     }
 
-.main-menu {
-    list-style: none;
-    padding-left: 0;
-    margin: 20px 0 0 0;
-}
+    /* Main Menu */
+    .main-menu {
+        list-style: none;
+        padding-left: 0;
+        margin: 20px 0 0 0;
+        border-top: 1px solid rgba(255, 255, 255, .3);
+    }
 
-.main-menu > li > a {
-    padding: 14px 20px 14px 20px;
-    display: block;
-    font-weight: 700;
-    background: -webkit-linear-gradient(#FB923B, #F66439);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
-}
+    .main-menu li a {
+        padding: 14px 20px 14px 20px;
+        display: block;
+        font-weight: 700;
+        background: -webkit-linear-gradient(#FB923B, #F66439);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+    }
 
-.main-menu > li > a:hover {
-    color: #262626;
-    background-color: #f7f7f7;
-}
+    .main-menu li a:hover {
+        color: #262626;
+        background-color: #f7f7f7;
+    }
 
-.main-menu > li > a > i {
-    position: absolute;
-    left: 16px;
-    font-size: 20px;
-    top: 0;
-    width: 25px;
-    text-align: center;
-    padding: 13px 0;
-}
+    .main-menu li a.active {
+        color: #262626;
+        background: #F4F4F4;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+    }
 
-.main-menu > li > a.active {
-    color: #262626;
-    background: #F4F4F4;
-    -webkit-background-clip: unset;
-    -webkit-text-fill-color: unset;
-}
-
-.sub-menu > ul > li > a.active {
-    color: #262626;
-    background-color: #F4F4F4;
-}
-
-.sub-menu > a {
-    position: relative;
-}
-
-.sub-menu > a:before,
-.sub-menu > a:after {
-    position: absolute;
-    top: 12px;
-    color: #4A5464 !important;
-    font-family: 'Material-Design-Iconic-Font';
-    font-size: 17px;
-    right: 15px;
-    -webkit-transition: all;
-    -o-transition: all;
-    transition: all;
-    -webkit-transition-duration: 250ms;
-    transition-duration: 250ms;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    backface-visibility: hidden;
-}
-
-.sub-menu > a.user-logged-name:before,
-.sub-menu > a.user-logged-name:after {
-    top: 17px;
-}
-
-.sub-menu > a:before {
-    content: "\f107";
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    -o-transform: scale(1);
-    transform: scale(1);
-}
-
-.sub-menu > a:after {
-    content: "\f107";
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    -webkit-transform: scale(0);
-    -ms-transform: scale(0);
-    -o-transform: scale(0);
-    transform: scale(0);
-}
-
-.sub-menu .sub-menu > a:before,
-.sub-menu .sub-menu > a:after {
-    top: 5px;
-}
-
-.sub-menu.toggled > a:before {
-    content: "\f106";
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    -webkit-transform: scale(0);
-    -ms-transform: scale(0);
-    -o-transform: scale(0);
-    transform: scale(0);
-}
-
-.sub-menu.toggled > a:after {
-  content: "\f106";
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    -o-transform: scale(1);
-    transform: scale(1);
-}
-
-.sub-menu ul {
-    list-style: none;
-    display: none;
-    padding: 0;
-}
-
-.sub-menu ul > li > a {
-    color: #4A5464 !important;
-    padding: 8px 20px 8px 50px;
-    font-weight: 500;
-    display: block;
-}
-
-.sub-menu ul > li > a.active,
-.sub-menu ul > li > a:hover {
-    color: #000;
-}
-
-.sub-menu ul > li:first-child > a {
-    padding-top: 14px;
-}
-
-.sub-menu ul > li:last-child > a {
-    padding-bottom: 16px;
-}
-
-.sub-menu ul > li ul {
-    font-size: 12px;
-    margin: 10px 0;
-    background-color: #f7f7f7;
-}
-
-.sub-menu.active > ul {
-    display: block;
-}
-
-a{
-    text-decoration: none;
-}
+    a {
+        text-decoration: none;
+    }
 
 </style>

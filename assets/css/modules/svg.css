@@ -12,6 +12,13 @@ path.fix { transform: translate(2px, 2px); }
 
 
 /* Desnha Linha */
+
+path.non-fill.xl.animated {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: draw 1s linear forwards;
+}
+
 path.non-fill.animated {
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
