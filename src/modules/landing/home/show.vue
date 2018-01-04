@@ -61,9 +61,13 @@
                 <div class="text-center m-t-30 p-5">
                     <h5 class="m-b-20" style="color: #fff">Não encontrou o drink que procura ?</h5>
 
-                    <button type="button" class="btn btn-block btn-mb-primary-reverse">
+                    <router-link tag="button" :to="{ name: 'landing.drinks.createdrink' }" class="btn btn-block btn-mb-primary-reverse" v-if="isLogged">
                         Crie o seu próprio drink
-                    </button>
+                    </router-link>
+
+                    <router-link tag="button" :to="{ name: 'landing.auth.login' }" class="btn btn-block btn-mb-primary-reverse" v-if="!isLogged">
+                        Faça login para começar a criar
+                    </router-link>
                 </div>
 
             </div>

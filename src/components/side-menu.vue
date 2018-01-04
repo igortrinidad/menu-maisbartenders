@@ -2,14 +2,11 @@
     <div>
         <div ref="sidemenu" id="side-menu-global-id" class="side-menu active">
 
-
             <div class="items">
 
                 <!-- MENU -->
                 <div>
                     <ul class="main-menu">
-
-
 
                         <!-- User Logged And Online -->
                         <div class="border-inside-card" v-if="isLogged && isOnline">
@@ -105,8 +102,6 @@
 
         computed: {
             ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
-
-
         },
 
         mounted() {
