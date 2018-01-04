@@ -119,7 +119,7 @@
 
 
         <!-- Modal Party Reaction -->
-        <div class="modal fade" id="modalReaction" tabindex="-1" data-backdrop="false"  aria-labelledby="myModalLabel">
+        <div class="modal" id="modalReaction" tabindex="-1" data-backdrop="false"  aria-labelledby="myModalLabel">
             <div class="modal-dialog" >
                 <div class="text-center">
                     <br><br><br><br>
@@ -130,7 +130,7 @@
         <!-- / Modal Party Reaction -->
 
         <!-- Modal Cry Reaction -->
-        <div class="modal fade" id="modalReactionCry" tabindex="-1" data-backdrop="false"  aria-labelledby="myModalLabel">
+        <div class="modal" id="modalReactionCry" tabindex="-1" data-backdrop="false"  aria-labelledby="myModalLabel">
             <div class="modal-dialog" >
                 <div class="text-center">
                     <br><br><br><br>
@@ -141,7 +141,7 @@
         <!-- / Modal Cry Reaction -->
 
         <!-- Modal ALERT -->
-        <div class="modal fade" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <br><br><br><br>
             <div class="modal-dialog" role="document">
 
@@ -159,12 +159,11 @@
         <!-- / Modal Alert -->
 
         <!-- Modal Result -->
-        <div class="modal fade" id="modalCalc" tabindex="-1" aria-labelledby="myModalLabel">
+        <div class="modal" id="modalCalc" tabindex="-1" aria-labelledby="myModalLabel">
             <div class="modal-dialog" >
 
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4>Simulador</h4>
                         <small class="smallCaption">Quantidade indicada para seu evento.</small>
                         <br><br><br>
@@ -188,6 +187,8 @@
                     </div>
                     <div class="modal-footer">
                         <p class="pull-right" style="font-size:12px">Estimativa somente para referência considerando eventos sociais com duração de 6 horas.</p>
+
+                        <button type="button" class="btn btn-block btn-mb-primary" data-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
