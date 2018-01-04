@@ -77,3 +77,11 @@
     z-index: 2000;
 }
 
+/* Buttons Fixed */
+.btn.btn-fixed-bottom {
+    position: absolute;
+    left: 0; bottom: 0; right: 0;
+    width: 100%;
+    display: block;
+    border-radius: 0;
+}
