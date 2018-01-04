@@ -9,12 +9,13 @@
                 <div>
                     <ul class="main-menu">
 
+
+
                         <!-- User Logged And Online -->
                         <div class="border-inside-card" v-if="isLogged && isOnline">
-                            <li>
-                                <a href="#">Olá, {{ currentUser.full_name }}.</a>
+                            <li  v-if="isLogged && isOnline">
+                                <a href="#">Olá, {{ currentUser.full_name }}</a>
                             </li>
-
                             <li>
                                 <router-link :to="{name: 'landing.user.preferences'}">Meus drinks</router-link>
                             </li>
