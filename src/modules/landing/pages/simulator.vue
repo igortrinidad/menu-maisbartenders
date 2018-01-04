@@ -148,10 +148,7 @@
                 <div class="modal-content">
                     <div class="modal-body text-center">
                         <h4>Atenção</h4>
-                        <br>
-                        <small class="smallCaption">Por favor, preencha todas as informações.</small>
-                        <br><br>
-
+                        <small>Por favor, preencha todas as informações.</small>
                     </div>
                 </div>
             </div>
@@ -164,30 +161,38 @@
 
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                        <h4>Simulador</h4>
+                        <h4 class="title-section m-0 m-b-10">Simulador</h4>
                         <small class="smallCaption">Quantidade indicada para seu evento.</small>
-                        <br><br><br>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Bebida</th>
-                                    <th class="text-center">Qtde indicada</th>
-                                    <th class="text-center">Qtde com reserva (20%)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="bev in bevsFiltered">
-                                    <td>{{bev.name}}</td>
-                                    <td class="text-center">{{(bev.ref/100  * sum * guests).toFixed(0)}}</td>
-                                    <td class="text-center">{{(bev.ref/100  * sum * guests * 1.20).toFixed(0)}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+                        <div class="panel panel-default m-t-30" style="color: #222">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Bebida</th>
+                                        <th class="text-center">Qtde indicada</th>
+                                        <th class="text-center">Qtde com reserva (20%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="bev in bevsFiltered">
+                                        <td>{{bev.name}}</td>
+                                        <td class="text-center">{{(bev.ref/100  * sum * guests).toFixed(0)}}</td>
+                                        <td class="text-center">{{(bev.ref/100  * sum * guests * 1.20).toFixed(0)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card m-0 attention" style="color: #222">
+                            <div class="card-body card-padding">
+                                <h5 class="card-title m-0">Atenção</h5>
+                                <p class="m-b-0">Estimativa somente para referência considerando eventos sociais com duração de 6 horas.</p>
+                            </div>
+                        </div>
+
 
                     </div>
                     <div class="modal-footer">
-                        <p class="pull-right" style="font-size:12px">Estimativa somente para referência considerando eventos sociais com duração de 6 horas.</p>
-
                         <button type="button" class="btn btn-block btn-mb-primary" data-dismiss="modal">Fechar</button>
                     </div>
                 </div>
@@ -406,6 +411,13 @@ export default {
 
     thead tr th {
         vertical-align: middle;
+    }
+
+    /* Card Attention */
+    .card.attention p {
+        line-height: 1.3;
+        font-size: 12px;
+        margin-top: 10px;
     }
 
 </style>

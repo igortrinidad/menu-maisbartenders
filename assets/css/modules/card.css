@@ -1,3 +1,7 @@
+/* Panel Bootstrap */
+.panel { border-radius: 10px; }
+
+/* Card */
 .card {
     border-radius: 10px;
 }
