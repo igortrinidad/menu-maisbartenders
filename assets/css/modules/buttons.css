@@ -1,7 +1,12 @@
+/* Default Buttons */
 .btn.btn-xs {
     padding: 7.5px 14.5px !important;
     font-size: 11px;
     font-weight: 700 !important;
+}
+
+.btn.btn-xs.outline {
+    padding: 6.5px 13.5px !important;
 }
 
 .btn {
@@ -10,20 +15,41 @@
     font-weight: 700 !important;
 }
 
-.btn.btn-mb-primary {
+.btn.outline {
+    padding: 14px 24px !important;
+}
+
+/* Button Mais Bartenders Primary */
+.btn.btn-mb-primary,
+.btn.btn-mb-primary.outline.reset-outline {
     background: -webkit-linear-gradient(left, #f7941e, #f66439);
-    border: 1px solid transparent;
+    border: 0;
     color: #fff;
 }
 
+.btn.btn-mb-primary.outline {
+    background: transparent;
+    border: 1px solid #f7941e;
+    color: #f7941e;
+}
+
+/* Button Mais Bartenders Primary Reverse */
+.btn.btn-mb-primary-reverse {
+    background: #FFF;
+    border: 0;
+    color: #f7941e;
+}
+
+/* Button Mais Bartenders Info */
 .btn.btn-mb-info {
     background: -webkit-linear-gradient(left, #3498db, #1f76b1);
-    border: 1px solid transparent;
+    border: 0;
     color: #fff;
 }
 
+/* Button Mais Bartenders Facebook */
 .btn.btn-mb-facebook {
     background: -webkit-linear-gradient(left, #4267b2, #3b5998);
-    border: 1px solid transparent;
+    border: 0;
     color: #fff;
 }

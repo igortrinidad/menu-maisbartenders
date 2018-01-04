@@ -4,6 +4,8 @@
 }
 .non-fill { fill: transparent; stroke-width: 2px; }
 
+.non-fill.xs { stroke-width: 1px; }
+
 .non-fill-xs { fill: transparent; stroke-width: 1px; }
 
 path.fix { transform: translate(2px, 2px); }
