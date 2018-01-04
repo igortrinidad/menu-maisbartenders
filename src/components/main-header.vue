@@ -3,6 +3,17 @@
         <side-menu v-if="title === 'logo'" />
         <div id="hammer-menu" ref="hammerMenu" v-if="title === 'logo'"></div>
 
+        <div class="circle">
+            <svg viewBox="0 0 100 100">
+                <defs>
+                    <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%"   stop-color="#FB923B"/>
+                        <stop offset="100%" stop-color="#F66439"/>
+                    </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="40" stroke="url(#linear)" stroke-width="5" fill="transparent" />
+            </svg>
+        </div>
         <button type="button" class="hamburger" :class="{ 'back': title !== 'logo' }" @click="handleSideMenu()">
             <span class="line"></span>
             <span class="line"></span>
@@ -139,6 +150,7 @@
 
                     this.fixIcon(false)
                     $('.side-menu-bg').css({ display: 'none' })
+                    $('.circle').removeClass('in')
                     $('.hamburger').removeClass('is-active')
                     $('#side-menu-global-id').transition({ y: 0, x: -280 }, 300)
                     $('.side-menu-bg').transition({ background: 'rgba(0, 0, 0, 0)' }, 300)
@@ -149,6 +161,7 @@
                     this.menu = true
                     this.fixIcon(true)
                     $('.side-menu-bg').css({ display: 'block' })
+                    $('.circle').addClass('in')
                     $('.hamburger').addClass('is-active')
                     $('#side-menu-global-id').transition({ y: 0, x: 0 }, 300)
                     $(this.$refs.hammerMenu).transition({ y: 0, x: 260 }, 0)
@@ -261,6 +274,21 @@
     }
     /* Hamburger Button Effect */
 
+    .circle {
+        position: fixed;
+        z-index: 999;
+        top: 7px;
+        left: 5px;
+        width: 60px;
+        stroke-dasharray: 300;
+        stroke-dashoffset: 300;
+        transition: ease .3s;
+    }
+    .circle.in {
+        stroke-dashoffset: 0;
+        transition: ease .3s;
+    }
+
     .hamburger {
         background: transparent;
         border: none;
@@ -269,7 +297,7 @@
         transition: all 0.3s ease-in-out;
         width: 30px;
         position: fixed;
-        top: 33px; left: 15px;
+        top: 33px; left: 20px;
         z-index: 999;
     }
 

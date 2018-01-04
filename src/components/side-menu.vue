@@ -131,11 +131,11 @@
         left: 0;
         width: 250px;
         min-height: 100vh;
-        background: #fff;
+        background: #222;
         z-index: 777;
         box-shadow: 0 2px 4px rgba(0, 0, 0, .4);
-        padding: 50px 0 0 0;
-        overflow-y: scroll;
+        padding: 60px 0 0 0;
+        overflow: hidden;
         transform: translateX(-280px);
     }
 
@@ -169,8 +169,6 @@
         margin: 0 auto;
     }
 
-
-
 .main-menu {
     list-style: none;
     padding-left: 0;
@@ -180,8 +178,10 @@
 .main-menu > li > a {
     padding: 14px 20px 14px 20px;
     display: block;
-    color: #4A5464 !important;
-    font-weight: 500;
+    font-weight: 700;
+    background: -webkit-linear-gradient(#FB923B, #F66439);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     position: relative;
 }
 
@@ -202,7 +202,9 @@
 
 .main-menu > li > a.active {
     color: #262626;
-    background-color: #F4F4F4;
+    background: #F4F4F4;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
 }
 
 .sub-menu > ul > li > a.active {
