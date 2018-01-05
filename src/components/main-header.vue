@@ -66,13 +66,8 @@
         computed: {
             ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
         },
-        watch: {
-            '$route': function() {
-                this.setNavbarTransparent()
-            }
-        },
+
         mounted(){
-            this.setNavbarTransparent()
             if (this.$route.path === '/') {
                 this.mountMenuHammer()
             }
@@ -86,13 +81,7 @@
         },
         methods:{
 
-            setNavbarTransparent() {
-                if (this.$route.name === 'landing.events.show' || this.$route.name === 'landing.events.show-offline') {
-                    this.navbarTransparent = true
-                } else {
-                    this.navbarTransparent = false
-                }
-            },
+
 
             mountMenuHammer() {
                 let that = this

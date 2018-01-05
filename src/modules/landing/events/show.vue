@@ -1,8 +1,7 @@
 <template>
     <div class="first-container" ref="container">
 
-        <main-header :title="'Evento não econtrado'" v-if="!eventFound"/>
-        <main-header :title="event.name" v-if="eventFound"/>
+        <main-header :title="eventFound ? event.name : 'Evento não encontrado'" />
 
         <div v-if="eventFound">
             <header id="header-event" class="header-greeting" v-bind:style="{ backgroundImage: eventBackground}">
@@ -823,6 +822,7 @@
                         , [])
                     .value()
             },
+
             getEvent: function () {
                 let that = this
 
