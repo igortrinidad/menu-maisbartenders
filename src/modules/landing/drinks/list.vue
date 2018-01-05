@@ -1,46 +1,46 @@
 <template>
-    <div class="page">
+    <div class="first-container">
 
         <main-header :title="'Drinks'"/>
 
-        <div class="main">
-            <!-- CATEGORIES -->
-            <div class="container" v-show="!interactions.finished_loading_category && !interactions.is_loading"
-                 :class="{'cat-is-selected' : currentCategory}">
+        <!-- CATEGORIES -->
+        <div class="container" v-show="!interactions.finished_loading_category && !interactions.is_loading"
+             :class="{'cat-is-selected' : currentCategory}">
 
-                <h3 class="text-center">Categorias</h3>
+            <h3 class="text-center">Categorias</h3>
 
-                <p class="text-center section-subheading text-muted">Selecione uma categoria para ver os drinks</p>
+            <p class="text-center section-subheading text-muted">Selecione uma categoria para ver os drinks</p>
 
-                <div class="col-row-categories">
-                    <!-- ALL -->
-                    <div class="col-categories">
-                        <div class="card-cat text-center"
-                             @click="selectCategory(categoryAll)"
-                             :class="{'bounce' : currentCategory == categoryAll}">
-                            <div class="p-10">
-                                <img src="../../../assets/logo_mb_2.png" class="icon-img icon-img-l m-t-5">
-                                <p class="f-default m-t-10">{{categoryAll['name_pt']}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ALL -->
-                    <div class="col-categories" v-for="category in categories">
-                        <div class="card-cat text-center"
-                             @click="selectCategory(category)"
-                             :class="{
-                                    'bounce' : currentCategory && currentCategory == category
-                                }">
-                            <div class="p-10">
-                                <img :src="category.photo_url" class="icon-img icon-img-l m-t-5">
-                                <p class="f-default m-t-10">{{category['name_pt']}}</p>
+            <div class="categories">
+                <!-- ALL -->
+                <div class="category">
+                    <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
+                         @click="selectCategory(categoryAll)">
+                        <div class="card-body card-padding">
+                            <img class="cat-icon" src="../../../assets/images/todos_drinks.svg" alt="">
+                            <div class="m-t-5">
+                                <h6 class="card-title m-b-0">{{categoryAll['name_pt']}}</h6>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- /ALL -->
+                <!--Fetched categories-->
+                <div class="category" v-for="(category) in categories">
+                    <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
+                         @click="selectCategory(category)">
+                        <div class="card-body card-padding">
+                            <img class="cat-icon" :src="category.photo_url" alt="">
+                            <div class="m-t-5">
+                                <h6 class="card-title m-b-0">{{category['name_pt']}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Fetched categories-->
             </div>
-            <!-- CATEGORIES -->
         </div>
+        <!-- /CATEGORIES -->
 
         <section class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)"
                  v-show="interactions.finished_loading_category">
@@ -86,7 +86,7 @@
                                      :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
                                     <span class="drink-item" v-for="(item, index) in drink.items">
                                         <span v-show="item.pivot.is_visible">
-                                            {{ item.name }}
+                                            {{ item.name_pt }}
                                         </span>
                                     </span>
                                 </div>
@@ -172,7 +172,7 @@
                 </div>
             </div>
 
-            <button type="button" class="btn btn-primary btn-block btn-fixed-bottom"
+            <button type="button" class="btn btn-primary btn-mb-primary btn-block btn-fixed-bottom"
                     @click.prevent="resetCategory()"
                     v-if="interactions.finished_loading_category">
                 Alterar categoria
@@ -297,8 +297,8 @@
                 filterCategories: [],
                 currentCategory: null,
                 categoryAll: {
-                    name_en: 'All categories',
-                    name_pt: 'Todas as categorias',
+                    name_en: 'All drinks',
+                    name_pt: 'Todos os drinks',
                     slug_pt: 'todas',
                     slug_en: 'all',
                     photo_url: ''
@@ -560,6 +560,7 @@
                 if (this.currentCategory && this.currentCategory.slug_en == 'all' || this.currentCategory && this.currentCategory.slug_pt == 'todas') return true
 
                 if (!this.filterCategories.length) return true
+
                 return (
                     _.chain(drink.categories)
                         .map((i) => i.slug_pt)
@@ -570,19 +571,30 @@
 
             selectCategory(category) {
                 let that = this
+                that.setLoading({is_loading: true, message: ''})
                 that.currentCategory = category;
                 that.applyCategoryFilter(category.slug_pt)
+
+
 
                 setTimeout(function () {
                     that.interactions.is_loading = false;
                     that.interactions.finished_loading_category = true;
+                    that.setLoading({is_loading: false, message: ''})
                 }, 500);
             },
 
             resetCategory() {
                 let that = this
-                that.currentCategory = null;
-                that.interactions.finished_loading_category = false;
+                that.setLoading({is_loading: true, message: ''})
+
+                setTimeout(function () {
+                    that.currentCategory = null;
+                    that.interactions.finished_loading_category = false;
+                    that.setLoading({is_loading: false, message: ''})
+                }, 500);
+
+
             }
         }
     }
@@ -625,34 +637,13 @@
         box-shadow: 0px 2px 3px rgba(0, 0, 0, .1), 0px -2px 3px rgba(0, 0, 0, .1);
     }
 
-    .icon-img {
-        display: block;
-        width: auto;
-        height: 40px;
-        margin: 21px auto 0 auto;
-    }
-
-    .icon-img.icon-img-l {
+    .cat-icon {
         width: auto;
         height: 60px;
     }
 
-    .card-cat-col {
-        padding-right: 10px;
-        padding-left: 10px;
-        margin-top: 20px;
-    }
-
     .card-cat {
-        background-color: #FFFFFF;
-        border-radius: 15px;
-        cursor: pointer;
         box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
-    }
-
-    .main {
-        padding: 5px 0;
-        position: relative;
     }
 
     .m-b-60 {

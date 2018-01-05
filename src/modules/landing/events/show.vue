@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="first-container" ref="container">
 
         <main-header :title="'Evento não econtrado'" v-if="!eventFound"/>
         <main-header :title="event.name" v-if="eventFound"/>
@@ -81,94 +81,67 @@
             </section>
 
 
-            <section>
-                <div class="container">
-                    <div class="filter">
-                        <div class="text-center">
-                            <h2>Categorias: </h2>
-                            <p class="sub-header">Selecione uma ou mais categorias.</p>
-                        </div>
+            <span id="categories"></span>
+            <span id="drinks"></span>
+            <section  v-show="!interactions.finished_loading_category && !interactions.is_loading">
+                <!-- CATEGORIES -->
+                <h3 class="text-center">Categorias</h3>
+                <div class="container"
+                     :class="{'cat-is-selected' : currentCategory}">
 
-                        <div class="tags-list">
-                            <div class="tags">
-                                <div class="tag">
-                                    <button
-                                        type="button"
-                                        :class="{'tag-selected': interactions.showCategories}"
-                                        @click="interactions.showCategories = !interactions.showCategories"
-                                    >
-                                        <span class="tag-name">Mostrar categorias</span>
-                                    </button>
+                    <p class="text-center section-subheading text-muted">Selecione uma categoria para ver os drinks especialmente selecionados para este evento.</p>
+
+                    <div class="categories">
+                        <!-- ALL -->
+                        <div class="category">
+                            <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
+                                 @click="selectCategory(categoryAll)">
+                                <div class="card-body card-padding">
+                                    <img class="cat-icon" src="../../../assets/images/todos_drinks.svg" alt="">
+                                    <div class="m-t-5">
+                                        <h6 class="card-title m-b-0">{{categoryAll['name_pt']}}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="tags-list" v-if="interactions.showCategories">
-                            <div class="tags">
-                                <div class="tag" v-for="category in event.drink_categories">
-                                    <button
-                                        class="button-tag"
-                                        :class="{ 'tag-selected': filterCategory.indexOf(category.slug_pt) > -1 }"
-                                        type="button"
-                                        @click="applyCategoryFilter(category.slug_pt, $event)"
-                                    >{{ category.name_pt }}<span class="close-tag">x</span>
-                                    </button>
+                        <!-- /ALL -->
+                        <!--Fetched categories-->
+                        <div class="category" v-for="(category) in event.drink_categories">
+                            <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
+                                 @click="selectCategory(category)">
+                                <div class="card-body card-padding">
+                                    <img class="cat-icon" :src="category.photo_url" alt="">
+                                    <div class="m-t-5">
+                                        <h6 class="card-title m-b-0">{{category['name_pt']}}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- /Fetched categories-->
                     </div>
                 </div>
+                <!-- /CATEGORIES -->
 
-                <div class="container">
-                    <div class="filter">
-                        <div class="text-center">
-                            <h2>Ingredientes: </h2>
-                            <p class="sub-header">Selecione os ingredientes de sua preferência.</p>
-                        </div>
-
-                        <div class="tags-list">
-                            <div class="tags">
-                                <div class="tag">
-                                    <button
-                                        type="button"
-                                        :class="{'tag-selected': interactions.showTags}"
-                                        @click="interactions.showTags = !interactions.showTags"
-                                    >
-                                        <span class="tag-name">Mostrar filtros</span>
-                                    </button>
-                                </div>
-                                <div class="tag" v-if="interactions.showTags">
-                                    <button type="button" :class="{'tag-selected': filterOptions.length}"
-                                            @click="clearFilter()">
-                                        <span class="tag-name">Limpar filtro</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tags-list" v-if="interactions.showTags">
-                            <div class="tags">
-                                <div class="tag" v-for="tag in tags">
-                                    <!-- aqui eu preciso adicionar uma tag fixa 'button tag' e uma outra para cada tipo de categoria, fruta ou bebida,nao sei e o o melhor jeito assim: -->
-                                    <button
-                                        class="button-tag"
-                                        :class="{ 'tag-selected': filterOptions.indexOf(tag.name_pt) > -1 }"
-                                        type="button"
-                                        @click="applyFilterOptions(tag.name_pt, $event)"
-                                    >{{ tag.name_pt }}<span class="close-tag">x</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <p class="m-l-5">
-                            Localizamos {{drinksFiltered.length}} drinks em 0,{{Math.floor(Math.random() * 11)}}s</p>
-
-                    </div>
-                </div>
             </section>
 
-            <section id="drinks" class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
+            <section class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)"  v-show="interactions.finished_loading_category">
+                <div class="text-center" v-if="interactions.finished_loading_category">
+                    <h3>Drinks</h3>
+                    <p class="text-center section-subheading text-muted">Você está visualizando os drinks da categoria</p>
+                    <div class="card-body card-padding m-b-20">
+                        <img class="cat-icon" :src="currentCategory.photo_url" alt="">
+                        <div class="m-t-5">
+                            <h6 class="card-title m-b-0">{{currentCategory['name_pt']}}</h6>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-mb-primary "
+                            @click.prevent="resetCategory()"
+                    >
+                        Alterar categoria
+                    </button>
+                </div>
+
 
                 <div class="list-drinks">
                     <div class="container">
@@ -184,10 +157,24 @@
                                     </span>
                                         <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
                                               data-target="#badge-help">
-                                        <img class="zoom" src="../../../assets/images/star.png"
+                                        <img src="../../../assets/images/star.png"
                                              alt="Este drink está entre os BEST SELLERS"
                                              title="Este drink está entre os BEST SELLERS">
                                     </span>
+                                        <span class="badge" v-if="drink.fiancee_drink" data-toggle="modal"
+                                              data-target="#badge-help">
+                                           <img
+                                               src="../../../assets/images/noiva.svg"
+                                               alt="Este drink foi escolhido pela noiva"
+                                               title="Este drink foi escolhido pela noiva">
+                                        </span>
+                                        <span class="badge" v-if="drink.groom_drink" data-toggle="modal"
+                                              data-target="#badge-help">
+                                           <img
+                                               src="../../../assets/images/preferido_do_noivo.svg"
+                                               alt="Este drink foi escolhido pelo noivo"
+                                               title="Este drink foi escolhido pelo noivo">
+                                        </span>
                                     </div>
 
                                     <router-link tag="span"
@@ -282,6 +269,14 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="text-center m-t-20" v-if="interactions.finished_loading_category">
+                            <button type="button" class="btn btn-mb-primary "
+                                    @click.prevent="resetCategory()"
+                            >
+                                Alterar categoria
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -319,6 +314,33 @@
                                     <p>
                                         Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos
                                         eventos.</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 text-center">
+                                <span class="modal-badge badge">
+                                    <img src="../../../assets/images/noiva.svg"
+                                         alt="Este drink foi escolhido pela noiva"
+                                         title="Este drink foi escolhido pela noiva">
+                                </span>
+
+                                    <p>Os drinks com este ícone foram especialmente escolhidos pela
+                                        noiva.</p>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 text-center">
+                                <span class="modal-badge badge">
+                                    <img src="../../../assets/images/preferido_do_noivo.svg"
+                                         alt="Este drink foi escolhido pelo noivo"
+                                         title="Este drink foi escolhido pelo noivo">
+                                </span>
+
+                                    <p>Os drinks com este ícone foram especialmente escolhidos pelo
+                                        noivo.</p>
                                 </div>
                             </div>
                             <br>
@@ -495,6 +517,8 @@
     import mainHeader from '@/components/main-header.vue'
     import pagination from '@/components/pagination'
 
+    import allDrinks from '../../../assets/images/todos_drinks.svg'
+
     export default {
         name: 'show-event',
         components: {
@@ -510,10 +534,8 @@
                     phraseSelected: '',
                     whatsappPhraseSelected: '',
                     drinkSelected: drinkObj,
-                    showTags: false,
                     drinksToShowInfo: [],
-                    drinksToShowInfo: [],
-                    showCategories: false
+                    finished_loading_category: false,
                 },
                 eventHasHappened: false,
                 filterOptions: [],
@@ -529,7 +551,15 @@
                     minutes: 0,
                     seconds: 0
                 },
-                filterCategory: []
+                filterCategory: [],
+                currentCategory: null,
+                categoryAll: {
+                    name_en: 'All drinks',
+                    name_pt: 'Todos os drinks',
+                    slug_pt: 'todas',
+                    slug_en: 'all',
+                    photo_url: allDrinks
+                }
             }
         },
         computed: {
@@ -566,33 +596,12 @@
             drinksFiltered: function () {
                 var that = this
                 var arr = this.event.drinks.filter(function (drink) {
-                    return that.checkIfDrinkHasItem(drink) && that.checkIfDrinkHasCategory(drink)
+                    return that.checkIfDrinkHasCategory(drink)
                 })
 
-                return arr;
-            },
-
-            tags: function () {
-                let that = this
-
-                var arr = [];
-
-                that.drinksFiltered.map((drink) => {
-                    drink.items.map((item) => {
-                        if (item.pivot.is_visible) {
-                            if (arr.checkFromAttr('name_pt', item.name_pt)) {
-                                return false
-                            } else {
-                                arr.push({name_pt: item.name_pt, category: item.category})
-                            }
-                        }
-                    });
-                });
-
-                return _.orderBy(arr, 'category', 'asc');
+                    return arr;
 
             },
-
             phrases: function () {
                 let that = this
 
@@ -748,20 +757,12 @@
                 }
             },
 
-            checkIfDrinkHasItem: function (drink) {
-
-                if (!this.filterOptions.length) return true
-                return (
-                    _.chain(drink.items)
-                        .map((i) => i.name_pt)
-                        .some(item => this.filterOptions.includes(item))
-                        .value()
-                )
-            },
-
             checkIfDrinkHasCategory: function (drink) {
 
+                if (this.currentCategory && this.currentCategory.slug_en == 'all' || this.currentCategory && this.currentCategory.slug_pt == 'todas') return true
+
                 if (!this.filterCategory.length) return true
+
                 return (
                     _.chain(drink.categories)
                         .map((i) => i.slug_pt)
@@ -769,21 +770,6 @@
                         .value()
                 )
             },
-
-            applyFilterOptions: function (item, event) {
-                const index = this.filterOptions.indexOf(item)
-
-                if (index > -1) {
-                    this.filterOptions.splice(index, 1)
-                } else {
-                    this.filterOptions.push(item)
-                }
-            },
-
-            clearFilter: function () {
-                this.filterOptions = []
-            },
-
 
             addDrinkPreference: function (drink) {
                 let that = this
@@ -1110,6 +1096,40 @@
                 } else {
                     this.filterCategory.push(category_slug)
                 }
+            },
+            selectCategory(category) {
+                let that = this
+
+                that.setLoading({is_loading: true, message: ''})
+                that.currentCategory = category;
+                that.applyCategoryFilter(category.slug_pt)
+
+                setTimeout(function () {
+                    that.interactions.is_loading = false;
+                    that.interactions.finished_loading_category = true;
+                    that.setLoading({is_loading: false, message: ''})
+
+                }, 500);
+
+                that.$nextTick(() => {
+                    that.$scrollTo('#drinks')
+                })
+            },
+
+            resetCategory() {
+                let that = this
+                that.setLoading({is_loading: true, message: ''})
+
+                setTimeout(function () {
+                    that.currentCategory = null;
+                    that.filterCategory = [];
+                    that.interactions.finished_loading_category = false;
+                    that.setLoading({is_loading: false, message: ''})
+                }, 500);
+
+                that.$nextTick(() => {
+                    that.$scrollTo('#categories')
+                })
             }
         }
     }
@@ -1506,5 +1526,15 @@
             font-size: 12px;
         }
     }
+
+    .cat-icon {
+        width: auto;
+        height: 60px;
+    }
+
+    .card-cat {
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
+    }
+
 
 </style>
