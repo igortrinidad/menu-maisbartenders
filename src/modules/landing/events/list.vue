@@ -1,12 +1,34 @@
 <template>
-   <div class="page">
+   <div class="first-container">
 
        <main-header :title="'Eventos'" />
 
-       <img :src="applicationDirectory" alt="">
+       <!-- Icon SVG + Title -->
+       <div class="container">
+           <div class="svg-container">
+               <svg viewBox="0 0 90 90">
+                   <defs>
+                       <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                           <stop offset="0%"   stop-color="#FB923B"/>
+                           <stop offset="100%" stop-color="#F66439"/>
+                       </linearGradient>
+                   </defs>
+
+                    <path class="non-fill fix animated" stroke="url(#linear)"
+                        d="m 35.86,55.74 a 1.5,1.5 0 0 0 2.12,0 L 62.16,31.56 a 1.5,1.5 0 0 0 -2.12,-2.12 l -23.12,23.11 -12,-12 a 1.5,1.5 0 1 0 -2.12,2.12 z"
+                    />
+                    <path class="non-fill xl fix animated" stroke="url(#linear)"
+                        d="m 0,67.75 a 9.51,9.51 0 0 0 9.5,9.5 h 66 a 9.51,9.51 0 0 0 9.5,-9.5 v -49 A 9.51,9.51 0 0 0 75.5,9.25 H 64 V 1.5 a 1.5,1.5 0 1 0 -3,0 V 9.25 H 24 V 1.5 a 1.5,1.5 0 1 0 -3,0 V 9.25 H 9.5 A 9.51,9.51 0 0 0 0,18.75 Z m 3,-49 a 6.51,6.51 0 0 1 6.5,-6.5 H 21 v 5.5 a 1.5,1.5 0 0 0 3,0 v -5.5 h 37 v 5.5 a 1.5,1.5 0 0 0 3,0 v -5.5 h 11.5 a 6.51,6.51 0 0 1 6.5,6.5 v 49 a 6.51,6.51 0 0 1 -6.5,6.5 H 9.5 A 6.51,6.51 0 0 1 3,67.75 Z"
+                    />
+               </svg>
+           </div>
+
+           <h4 class="title-section">Eventos Mais Bartenders</h4>
+       </div>
+
+       <!-- Event Code -->
         <div>
             <div class="container m-t-30 text-center">
-                <h2>Eventos</h2>
                 <span class="sub-header">Digite o código do evento ou selecione abaixo.</span>
 
                 <div class="form-group">
@@ -82,7 +104,6 @@
                 events: [],
                 pagination: {},
                 event_url: '',
-                applicationDirectory: ''
             }
         },
         computed:{
