@@ -16,3 +16,27 @@
         column-count: 3;
     }
 }
+
+
+/* Scroll X */
+
+.row-x {
+    width: 100%;
+    column-count: 3;
+    column-gap: 0;
+    margin: 0 -15px;
+}
+
+@media (max-width: 768px) {
+    .row-x {
+        column-count: auto;
+        column-gap: auto;
+        overflow-x: scroll;
+        white-space: nowrap;
+
+    }
+}
+
+::-webkit-scrollbar {
+   display: none;
+}

@@ -78,21 +78,19 @@
                 </div>
 
                 <!-- Drink Presentation & Style -->
-                <div class="card">
+                <div class="card text-center">
                     <div class="card-body card-padding">
 
                         <!-- Presentation -->
-                        <label>Apresentação</label>
                         <div class="form-group">
-                            <div class="row">
-                                <div class="col-lg-2 col-sm-4 col-xs-4" v-for="(presentation, index) in presentations" :key="index">
-                                    <div ref="presentation" class="presentation">
-                                        <img class="cursor-pointer" :src="presentation.path" @click="setPresentation(presentation.name, $event)">
-                                        <div class="text-center text-overflow">
-                                            <span>{{ presentation.name }}
-                                                <i class="fa fa-check"></i>
-                                            </span>
-                                        </div>
+                            <label>Apresentação</label>
+                            <div class="row-x">
+                                <div ref="presentation" class="presentation" v-for="(presentation, index) in presentations" :key="index">
+                                    <img class="cursor-pointer" :src="presentation.path" @click="setPresentation(presentation.name, $event)">
+                                    <div class="text-center text-overflow">
+                                        <span>{{ presentation.name }}
+                                            <i class="fa fa-check"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -101,16 +99,19 @@
                         <!-- Style -->
                         <div class="form-group">
                             <label for="drink-style">Estilo</label>
-                            <v-select
-                                id="drink-style"
-                                :label="'name'"
-                                :options="styles"
-                                :multiple="false"
-                                v-model="drink.style"
-                                placeholder="Escolha o nível de alcool"
-                            >
-                                <span slot="no-options">Não foi possível localizar estilos :(</span>
-                            </v-select>
+
+                            <div class="m-t-10">
+                                <button
+                                    type="button"
+                                    class="btn btn-xs btn-mb-primary m-5"
+                                    v-for="style in styles"
+                                    :class="{ 'outline': style !== drink.style }"
+                                    @click="drink.style = style"
+                                >
+                                    {{ style.name }}
+                                </button>
+                            </div>
+
                         </div>
 
                     </div>
@@ -359,75 +360,84 @@
 </script>
 
 <style scoped>
-.canvas-empty{ height: 0; }
+    .canvas-empty{ height: 0; }
 
-.button-container{ margin-top: 30px; }
+    .button-container{ margin-top: 30px; }
 
-.md-created-drink-chart{
-    margin-top: 30px;
-}
+    .md-created-drink-chart{
+        margin-top: 30px;
+    }
 
-/* badge */
-.md-created-drink-chart .badges{
-    position: relative;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-}
+    /* badge */
+    .md-created-drink-chart .badges{
+        position: relative;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+    }
 
-.badge-container{
-    width: 100%;
-    position: relative;
-    padding: 0 20px 20px 20px;
-    margin: 30px 0;
-}
-.badge:hover{ transform: none }
+    .badge-container{
+        width: 100%;
+        position: relative;
+        padding: 0 20px 20px 20px;
+        margin: 30px 0;
+    }
+    .badge:hover{ transform: none }
 
-.badge{
-    margin: 0 auto 20px auto;
-    width: 70px;
-    height: 70px;
-}
+    .badge{
+        margin: 0 auto 20px auto;
+        width: 70px;
+        height: 70px;
+    }
 
-/* presentations */
-.presentation{
-    margin: 15px 0;
-    position: relative;
-}
-.presentation img{
-    max-width: 100%;
-    filter: grayscale(1);
-    transition: ease .3s;
-    border-radius: 4px;
-    box-sizing: border-box !important;
-    border: 2px solid transparent;
-}
-.presentation.active img{
-    filter: grayscale(0);
-    transition: ease .3s;
-    border: 2px solid #2c3e50;
-}
+    /* presentations */
+    .presentation{
+        position: relative;
+        margin: 15px;
+        display: inline-block;
+        width: 100%;
+    }
 
-.presentation .text-center{
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #2c3e50;
-    margin-top: 10px;
-    font-size: 12px;
-}
+    .presentation img{
+        max-width: 100%;
+        filter: grayscale(1);
+        transition: ease .3s;
+        border-radius: 4px;
+        box-sizing: border-box !important;
+        border: 2px solid transparent;
+    }
 
-.presentation i{
-    display: none;
-    width: 100%;
-    position: absolute;
-    text-align: right;
-    top: 0;
-    padding-top: 7px;
-    padding-right: 7px;
-    font-size: 16px;
-}
-.presentation.active i{ display: block; }
+    .presentation.active img{
+        filter: grayscale(0);
+        transition: ease .3s;
+        border: 2px solid #2c3e50;
+    }
 
+    .presentation .text-center{
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #2c3e50;
+        margin-top: 10px;
+        font-size: 12px;
+    }
+
+    .presentation i{
+        display: none;
+        width: 100%;
+        position: absolute;
+        text-align: right;
+        top: 0;
+        padding-top: 7px;
+        padding-right: 7px;
+        font-size: 16px;
+    }
+    .presentation.active i{ display: block; }
+
+    @media (max-width: 768px) {
+        .presentation{
+            width: 50%;
+        }
+    }
 
 </style>
