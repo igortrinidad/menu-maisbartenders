@@ -3,32 +3,32 @@
 
         <main-header :title="eventFound ? event.name : 'Evento não encontrado'" />
 
-        <!-- Icon SVG + Title -->
-        <div class="container text-center" style="position: relative">
-            <div class="pic xlarge center m-b-10" v-bind:style="{ backgroundImage: eventBackground}">
+        <!-- EventFound -->
+        <div v-if="eventFound">
+
+            <!-- Icon SVG + Title -->
+            <div class="container text-center" style="position: relative">
+                <div class="pic xlarge center m-b-10" v-bind:style="{ backgroundImage: eventBackground}">
+                </div>
+
+                <!-- Event Name -->
+                <!-- <div v-html="event.greeting">
+                </div> -->
+                <h4 class="m-t-0 title-section">{{ event.name }}</h4>
+                <!-- Event HashTag -->
+                <span class="hashtag btn btn-mb-primary">{{ event.hashtag }}</span>
+
             </div>
 
-            <!-- Event Name -->
-            <!-- <div v-html="event.greeting">
-            </div> -->
-            <h4 class="m-t-0 title-section">{{ event.name }}</h4>
-            <!-- Event HashTag -->
-            <span class="hashtag btn btn-mb-primary">{{ event.hashtag }}</span>
-
-        </div>
-
-        <div class="container-colored m-t-30">
-            <h4 class="title-section inverse">Fotos do evento</h4>
-
-            <div class="card">
-                <div class="card-body card-padding">
-                    <pre>{{ event }}</pre>
+            <!-- Container Colored -->
+            <div class="container-colored m-t-30">
+                <div class="container">
+                    <div class="card">
+                        <div class="card-body card-padding">
+                        </div>
+                    </div>
                 </div>
             </div>
-
-        </div>
-
-        <div v-if="eventFound">
 
 
             <section class="section p-t-30">
