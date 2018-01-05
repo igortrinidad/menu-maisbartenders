@@ -6,3 +6,10 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.title-section.inverse {
+    color: #FFF;
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+}
