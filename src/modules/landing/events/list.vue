@@ -1,18 +1,18 @@
 <template>
-   <div class="first-container">
+    <div class="first-container">
 
-       <main-header :title="'Eventos'" />
+        <main-header :title="'Eventos'" />
 
-       <!-- Icon SVG + Title -->
-       <div class="container">
-           <div class="svg-container">
-               <svg viewBox="0 0 90 90">
-                   <defs>
-                       <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                           <stop offset="0%"   stop-color="#FB923B"/>
-                           <stop offset="100%" stop-color="#F66439"/>
-                       </linearGradient>
-                   </defs>
+        <!-- Icon SVG + Title -->
+        <div class="container">
+            <div class="svg-container">
+                <svg viewBox="0 0 90 90">
+                    <defs>
+                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%"   stop-color="#FB923B"/>
+                            <stop offset="100%" stop-color="#F66439"/>
+                        </linearGradient>
+                    </defs>
 
                     <path class="non-fill fix animated" stroke="url(#linear)"
                         d="m 35.86,55.74 a 1.5,1.5 0 0 0 2.12,0 L 62.16,31.56 a 1.5,1.5 0 0 0 -2.12,-2.12 l -23.12,23.11 -12,-12 a 1.5,1.5 0 1 0 -2.12,2.12 z"
@@ -20,65 +20,85 @@
                     <path class="non-fill xl fix animated" stroke="url(#linear)"
                         d="m 0,67.75 a 9.51,9.51 0 0 0 9.5,9.5 h 66 a 9.51,9.51 0 0 0 9.5,-9.5 v -49 A 9.51,9.51 0 0 0 75.5,9.25 H 64 V 1.5 a 1.5,1.5 0 1 0 -3,0 V 9.25 H 24 V 1.5 a 1.5,1.5 0 1 0 -3,0 V 9.25 H 9.5 A 9.51,9.51 0 0 0 0,18.75 Z m 3,-49 a 6.51,6.51 0 0 1 6.5,-6.5 H 21 v 5.5 a 1.5,1.5 0 0 0 3,0 v -5.5 h 37 v 5.5 a 1.5,1.5 0 0 0 3,0 v -5.5 h 11.5 a 6.51,6.51 0 0 1 6.5,6.5 v 49 a 6.51,6.51 0 0 1 -6.5,6.5 H 9.5 A 6.51,6.51 0 0 1 3,67.75 Z"
                     />
-               </svg>
-           </div>
-
-           <h4 class="title-section">Eventos Mais Bartenders</h4>
-       </div>
-
-       <!-- Event Code -->
-        <div>
-            <div class="container m-t-30 text-center">
-                <span class="sub-header">Digite o código do evento ou selecione abaixo.</span>
-
-                <div class="form-group">
-                    <input class="form-control" v-model="event_url" placeholder="Código de acesso do evento.">
-
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-block" @click="eventGo()" :disabled="!event_url">Acessar com código</button>
-                </div>
-                <p></p>
+                </svg>
             </div>
+
+            <h4 class="title-section">Eventos Mais Bartenders</h4>
+
+
+            <div class="text-center m-b-30">
+                <button class="btn btn-mb-primary" data-target="#modal-event-code" data-toggle="modal">
+                    Possuo o código de um evento
+                </button>
+            </div>
+
+
         </div>
 
-        <div class="list-events">
+        <!-- Event List -->
+        <div class="container-colored">
             <div class="container">
-                <div class="cols">
-                    <div v-for="(event, index) in events" class="col">
-                        <div tag="div" class="box event" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
 
-                            <router-link tag="span" :to="{name: 'landing.events.show', params: {event_slug: event.url}}">
-                                <img :src="event.photo_url" :alt="event.name" class="event-gallery-image">
-                                <div class="details">
-                                    <h4 class="event-name">{{ event.name }}</h4>
-                                </div>
+                <!-- Event Code -->
 
-                            </router-link >
+                <!-- Cards Events -->
+                <router-link
+                    tag="div"
+                    class="card"
+                    v-for="(event, index) in events"
+                    :key="index"
+                    :to="{ name: 'landing.events.show', params: { event_slug: event.url } }"
+                >
 
-                        </div>
+                    <div class="card-header cover" :style="`background-image: url(${ event.photo_url })`">
                     </div>
+
+                    <div class="card-body card-padding">
+                        <h4 class="event-name">{{ event.name }}</h4>
+                    </div>
+
+                </router-link>
+
+                <!-- Navigation -->
+                <div class="text-center" v-show="events.length">
+                    <pagination :source="pagination" @navigate="getEvents" :range="6"></pagination>
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-12" v-show="events.length">
-                        <div class="text-center">
-                            <pagination :source="pagination" @navigate="getEvents" :range="6"></pagination>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="backsection">
-            <div class="container">
-                <hr>
-                <div class="text-center">
-                    <h3>Veja o menu de drinks mais bartenders</h3>
-                    <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.list' }">
+                <!-- Menu Mais Bartenders -->
+                <div class="border-inside-card text-center p-15">
+                    <h4 class="card-title m-b-30">Veja o menu de drinks mais bartenders</h4>
+                    <router-link class="btn btn-block btn-mb-primary-reverse" :to="{ name: 'landing.drinks.list' }">
                         Acesse o menu
                     </router-link>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Modal Event Code -->
+        <div class="modal" id="modal-event-code" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="title-section m-0">Digite o código do evento ou selecione abaixo.</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card text-center">
+                            <div class="card-body card-padding">
+                                <h5 class="card-title m-0"></h5>
+
+                                <div class="form-group m-t-20">
+                                    <input class="form-control" v-model="event_url" placeholder="Código de acesso do evento.">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-mb-primary" data-dismiss="modal" @click="eventGo()" :disabled="!event_url">Acessar com código</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-mb-primary-reverse" data-dismiss="modal">Fechar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -238,11 +258,14 @@
 }
 
 .event-name{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    text-align: center;
+    margin: 28.5px 0;
+    font-weight: 300;
+    color: #222;
 }
 
 .drink .stars { margin-right: 3px; }
+
+.border-inside-card { border-color: rgba(255, 255, 255, .3); }
 
 </style>

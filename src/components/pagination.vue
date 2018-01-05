@@ -135,21 +135,21 @@
     /* Pagination */
     #paginator .pagination > li > a,
     #paginator .pagination > li > span {
-        background-color: transparent;
-        border: 1px solid #fed136;
-        color: #fed136 !important;
+        background-color: #FFF;
+        border: 3px solid #FB923B;
+        color: #FB923B !important;
+        border-radius: 10px;
     }
 
     #paginator .pagination > li.active > a,
     #paginator .pagination > li.active > span {
-        background-color: transparent;
-        color: #2C3E50 !important;
+        background-color: #FFF;
+        color: #FB923B !important;
         font-weight: bold;
     }
 
     #paginator .pagination > li.disabled > a,
     #paginator .pagination > li.disabled > span {
-
-        color: #cccccc !important;
+        color: rgba(32, 32, 32, .7) !important;
     }
 </style>
