@@ -186,11 +186,11 @@
         overflow-y: scroll;
     }
 
-    .main-menu .border-inside-card { margin-bottom: 5px; }
+    .main-menu .border-inside-card { margin-bottom: 14px; }
     .main-menu .border-inside-card:last-child { margin-bottom: 0; }
 
     .main-menu li a {
-        padding: 10px 20px 10px 20px;
+        padding: 7px 14px;
         display: block;
         font-weight: 700;
         background: -webkit-linear-gradient(#FB923B, #F66439);
