@@ -9,6 +9,7 @@
 .non-fill-xs { fill: transparent; stroke-width: .4px; }
 
 path.fix { transform: translate(2px, 2px); }
+path.fix-user { transform: translate(-5px, -2px); }
 
 
 /* Desnha Linha */

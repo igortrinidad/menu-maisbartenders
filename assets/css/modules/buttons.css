@@ -40,6 +40,12 @@
     color: #f7941e;
 }
 
+.btn.btn-mb-primary-reverse.outline {
+    background: transparent;
+    border: 1px solid #FFF;
+    color: #FFF;
+}
+
 /* Button Mais Bartenders Info */
 .btn.btn-mb-info {
     background: -webkit-linear-gradient(left, #3498db, #1f76b1);
