@@ -1,91 +1,125 @@
 <template lang="html">
-    <div class="page">
+    <div class="first-container">
 
         <main-header :title="'Crie seu drink'" />
 
+        <!-- Icon SVG + Title -->
         <div class="container">
-            <div class="text-center">
-                <h2>Crie seu drink personalizado!</h2>
+            <div class="svg-container">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%"   stop-color="#FB923B"/>
+                            <stop offset="100%" stop-color="#F66439"/>
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Path Martini -->
+                    <path class="non-fill xl fix animated" stroke="url(#linear)"
+                        d="m 90.266653,1.6 c -0.3,-0.7 -1,-1.1 -1.8,-1.1 H 2.4666534 c -0.8,0 -1.49999999,0.4 -1.79999999,1.1 -0.3,0.7 -0.2,1.5 0.3,2.1 L 43.666653,53.8 c 0,0.1 0,0.3 0,0.4 v 30.4 h -11.4 c -1.1,0 -2,0.9 -2,1.9 0,1 0.9,1.9 2,1.9 h 26.5 c 1.1,0 2,-0.9 2,-1.9 0,-1 -0.9,-1.9 -2,-1.9 h -11.3 V 54.2 c 0,-0.2 0,-0.3 -0.1,-0.5 l 42.6,-50 c 0.5,-0.6 0.6,-1.4 0.3,-2.1 z M 45.466653,50 6.6666534,4.4 H 84.366653 Z"
+                    />
+
+                    <!-- Path Plus -->
+                    <g transform="translate(-133.38995,-23.280592)">
+                        <g transform="matrix(0.69320669,0,0,0.69320669,173.37256,53.534478)">
+                            <path class="non-fill animated" stroke="url(#linear)"
+                                d="m 73,50 c 0,1.105 -0.895,2 -2,2 H 52 v 19 c 0,1.104 -0.895,2 -2,2 -1.105,0 -2,-0.896 -2,-2 V 52 H 29 c -1.105,0 -2,-0.895 -2,-2 0,-1.105 0.895,-2 2,-2 H 48 V 29 c 0,-1.105 0.895,-2 2,-2 1.105,0 2,0.895 2,2 v 19 h 19 c 1.105,0 2,0.895 2,2 z"
+                            />
+                        </g>
+                    </g>
+                </svg>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="drink-name">Nome do drink</label>
-                        <input
-                            id="drink-name"
-                            class="form-control"
-                            placeholder="Dê um nome para seu drink"
-                            type="text"
-                            v-model="drink.name"
-                        >
-                    </div>
-                </div>
-            </div>
+            <h4 class="title-section">Crie seu drink personalizado!</h4>
+        </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="drink-description">Alguma descrição para seu drink?</label>
-                        <input
-                            id="drink-description"
-                            class="form-control"
-                            placeholder="Dê uma descrição para seu drink (opcional)"
-                            type="text"
-                            v-model="drink.description"
-                        >
-                    </div>
-                </div>
-            </div>
+        <div class="container-colored">
+            <div class="container">
 
-            <div class="form-group" style="position: relative;">
-                <label for="drink-ingredients">Ingredientes</label>
-                <v-select
-                    id="drink-ingredients"
-                    :label="'name_pt'"
-                    :options="ingredients"
-                    :multiple="true"
-                    v-model="selectedIngredients"
-                    placeholder="Selecione no minímo 2 ingredientes"
-                >
-                    <span slot="no-options">Não foi possível localizar ingredientes :(</span>
-                </v-select>
-            </div>
+                <!-- Drink Base Infos -->
+                <div class="card">
+                    <div class="card-body card-padding">
+                        <div class="form-group">
+                            <label for="drink-name">Nome do drink</label>
+                            <input
+                                id="drink-name"
+                                class="form-control"
+                                placeholder="Dê um nome para seu drink"
+                                type="text"
+                                v-model="drink.name"
+                            >
+                        </div>
 
-            <label>Apresentação</label>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-lg-2 col-sm-4 col-xs-4" v-for="(presentation, index) in presentations" :key="index">
-                        <div ref="presentation" class="presentation">
-                            <img class="cursor-pointer" :src="presentation.path" @click="setPresentation(presentation.name, $event)">
-                            <div class="text-center text-overflow">
-                                <span>{{ presentation.name }}
-                                    <i class="fa fa-check"></i>
-                                </span>
-                            </div>
+                        <div class="form-group">
+                            <label for="drink-description">Alguma descrição para seu drink?</label>
+                            <input
+                                id="drink-description"
+                                class="form-control"
+                                placeholder="Dê uma descrição para seu drink (opcional)"
+                                type="text"
+                                v-model="drink.description"
+                            >
+                        </div>
+
+                        <div class="form-group" style="position: relative;">
+                            <label for="drink-ingredients">Ingredientes</label>
+                            <v-select
+                                id="drink-ingredients"
+                                :label="'name_pt'"
+                                :options="ingredients"
+                                :multiple="true"
+                                v-model="selectedIngredients"
+                                placeholder="Selecione no minímo 2 ingredientes"
+                            >
+                                <span slot="no-options">Não foi possível localizar ingredientes :(</span>
+                            </v-select>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="drink-style">Estilo</label>
-                <v-select
-                    id="drink-style"
-                    :label="'name'"
-                    :options="styles"
-                    :multiple="false"
-                    v-model="drink.style"
-                    placeholder="Escolha o nível de alcool"
-                >
-                    <span slot="no-options">Não foi possível localizar estilos :(</span>
-                </v-select>
-            </div>
+                <!-- Drink Presentation & Style -->
+                <div class="card">
+                    <div class="card-body card-padding">
 
-            <div class="md-created-drink-chart">
-                <div class="row">
+                        <!-- Presentation -->
+                        <label>Apresentação</label>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-sm-4 col-xs-4" v-for="(presentation, index) in presentations" :key="index">
+                                    <div ref="presentation" class="presentation">
+                                        <img class="cursor-pointer" :src="presentation.path" @click="setPresentation(presentation.name, $event)">
+                                        <div class="text-center text-overflow">
+                                            <span>{{ presentation.name }}
+                                                <i class="fa fa-check"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="col-sm-12" v-if="!isNewDrink">
+                        <!-- Style -->
+                        <div class="form-group">
+                            <label for="drink-style">Estilo</label>
+                            <v-select
+                                id="drink-style"
+                                :label="'name'"
+                                :options="styles"
+                                :multiple="false"
+                                v-model="drink.style"
+                                placeholder="Escolha o nível de alcool"
+                            >
+                                <span slot="no-options">Não foi possível localizar estilos :(</span>
+                            </v-select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Flavor's Map -->
+                <div class="card" v-if="!isNewDrink">
+                    <div class="card-body card-padding">
+
                         <div class="badges">
                             <div class="badge-container">
                                 <span class="badge">
@@ -98,39 +132,26 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-sm-6 col-sm-offset-3" :class="{ 'canvas-empty': isNewDrink }">
-                        <canvas ref="createdDrinkChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="">
-                <div class="row">
-                    <div class="col-sm-12 button-container">
-                        <button type="button" class="btn btn-primary btn-block m-t-10" name="button" @click="setDrink()">
-                            <span v-if="isNewDrink">Criar drink!</span>
-                            <span v-if="!isNewDrink">Atualizar drink!</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="backsection">
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="text-center">
-                                <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.list' }">
-                                    Ir para cardápio completo
-                                </router-link>
-                            </div>
+                        <div :class="{ 'canvas-empty': isNewDrink }">
+                            <canvas ref="createdDrinkChart"></canvas>
                         </div>
                     </div>
                 </div>
 
+                <!-- Create/Update -->
+                <button type="button" class="btn btn-mb-primary-reverse btn-block m-b-30" name="button" @click="setDrink()">
+                    <span v-if="isNewDrink">Criar drink!</span>
+                    <span v-if="!isNewDrink">Atualizar drink!</span>
+                </button>
+
             </div>
         </div>
+
+        <router-link class="btn btn-mb-info btn-fixed-bottom" style="position: fixed" :to="{ name: 'landing.drinks.list' }">
+            Ir para o cardápio completo
+        </router-link>
+
     </div>
 </template>
 
