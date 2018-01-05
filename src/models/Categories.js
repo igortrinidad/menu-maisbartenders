@@ -1,64 +1,88 @@
 export default [
     {
-        id:'cat-01',
         slug: 'mais-bartenders',
-        title: 'Mais Bartenders',
-        description: 'OS MELHORES DRINKS ESTÃO AQUI!',
-        total_drinks: 10,
-        photo_url: 'https://maisbartenders.com.br/img/logos/logo_transparente_claro.png',
-    },
-    {
-        id:'cat-02',
-        slug: 'titulo',
-        title: 'Título',
-        description: 'description',
-        total_drinks: 5,
-        photo_url: 'https://s3.amazonaws.com/goup-assets/img/categories/beer.svg',
+        title_pt: 'OS MELHORES DRINKS ESTÃO AQUI!',
+        photo_url: 'http://menu.maisbartenders.com.br/static/img/logo_mb.b183310.png'
     },
 
     {
-        id:'cat-03',
-        slug: 'outro-titulo',
-        title: 'Outro Título',
-        description: 'description here',
-        total_drinks: 7,
-        photo_url: 'https://s3.amazonaws.com/goup-assets/img/categories/wine.svg',
+        slug: 'a-prova-de-danca',
+        title_pt: 'A Prova de Dança',
     },
 
     {
-        id:'cat-02',
-        slug: 'titulo',
-        title: 'Título',
-        description: 'Some description here',
-        total_drinks: 5,
-        photo_url: 'https://s3.amazonaws.com/goup-assets/img/categories/beer.svg',
+        slug: 'cachaca',
+        title_pt: 'Cachaça',
     },
 
     {
-        id:'cat-03',
-        slug: 'outro-titulo',
-        title: 'Outro Título',
-        description: 'description here again',
-        total_drinks: 7,
-        photo_url: 'https://s3.amazonaws.com/goup-assets/img/categories/wine.svg',
+        slug: 'doce',
+        title_pt: 'Doce',
     },
 
     {
-        id:'cat-02',
-        slug: 'titulo',
-        title: 'Título',
-        description: 'description here',
-        total_drinks: 5,
-        photo_url: 'https://s3.amazonaws.com/goup-assets/img/categories/beer.svg',
+        slug: 'leve',
+        title_pt: 'Leve',
     },
 
     {
-        id:'cat-03',
-        slug: 'outro-titulo',
-        title: 'Outro Título',
-        description: 'Some description here',
-        total_drinks: 7,
-        photo_url: 'https://s3.amazonaws.com/goup-assets/img/categories/wine.svg',
+        slug: 'equilibrado',
+        title_pt: 'Equilibrado',
+    },
+
+    {
+        slug: 'forte',
+        title_pt: 'Forte',
+    },
+
+    {
+        slug: 'frutado',
+        title_pt: 'Frutado',
+    },
+
+    {
+        slug: 'gin',
+        title_pt: 'Gin',
+    },
+
+    {
+        slug: 'martini',
+        title_pt: 'Martini',
+    },
+
+    {
+        slug: 'para-tirar-aquela-foto',
+        title_pt: 'Para tirar aquela foto',
+    },
+
+    {
+        slug: 'preferido-da-noiva',
+        title_pt: 'Preferido da noiva',
+    },
+
+    {
+        slug: 'preferido-do-noivo',
+        title_pt: 'Preferido do noivo',
+    },
+
+    {
+        slug: 'refrescante',
+        title_pt: 'Refrescante',
+    },
+
+    {
+        slug: 'rum',
+        title_pt: 'Rum',
+    },
+
+    {
+        slug: 'sem-alcool',
+        title_pt: 'Sem Alcool',
+    },
+
+    {
+        slug: 'vodka',
+        title_pt: 'Vodka',
     },
 
 ]

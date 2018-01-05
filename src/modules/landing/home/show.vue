@@ -2,6 +2,7 @@
     <div class="first-container">
 
         <main-header :title="'logo'" />
+        <svg-icons />
 
         <!-- Icon SVG + Title -->
         <div class="container">
@@ -35,7 +36,7 @@
                                 <div class="card-body card-padding">
                                     <img class="cat-icon" :src="categories[0].photo_url" alt="">
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">{{ categories[0].description }}</h6>
+                                        <h6 class="card-title m-b-0">{{ categories[0].title_pt }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -48,9 +49,11 @@
                     <div class="category" v-for="(category, indexCategory) in categories" v-if="indexCategory > 0">
                         <div tag="div" class="card m-0 text-center">
                             <div class="card-body card-padding">
-                                <img class="cat-icon" :src="category.photo_url" alt="">
+                                <svg style="width: 50px; height: 50px;">
+                                    <use :xlink:href="`#icon-${ category.slug }`"></use>
+                                </svg>
                                 <div class="m-t-5">
-                                    <h6 class="card-title m-b-0">{{ category.description }}</h6>
+                                    <h6 class="card-title m-b-0">{{ category.title_pt }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -78,17 +81,21 @@
 
 <script>
     import { mapGetters } from 'vuex'
+    import Swiper from "swiper"
+
 
     import eventObj from '@/models/Event.js'
     import CategoriesModel from '@/models/Categories.js'
+
+    import svgIcons from '@/components/svg-icons.vue'
     import mainHeader from '@/components/main-header.vue'
-    import Swiper from "swiper"
 
     export default {
         name: 'show-home',
 
         components: {
             mainHeader,
+            svgIcons
         },
 
         data () {
