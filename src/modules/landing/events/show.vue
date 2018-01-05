@@ -402,17 +402,7 @@
                 </div>
             </section>
 
-            <section class="backsection">
-                <hr>
-                <div class="row">
-                    <div class="col-md-12 col-xs-12 text-center m-t-10">
-                        <h2>Salvar evento no dispositivo</h2>
-                        <small class="text-muted">Acesse quando quiser, mesmo sem conexão com a internet</small>
-                        <br>
-                        <button class="btn btn-primary m-t-20" @click="saveEvent()">Salvar</button>
-                    </div>
-                </div>
-            </section>
+            <button class="btn btn-mb-info btn-fixed-bottom" style="position: fixed;" @click="saveEvent()">Salvar evento no dispositivo</button>
 
         </div>
 
