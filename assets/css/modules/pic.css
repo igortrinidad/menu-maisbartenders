@@ -1,0 +1,24 @@
+.pic {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    width: 64px; height: 64px;
+    display: block;
+}
+
+.pic.small { width: 32px; height: 32px; }
+.pic.large { width: 96px; height: 96px; }
+.pic.xlarge { width: 128px; height: 128px; }
+
+.pic.center { margin: 0 auto; }
+
+.pic.non-pic {
+    display: flex;
+    background: -webkit-linear-gradient(left, #f7941e, #f66439);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
+    font-size: 30px;
+}

@@ -3,23 +3,11 @@
 
         <main-header :title="'Meus drinks'" />
 
-        <!-- Icon SVG + Title -->
+        <!-- User Pic + Title -->
         <div class="container">
 
-            <div class="svg-container">
-                <svg viewBox="0 0 100 100">
-                    <defs>
-                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%"   stop-color="#FB923B"/>
-                            <stop offset="100%" stop-color="#F66439"/>
-                        </linearGradient>
-                    </defs>
-
-                    <path class="non-fill xl fix animated" stroke="url(#linear)"
-                        d="m 90.266653,1.6 c -0.3,-0.7 -1,-1.1 -1.8,-1.1 H 2.4666534 c -0.8,0 -1.49999999,0.4 -1.79999999,1.1 -0.3,0.7 -0.2,1.5 0.3,2.1 L 43.666653,53.8 c 0,0.1 0,0.3 0,0.4 v 30.4 h -11.4 c -1.1,0 -2,0.9 -2,1.9 0,1 0.9,1.9 2,1.9 h 26.5 c 1.1,0 2,-0.9 2,-1.9 0,-1 -0.9,-1.9 -2,-1.9 h -11.3 V 54.2 c 0,-0.2 0,-0.3 -0.1,-0.5 l 42.6,-50 c 0.5,-0.6 0.6,-1.4 0.3,-2.1 z M 45.466653,50 6.6666534,4.4 H 84.366653 Z"
-                    />
-                </svg>
-            </div>
+            <div class="pic large center" :style="`background-image: url(${ currentUser.photo_url })`" v-show="currentUser.photo_url"></div>
+            <div class="pic large center non-pic" v-show="!currentUser.photo_url">{{ getInitialChar(currentUser) }}</div>
 
             <h4 class="title-section">Suas criações e os drinks que você salvou.</h4>
         </div>
@@ -202,6 +190,10 @@
         methods: {
 
             ...mapActions(['setLoading', 'removeDrinkFromSavedDrinks']),
+
+            getInitialChar(user) {
+                return `${ user.full_name.charAt(0) } ${ user.last_name.charAt(0) }`
+            },
 
             drinkToShowToggle: function(drink){
                 let that = this

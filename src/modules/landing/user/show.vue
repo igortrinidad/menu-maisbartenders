@@ -3,30 +3,15 @@
 
        <main-header :title="'Meus dados'" />
 
-       <!-- Icon SVG + Title -->
+       <!-- User Image + Title -->
        <div class="container">
-
-           <div class="svg-container">
-               <svg viewBox="0 0 90 90">
-                   <defs>
-                       <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                           <stop offset="0%"   stop-color="#FB923B"/>
-                           <stop offset="100%" stop-color="#F66439"/>
-                       </linearGradient>
-                   </defs>
-
-                   <path class="non-fill fix-user animated" stroke="url(#linear)"
-                        d="m 50,45.5 c -9.6,0 -17.5,-7.8 -17.5,-17.5 0,-9.6 7.8,-17.5 17.5,-17.5 9.6,0 17.5,7.8 17.5,17.5 0,9.7 -7.9,17.5 -17.5,17.5 z m 0,-33.9 c -9.1,0 -16.5,7.4 -16.5,16.5 0,9.1 7.4,16.4 16.5,16.4 9.1,0 16.5,-7.4 16.5,-16.5 0,-9.1 -7.4,-16.4 -16.5,-16.4 z"
-                   />
-                   <path class="non-fill fix-user animated" stroke="url(#linear)"
-                        d="m 81.9,89.4 h -1 v -5 C 80.9,68.1 67.7,54.9 51.4,54.9 h -2.8 c -16.3,0 -29.5,13.2 -29.5,29.5 v 5 h -1 v -5 c 0,-16.8 13.7,-30.5 30.5,-30.5 h 2.8 c 16.8,0 30.5,13.7 30.5,30.5 z"
-                   />
-               </svg>
-           </div>
+           <div class="pic large center" :style="`background-image: url(${ user.photo_url })`" v-show="user.photo_url"></div>
+           <div class="pic large center non-pic" v-show="!user.photo_url">{{ getInitialChar(user) }}</div>
 
            <h4 class="title-section">Altere suas informações.</h4>
        </div>
 
+       <!-- Container Colored -->
         <div class="container-colored">
             <div class="container">
 
@@ -161,7 +146,8 @@
                     manage_password: false,
                     current_password_error: false
                 },
-                user: userObj
+                user: userObj,
+                initalName: ''
             }
         },
         computed: {
@@ -181,6 +167,10 @@
              * Map the actions from Vuex to this component.
              */
             ...mapActions(['authSetUser', 'setLoading']),
+
+            getInitialChar(user) {
+                return `${ user.full_name.charAt(0) } ${ user.last_name.charAt(0) }`
+            },
 
             save(){
                 let that = this
