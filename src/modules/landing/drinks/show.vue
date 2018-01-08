@@ -1,65 +1,78 @@
 <template>
-    <div>
+    <div class="first-container show">
 
-        <main-header :title="drink.name" v-if="drinkFound" />
-        <main-header :title="'Drink não localizado'" v-if="!drinkFound" />
+        <main-header :title="drinkFound ? drink.name : 'Drink não localizado'" />
 
         <div v-if="drinkFound">
-            <header id="header-drink" class="header-greeting" v-bind:style="{ backgroundImage: drinkBackground}">
-                <div class="container">
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="intro-text">
-                        <span class="text-box">
-                            <span class="event-name">
-                                {{drink.name}}
-                            </span>
-                        </span>
-                            <br>
-                            <a href="#drink" v-scroll-to="'#drink'" class="btn btn-xl m-t-30">Ver detalhes</a>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <div class="show-header" v-bind:style="{ backgroundImage: drinkBackground}">
 
-            <div class="container-fluid">
-                <div v-if="isLogged">
-                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
-                            @click="addDrinkPreference(drink)"
-                            v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)">
-                        Salvar drink
-                    </button>
-                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5"
-                                 :to="{name: 'landing.user.preferences'}"
-                                 v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">
-                        Drink salvo <i class="fa fa-check"></i>
-                    </router-link>
-                    <button @click.prevent="likeDrink(drink)" class="btn btn-sm m-b-10 btn-like m-r-5">
-                        <span class="text-muted">{{drink.likes_count}}</span>
-                        <i class="fa fa-heart fa-lg text-danger" v-if="handleLikedDrinks(drink.id)"></i>
-                        <i class="fa fa-heart-o fa-lg text-danger" v-if="!handleLikedDrinks(drink.id)"></i>
-                    </button>
-                </div>
+                <span>
+                    <a href="#drink" v-scroll-to="'#drink'">Ver detalhes</a>
+                </span>
 
-                <div v-if="!isLogged">
-                    <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5"
-                                 :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
-                        Faça login para salvar o drink
-                    </router-link>
-                    <router-link tag="button" class="btn btn-sm m-b-10 btn-like m-r-5"
-                                 :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
-                        <span class="text-muted">{{drink.likes_count}}</span> <i
-                        class="fa fa-heart-o fa-lg text-danger"></i>
-                        Faça login para curtir
-                    </router-link>
-                </div>
             </div>
 
-            <section id="drink">
+            <div class="svg-container text-center m-t-30" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
+                <svg viewBox="0 0 30 30">
+                    <defs>
+                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%"   stop-color="#FB923B"/>
+                            <stop offset="100%" stop-color="#F66439"/>
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(-8.9261333,-9.447)">
+                        <path
+                            @click.prevent="likeDrink(drink)"
+                            class="animated"
+                            stroke="url(#linear)"
+                            :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
+                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
+                        />
+                    </g>
+                </svg>
+            </div>
+
+            <div class="text-center m-t-20">
+                <h4 class="section-title" v-if="isLogged">{{ drink.likes_count }} Likes</h4>
+                <router-link
+                    tag="button"
+                    class="btn btn-mb-primary"
+                    :to="{ name: 'landing.auth.login', query:{ redirect: $route.path } }"
+                    v-if="!isLogged"
+                >
+                    Faça login para curtir
+                </router-link>
+            </div>
+
+
+            <!-- Btn Save Drink -->
+            <div v-if="isLogged">
+                <button
+                    class="btn btn-fixed-bottom btn-mb-info"
+                    @click="addDrinkPreference(drink)"
+                    v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                    style="position: fixed"
+                >
+                    Salvar drink
+                </button>
+                <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5"
+                             :to="{name: 'landing.user.preferences'}"
+                             v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                    Drink salvo <i class="fa fa-check"></i>
+                </router-link>
+            </div>
+
+            <div v-if="!isLogged">
+                <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5"
+                             :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
+                    Faça login para salvar o drink
+                </router-link>
+            </div>
+
+            <section id="drink" class="m-t-30">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
-
-                            <h2 class="section-heading m-b-30">{{drink.name}}</h2>
 
                             <div class="badges">
                                 <div class="badge-container" v-if="drink.is_exclusive">

@@ -15,6 +15,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    background-repeat: no-repeat;
 }
 
 .show-header span {
@@ -32,6 +33,13 @@
     bottom: -20px;
     transform: translateY(20px);
     margin: 0 15px;
+}
+
+.show-header span a,
+.show-header span a:active,
+.show-header span a:focus {
+    color: #FFF;
+    text-decoration: none;
 }
 
 @media (max-width: 768px) {
