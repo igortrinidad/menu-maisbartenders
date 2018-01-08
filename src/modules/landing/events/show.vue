@@ -18,7 +18,7 @@
             </div>
 
             <!-- Icon SVG + Title -->
-            <div class="container text-center" style="position: relative">
+            <div class="container text-center p-t-30" style="position: relative">
                 <!-- Event Name -->
                 <!-- <div v-html="event.greeting">
                 </div> -->
