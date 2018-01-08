@@ -76,7 +76,7 @@
 
             </section>
 
-            <section class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)"  v-show="interactions.finished_loading_category">
+            <section  v-show="interactions.finished_loading_category">
                 <div class="text-center" v-if="interactions.finished_loading_category">
                     <h3>Drinks</h3>
                     <p class="text-center section-subheading text-muted">Você está visualizando os drinks da categoria</p>
