@@ -63,6 +63,13 @@
     color: #fff;
 }
 
+/* Button Mais Bartenders whatsapp */
+.btn.btn-mb-whatsapp {
+    background: -webkit-linear-gradient(left, #00e676, #1ebea5);
+    border: 0;
+    color: #fff;
+}
+
 /* btn fixed bottom */
 .btn.btn-primary.btn-fixed-bottom{
     box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, .3);

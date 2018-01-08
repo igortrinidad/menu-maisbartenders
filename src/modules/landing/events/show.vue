@@ -1,113 +1,43 @@
 <template>
-    <div class="first-container" ref="container">
+    <div class="first-container show" ref="container">
 
         <main-header :title="eventFound ? event.name : 'Evento não encontrado'" />
 
         <!-- EventFound -->
         <div v-if="eventFound">
+            <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
 
-            <!-- Icon SVG + Title -->
-            <div class="container text-center" style="position: relative">
-                <div class="pic xlarge center m-b-10" v-bind:style="{ backgroundImage: eventBackground}">
-                </div>
-
-                <!-- Event Name -->
-                <!-- <div v-html="event.greeting">
-                </div> -->
-                <h4 class="m-t-0 title-section">{{ event.name }}</h4>
-                <!-- Event HashTag -->
-                <span class="hashtag btn btn-mb-primary" v-if="event.hashtag">{{ event.hashtag }}</span>
+                <span class="t-overflow" v-if="eventHasHappened">
+                    {{ eventHasHappened ? 'Esse evento já passou :(' : event.hashtag }}
+                </span>
 
             </div>
 
             <!-- Container Colored -->
-            <div class="container-colored m-t-30">
+            <div class="container-colored" style="margin-top: -10px">
                 <div class="container">
-                    <div class="card">
+
+                    <!-- Event Greeting & Share On Whatsapp -->
+                    <div class="card m-b-10 text-center">
                         <div class="card-body card-padding">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <section class="section p-t-30">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 text-center">
-                            <h1 class="m-t-0">{{ event.name }}</h1>
                             <div v-html="event.greeting">
                             </div>
-                            <hr>
-                        </div>
-                        <div class="col-sm-12 text-center" v-if="event.hashtag">
-                            <small class="text-muted">Hashtag do evento</small>
-                            <div class="hashtag m-t-15">
-                                <span class="label label-primary m-r-5 f-16">
-                                    {{ event.hashtag }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-xs-12 text-center m-t-30">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">
-                                Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i>
+
+                            <button class="btn btn-block btn-mb-whatsapp m-t-20" data-toggle="modal" data-target="#modalShareWhatsApp">
+                                Compartilhar no WhatsApp
                             </button>
                         </div>
                     </div>
                 </div>
-            </section>
-
-
-            <section class="section p-relative box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
-                <!-- Event Date -->
-                <div class="the_date">
-                    <span class="the_date_border"></span>
-                    <span class="date_d">{{ formatedDay }}</span>
-                    <span class="date_m">{{ formatedMonth }}</span>
-                    <span class="date_y">{{ formatedYear }}</span>
-                </div>
-
-                <h2 class="text-center" v-if="!eventHasHappened">
-                    <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
-                </h2>
-                <!-- / Event Date -->
-
-                <div class="m-t-30" v-if="eventHasHappened">
-                    <h2 class="countdown-title text-center">Esse evento já passou</h2>
-                </div>
-
-                <div class="m-t-30" v-if="!eventHasHappened">
-                    <h2 class="countdown-title text-center">Faltam</h2>
-                    <div class="card-body card-padding">
-                        <div class="countdown">
-                            <span class="countdown-d">
-                                <strong>{{ remain.days }}</strong>
-                                <small>Dias</small>
-                            </span>
-                            <span class="countdown-h">
-                                <strong>{{ remain.hours }}</strong>
-                                <small>Horas</small>
-                            </span>
-                            <span class="countdown-m">
-                                <strong>{{ remain.minutes }}</strong>
-                                <small>Minutos</small>
-                            </span>
-                            <span class="countdown-s">
-                                <strong>{{ remain.seconds }}</strong>
-                                <small>Segundos</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-
+            </div>
 
             <span id="categories"></span>
             <span id="drinks"></span>
             <section  v-show="!interactions.finished_loading_category && !interactions.is_loading">
                 <!-- CATEGORIES -->
-                <h3 class="text-center">Categorias</h3>
+
+                <h4 class="title-section">Categorias</h4>
+
                 <div class="container"
                      :class="{'cat-is-selected' : currentCategory}">
 
@@ -360,55 +290,59 @@
             </div>
 
 
-            <section id="comments">
+            <div class="container-colored m-t-30 m-b-0 p-t-30">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12">
+                    <div class="card m-b-0">
+                        <div class="card-body card-padding">
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12">
 
-                            <div class="text-center">
-                                <h2>Comentários:</h2>
-                                <p class="sub-header">{{ pagination.total > 0 ? `${ pagination.total } comentários` :
-                                    'Nenhum comentário ainda'}}</p>
+                                    <div class="text-center">
+                                        <h4 class="title-section m-0">Categorias</h4>
+                                        <p class="sub-header">{{ pagination.total > 0 ? `${ pagination.total } comentários` :
+                                            'Nenhum comentário ainda'}}</p>
 
-                                <p class="text-muted m-b-0 m-t-10">
-                                    Deixe aqui seu comentário para o {{event.name}}
-                                </p>
+                                        <p class="text-muted m-b-0 m-t-10">
+                                            Deixe aqui seu comentário para o {{event.name}}
+                                        </p>
 
-                                <button class="btn btn-mb-primary m-10" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
-                            </div>
+                                        <button class="btn btn-mb-primary m-10" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
+                                    </div>
 
-                            <span v-for="(comment, index) in comments">
-                                <div class="row">
-                                    <span class="interactions m-10">
+                                    <span v-for="(comment, index) in comments">
                                         <div class="row">
-                                            <div class="col-md-1 col-xs-3">
-                                                <img :src="comment.guest.photo_url" class="img-circle"
-                                                     width="60px">
-                                            </div>
-                                            <div class="col-md-11 col-xs-9">
-                                                <br>
-                                                <span class="comment-user-name">{{comment.guest.full_name}}</span>
+                                            <span class="interactions m-10">
+                                                <div class="row">
+                                                    <div class="col-md-1 col-xs-3">
+                                                        <img :src="comment.guest.photo_url" class="img-circle"
+                                                             width="60px">
+                                                    </div>
+                                                    <div class="col-md-11 col-xs-9">
+                                                        <br>
+                                                        <span class="comment-user-name">{{comment.guest.full_name}}</span>
+                                                    </div>
+                                                </div>
+                                                <p class="m-t-10">{{comment.comment}}</p>
+                                                <span
+                                                    class="text-right comment-date">Criado em: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss')
+                                                    }}</span>
+                                            </span>
+                                        </div>
+                                    </span>
+
+                                    <div class="row">
+                                        <div class="col-sm-12" v-show="comments.length">
+                                            <div class="text-center">
+                                                <pagination :source="pagination" @navigate="navigate" :range="6"></pagination>
                                             </div>
                                         </div>
-                                        <p class="m-t-10">{{comment.comment}}</p>
-                                        <span
-                                            class="text-right comment-date">Criado em: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss')
-                                            }}</span>
-                                    </span>
-                                </div>
-                            </span>
-
-                            <div class="row">
-                                <div class="col-sm-12" v-show="comments.length">
-                                    <div class="text-center">
-                                        <pagination :source="pagination" @navigate="navigate" :range="6"></pagination>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
             <button class="btn btn-mb-info btn-fixed-bottom" style="position: fixed;" @click="saveEvent()">Salvar evento no dispositivo</button>
 
@@ -1082,12 +1016,8 @@
 
 <style scoped>
 
-    /*Hashtag*/
-    .hashtag .label.label-primary {
-        font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
-        background-color: #222;
-        border-color: #222;
-        color: rgba(254, 209, 54, .9);
+    .title-section {
+        font-size: 30px;
     }
 
     .header-greeting {
@@ -1268,100 +1198,7 @@
         transform: scale(1.1);
     }
 
-    /* Filter */
 
-    .filter {
-        /*padding: 0 10px;*/
-    }
-
-    .tags-list {
-        margin: 20px 0;
-    }
-
-    .tags {
-        width: 100%;
-        display: flex;
-        flex-flow: row wrap;
-        align-content: center;
-        justify-content: center;
-    }
-
-    .tags .tag {
-        margin: 5px 10px 5px 0;
-        position: relative;
-    }
-
-    .tags .tag button {
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        padding: 10px 25px 10px 25px;
-        color: rgba(255, 255, 255, .8);
-        border-radius: 30px;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-        position: relative;
-        color: #2c3e50;
-    }
-
-    .tags .tag button.tag-selected,
-    .tags .tag button.button-tag {
-        color: #fff;
-    }
-
-    .tags .tag button.button-tag {
-        padding: 10px 35px 7px 25px;
-    }
-
-    .close-tag {
-        position: absolute;
-        font-size: 16px;
-        right: 16px;
-        top: 6px;
-        font-weight: 400;
-        opacity: 0;
-    }
-
-    .tags .tag button i {
-        margin: 2.5px 0 0 10px;
-        font-size: 10px;
-    }
-
-    .tags .tag button:focus {
-        outline: none;
-    }
-
-    .button-tag {
-        opacity: 0.8;
-        background: #A6A19D;
-        font-size: 12px;
-        font-weight: 400;
-        transition: background-color 0.3s ease;
-    }
-
-    .tag:hover {
-        transform: scale(1.05);
-    }
-
-    .tag:active {
-        transform: scale(1.00);
-    }
-
-    .tag-selected > .close-tag {
-        opacity: 1;
-    }
-
-    .tag-selected {
-        opacity: 1;
-        background: #2C3E50;
-    }
-
-    .btn-share {
-        margin-top: 5px;
-        font-weight: 100;
-        letter-spacing: 1px;
-    }
 
     /* Like button */
     .btn-like {
@@ -1374,102 +1211,6 @@
 
     .box-shadow-divider {
         box-shadow: 0px 2px 3px rgba(0, 0, 0, .1), 0px -2px 3px rgba(0, 0, 0, .1);
-    }
-
-    /* The_Date */
-    .the_date {
-        color: #DEB62F;
-    }
-
-    .the_date {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        flex-flow: row wrap;
-        background-color: rgba(0, 0, 0, 1);
-        border-color: #000;
-        position: absolute;
-        top: -50px;
-        left: 50%;
-        margin-left: -50px;
-        padding: 15px 10px;
-    }
-
-    .the_date_border {
-        position: absolute;
-        width: 90px;
-        height: 90px;
-        top: 50%;
-        left: 50%;
-        margin-top: -45px;
-        margin-left: -45px;
-        border-radius: 50%;
-        border: 2px solid;
-    }
-
-    .the_date .date_y,
-    .the_date .date_m,
-    .the_date .date_d {
-        width: 100%;
-        text-align: center;
-        font-weight: 700;
-        font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-    }
-
-    .the_date .date_y {
-        font-size: 20px;
-        align-self: flex-end;
-    }
-
-    .the_date .date_m {
-        font-size: 12px;
-        align-self: center;
-    }
-
-    .the_date .date_d {
-        font-size: 16px;
-        align-self: flex-start;
-    }
-
-    /* CountDown */
-    .countdown {
-        max-width: 500px;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .countdown-d,
-    .countdown-h,
-    .countdown-m,
-    .countdown-s {
-        width: auto;
-        text-align: center;
-        display: inline-block;
-        margin: 0 10px;
-    }
-
-    .countdown strong {
-        display: block;
-        font-size: 50px;
-        font-weight: 300;
-    }
-
-    .countdown small {
-        display: block;
-        font-weight: 700;
-        font-size: 15px;
-    }
-
-    @media (max-width: 580px) {
-        .countdown strong {
-            font-size: 24px;
-        }
-
-        .countdown small {
-            font-size: 12px;
-        }
     }
 
     .cat-icon {
