@@ -1,167 +1,193 @@
 <template>
-    <div class="first-container">
+    <div class="first-containerp-b-30">
 
         <main-header :title="page_title" :action="back"/>
 
+
+        <!-- Icon SVG + Title -->
+        <div class="container">
+            <div class="svg-container">
+                <svg viewBox="0 0 90 90">
+                    <defs>
+                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%"   stop-color="#FB923B"/>
+                            <stop offset="100%" stop-color="#F66439"/>
+                        </linearGradient>
+                    </defs>
+
+                    <path class="non-fill fix animated" stroke="url(#linear)"
+                        d="m 35.86,55.74 a 1.5,1.5 0 0 0 2.12,0 L 62.16,31.56 a 1.5,1.5 0 0 0 -2.12,-2.12 l -23.12,23.11 -12,-12 a 1.5,1.5 0 1 0 -2.12,2.12 z"
+                    />
+                    <path class="non-fill xl fix animated" stroke="url(#linear)"
+                        d="m 0,67.75 a 9.51,9.51 0 0 0 9.5,9.5 h 66 a 9.51,9.51 0 0 0 9.5,-9.5 v -49 A 9.51,9.51 0 0 0 75.5,9.25 H 64 V 1.5 a 1.5,1.5 0 1 0 -3,0 V 9.25 H 24 V 1.5 a 1.5,1.5 0 1 0 -3,0 V 9.25 H 9.5 A 9.51,9.51 0 0 0 0,18.75 Z m 3,-49 a 6.51,6.51 0 0 1 6.5,-6.5 H 21 v 5.5 a 1.5,1.5 0 0 0 3,0 v -5.5 h 37 v 5.5 a 1.5,1.5 0 0 0 3,0 v -5.5 h 11.5 a 6.51,6.51 0 0 1 6.5,6.5 v 49 a 6.51,6.51 0 0 1 -6.5,6.5 H 9.5 A 6.51,6.51 0 0 1 3,67.75 Z"
+                    />
+                </svg>
+            </div>
+
+            <h3 class="title-section m-b-10">Cardápio completo</h3>
+            <h5 class="text-center f-300">Selecione uma categoria</h5>
+
+        </div>
+
         <!-- CATEGORIES -->
-        <div class="container" v-show="!interactions.finished_loading_category && !interactions.is_loading"
-             :class="{'cat-is-selected' : currentCategory}">
+        <div class="container-colored" v-show="!interactions.finished_loading_category && !interactions.is_loading"
+                 :class="{'cat-is-selected' : currentCategory}">
+            <div class="container" >
 
-            <h3 class="text-center">Categorias</h3>
 
-            <p class="text-center section-subheading text-muted">Selecione uma categoria para ver os drinks</p>
-
-            <div class="categories">
-                <!-- ALL -->
-                <div class="category">
-                    <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
-                         @click="selectCategory(categoryAll)">
-                        <div class="card-body card-padding">
-                            <img class="cat-icon" src="../../../assets/images/todos_drinks.svg" alt="">
-                            <div class="m-t-5">
-                                <h6 class="card-title m-b-0">{{categoryAll['name_pt']}}</h6>
+                <!-- Mais Bartenders -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="p-5">
+                            <div class="card m-0 text-center">
+                                <div class="card-body card-padding">
+                                    <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
+                                    <div class="m-t-5">
+                                        <h6 class="card-title m-b-0">Os melhores drinks estão aqui !</h6>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /ALL -->
-                <!--Fetched categories-->
-                <div class="category" v-for="(category) in categories">
-                    <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
-                         @click="selectCategory(category)">
-                        <div class="card-body card-padding">
-                            <img class="cat-icon" :src="category.photo_url" alt="">
-                            <div class="m-t-5">
-                                <h6 class="card-title m-b-0">{{category['name_pt']}}</h6>
+
+                <div class="categories">
+                    <!-- ALL -->
+                    <div class="category">
+                        <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
+                             @click="selectCategory(categoryAll)">
+                            <div class="card-body card-padding">
+                                <img class="cat-icon" src="../../../assets/images/todos_drinks.svg" alt="">
+                                <div class="m-t-5">
+                                    <h6 class="card-title m-b-0">{{categoryAll['name_pt']}}</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- /ALL -->
+                    <!--Fetched categories-->
+                    <div class="category" v-for="(category) in categories">
+                        <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
+                             @click="selectCategory(category)">
+                            <div class="card-body card-padding">
+                                <img class="cat-icon" :src="category.photo_url" alt="">
+                                <div class="m-t-5">
+                                    <h6 class="card-title m-b-0">{{category['name_pt']}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Fetched categories-->
                 </div>
-                <!-- /Fetched categories-->
             </div>
         </div>
         <!-- /CATEGORIES -->
 
-        <section class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)"
-                 v-show="interactions.finished_loading_category">
+        <div class="container-colored"
+             v-show="interactions.finished_loading_category">
+            <div class="container">
 
-            <div class="mb-drinks">
-                <div class="container">
-
-                    <div class="cols">
-                        <div v-for="(drink, index) in drinksFiltered" class="col">
-                            <div tag="div" class="box drink"
-                                 :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                <div class="badges">
-                                   <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
-                                         data-target="#badge-help">
-                                       <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
-                                            title="Este Drink é exclusivo">
-                                   </span>
-                                    <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
-                                          data-target="#badge-help">
-                                       <img class="zoom" src="../../../assets/images/star.png"
-                                            alt="Este drink está entre os BEST SELLERS"
-                                            title="Este drink está entre os BEST SELLERS">
-                                   </span>
-                                </div>
-
-                                <router-link tag="span"
-                                             :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                    <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                    <div class="details">
-                                        <h3 class="drink-name">{{ drink.name }}</h3>
-                                        <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
-                                        <span class="description">{{ drink.description }}</span>
-
-                                        <hr>
-                                    </div>
-                                </router-link>
-                                <h5 class="cursor-pointer">
-                                    Ingredientes
-                                </h5>
-                                <div class="items show" v-if="isLogged">
-                                    <span class="drink-item" v-for="(item, index) in drink.items">
-                                        <span v-show="item.pivot.is_visible">
-                                            {{ item.name_pt }}
-                                        </span>
-                                    </span>
-                                </div>
-
-                                <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                    <span class="drink-item" v-if="!isLogged">
-                                        Faça login para ver a lista de ingredientes ;)
-                                    </span>
-                                </div>
-
-                                <div class="">
-                                    <div class="box-footer" v-if="isLogged">
-                                        <button
-                                            class="btn btn-default btn-sm btn-block m-b-10 btn-drink-action facebook btn-share"
-                                            @click="addDrinkPreference(drink)"
-                                            v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        > Salvar drink
-                                        </button>
-
-                                        <router-link
-                                            tag="button"
-                                            class="btn btn-success btn-sm btn-block m-b-10 btn-drink-action btn-share"
-                                            :to="{name: 'landing.user.preferences'}"
-                                            v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        >Drink salvo <i class="fa fa-check"></i>
-                                        </router-link>
-
-                                        <button @click.prevent="likeDrink(drink)" class="btn btn-block btn-like">
-                                            <span class="text-muted">{{drink.likes_count}}</span>
-                                            <i class="fa fa-heart fa-lg text-danger"
-                                               v-if="handleLikedDrinks(drink.id)"></i>
-                                            <i class="fa fa-heart-o fa-lg text-danger"
-                                               v-if="!handleLikedDrinks(drink.id)"></i>
-                                        </button>
-                                    </div>
-
-                                    <div class="box-footer" v-if="!isLogged">
-                                        <router-link
-                                            tag="button"
-                                            class="btn btn-success btn-block m-b-10 btn-drink-action btn-share"
-                                            :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
-                                        >Faça login para salvar o drink
-                                        </router-link>
-
-                                        <router-link tag="button" class="btn btn-block btn-like"
-                                                     :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
-                                            <span class="text-muted">{{drink.likes_count}}</span> <i
-                                            class="fa fa-heart-o fa-lg text-danger"></i>
-                                            Faça login para curtir
-                                        </router-link>
-                                    </div>
-                                </div>
+                <div class="cols">
+                    <div v-for="(drink, index) in drinksFiltered" class="col">
+                        <div tag="div" class="box drink"
+                             :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                            <div class="badges">
+                               <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
+                                     data-target="#badge-help">
+                                   <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
+                                        title="Este Drink é exclusivo">
+                               </span>
+                                <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
+                                      data-target="#badge-help">
+                                   <img class="zoom" src="../../../assets/images/star.png"
+                                        alt="Este drink está entre os BEST SELLERS"
+                                        title="Este drink está entre os BEST SELLERS">
+                               </span>
                             </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container m-b-60">
-                <hr class="gray">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="text-center">
-                            <h3>Ainda não decidiu? O que acha de criar agora mesmo o seu prório drink?</h3>
-                            <router-link class="btn inline btn-xl m-t-30" :to="{ name: 'landing.drinks.createdrink' }">
-                                Crie seu drink!
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <router-link tag="span"
+                                         :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                                <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                                <div class="details">
+                                    <h3 class="drink-name">{{ drink.name }}</h3>
+                                    <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
+                                    <span class="description">{{ drink.description }}</span>
 
-            <button type="button" class="btn btn-primary btn-mb-primary btn-block btn-fixed-bottom"
-                    @click.prevent="resetCategory()"
-                    v-if="interactions.finished_loading_category">
-                Alterar categoria
-            </button>
-        </section>
+                                    <hr>
+                                </div>
+                            </router-link>
+                            <h5 class="cursor-pointer">
+                                Ingredientes
+                            </h5>
+                            <div class="items show" v-if="isLogged">
+                                <span class="drink-item" v-for="(item, index) in drink.items">
+                                    <span v-show="item.pivot.is_visible">
+                                        {{ item.name_pt }}
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                <span class="drink-item" v-if="!isLogged">
+                                    Faça login para ver a lista de ingredientes ;)
+                                </span>
+                            </div>
+
+                            <div class="">
+                                <div class="box-footer" v-if="isLogged">
+                                    <button
+                                        class="btn btn-default btn-sm btn-block m-b-10 btn-drink-action facebook btn-share"
+                                        @click="addDrinkPreference(drink)"
+                                        v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                    > Salvar drink
+                                    </button>
+
+                                    <router-link
+                                        tag="button"
+                                        class="btn btn-success btn-sm btn-block m-b-10 btn-drink-action btn-share"
+                                        :to="{name: 'landing.user.preferences'}"
+                                        v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                    >Drink salvo <i class="fa fa-check"></i>
+                                    </router-link>
+
+                                    <button @click.prevent="likeDrink(drink)" class="btn btn-block btn-like">
+                                        <span class="text-muted">{{drink.likes_count}}</span>
+                                        <i class="fa fa-heart fa-lg text-danger"
+                                           v-if="handleLikedDrinks(drink.id)"></i>
+                                        <i class="fa fa-heart-o fa-lg text-danger"
+                                           v-if="!handleLikedDrinks(drink.id)"></i>
+                                    </button>
+                                </div>
+
+                                <div class="box-footer" v-if="!isLogged">
+                                    <router-link
+                                        tag="button"
+                                        class="btn btn-success btn-block m-b-10 btn-drink-action btn-share"
+                                        :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
+                                    >Faça login para salvar o drink
+                                    </router-link>
+
+                                    <router-link tag="button" class="btn btn-block btn-like"
+                                                 :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
+                                        <span class="text-muted">{{drink.likes_count}}</span> <i
+                                        class="fa fa-heart-o fa-lg text-danger"></i>
+                                        Faça login para curtir
+                                    </router-link>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FIXED BUTTON -->
+        <button type="button" class="btn btn-primary btn-mb-primary btn-block btn-fixed-bottom"
+                @click.prevent="resetCategory()"
+                v-if="interactions.finished_loading_category">
+            Alterar categoria
+        </button>
 
         <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">

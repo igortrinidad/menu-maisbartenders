@@ -27,17 +27,45 @@
 
 
             <div class="text-center m-b-30">
-                <button class="btn btn-mb-primary" data-target="#modal-event-code" data-toggle="modal">
-                    Possuo o código de um evento
+
+                <div class="form-group">
+                    <label class="cursor-pointer" for="contact-name">Pesquisar evento</label>
+                    <input
+                        id="contact-name"
+                        class="form-control"
+                        placeholder="Nome ou data do evento"
+                        type="text"
+                        v-model="search"
+                        @keyup.enter="getEvents()"
+                    >
+                </div>
+
+
+                <button class="btn btn-mb-primary" @click="getEvents()">
+                    Pesquisar
                 </button>
             </div>
-
-
         </div>
 
         <!-- Event List -->
         <div class="container-colored">
             <div class="container">
+
+                <!-- Mais Bartenders -->
+                <div class="row m-b-20">
+                    <div class="col-sm-12">
+                        <div class="">
+                            <div class="card m-0 text-center">
+                                <div class="card-body card-padding">
+                                    <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
+                                    <div class="m-t-5">
+                                        <h4 class="card-title m-b-0">Seu evento merece os melhores drinks !</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Event Code -->
 
@@ -66,9 +94,9 @@
 
                 <!-- Menu Mais Bartenders -->
                 <div class="border-inside-card text-center p-15">
-                    <h4 class="card-title m-b-30">Veja o menu de drinks mais bartenders</h4>
+                    <h4 class="card-title m-b-30">Veja o cardápio completo Mais Bartenders</h4>
                     <router-link class="btn btn-block btn-mb-primary-reverse" :to="{ name: 'landing.drinks.list' }">
-                        Acesse o menu
+                        Acesse o cardápio
                     </router-link>
                 </div>
 
@@ -120,6 +148,7 @@
         },
         data () {
             return {
+                search: '',
                 eventFound: true,
                 events: [],
                 pagination: {},
@@ -150,7 +179,7 @@
 
                 that.setLoading({is_loading: true, message: ''})
 
-                that.$http.get(`/events/fetchAll?page=${page}`)
+                that.$http.get(`/events/fetchAll?page=${page}&search=${that.search}`)
                     .then(function (response) {
 
                         that.events = response.data.events

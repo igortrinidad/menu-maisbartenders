@@ -60,7 +60,7 @@
                     </div>
                 </div>
 
-                <!-- Call To Create Drink -->
+                <!-- Call To Create Drink
                 <div class="text-center m-t-30 p-5">
                     <h5 class="m-b-20" style="color: #fff">Não encontrou o drink que procura ?</h5>
 
@@ -72,6 +72,7 @@
                         Faça login para começar a criar
                     </router-link>
                 </div>
+                -->
 
             </div>
         </div>

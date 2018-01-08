@@ -62,6 +62,7 @@
 
 /* btn fixed bottom */
 .btn.btn-primary.btn-fixed-bottom{
+    box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, .3);
     position: fixed !important;
     left: 0;
     right: 0;
