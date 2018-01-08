@@ -1,24 +1,16 @@
 <template>
-    <div class="first-container show" ref="container">
+    <div class="first-container" ref="container">
 
         <main-header :title="eventFound ? event.name : 'Evento não encontrado'" />
 
         <!-- EventFound -->
         <div v-if="eventFound">
 
-            <!-- Event Photo -->
-            <div class="show-header cover" v-bind:style="{ backgroundImage: eventBackground }">
-            </div>
-
-            <!-- Tabs  -->
-            <div id="show-tabs" class="tabs">
-                <span class="tab" :class="{ 'active': tab === 'about'  }" @click="switchTabs('about')">Sobre</span>
-                <span class="tab" :class="{ 'active': tab === 'drinks'  }" @click="switchTabs('drinks')">Drinks</span>
-                <span class="tab" :class="{ 'active': tab === 'comments'  }" @click="switchTabs('comments')">Comentários</span>
-            </div>
-
             <!-- Icon SVG + Title -->
-            <div class="container text-center p-t-30" style="position: relative">
+            <div class="container text-center" style="position: relative">
+                <div class="pic xlarge center m-b-10" v-bind:style="{ backgroundImage: eventBackground}">
+                </div>
+
                 <!-- Event Name -->
                 <!-- <div v-html="event.greeting">
                 </div> -->
@@ -31,14 +23,392 @@
             <!-- Container Colored -->
             <div class="container-colored m-t-30">
                 <div class="container">
-
-                    <about :event="event" v-if="tab === 'about'" />
-                    <drinks :event="event" v-if="tab === 'drinks'" />
-                    <comments :event="event" v-if="tab === 'comments'" />
-
+                    <div class="card">
+                        <div class="card-body card-padding">
+                        </div>
+                    </div>
                 </div>
             </div>
 
+
+            <section class="section p-t-30">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <h1 class="m-t-0">{{ event.name }}</h1>
+                            <div v-html="event.greeting">
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="col-sm-12 text-center" v-if="event.hashtag">
+                            <small class="text-muted">Hashtag do evento</small>
+                            <div class="hashtag m-t-15">
+                                <span class="label label-primary m-r-5 f-16">
+                                    {{ event.hashtag }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12 text-center m-t-30">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">
+                                Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="section p-relative box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
+                <!-- Event Date -->
+                <div class="the_date">
+                    <span class="the_date_border"></span>
+                    <span class="date_d">{{ formatedDay }}</span>
+                    <span class="date_m">{{ formatedMonth }}</span>
+                    <span class="date_y">{{ formatedYear }}</span>
+                </div>
+
+                <h2 class="text-center" v-if="!eventHasHappened">
+                    <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
+                </h2>
+                <!-- / Event Date -->
+
+                <div class="m-t-30" v-if="eventHasHappened">
+                    <h2 class="countdown-title text-center">Esse evento já passou</h2>
+                </div>
+
+                <div class="m-t-30" v-if="!eventHasHappened">
+                    <h2 class="countdown-title text-center">Faltam</h2>
+                    <div class="card-body card-padding">
+                        <div class="countdown">
+                            <span class="countdown-d">
+                                <strong>{{ remain.days }}</strong>
+                                <small>Dias</small>
+                            </span>
+                            <span class="countdown-h">
+                                <strong>{{ remain.hours }}</strong>
+                                <small>Horas</small>
+                            </span>
+                            <span class="countdown-m">
+                                <strong>{{ remain.minutes }}</strong>
+                                <small>Minutos</small>
+                            </span>
+                            <span class="countdown-s">
+                                <strong>{{ remain.seconds }}</strong>
+                                <small>Segundos</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <span id="categories"></span>
+            <span id="drinks"></span>
+            <section  v-show="!interactions.finished_loading_category && !interactions.is_loading">
+                <!-- CATEGORIES -->
+                <h3 class="text-center">Categorias</h3>
+                <div class="container"
+                     :class="{'cat-is-selected' : currentCategory}">
+
+                    <p class="text-center section-subheading text-muted">Selecione uma categoria para ver os drinks especialmente selecionados para este evento.</p>
+
+                    <div class="categories">
+                        <!-- ALL -->
+                        <div class="category">
+                            <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
+                                 @click="selectCategory(categoryAll)">
+                                <div class="card-body card-padding">
+                                    <img class="cat-icon" src="../../../assets/images/todos_drinks.svg" alt="">
+                                    <div class="m-t-5">
+                                        <h6 class="card-title m-b-0">{{categoryAll['name_pt']}}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /ALL -->
+                        <!--Fetched categories-->
+                        <div class="category" v-for="(category) in event.drink_categories">
+                            <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
+                                 @click="selectCategory(category)">
+                                <div class="card-body card-padding">
+                                    <img class="cat-icon" :src="category.photo_url" alt="">
+                                    <div class="m-t-5">
+                                        <h6 class="card-title m-b-0">{{category['name_pt']}}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Fetched categories-->
+                    </div>
+                </div>
+                <!-- /CATEGORIES -->
+
+            </section>
+
+            <section class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)"  v-show="interactions.finished_loading_category">
+                <div class="text-center" v-if="interactions.finished_loading_category">
+                    <h3>Drinks</h3>
+                    <p class="text-center section-subheading text-muted">Você está visualizando os drinks da categoria</p>
+                    <div class="card-body card-padding m-b-20">
+                        <img class="cat-icon" :src="currentCategory.photo_url" alt="">
+                        <div class="m-t-5">
+                            <h6 class="card-title m-b-0">{{currentCategory['name_pt']}}</h6>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-mb-primary "
+                            @click.prevent="resetCategory()"
+                    >
+                        Alterar categoria
+                    </button>
+                </div>
+
+
+                <div class="list-drinks">
+                    <div class="container">
+                        <div class="cols" :class="{ 'align-block': drinksFiltered.length === 2 }">
+                            <div v-for="(drink, index) in drinksFiltered" class="col">
+                                <div tag="div" class="drink"
+                                     :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                                    <div class="badges">
+                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
+                                          data-target="#badge-help">
+                                        <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
+                                             title="Este Drink é exclusivo">
+                                    </span>
+                                        <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
+                                              data-target="#badge-help">
+                                        <img src="../../../assets/images/star.png"
+                                             alt="Este drink está entre os BEST SELLERS"
+                                             title="Este drink está entre os BEST SELLERS">
+                                    </span>
+                                        <span class="badge" v-if="drink.fiancee_drink" data-toggle="modal"
+                                              data-target="#badge-help">
+                                           <img
+                                               src="../../../assets/images/noiva.svg"
+                                               alt="Este drink foi escolhido pela noiva"
+                                               title="Este drink foi escolhido pela noiva">
+                                        </span>
+                                        <span class="badge" v-if="drink.groom_drink" data-toggle="modal"
+                                              data-target="#badge-help">
+                                           <img
+                                               src="../../../assets/images/preferido_do_noivo.svg"
+                                               alt="Este drink foi escolhido pelo noivo"
+                                               title="Este drink foi escolhido pelo noivo">
+                                        </span>
+                                    </div>
+
+                                    <router-link tag="span"
+                                                 :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
+                                        <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
+                                        <div class="details">
+                                            <h3 class="drink-name">{{ drink.name }}</h3>
+                                            <span class="description">{{ drink.description }}</span>
+                                            <hr>
+                                        </div>
+                                    </router-link>
+
+                                    <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
+                                        <i class="fa pull-right"
+                                           :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
+                                        </i>
+                                    </h5>
+
+                                    <div class="items" v-if="isLogged"
+                                         :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                        <span class="drink-item" v-for="(item, index) in drink.items">
+                                            <span v-show="item.pivot.is_visible">
+                                                {{ item.name_pt }}
+                                            </span>
+                                        </span>
+                                    </div>
+
+                                    <div class="items"
+                                         :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                        <span class="drink-item" v-if="!isLogged">
+                                            Faça login para ver a lista de ingredientes ;)
+                                        </span>
+                                    </div>
+
+                                    <div class="box-footer m-t-15" v-if="isLogged">
+                                        <button
+                                            class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block"
+                                            @click="addDrinkPreference(drink)"
+                                            v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                        >Salvar drink
+                                        </button>
+
+                                        <router-link
+                                            tag="button"
+                                            class="btn btn-success m-b-10 btn-drink-action btn-share btn-block"
+                                            :to="{name: 'landing.user.preferences'}"
+                                            v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                        >Drink salvo <i class="fa fa-check"></i>
+                                        </router-link>
+
+                                        <button @click.prevent="likeDrink(drink)"
+                                                class="btn btn-sm m-b-10 btn-like btn-block">
+                                            <span class="text-muted">{{drink.likes_count}}</span>
+                                            <i class="fa fa-heart fa-lg text-danger"
+                                               v-if="handleLikedDrinks(drink.id)"></i>
+                                            <i class="fa fa-heart-o fa-lg text-danger"
+                                               v-if="!handleLikedDrinks(drink.id)"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="box-footer" v-if="!isLogged">
+                                        <router-link
+                                            tag="button"
+                                            class="btn btn-default m-b-10 btn-block btn-drink-action facebook btn-share"
+                                            :to="{name: 'landing.auth.login', query:{redirect: '/evento/' + $route.params.event_slug}}"
+                                        >Faça login para salvar drink
+                                        </router-link>
+
+                                        <router-link tag="button" class="btn btn-sm m-b-10 btn-like m-r-5 btn-block"
+                                                     :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
+                                            <span class="text-muted">{{drink.likes_count}}</span> <i
+                                            class="fa fa-heart-o fa-lg text-danger"></i>
+                                            Faça login para curtir
+                                        </router-link>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center m-t-20 m-b-20" v-if="interactions.finished_loading_category">
+                            <button type="button" class="btn btn-mb-primary "
+                                    @click.prevent="resetCategory()"
+                            >
+                                Alterar categoria
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Ícones nos drinks</h4>
+                        </div>
+                        <div class="modal-body p-25 text-center">
+
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 text-center">
+                                <span class="modal-badge badge">
+                                    <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
+                                         title="Este Drink é exclusivo">
+                                </span>
+
+                                    <p>
+                                        Os drinks que estão marcados com este ícone são drink exclusivos Mais
+                                        Bartenders, criados e desenvolvidos por nossa equipe.</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 text-center">
+                                <span class="modal-badge badge">
+                                    <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo"
+                                         title="Este Drink é exclusivo">
+                                </span>
+
+                                    <p>
+                                        Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos
+                                        eventos.</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 text-center">
+                                <span class="modal-badge badge">
+                                    <img src="../../../assets/images/noiva.svg"
+                                         alt="Este drink foi escolhido pela noiva"
+                                         title="Este drink foi escolhido pela noiva">
+                                </span>
+
+                                    <p>Os drinks com este ícone foram especialmente escolhidos pela
+                                        noiva.</p>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12 col-xs-12 text-center">
+                                <span class="modal-badge badge">
+                                    <img src="../../../assets/images/preferido_do_noivo.svg"
+                                         alt="Este drink foi escolhido pelo noivo"
+                                         title="Este drink foi escolhido pelo noivo">
+                                </span>
+
+                                    <p>Os drinks com este ícone foram especialmente escolhidos pelo
+                                        noivo.</p>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <section id="comments">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+
+                            <div class="text-center">
+                                <h2>Comentários:</h2>
+                                <p class="sub-header">{{ pagination.total > 0 ? `${ pagination.total } comentários` :
+                                    'Nenhum comentário ainda'}}</p>
+
+                                <p class="text-muted m-b-0 m-t-10">
+                                    Deixe aqui seu comentário para o {{event.name}}
+                                </p>
+
+                                <button class="btn btn-mb-primary m-10" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
+                            </div>
+
+                            <span v-for="(comment, index) in comments">
+                                <div class="row">
+                                    <span class="interactions m-10">
+                                        <div class="row">
+                                            <div class="col-md-1 col-xs-3">
+                                                <img :src="comment.guest.photo_url" class="img-circle"
+                                                     width="60px">
+                                            </div>
+                                            <div class="col-md-11 col-xs-9">
+                                                <br>
+                                                <span class="comment-user-name">{{comment.guest.full_name}}</span>
+                                            </div>
+                                        </div>
+                                        <p class="m-t-10">{{comment.comment}}</p>
+                                        <span
+                                            class="text-right comment-date">Criado em: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss')
+                                            }}</span>
+                                    </span>
+                                </div>
+                            </span>
+
+                            <div class="row">
+                                <div class="col-sm-12" v-show="comments.length">
+                                    <div class="text-center">
+                                        <pagination :source="pagination" @navigate="navigate" :range="6"></pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <button class="btn btn-mb-info btn-fixed-bottom" style="position: fixed;" @click="saveEvent()">Salvar evento no dispositivo</button>
 
@@ -99,6 +469,38 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal commentário -->
+        <div class="modal fade" id="modal-comment" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Novo comentário</h4>
+                    </div>
+                    <div class="modal-body p-25">
+
+                        <p>
+                            Escreva seu comentário para o evento {{event.name}}</p>
+                        <br>
+                        <div class="form-group">
+                            <label>Mensagem*</label>
+                            <textarea class="form-control" v-model="newComment.comment" placeholder="Digite seu comentário"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-mb-primary m-b-10 btn-block"
+                                @click="saveComment()"
+                                :disabled="!newComment.comment"> Salvar comentário
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal commentário -->
     </div>
 </template>
 
@@ -106,9 +508,7 @@
     import Vue from 'vue'
 
     Vue.use(require('vue-moment'));
-    import { mapGetters, mapActions } from 'vuex'
-    import { transition } from 'jquery.transit'
-
+    import {mapGetters, mapActions} from 'vuex'
     import eventObj from '../../../models/Event.js'
     import drinkObj from '../../../models/Drink.js'
     import moment from 'moment'
@@ -117,23 +517,14 @@
 
     import allDrinks from '../../../assets/images/todos_drinks.svg'
 
-    import about from './show_partials/about'
-    import drinks from './show_partials/drinks'
-    import comments from './show_partials/comments'
-
-
     export default {
         name: 'show-event',
         components: {
             pagination,
-            mainHeader,
-            about,
-            drinks,
-            comments
+            mainHeader
         },
         data() {
             return {
-                tab: 'about',
                 formatedDay: '',
                 formatedMonth: '',
                 formatedYear: '',
@@ -166,22 +557,21 @@
                     slug_pt: 'todas',
                     slug_en: 'all',
                     photo_url: allDrinks
-                }
+                },
+                newComment: {
+                    event_id: '',
+                    user_id: '',
+                    comment: ''
+                },
             }
         },
         computed: {
             // Map the getters from Vuex to this component.
 
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
-
-            isMobile: function () {
-                return window.screen.width <= 768 ? true : false
-            },
-
             eventBackground: function () {
                 return 'url(' + this.event.photo_url + ')';
             },
-
             itemsCategoriesOrdereds: function () {
                 return {
                     fruitsAndIngredients: {
@@ -212,7 +602,7 @@
                     return that.checkIfDrinkHasCategory(drink)
                 })
 
-                    return arr;
+                return arr;
 
             },
 
@@ -234,7 +624,6 @@
             },
 
         },
-
         mounted() {
             var that = this
 
@@ -251,10 +640,6 @@
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike', 'setSelectedCategory']),
-
-            switchTabs: function (tab) {
-                this.tab = tab
-            },
 
             getFormatedDates: function () {
                 this.formatedDay = moment(this.event.date, 'DD/MM/YYYY').format('DD')
@@ -342,6 +727,30 @@
 
             },
 
+            saveComment: function () {
+                let that = this
+
+                var data = {
+                    event_id: that.event.id,
+                    guest_id: that.currentUser.id,
+                    comment: that.newComment.comment,
+                }
+
+                that.$http.post('/guest/eventComment', data)
+                    .then(function (response) {
+
+                        that.interactions.phraseSelected = ''
+                        that.comments.unshift(response.data.comment)
+                        that.pagination.total = that.pagination.total + 1
+                        that.resetComment()
+                        successNotify('', 'Comentário salvo com sucesso.');
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+
+            },
+
             getItemsByCategory: function (category) {
                 var that = this
                 return _.chain(that.event.drinks)
@@ -392,6 +801,7 @@
                         })
 
                         that.checkRemainTime();
+                        that.setLoading({is_loading: false, message: ''})
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -661,6 +1071,11 @@
                 })
             },
 
+            resetComment(){
+                let that = this
+                that.newComment.comment = '';
+                $('#modal-comment').modal('hide');
+            }
         }
     }
 </script>
