@@ -14,7 +14,7 @@
             </div>
 
             <!-- Container Colored -->
-            <div class="container-colored" style="margin-top: -10px">
+            <div class="container-colored" style="margin-top: -20px">
                 <div class="container">
 
                     <!-- Event Greeting & Share On Whatsapp -->
@@ -392,26 +392,33 @@
             </header>
         </div>
 
-        <div class="modal fade" id="modalShareWhatsApp" tabindex="-1" role="dialog">
+        <div class="modal" id="modalShareWhatsApp" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Escolha uma frase</h4>
+                        <h4 class="title-section m-0 m-b-10">Escolha uma frase</h4>
+                        <p class="m-0">Escolha uma frase e compartilhe com seus amigos este evento no WhatsApp.</p>
                     </div>
-                    <div class="modal-body p-25">
+                    <div class="modal-body m-t-0">
+                        <div
+                            class="card"
+                            v-for="(phrase, index) in whatsappPhrases"
+                            :class="{ 'm-b-0': index ===  whatsappPhrases.length - 1 }"
+                            :style="`background-color: ${ interactions.whatsappPhraseSelected === phrase ? '#FB923B' : '#FFF' }`"
+                            @click="interactions.whatsappPhraseSelected = phrase"
 
-                        <p>
-                            Escolha uma frase e compartilhe com seus amigos este evento no WhatsApp.</p>
-                        <br>
+                        >
+                            <div class="card-body card-padding">
+                                <p class="m-0" :style="`color: ${ interactions.whatsappPhraseSelected === phrase ? '#FFF' : '#FB923B' }`">
+                                   {{ phrase }}
+                               </p>
+                            </div>
+                        </div>
 
-                        <p class="phrase" v-for="(phrase, index) in whatsappPhrases"
-                           @click="interactions.whatsappPhraseSelected = phrase"
-                           :class="{'phraseSelected' : interactions.whatsappPhraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default m-b-10 btn-success btn-block"
+                        <button type="button" class="btn btn-mb-primary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-mb-whatsapp m-t-20"
                                 @click="openShareWhatsapp()"
                                 :disabled="!interactions.whatsappPhraseSelected">Compartilhar no WhatsApp <i
                             class="fa fa-whatsapp"></i>
