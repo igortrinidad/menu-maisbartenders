@@ -33,10 +33,6 @@
                                  v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">
                         Drink salvo <i class="fa fa-check"></i>
                     </router-link>
-                    <button class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
-                            @click="interactions.drinkSelected = drink" data-toggle="modal"
-                            data-target="#modalSharePhrase">Compartilhar no Facebook
-                    </button>
                     <button @click.prevent="likeDrink(drink)" class="btn btn-sm m-b-10 btn-like m-r-5">
                         <span class="text-muted">{{drink.likes_count}}</span>
                         <i class="fa fa-heart fa-lg text-danger" v-if="handleLikedDrinks(drink.id)"></i>

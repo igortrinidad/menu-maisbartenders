@@ -17,11 +17,9 @@ elixir(function(mix) {
 
 	mix.styles([
         './assets/flatly/css/bootstrap.css',
-        './assets/css/custom.css',
         './node_modules/izitoast/dist/css/iziToast.css',
         './node_modules/font-awesome/css/font-awesome.css',
         './node_modules/swiper/dist/css/swiper.css',
-        './static/build/css/general_styles.css',
 	], './static/build/css/vendor.css');
 
 	mix.scripts([
@@ -30,7 +28,6 @@ elixir(function(mix) {
         './node_modules/izitoast/dist/js/iziToast.js',
         './node_modules/jquery.easing/jquery.easing.js',
         './src/utils/notifications.js',
-		'./static/build/js/agency.js',
         './node_modules/swiper/dist/js/swiper.js',
 
 	], './static/build/js/vendor.js');

@@ -55,6 +55,7 @@
 
 <style>
 
+@import '../../../../assets/css/helpers.css';
 @import '../../../../assets/css/general.css';
 @import '../../../../assets/css/template_standart.css';
 

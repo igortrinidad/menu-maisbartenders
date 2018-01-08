@@ -29,6 +29,25 @@
                         <span class="t-overflow">{{ title }}</span>
                     </span>
                 </div>
+
+
+                <div class="flags" v-if="type != 'settings'">
+                    <img
+                        class="m-r-5 country-flag"
+                        src="../assets/images/brazil.png"
+                        width="32px"
+                        @click="setLanguage('pt')"
+                        :class="{ 'country-selected' : language ===  'pt' }"
+                    >
+                    <img
+                        class="m-r-5 country-flag"
+                        src="../assets/images/united-kingdom.png"
+                        width="32px"
+                        @click="setLanguage('en')"
+                        :class="{ 'country-selected' : language ===  'en' }"
+                    >
+                </div>
+
             </div>
             <!-- /.container-fluid -->
         </nav>
@@ -48,7 +67,13 @@
             title: {
                 type: String,
                 required: true
-            }
+            },
+            action: {
+                type: Function,
+                default: function(){
+                    window.history.back();
+                }
+            },
         },
         components: {
             sideMenu,
@@ -173,9 +198,10 @@
             handleSideMenu() {
                 var that = this
 
+                //Se o titulo do menu for diferente da logo, executa a action do header
                 if (that.title !== 'logo') {
-                    // Se o title da props for != 'logo', vai ser carregado o botao de voltar
-                    that.$router.go(-1)
+                    
+                    that.action();
 
                 } else {
 
@@ -243,6 +269,7 @@
     .navbar{
         z-index: 555 !important;
         box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, .2);
+        background-color: #000000;
     }
 
     .title-header {
@@ -259,7 +286,7 @@
 
     .logo-header{
         width: 90px;
-        margin-top: 10px;
+        margin-top: 9px;
     }
     /* Hamburger Button Effect */
 
@@ -286,7 +313,7 @@
         transition: all 0.3s ease-in-out;
         width: 30px;
         position: fixed;
-        top: 33px; left: 20px;
+        top: 23px; left: 20px;
         z-index: 999;
     }
 
@@ -322,10 +349,6 @@
     .hamburger.back .line:nth-child(2) { opacity: 0; }
     .hamburger.back .line:nth-child(3) { transform: translateY(-2px) rotate(45deg); }
 
-    @media (max-width: 768px) {
-        .hamburger { top: 23px; }
-    }
-
     /* Hammer Menu */
     #hammer-menu {
         position: fixed;
@@ -333,6 +356,21 @@
         width: 100px;
         background: transparent;
         z-index: 77777;
+    }
+
+    .flags{
+        position: absolute;
+        top: 21px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .country-flag{
+        filter: grayscale(90%);
+    }
+
+    .country-selected{
+        filter: grayscale(0%);
     }
 
 </style>

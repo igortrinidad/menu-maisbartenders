@@ -1,7 +1,7 @@
 <template>
     <div class="first-container">
 
-        <main-header :title="'Drinks'"/>
+        <main-header :title="page_title" :action="back"/>
 
         <!-- CATEGORIES -->
         <div class="container" v-show="!interactions.finished_loading_category && !interactions.is_loading"
@@ -77,13 +77,10 @@
                                         <hr>
                                     </div>
                                 </router-link>
-                                <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">
+                                <h5 class="cursor-pointer">
                                     Ingredientes
-                                    <i class="fa pull-right"
-                                       :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}"></i>
                                 </h5>
-                                <div class="items" v-if="isLogged"
-                                     :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
+                                <div class="items show" v-if="isLogged">
                                     <span class="drink-item" v-for="(item, index) in drink.items">
                                         <span v-show="item.pivot.is_visible">
                                             {{ item.name_pt }}
@@ -114,12 +111,6 @@
                                         >Drink salvo <i class="fa fa-check"></i>
                                         </router-link>
 
-                                        <button
-                                            class="btn btn-default btn-block m-b-10 btn-drink-action facebook btn-share"
-                                            @click.prevent="setDrinkSelected(drink)"
-                                        >Compartilhar no Facebook
-                                        </button>
-
                                         <button @click.prevent="likeDrink(drink)" class="btn btn-block btn-like">
                                             <span class="text-muted">{{drink.likes_count}}</span>
                                             <i class="fa fa-heart fa-lg text-danger"
@@ -135,13 +126,6 @@
                                             class="btn btn-success btn-block m-b-10 btn-drink-action btn-share"
                                             :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
                                         >Faça login para salvar o drink
-                                        </router-link>
-
-                                        <router-link
-                                            tag="button"
-                                            class="btn btn-default btn-block m-b-10 btn-drink-action facebook btn-share"
-                                            :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
-                                        >Faça login para compartilhar
                                         </router-link>
 
                                         <router-link tag="button" class="btn btn-block btn-like"
@@ -278,6 +262,7 @@
         },
         data() {
             return {
+                page_title: 'Drinks',
                 interactions: {
                     showTags: false,
                     drinksToShowInfo: [],
@@ -319,15 +304,10 @@
                     var arr = this.drinks.filter(function (drink) {
                         return that.checkIfDrinkHasCategory(drink)
                     })
-
-                    if (arr.length) successNotify('', `Localizamos ${arr.length} drinks em 0,${Math.floor(Math.random() * 7) + 1  }s`);
                     return arr;
                 }
             },
 
-            especialDrinks: function () {
-                return this.drinks.map((drink) => drink.priority >= 4 ? drink : undefined).filter((drink) => drink !== undefined)
-            }
         },
         mounted() {
             this.getDrinks()
@@ -575,7 +555,8 @@
                 that.currentCategory = category;
                 that.applyCategoryFilter(category.slug_pt)
 
-
+                //Alterar quando tiver tradução para traduzido
+                that.page_title = that.currentCategory.name_pt;
 
                 setTimeout(function () {
                     that.interactions.is_loading = false;
@@ -590,12 +571,24 @@
 
                 setTimeout(function () {
                     that.currentCategory = null;
+                    that.page_title = 'Drinks';
                     that.interactions.finished_loading_category = false;
                     that.setLoading({is_loading: false, message: ''})
                 }, 500);
 
 
-            }
+            },
+
+            back: function(){
+                let that = this
+            
+                if(that.currentCategory){
+                    that.resetCategory();
+                    return
+                }
+
+                window.history.back();
+            },
         }
     }
 </script>
