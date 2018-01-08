@@ -31,8 +31,8 @@
                 </div>
 
 
-                <div class="flags" v-if="type != 'settings'">
-                    <img
+                <div class="flags">
+                    <!-- <img
                         class="m-r-5 country-flag"
                         src="../assets/images/brazil.png"
                         width="32px"
@@ -45,6 +45,16 @@
                         width="32px"
                         @click="setLanguage('en')"
                         :class="{ 'country-selected' : language ===  'en' }"
+                    > -->
+                    <img
+                        class="m-r-5 country-flag country-selected"
+                        src="../assets/images/brazil.png"
+                        width="32px"
+                    >
+                    <img
+                        class="m-r-5 country-flag"
+                        src="../assets/images/united-kingdom.png"
+                        width="32px"
                     >
                 </div>
 
@@ -200,7 +210,7 @@
 
                 //Se o titulo do menu for diferente da logo, executa a action do header
                 if (that.title !== 'logo') {
-                    
+
                     that.action();
 
                 } else {
