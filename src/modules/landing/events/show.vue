@@ -351,26 +351,43 @@
         <div v-if="!eventFound">
             <header id="header-drink" class="header-greeting">
                 <div class="container">
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="intro-text">
-                        <span class="text-box">
-                            <span class="event-name">
-                                Ops!
-                            </span>
-                            <br>
-                            <span class="event-greeting">
-                                Não localizamos o evento informado! :(
-                            </span>
-                        </span>
-                            <br>
-                            <router-link
-                                :to="{name: 'landing.drinks.list'}"
-                                class="btn btn-xl m-t-30"
-                                @click="closeMenu()">
-                                Ir para cardápio completo
-                            </router-link>
-                        </div>
+
+                    <div class="svg-container">
+                        <svg viewBox="0 0 60 60">
+                            <defs>
+                                <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%"   stop-color="#FB923B"/>
+                                    <stop offset="100%" stop-color="#F66439"/>
+                                </linearGradient>
+                            </defs>
+                            <g style="transform: translate(2px, 2px)">
+                                <path class="non-fill animated" stroke="url(#linear)"
+                                    d="M 49.124566,50.785258 H 7.7292211 c -2.6133405,0 -4.9494455,-1.349848 -6.2538423,-3.613229 -1.30439678,-2.258839 -1.30439678,-4.958535 0.00455,-7.21737 L 22.1776,4.1086916 c 1.29985,-2.2588437 3.640493,-3.60869161 6.249291,-3.60869161 2.608798,0 4.949446,1.34984791 6.253842,3.60868691 L 55.373861,39.954655 c 1.304397,2.263381 1.304397,4.963077 0,7.221916 -1.304397,2.258839 -3.640497,3.608687 -6.249295,3.608687 z M 28.426891,5.1540222 c -0.445404,0 -1.554369,0.1227126 -2.21793,1.2816758 L 5.506744,42.281666 c -0.6681081,1.158958 -0.2227043,2.181573 0,2.567894 0.2227043,0.38633 0.8862655,1.281676 2.2224771,1.281676 H 49.124566 c 1.336212,0 1.99523,-0.895355 2.21793,-1.281676 0.222695,-0.386331 0.67265,-1.408931 0,-2.567894 L 30.649368,6.435698 C 29.981265,5.2767348 28.872295,5.1540222 28.426891,5.1540222 Z"
+                                 />
+                                <path class="non-fill animated" stroke="url(#linear)"
+                                    d="m 28.822302,32.987258 c -1.286219,0 -2.327012,-1.040793 -2.327012,-2.327011 V 17.848049 c 0,-1.286218 1.040793,-2.327011 2.327012,-2.327011 1.286218,0 2.327011,1.040793 2.327011,2.327011 v 12.812198 c 0,1.286218 -1.040793,2.327011 -2.327011,2.327011 z"
+                                 />
+                                <circle class="non-fill animated" stroke="url(#linear)"
+                                    cx="28.821358"
+                                    cy="38.414032"
+                                    r="2.7924135"
+                                />
+                            </g>
+                        </svg>
                     </div>
+
+                    <h3 class="section-title">Ops!</h3>
+                    <span>Não localizamos o evento informado! :(</span>
+
+                    <router-link
+                        :to="{name: 'landing.drinks.list'}"
+                        class="btn btn-mb-primary btn-fixed-bottom m-0"
+                        style="position: fixed"
+                        @click="closeMenu()"
+                    >
+                        Ir para cardápio completo
+                    </router-link>
+
                 </div>
             </header>
         </div>
