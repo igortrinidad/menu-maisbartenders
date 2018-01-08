@@ -341,7 +341,7 @@
 
         methods: {
 
-            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'setLoading', 'addUserDrinkLike', 'removeUserDrinkLike']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'setLoading', 'addUserDrinkLike', 'removeUserDrinkLike', 'setSelectedCategory']),
 
             drinkToShowToggle: function (drink) {
                 let that = this
@@ -390,6 +390,23 @@
                         that.drinkFetcheds = response.data.drinks
                         that.categories = response.data.categories
                         that.interactions.is_loading = false
+
+                        that.$nextTick(() =>{
+                            let currentCategory = JSON.parse(localStorage.getItem('selected_category'))
+                            if(currentCategory){
+
+                                if(currentCategory.slug_pt == 'todas' || currentCategory.slug_en == 'all'){
+                                    that.selectCategory(that.categoryAll)
+                                }else{
+                                    let category = _.find(that.categories, {id: currentCategory.id} )
+
+                                    if(category){
+                                        that.selectCategory(category)
+                                    }
+                                }
+                            }
+                        })
+
                         that.setLoading({is_loading: false, message: ''})
 
 
@@ -581,6 +598,8 @@
                 that.currentCategory = category;
                 that.applyCategoryFilter(category.slug_pt)
 
+                that.setSelectedCategory(category)
+
                 //Alterar quando tiver tradução para traduzido
                 that.page_title = that.currentCategory.name_pt;
 
@@ -599,6 +618,7 @@
                     that.currentCategory = null;
                     that.page_title = 'Drinks';
                     that.interactions.finished_loading_category = false;
+                    localStorage.removeItem('selected_category')
                     that.setLoading({is_loading: false, message: ''})
                 }, 500);
 
@@ -607,7 +627,7 @@
 
             back: function(){
                 let that = this
-            
+
                 if(that.currentCategory){
                     that.resetCategory();
                     return

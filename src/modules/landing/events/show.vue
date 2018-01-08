@@ -24,7 +24,7 @@
                 </div> -->
                 <h4 class="m-t-0 title-section">{{ event.name }}</h4>
                 <!-- Event HashTag -->
-                <span class="hashtag btn btn-mb-primary">{{ event.hashtag }}</span>
+                <span class="hashtag btn btn-mb-primary" v-if="event.hashtag">{{ event.hashtag }}</span>
 
             </div>
 
@@ -71,38 +71,6 @@
             </header>
         </div>
 
-        <!-- MODAL FRASE FACEBOOK -->
-        <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Escolha uma frase</h4>
-                    </div>
-                    <div class="modal-body p-25">
-
-                        <p>
-                            Escolha uma frase e compartilhe no Facebook a felicidade que você esta em participar dessa
-                            festa linda.</p>
-                        <br>
-
-                        <p class="phrase" v-for="(phrase, index) in phrases"
-                           @click="interactions.phraseSelected = phrase"
-                           :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button"
-                                class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block"
-                                @click="openShareFacebook()"
-                                :disabled="!interactions.phraseSelected">Compartilhar no Facebook
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- MODAL FRASE FACEBOOK -->
         <div class="modal fade" id="modalShareWhatsApp" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -247,45 +215,6 @@
                     return arr;
 
             },
-            phrases: function () {
-                let that = this
-
-                var phrases = [];
-
-                var phrase1 = `Keep calm e toma um ${that.interactions.drinkSelected.name} no ${that.event.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Não vejo a hora de chegar o ${that.event.name} para experimentar o drink ${that.interactions.drinkSelected.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Vou tomar vários drinks ${that.interactions.drinkSelected.name} no ${that.event.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Ja tenho meu drink preferido no ${that.event.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `O ${that.interactions.drinkSelected.name} vai ser meu primeiro drink no ${that.event.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `O ${that.event.name} vai ser a melhor festa da vida!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Ninguém me segura no ${that.event.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Keep calm and drink a ${that.interactions.drinkSelected.name} no ${that.event.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `All i want is a ${that.interactions.drinkSelected.name} drink on ${that.event.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `The ${that.event.name} gonna be incredible!`;
-                phrases.push(phrase1);
-
-
-                return phrases
-
-            },
 
             whatsappPhrases: function () {
                 let that = this
@@ -321,7 +250,7 @@
             },
         },
         methods: {
-            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike', 'setSelectedCategory']),
 
             switchTabs: function (tab) {
                 this.tab = tab
@@ -362,39 +291,6 @@
                 var url = `https://api.whatsapp.com/send?text=${that.interactions.whatsappPhraseSelected} Acesse o link: https://maisbartenders.com.br/opengraph/events/${that.event.url}`;
 
                 window.open(url, '_system', null);
-            },
-
-            openShareFacebook: function () {
-                let that = this
-
-                var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.interactions.drinkSelected.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/${that.event.url}&picture=${that.interactions.drinkSelected.photo_url}&display=popup&mobile_iframe=true&hashtag=${that.event.hashtag}`;
-
-                if (window.cordova) {
-
-                    var ref = window.open(url, '_blank', 'location=yes');
-                    ref.addEventListener('loadstart', function (event) {
-
-                        var url = "https://www.facebook.com/dialog/return/close";
-
-                        if (event.url.indexOf(url) !== -1) {
-
-                            ref.close();
-                            successNotify('', 'Drink compartilhado com sucesso!')
-                            $('#modalSharePhrase').modal('hide')
-                            that.storeFacebookShare();
-
-                        }
-                    });
-
-                } else {
-                    window.open(url, '_blank', 'location=yes');
-
-                    setTimeout(function () {
-                        successNotify('', 'Drink compartilhado com sucesso!')
-                        $('#modalSharePhrase').modal('hide')
-                        that.storeFacebookShare();
-                    }, 1000)
-                }
             },
 
             drinkToShowToggle: function (drink) {
@@ -446,28 +342,6 @@
 
             },
 
-            storeFacebookShare: function () {
-                let that = this
-
-                var data = {
-                    event_id: that.event.id,
-                    guest_id: that.currentUser.id,
-                    comment: that.interactions.phraseSelected,
-                }
-
-                that.$http.post('/guest/eventComment', data)
-                    .then(function (response) {
-
-                        that.interactions.phraseSelected = ''
-                        that.comments.unshift(response.data.comment)
-                        that.pagination.total = that.pagination.total + 1
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    });
-
-            },
-
             getItemsByCategory: function (category) {
                 var that = this
                 return _.chain(that.event.drinks)
@@ -495,14 +369,29 @@
                         that.event = response.data;
                         that.eventFound = true
                         that.getFormatedDates()
-                        that.setLoading({is_loading: false, message: ''})
                         that.event.typeImg = that.event.photo_url.split('.').pop()
                         that.event.drinks.forEach(function (drink) {
                             drink.typeImg = drink.photo_url.split('.').pop()
                         })
                         that.event.drink_categories = _.orderBy(that.event.drink_categories, ['name_pt'], ['asc'])
+
+                        that.$nextTick(() =>{
+                            let currentCategory = JSON.parse(localStorage.getItem('selected_category'))
+                            if(currentCategory){
+
+                                if(currentCategory.slug_pt == 'todas' || currentCategory.slug_en == 'all'){
+                                    that.selectCategory(that.categoryAll)
+                                }else{
+                                    let category = _.find(that.event.drink_categories, {name_pt: currentCategory.name_pt} )
+
+                                    if(category){
+                                        that.selectCategory(category)
+                                    }
+                                }
+                            }
+                        })
+
                         that.checkRemainTime();
-                        console.log(that.event);
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -561,21 +450,6 @@
                     .catch(function (error) {
                         console.log(error)
                     });
-            },
-
-            handleGuestAvatar(guest) {
-
-                let guest_avatar = null
-
-                if (guest.photo_url) {
-                    guest_avatar = guest.photo_url
-                }
-
-                if (guest.social_providers.length) {
-                    guest_avatar = guest.social_providers.find(provider => provider.provider === 'facebook').photo_url
-                }
-
-                return guest_avatar ? guest_avatar : '/static/assets/user_avatar.jpg'
             },
 
             likeDrink(drink) {
@@ -756,6 +630,8 @@
                 that.currentCategory = category;
                 that.applyCategoryFilter(category.slug_pt)
 
+                that.setSelectedCategory(category)
+
                 setTimeout(function () {
                     that.interactions.is_loading = false;
                     that.interactions.finished_loading_category = true;
@@ -776,13 +652,15 @@
                     that.currentCategory = null;
                     that.filterCategory = [];
                     that.interactions.finished_loading_category = false;
+                    localStorage.removeItem('selected_category')
                     that.setLoading({is_loading: false, message: ''})
                 }, 500);
 
                 that.$nextTick(() => {
                     that.$scrollTo('#categories')
                 })
-            }
+            },
+
         }
     }
 </script>

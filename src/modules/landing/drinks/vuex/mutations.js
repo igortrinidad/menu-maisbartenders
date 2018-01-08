@@ -20,5 +20,12 @@ export default {
             obj.rootState.Auth.user.saved_drinks.splice(index, 1)
             localStorageSetItem('user', {user: obj.rootState.Auth.user})
         }
+    },
+
+
+    [TYPES.SET_SELECTED_CATEGORY](state, {category}) {
+
+        localStorage.setItem('selected_category', JSON.stringify(category));
+        state.selected_category = category
     }
 }

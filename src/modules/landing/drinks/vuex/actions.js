@@ -25,3 +25,11 @@ export const removeDrinkFromSavedDrinks = ({ commit, rootState }, drink) => {
     })
 }
 
+
+export const setSelectedCategory = ({ commit }, category) => {
+
+
+    commit(TYPES.SET_SELECTED_CATEGORY, {
+        category
+    })
+}

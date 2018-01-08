@@ -45,11 +45,6 @@
                                  :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
                         Faça login para salvar o drink
                     </router-link>
-                    <router-link tag="button"
-                                 class="btn btn-default btn-sm m-b-10 btn-drink-action facebook btn-share m-r-5"
-                                 :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
-                        Faça login para compartilhar
-                    </router-link>
                     <router-link tag="button" class="btn btn-sm m-b-10 btn-like m-r-5"
                                  :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
                         <span class="text-muted">{{drink.likes_count}}</span> <i
@@ -147,11 +142,16 @@
                             <!-- Comments -->
                             <div class="col-lg-12 text-left">
                                 <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
-                                <p v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
+                                <div class="text-center m-20">
+                                    <button class="btn btn-mb-primary" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
+                                </div>
+
+                                <p class="text-muted" v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
+
                                 <ul class="media-list">
                                     <li class="media" v-for="comment in comments">
                                         <div class="pull-left">
-                                            <img class="media-object img-circle" :src="handleGuestAvatar(comment.guest)"
+                                            <img class="media-object img-circle" :src="comment.guest.photo_url"
                                                  width="48">
                                         </div>
                                         <div class="media-body">
@@ -190,33 +190,37 @@
                 </div>
             </header>
         </div>
-
-        <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
+        <!-- Modal commentário -->
+        <div class="modal fade" id="modal-comment" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Escolha uma frase</h4>
+                        <h4 class="modal-title">Novo comentário</h4>
                     </div>
                     <div class="modal-body p-25">
 
-                        <p>Escolha uma frase e compartilhe o drink em seu Facebook.</p>
+                        <p>
+                            Escreva seu comentário para o drink {{drink.name}}</p>
                         <br>
+                        <div class="form-group">
+                            <label>Mensagem*</label>
+                            <textarea class="form-control" v-model="newComment.comment" placeholder="Digite seu comentário"></textarea>
+                        </div>
 
-                        <p class="phrase" v-for="(phrase, index) in phrases"
-                           @click="interactions.phraseSelected = phrase"
-                           :class="{'phraseSelected' : interactions.phraseSelected == phrase}">{{phrase}}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block" @click="openShareFacebook()"
-                                :disabled="!interactions.phraseSelected">Compartilhar no Facebook
+                        <button type="button"
+                                class="btn btn-mb-primary m-b-10 btn-block"
+                                @click="saveComment()"
+                                :disabled="!newComment.comment"> Salvar comentário
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-
+        <!-- Modal commentário -->
     </div>
 </template>
 
@@ -248,7 +252,12 @@
                     {label: 'Equilibrado', value: 5.0},
                     {label: 'Forte', value: 7.5},
                     {label: 'Super forte', value: 10},
-                ]
+                ],
+                newComment: {
+                    drink_id: '',
+                    user_id: '',
+                    comment: ''
+                },
             }
         },
         computed: {
@@ -257,27 +266,6 @@
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
             drinkBackground: function () {
                 return 'url(' + this.drink.photo_url + ')';
-            },
-
-            phrases: function () {
-                let that = this
-
-                var phrases = [];
-
-                var phrase1 = `Keep calm e toma um ${that.drink.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Quero muito um ${that.drink.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Eu preciso de um drink ${that.drink.name} agora!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Tudo que eu preciso é sombra e um ${that.drink.name}.`;
-                phrases.push(phrase1);
-
-                return phrases
-
             },
 
             nutritional_facts_ordereds: function () {
@@ -295,39 +283,6 @@
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'removeDrinkFromSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
 
             back: () => window.history.back(),
-
-            openShareFacebook: function () {
-                let that = this
-
-                var url = `https://www.facebook.com/dialog/share?app_id=262783620860879&href=https://maisbartenders.com.br/opengraph/drinks/${that.drink.url}/${that.interactions.phraseSelected.replace(" ", "%20")}/no-event&picture=${that.drink.photo_url}&display=popup&mobile_iframe=true`;
-
-                    if(window.cordova){
-
-                        var ref = window.open(url, '_blank', 'location=yes');
-                        ref.addEventListener('loadstart', function(event) {
-
-                            var url = "https://www.facebook.com/dialog/return/close";
-
-                            if (event.url.indexOf(url) !== -1) {
-
-                                ref.close();
-                                successNotify('', 'Drink compartilhado com sucesso!')
-                                $('#modalSharePhrase').modal('hide')
-                                that.storeFacebookShare();
-
-                            }
-                        });
-
-                    } else {
-                        window.open(url, '_blank', 'location=yes');
-
-                        setTimeout( function(){
-                            successNotify('', 'Drink compartilhado com sucesso!')
-                            $('#modalSharePhrase').modal('hide')
-                            that.storeFacebookShare();
-                        },1000)
-                    }
-            },
 
             checkDrinkNutrition: function () {
                 let that = this
@@ -404,6 +359,11 @@
                             }
                         }
                     },
+                    newComment: {
+                        event_id: '',
+                        user_id: '',
+                        comment: ''
+                    },
                 })
             },
 
@@ -433,13 +393,13 @@
 
             },
 
-            storeFacebookShare: function () {
+            saveComment: function () {
                 let that = this
 
                 var data = {
                     drink_id: that.drink.id,
                     guest_id: that.currentUser.id,
-                    comment: that.interactions.phraseSelected,
+                    comment: that.newComment.comment,
                 }
 
                 that.$http.post('/guest/drinkComment', data)
@@ -448,6 +408,9 @@
                         that.interactions.phraseSelected = ''
                         that.comments.unshift(response.data.comment)
                         that.pagination.total = that.pagination.total + 1
+
+                        that.resetComment()
+                        successNotify('', 'Comentário salvo com sucesso.');
                     })
                     .catch(function (error) {
                         console.log(error)
@@ -527,20 +490,7 @@
                     });
             },
 
-            handleGuestAvatar(guest){
 
-                let guest_avatar = null
-
-                if (guest.photo_url) {
-                    guest_avatar = guest.photo_url
-                }
-
-                if (guest.social_providers.length) {
-                    guest_avatar = guest.social_providers.find(provider => provider.provider === 'facebook').photo_url
-                }
-
-                return guest_avatar ? guest_avatar : '/static/assets/user_avatar.jpg'
-            },
 
             likeDrink(drink){
                 let that = this
@@ -577,6 +527,12 @@
 
             handleLikedDrinks(drink_id){
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
+            },
+
+            resetComment(){
+                let that = this
+                that.newComment.comment = '';
+                $('#modal-comment').modal('hide');
             }
         }
     }
