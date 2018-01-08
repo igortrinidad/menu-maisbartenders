@@ -19,6 +19,9 @@
     padding: 14px 24px !important;
 }
 
+.btn:focus,
+.btn:active { outline: none !important; }
+
 /* Button Mais Bartenders Primary */
 .btn.btn-mb-primary,
 .btn.btn-mb-primary.outline.reset-outline {

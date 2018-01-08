@@ -26,7 +26,7 @@ body {
 
 .first-container {
     padding-top: 130px;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 @media (max-width: 768px) {

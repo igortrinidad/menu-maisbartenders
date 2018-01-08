@@ -22,3 +22,9 @@
     font-weight: 300;
     font-size: 30px;
 }
+
+.cover {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

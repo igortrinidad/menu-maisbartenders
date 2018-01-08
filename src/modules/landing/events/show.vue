@@ -1,16 +1,24 @@
 <template>
-    <div class="first-container" ref="container">
+    <div class="first-container show" ref="container">
 
         <main-header :title="eventFound ? event.name : 'Evento não encontrado'" />
 
         <!-- EventFound -->
         <div v-if="eventFound">
 
+            <!-- Event Photo -->
+            <div class="show-header cover" v-bind:style="{ backgroundImage: eventBackground }">
+            </div>
+
+            <!-- Tabs  -->
+            <div id="show-tabs" class="tabs">
+                <span class="tab" :class="{ 'active': tab === 'about'  }" @click="switchTabs('about')">Sobre</span>
+                <span class="tab" :class="{ 'active': tab === 'drinks'  }" @click="switchTabs('drinks')">Drinks</span>
+                <span class="tab" :class="{ 'active': tab === 'comments'  }" @click="switchTabs('comments')">Comentários</span>
+            </div>
+
             <!-- Icon SVG + Title -->
             <div class="container text-center" style="position: relative">
-                <div class="pic xlarge center m-b-10" v-bind:style="{ backgroundImage: eventBackground}">
-                </div>
-
                 <!-- Event Name -->
                 <!-- <div v-html="event.greeting">
                 </div> -->
@@ -522,7 +530,9 @@
     import Vue from 'vue'
 
     Vue.use(require('vue-moment'));
-    import {mapGetters, mapActions} from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
+    import { transition } from 'jquery.transit'
+
     import eventObj from '../../../models/Event.js'
     import drinkObj from '../../../models/Drink.js'
     import moment from 'moment'
@@ -539,6 +549,7 @@
         },
         data() {
             return {
+                tab: 'about',
                 formatedDay: '',
                 formatedMonth: '',
                 formatedYear: '',
@@ -578,9 +589,15 @@
             // Map the getters from Vuex to this component.
 
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
+
+            isMobile: function () {
+                return window.screen.width <= 768 ? true : false
+            },
+
             eventBackground: function () {
                 return 'url(' + this.event.photo_url + ')';
             },
+
             itemsCategoriesOrdereds: function () {
                 return {
                     fruitsAndIngredients: {
@@ -672,6 +689,7 @@
             },
 
         },
+
         mounted() {
             var that = this
 
@@ -688,6 +706,10 @@
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
+
+            switchTabs: function (tab) {
+                this.tab = tab
+            },
 
             getFormatedDates: function () {
                 this.formatedDay = moment(this.event.date, 'DD/MM/YYYY').format('DD')
@@ -864,6 +886,7 @@
                         })
                         that.event.drink_categories = _.orderBy(that.event.drink_categories, ['name_pt'], ['asc'])
                         that.checkRemainTime();
+                        console.log(that.event);
                     })
                     .catch(function (error) {
                         console.log(error)

@@ -1,75 +1,47 @@
 /* Tabs */
 .tabs {
-
+    white-space: nowrap;
+    z-index: 100;
+    height: 50px;
+    width: 768px;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    transform: translateY(-20px);
+    z-index: 100;
     position: relative;
-    top: -2px;
-    overflow: visible !important;
-    margin-top: -16px;
-    padding-top: 1px;
 }
 
 .tabs .tab {
-    border-top: 1px solid rgba(255, 255, 255, .3);
-    border-left: 1px solid rgba(255, 255, 255, .3);
-    display: flex;
-    height: 50px;
-    align-items: center;
-    justify-content: center;
+    background: #FFF;
+    border: 3px solid #fff;
+    color: #f7941e;
     text-align: center;
-    background-color: #88C657;
-    color: rgba(255, 255, 255, .7);
-    padding: 0 10px;
-    font-size: 12px;
-    position: relative;
-    cursor: pointer;
-    font-weight: 300;
-    letter-spacing: 1px;
-}
-.tabs .tab:first-child { border-left: 0;}
-
-/* TAB ATIVA */
-.tabs .tab.swiper-slide-active {
-    font-weight: 400;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 1);
-}
-
-@media (max-width: 350px) {
-    .tabs .tab.swiper-slide { font-size: 10px; }
-    .tabs .tab.swiper-slide-active { font-size: 12px; }
-}
-.tabs .tab.swiper-slide-active:before{
-    content: "";
     display: inline-block;
-    vertical-align: middle;
-    margin-right: 10px;
-    width: 0;
-    height: 0;
-    bottom: -6px;
-    left: 50%;
-    margin-left: -6px;
-    position: absolute;
-
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid #88C657;
+    width: 25%;
+    padding: 7px 4px;
+    border-radius: 100px;
+    margin: 0 15px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .1);
+    cursor: pointer;
 }
 
-/* Tabs Arrows */
-.tabs .swiper-button-prev,
-.tabs .swiper-button-next {
-    background-image: none !important;
-    font-size: 20px;
-    background: transparent;
-    padding: 0;
-    display: inline;
-    align-items: center;
-    justify-content: center;
-    width: auto; height: auto;
-    top: 33px;
+.tabs .tab.active {
+    background: -webkit-linear-gradient(left, #f7941e, #f66439);
     color: #fff;
-    /*margin-top: -10px;*/
+    font-weight: 700
 }
 
-.tabs .swiper-button-prev{ left: 5px; }
-.tabs .swiper-button-next{ right: 5px; }
+@media (max-width: 768px) {
+    .tabs {
+        overflow-x: scroll;
+        position: fixed;
+        height: 50px;
+        width: 100%;
+        transform: translateY(-60px);
+    }
+}
+
+@media (max-width: 414px) {
+    .tabs .tab { width: 50%; }
+}
