@@ -21,22 +21,20 @@
                     />
                 </svg>
             </div>
-
-            <h4 class="title-section">Encontre os melhores drinks!</h4>
         </div>
 
-        <div class="container-colored">
+        <div class="container-colored m-t-20">
             <div class="container">
 
                 <!-- Mais Bartenders -->
-                <div class="row" v-if="categories.length">
+                <div class="row">
                     <div class="col-sm-12">
                         <div class="p-5">
                             <div class="card m-0 text-center">
                                 <div class="card-body card-padding">
-                                    <img class="cat-icon" :src="categories[0].photo_url" alt="">
+                                    <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">{{ categories[0].title_pt }}</h6>
+                                        <h4 class="card-title m-b-0">Os melhores drinks estão aqui !</h4>
                                     </div>
                                 </div>
                             </div>
