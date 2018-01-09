@@ -380,6 +380,7 @@
             </header>
         </div>
 
+        <!-- Modal Share WhatsApp -->
         <div class="modal" id="modalShareWhatsApp" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
