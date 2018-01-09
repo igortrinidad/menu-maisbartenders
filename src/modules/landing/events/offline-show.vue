@@ -30,76 +30,13 @@
                 </div>
             </div>
 
-            <section class="section p-t-30">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 text-center">
-                            <h1 class="m-t-0">{{ event.name }}</h1>
-                            <div v-html="event.greeting">
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="col-sm-12 text-center" v-if="event.hashtag">
-                            <small class="text-muted">Hashtag do evento</small>
-                            <div class="hashtag m-t-15">
-                                <span class="label label-primary m-r-5 f-16">
-                                    {{ event.hashtag }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-xs-12 text-center m-t-30">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#modalShareWhatsApp">Compartilhar evento por WhatsApp <i class="fa fa-whatsapp"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section p-relative box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)">
-
-                <!-- Event Date -->
-                <div class="the_date">
-                    <span class="the_date_border"></span>
-                    <span class="date_d">{{ formatedDay }}</span>
-                    <span class="date_m">{{ formatedMonth }}</span>
-                    <span class="date_y">{{ formatedYear }}</span>
-                </div>
-                <h2 class="text-center" v-if="!eventHasHappened">
-                    <i class="fa fa-clock-o m-r-5"></i>{{ event.time }}
-                </h2>
-                <!-- / Event Date -->
-
-                <div class="m-t-30" v-if="!eventHasHappened">
-                    <h2 class="countdown-title text-center">Faltam</h2>
-                    <div class="card-body card-padding">
-                        <div class="countdown">
-                            <span class="countdown-d">
-                                <strong>{{ remain.days }}</strong>
-                                <small>Dias</small>
-                            </span>
-                            <span class="countdown-h">
-                                <strong>{{ remain.hours }}</strong>
-                                <small>Horas</small>
-                            </span>
-                            <span class="countdown-m">
-                                <strong>{{ remain.minutes }}</strong>
-                                <small>Minutos</small>
-                            </span>
-                            <span class="countdown-s">
-                                <strong>{{ remain.seconds }}</strong>
-                                <small>Segundos</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-
             <span id="categories"></span>
             <span id="drinks"></span>
             <section  v-show="!interactions.finished_loading_category && !interactions.is_loading">
                 <!-- CATEGORIES -->
-                <h3 class="text-center">Categorias</h3>
+
+                <h4 class="title-section">Categorias</h4>
+
                 <div class="container"
                      :class="{'cat-is-selected' : currentCategory}">
 
@@ -138,7 +75,7 @@
 
             </section>
 
-            <section class="box-shadow-divider" style="background-color: rgba(44, 60, 80, .07)"  v-show="interactions.finished_loading_category">
+            <section  v-show="interactions.finished_loading_category">
                 <div class="text-center" v-if="interactions.finished_loading_category">
                     <h3>Drinks</h3>
                     <p class="text-center section-subheading text-muted">Você está visualizando os drinks da categoria</p>
@@ -157,135 +94,123 @@
                 </div>
 
 
-                <div class="list-drinks">
+                <div class="container-colored list-drinks p-t-30">
                     <div class="container">
                         <div class="cols" :class="{ 'align-block': drinksFiltered.length === 2 }">
                             <div v-for="(drink, index) in drinksFiltered" class="col">
-                                <div tag="div" class="drink"
-                                     :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                    <div class="badges">
-                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
-                                          data-target="#badge-help">
-                                        <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
-                                             title="Este Drink é exclusivo">
-                                    </span>
-                                        <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
-                                              data-target="#badge-help">
-                                        <img src="../../../assets/images/star.png"
-                                             alt="Este drink está entre os BEST SELLERS"
-                                             title="Este drink está entre os BEST SELLERS">
-                                    </span>
-                                        <span class="badge" v-if="drink.fiancee_drink" data-toggle="modal"
-                                              data-target="#badge-help">
-                                           <img
-                                               src="../../../assets/images/noiva.svg"
-                                               alt="Este drink foi escolhido pela noiva"
-                                               title="Este drink foi escolhido pela noiva">
-                                        </span>
-                                        <span class="badge" v-if="drink.groom_drink" data-toggle="modal"
-                                              data-target="#badge-help">
-                                           <img
-                                               src="../../../assets/images/preferido_do_noivo.svg"
-                                               alt="Este drink foi escolhido pelo noivo"
-                                               title="Este drink foi escolhido pelo noivo">
-                                        </span>
-                                    </div>
 
-                                    <router-link tag="span"
-                                                 :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                        <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                        <div class="details">
-                                            <h3 class="drink-name">{{ drink.name }}</h3>
-                                            <span class="description">{{ drink.description }}</span>
-                                            <hr>
+                                <!-- Start Drink -->
+                                <div class="card m-0">
+                                    <!-- Card Header -->
+                                    <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+                                        <div class="badges">
+                                           <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
+                                                 data-target="#badge-help">
+                                               <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
+                                                    title="Este Drink é exclusivo">
+                                           </span>
+                                            <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
+                                                  data-target="#badge-help">
+                                               <img class="zoom" src="../../../assets/images/star.svg"
+                                                    alt="Este drink está entre os BEST SELLERS"
+                                                    title="Este drink está entre os BEST SELLERS">
+                                           </span>
                                         </div>
-                                    </router-link>
-
-                                    <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
-                                        <i class="fa pull-right"
-                                           :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
-                                        </i>
-                                    </h5>
-
-                                    <div class="items" v-if="isLogged"
-                                         :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                        <span class="drink-item" v-for="(item, index) in drink.items">
-                                            <span v-show="item.pivot.is_visible">
-                                                {{ item.name_pt }}
-                                            </span>
-                                        </span>
                                     </div>
 
-                                    <div class="items"
-                                         :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                        <span class="drink-item" v-if="!isLogged">
-                                            Faça login para ver a lista de ingredientes ;)
-                                        </span>
-                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body card-padding text-center">
+                                        <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }">
+                                            <h3 class="card-title t-overflow">{{ drink.name }}</h3>
+                                            <p class="description m-0">{{ drink.description }}</p>
+                                        </router-link>
 
-                                    <div class="box-footer m-t-15" v-if="isLogged">
                                         <button
-                                            class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block"
+                                            type="button"
+                                            class="btn btn-xs btn-mb-primary outline m-t-15"
+                                            @click="itemsModal(drink.items)"
+                                            v-if="isLogged && drink.items.length"
+                                        >
+                                            Ver Ingredientes
+                                        </button>
+
+                                        <!-- Like -->
+                                        <div class="m-t-15 m-b-30" v-if="isLogged">
+                                            <!-- Svg -->
+                                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
+                                                <svg viewBox="0 0 30 30">
+                                                    <defs>
+                                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                            <stop offset="0%"   stop-color="#FB923B"/>
+                                                            <stop offset="100%" stop-color="#F66439"/>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <g transform="translate(-8.9261333,-9.447)">
+                                                        <path
+                                                            @click.prevent="likeDrink(drink)"
+                                                            class="animated"
+                                                            stroke="url(#linear)"
+                                                            :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
+                                                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
+                                                        />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <span class="text-muted" v-if="drink.likes_count > 0">
+                                                {{ drink.likes_count > 1 ? `${ drinks.likes_count } Likes` : `1 Like` }}
+                                            </span>
+                                            <span class="text-muted" v-if="drink.likes_count === 0">Seja o primeiro a curtir</span>
+                                        </div>
+
+                                        <!-- Login To Like -->
+                                        <div class="m-t-20" v-if="!isLogged">
+                                            <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login' }">
+                                                Faça o login para curtir
+                                            </router-link>
+                                        </div>
+
+                                        <!-- Save Drink -->
+                                        <button
+                                            class="btn btn-mb-info btn-fixed-bottom btn-save"
                                             @click="addDrinkPreference(drink)"
                                             v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        >Salvar drink
+                                        > Salvar drink
                                         </button>
 
                                         <router-link
                                             tag="button"
-                                            class="btn btn-success m-b-10 btn-drink-action btn-share btn-block"
-                                            :to="{name: 'landing.user.preferences'}"
+                                            class="btn btn-mb-info btn-fixed-bottom btn-save"
+                                            :to="{ name: 'landing.user.preferences' }"
                                             v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                                         >Drink salvo <i class="fa fa-check"></i>
                                         </router-link>
 
-                                        <button @click.prevent="likeDrink(drink)"
-                                                class="btn btn-sm m-b-10 btn-like btn-block">
-                                            <span class="text-muted">{{drink.likes_count}}</span>
-                                            <i class="fa fa-heart fa-lg text-danger"
-                                               v-if="handleLikedDrinks(drink.id)"></i>
-                                            <i class="fa fa-heart-o fa-lg text-danger"
-                                               v-if="!handleLikedDrinks(drink.id)"></i>
-                                        </button>
                                     </div>
-
-                                    <div class="box-footer" v-if="!isLogged">
-                                        <router-link
-                                            tag="button"
-                                            class="btn btn-default m-b-10 btn-block btn-drink-action facebook btn-share"
-                                            :to="{name: 'landing.auth.login', query:{redirect: '/evento/' + $route.params.event_slug}}"
-                                        >Faça login para salvar drink
-                                        </router-link>
-
-                                        <router-link tag="button" class="btn btn-sm m-b-10 btn-like m-r-5 btn-block"
-                                                     :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
-                                            <span class="text-muted">{{drink.likes_count}}</span> <i
-                                            class="fa fa-heart-o fa-lg text-danger"></i>
-                                            Faça login para curtir
-                                        </router-link>
-                                    </div>
-
                                 </div>
+                                <!-- End Drink -->
+
                             </div>
                         </div>
 
-                        <div class="text-center m-t-20 m-b-20" v-if="interactions.finished_loading_category">
-                            <button type="button" class="btn btn-mb-primary "
-                                    @click.prevent="resetCategory()"
-                            >
-                                Alterar categoria
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             </section>
 
-            <section id="comments">
-                <div class="container">
+            <div class="text-center m-t-20 m-b-20" v-if="interactions.finished_loading_category">
+                <button type="button" class="btn btn-mb-primary "
+                        @click.prevent="resetCategory()"
+                >
+                    Alterar categoria
+                </button>
+            </div>
+
+            <section class="m-t-30" id="comments">
+                <div class="container text-center">
 
                     <div class="row">
                         <div class="col-md-12 col-xs-12 text-center">
-                            <button class="btn btn-xl" data-toggle="modal" data-target="#comment-modal">Enviar mensagem</button><br><br>
+                            <button class="btn btn-mb-info" data-toggle="modal" data-target="#comment-modal">Enviar mensagem</button><br><br>
                             <small class="m-t-20">
                                 Compartilhe um drink através do aplicativo <b>Menu Mais Bartenders</b> ou deixe aqui uma mensagem para o {{event.name}}.
                             </small>
@@ -296,8 +221,6 @@
                         <div class="col-md-12 col-xs-12">
 
                             <h4 class="m-b-20">Mensagens ({{pagination.total}})</h4>
-
-
                             <span v-for="(comment, index) in commentsOrdereds">
                                 <div class="row" v-if="comment.guest">
                                     <span class="interactions m-10 p-l-20 p-b-20">
@@ -491,44 +414,49 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Enviar mensagem</h4>
+                        <h4 class="title-section m-0 m-b-10">Enviar mensagem</h4>
+                        <p class="m-0">Deixe aqui sua mensagem para o {{event.name}}.</p>
                     </div>
-                    <div class="modal-body p-25">
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body card-padding text-left">
 
-                        <p>Deixe aqui sua mensagem para o {{event.name}}.</p>
+                                <div class="form-group">
+                                    <label>Primeiro Nome*</label>
+                                    <input class="form-control" v-model="newMessage.name" placeholder="Somente o primeiro nome">
+                                </div>
 
-                        <div class="form-group">
-                            <label>Primeiro Nome*</label>
-                            <input class="form-control" v-model="newMessage.name" placeholder="Somente o primeiro nome">
+                                <div class="form-group">
+                                    <label>Sobrenome*</label>
+                                    <input class="form-control" v-model="newMessage.last_name" placeholder="Sobrenome">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Email*</label>
+                                    <input class="form-control" v-model="newMessage.email">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Mensagem*</label>
+                                    <textarea class="form-control" v-model="newMessage.comment"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Quero receber novidades sobre a Mais Bartenders</label><br>
+                                    <label class="switch">
+                                      <input type="checkbox" v-model="newMessage.accept_mailling">
+                                      <div class="slider round"></div>
+                                    </label>
+                                </div>
+
+                                <button class="btn btn-primary btn-block facebook" @click="saveComment()" :disabled="!newMessage.comment || !newMessage.email || !newMessage.last_name || !newMessage.name">Deixar mensagem</button>
+
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label>Sobrenome*</label>
-                            <input class="form-control" v-model="newMessage.last_name" placeholder="Sobrenome">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Email*</label>
-                            <input class="form-control" v-model="newMessage.email">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Mensagem*</label>
-                            <textarea class="form-control" v-model="newMessage.comment"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Quero receber novidades sobre a Mais Bartenders</label><br>
-                            <label class="switch">
-                              <input type="checkbox" v-model="newMessage.accept_mailling">
-                              <div class="slider round"></div>
-                            </label>
-                        </div>
-
-                        <button class="btn btn-primary btn-block facebook" @click="saveComment()" :disabled="!newMessage.comment || !newMessage.email || !newMessage.last_name || !newMessage.name">Deixar mensagem</button>
-
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-mb-primary" data-dismiss="modal">Fechar</button>
                     </div>
 
                 </div>
@@ -631,7 +559,7 @@
             },
 
             eventFound: function() {
-                return window.cordova ? false : true
+                return window.cordova ? true : false
             },
 
             commentsOrdereds: function(){
