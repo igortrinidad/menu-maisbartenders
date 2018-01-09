@@ -45,7 +45,7 @@
                 <!-- Categories -->
                 <div class="categories">
                     <div class="category" v-for="(category, indexCategory) in getCategories" >
-                        <div tag="div" class="card m-0 text-center">
+                        <div tag="div" class="card m-0 text-center cursor-pointer" @click.prevent="goToMenu(category)">
                             <div class="card-body card-padding">
                                 <svg style="width: 50px; height: 50px;">
                                     <use :xlink:href="`#icon-${ category.slug_pt }`"></use>
@@ -157,6 +157,11 @@
                     })
                 })
             },
+
+            goToMenu(category){
+                localStorage.setItem('selected_category', JSON.stringify(category))
+                this.$router.push({name: 'landing.drinks.list'})
+            }
         }
     }
 </script>

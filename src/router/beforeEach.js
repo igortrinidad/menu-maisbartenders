@@ -7,6 +7,11 @@ const preventsLogged = prevents => prevents === true
 
 const beforeEach = (to, from, next) => {
 
+    //Clear the selected category when events list
+    if(to.name == 'landing.events.list' || to.name == 'landing.events-offline.list'){
+        localStorage.removeItem('selected_category')
+    }
+
     let token = store.state.Auth.token
     const auth = to.meta.requiresAuth
     const isLogged = store.getters.isLogged

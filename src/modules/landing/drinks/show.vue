@@ -1,13 +1,13 @@
 <template>
     <div class="first-container show">
 
-        <main-header :title="drinkFound ? drink.name : 'Drink não localizado'" />
+        <main-header :title="drinkFound ? drink.name : translations.drink_not_found_title" />
 
         <div v-if="drinkFound">
             <div class="show-header" v-bind:style="{ backgroundImage: drinkBackground}">
 
                 <span>
-                    <a href="#drink" v-scroll-to="'#drink'">Ver detalhes</a>
+                    <a href="#drink" v-scroll-to="'#drink'">{{translations.buttons.details}}</a>
                 </span>
 
             </div>
@@ -33,14 +33,17 @@
             </div>
 
             <div class="text-center m-t-20">
-                <h4 class="section-title" v-if="isLogged">{{ drink.likes_count }} Likes</h4>
+                <h4 class="section-title" v-if="drink.likes_count > 0">
+                    {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${translations.like }` }}
+                </h4>
+                <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
                 <router-link
                     tag="button"
                     class="btn btn-mb-primary"
                     :to="{ name: 'landing.auth.login', query:{ redirect: $route.path } }"
                     v-if="!isLogged"
                 >
-                    Faça login para curtir
+                    {{translations.login_like}}
                 </router-link>
             </div>
 
@@ -48,16 +51,16 @@
                 <div class="badges">
                     <div class="badge-container" v-if="drink.is_exclusive">
                     <span class="badge">
-                        <img src="../../../assets/images/king.svg" alt="DRINK EXCLUSIVO"
-                             title="DRINK EXCLUSIVO">
-                        <span>Drink Exclusivo</span>
+                        <img src="../../../assets/images/king.svg" :alt="translations.exclusive_drink"
+                             :title="translations.exclusive_drink">
+                        <span class="text-uppercase">{{translations.exclusive_drink}}</span>
                     </span>
                     </div>
                     <div class="badge-container" v-if="drink.priority >= 4">
                     <span class="badge">
-                        <img class="zoom" src="../../../assets/images/star.svg" alt="BEST SELLER"
-                             title="BESTE SELLER">
-                        <span>Best Sellers</span>
+                        <img class="zoom" src="../../../assets/images/star.svg" :alt="translations.best_sellers"
+                             :title="translations.best_sellers">
+                        <span class="text-uppercase">{{translations.best_sellers}}</span>
                     </span>
                     </div>
                 </div>
@@ -73,20 +76,20 @@
                             <div class="card m-t-30">
                                 <div class="card-body card-padding">
                                     <div v-if="isLogged">
-                                        <h4 class="m-0">Ingredientes</h4>
+                                        <h4 class="m-0">{{translations.ingredients}}</h4>
 
                                         <ul class="list-group m-t-30 m-b-0">
                                             <li class="list-group-item" v-for="item in drink.items" v-if="item.pivot.is_visible">
                                                 <span v-show="item.pivot.is_visible" style="color: #222;">
-                                                    {{ item.name_pt }}
+                                                    {{ item[`name_${language}`] ? item[`name_${language}`] : item['name_pt'] }}
                                                 </span>
                                             </li>
                                         </ul>
                                     </div>
 
                                     <div v-if="!isLogged">
-                                        <router-link tag="button" class="btn btn-mb-primary outline" :to="{ name: 'landing.auth.login' }">
-                                            Faça login para ver a lista de ingredientes ;)
+                                        <router-link tag="button" class="btn btn-mb-primary outline" :to="{ name: 'landing.auth.login', query: {redirect: $route.path} }">
+                                            {{translations.unauthenticated}}
                                         </router-link>
                                     </div>
                                 </div>
@@ -96,7 +99,7 @@
                                 <div class="col-md-6 col-xs-12">
                                     <div class="card">
                                         <div class="card-body card-padding">
-                                            <h4 class="m-b-30">Mapa de sabor</h4>
+                                            <h4 class="m-b-30">{{translations.flavor_map}}</h4>
                                             <canvas ref="createdDrinkChart"></canvas>
                                         </div>
                                     </div>
@@ -105,28 +108,28 @@
                                 <div class="col-md-6 col-xs-12">
                                     <div class="card">
                                         <div class="card-body card-padding">
-                                            <h4 class="m-b-30">Informação nutricional</h4>
+                                            <h4 class="m-b-30">{{translations.nutrional_information}}</h4>
                                             <div class="row text-left">
                                                 <div class="col-md-8 col-md-offset-2 col-xs-12">
                                                 <span class="text-left">
-                                                    <small class="f-16 f-500">Porção: 1 unidade</small>
+                                                    <small class="f-16 f-500">{{translations.serving_size}}</small>
                                                     <table class="table table-bordered table-striped">
                                                         <thead>
                                                             <tr>
-                                                                <th>Descrição</th>
-                                                                <th class="text-center">Quantidade</th>
+                                                                <th>{{translations.description}}</th>
+                                                                <th class="text-center">{{translations.quantity}}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr v-for="nutri in nutritional_facts_ordereds">
-                                                                <td>{{nutri.name_pt}}</td>
+                                                                <td>{{nutri[`name_${language}`] ? nutri[`name_${language}`] : nutri['name_pt']}}</td>
                                                                 <td class="text-center">{{nutri.quantity | formatNumber}} {{nutri.unity}}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
 
-                                                    <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
-                                                    <p class="nutrition-disclaimer">Fonte: <a target="_blank"
+                                                    <p class="nutrition-disclaimer">{{translations.informational_warning}}</p>
+                                                    <p class="nutrition-disclaimer">{{translations.source}} <a target="_blank"
                                                                                               href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
                                                 </span>
                                                 </div>
@@ -139,7 +142,7 @@
                             <router-link
                                 :to="{name: 'landing.drinks.list'}"
                                 class="btn btn-block btn-mb-primary-reverse outline m-b-30">
-                                Ir para cardápio completo
+                                {{translations.buttons.go_to_menu}}
                             </router-link>
 
                             <!-- Comments -->
@@ -147,12 +150,24 @@
                                 <div class="col-lg-12 text-left">
                                     <div class="card">
                                         <div class="card-body card-padding">
-                                            <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
-                                            <div class="text-center m-20">
-                                                <button class="btn btn-mb-primary" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
+                                            <h4 class="m-b-30">{{translations.comments}} ({{pagination.total}})</h4>
+
+                                            <div class="text-center m-20" v-if="isLogged">
+                                                <button class="btn btn-mb-primary" data-target="#modal-comment"
+                                                        data-toggle="modal"><i class="fa fa-comment"></i>
+                                                    {{translations.buttons.new_comment}}
+                                                </button>
                                             </div>
 
-                                            <p class="text-muted" v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
+                                            <div class="text-center m-20" v-if="!isLogged">
+                                                <router-link tag="button" class="btn btn-mb-primary"
+                                                             :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
+                                                >
+                                                    {{translations.buttons.comment_unauthenticated}}
+                                                </router-link>
+                                            </div>
+
+                                            <p class="text-muted" v-if="!comments.length">{{translations.no_comments}}</p>
 
                                             <ul class="media-list">
                                                 <li class="media" v-for="comment in comments">
@@ -167,7 +182,7 @@
 
                                                 </li>
                                             </ul>
-                                            <div v-if="pagination.total > 0">
+                                            <div v-show="pagination.total > 0" class="text-center">
                                                 <pagination :source="pagination" @navigate="navigate"
                                                             :paginator-class="'pagination-sm'"></pagination>
                                             </div>
@@ -189,33 +204,34 @@
                 <div class="container">
                     <div class="intro-text">
                         <div class="intro-heading">:(</div>
-                        <div class="intro-heading">Não localizamos seu drink</div>
+                        <div class="intro-heading">{{translations.drink_not_found_message}}</div>
                         <router-link
                             :to="{name: 'landing.drinks.list'}"
-                            class="btn btn-info ">
-                            Ir para cardápio Mais Bartenders
+                            class="btn btn-info m-20">
+                           {{translations.buttons.go_to_menu}}
                         </router-link>
                     </div>
                 </div>
             </header>
         </div>
+
         <!-- Modal commentário -->
         <div class="modal fade" id="modal-comment" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close"><span
+                        <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Novo comentário</h4>
+                        <h4 class="modal-title">{{translations.modal.title}}</h4>
                     </div>
                     <div class="modal-body p-25">
 
                         <p>
-                            Escreva seu comentário para o drink {{drink.name}}</p>
+                            {{translations.modal.message}} {{drink.name}}</p>
                         <br>
                         <div class="form-group">
-                            <label>Mensagem*</label>
-                            <textarea class="form-control" v-model="newComment.comment" placeholder="Digite seu comentário"></textarea>
+                            <label>{translations.modal.label}}*</label>
+                            <textarea class="form-control" v-model="newComment.comment" :placeholder="translations.modal.placeholder"></textarea>
                         </div>
 
                     </div>
@@ -223,7 +239,7 @@
                         <button type="button"
                                 class="btn btn-mb-primary m-b-10 btn-block"
                                 @click="saveComment()"
-                                :disabled="!newComment.comment"> Salvar comentário
+                                :disabled="!newComment.comment"> {{translations.modal.button}}
                         </button>
                     </div>
                 </div>
@@ -232,26 +248,27 @@
         <!-- Modal commentário -->
 
         <!-- Btn Save Drink -->
-        <div v-if="isLogged">
+        <div v-if="isLogged && drinkFound">
             <button
                 class="btn btn-fixed-bottom btn-mb-info"
                 @click="addDrinkPreference(drink)"
                 v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                 style="position: fixed"
             >
-                Salvar drink
+                {{translations.buttons.save_drink}}
             </button>
             <router-link tag="button" class="btn btn-fixed-bottom btn-mb-info" style="position: fixed"
                          :to="{name: 'landing.user.preferences'}"
                          v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">
-                Drink salvo <i class="fa fa-check"></i>
+                {{translations.buttons.saved_drink}} <i class="fa fa-check"></i>
             </router-link>
         </div>
 
         <div v-if="!isLogged">
-            <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5"
-                         :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
-                Faça login para salvar o drink
+            <router-link tag="button" class="btn btn-fixed-bottom btn-success" style="position: fixed"
+                         :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
+                         >
+                {{translations.buttons.unauthenticated}}
             </router-link>
         </div>
 
@@ -262,6 +279,7 @@
     import {mapGetters, mapActions} from 'vuex'
     import drinkObj from '../../../models/Drink.js'
     import mainHeader from '@/components/main-header.vue'
+    import * as translations from '@/translations/drinks/show'
 
     export default {
         name: 'show-drink',
@@ -297,7 +315,17 @@
         computed: {
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
+            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes', 'language']),
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            },
+
             drinkBackground: function () {
                 return 'url(' + this.drink.photo_url + ')';
             },
@@ -307,6 +335,11 @@
                 return _.orderBy(this.nutritional_facts, 'id', 'asc');
             },
 
+        },
+        watch: {
+            language(val, oldVal) {
+                this.drawChart()
+            }
         },
         mounted(){
             this.getDrink();
@@ -349,11 +382,9 @@
 
                 var alcohol = this.alcoholStyles.findFromAttr('label', this.drink.style);
 
-                const keys = ['Refrescante', 'Frutado/Doce', 'Amargo', 'Seco', 'Salgado', 'Álcool'];
+                const keys = this.translations.map_labels;
 
                 const values = [this.drink.sour, this.drink.sweet, this.drink.bitter, this.drink.dry, this.drink.salt, alcohol.value];
-
-                console.log(values);
 
                 if (this.chart) this.chart.destroy()
                 this.chart = new Chart(this.$refs.createdDrinkChart, {

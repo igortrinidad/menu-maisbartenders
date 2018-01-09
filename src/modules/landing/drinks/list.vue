@@ -96,7 +96,7 @@
         <div class="container-colored m-t-30 m-b-30" v-show="interactions.finished_loading_category">
             <div class="container">
                 <h4 class="title-in-colored m-0" v-show="drinksFiltered && !drinksFiltered.length">
-                    Nenhum drink para essa categoria
+                    {{translations.no_drinks}}
                 </h4>
 
                 <div class="cols" v-show="drinksFiltered && drinksFiltered.length">
@@ -159,14 +159,14 @@
                                         </svg>
                                     </div>
                                     <span class="text-muted" v-if="drink.likes_count > 0">
-                                        {{ drink.likes_count > 1 ? `${ drink.likes_count } Likes` : `1 Like` }}
+                                        {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${ translations.like }` }}
                                     </span>
                                     <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
                                 </div>
 
                                 <!-- Login To Like -->
                                 <div class="m-t-20" v-if="!isLogged">
-                                    <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login' }">
+                                    <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login', query:{redirect: $route.path} }">
                                         {{translations.buttons.unauthenticated}}
                                     </router-link>
                                 </div>
@@ -214,37 +214,37 @@
                         <div class="card">
                             <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/king.svg" :alt="translations.badges.best_sellers"
-                                        :title="translations.badges.best_sellers">
+                                   <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
+                                        :title="translations.badges.exclusive_drinks_title">
                                </span>
 
-                                <p style="color: #222;">{{translations.badges.best_sellers}}</p>
+                                <p style="color: #222;">{{translations.badges.exclusive_drinks}}</p>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/star.svg" alt="Este Drink é exclusivo"
-                                        title="Este Drink é exclusivo">
+                                   <img src="../../../assets/images/star.svg" :alt="translations.badges.best_sellers_title"
+                                        :title="translations.badges.best_sellers_title">
                                </span>
 
-                                <p style="color: #222;">Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
+                                <p style="color: #222;">{{translations.badges.best_sellers}}</p>
                             </div>
                         </div>
                         <div class="card m-0">
                             <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/drink-created.svg" alt="Este Drink é exclusivo"
-                                        title="Este Drink é exclusivo">
+                                   <img src="../../../assets/images/drink-created.svg" :alt="translations.badges.guest_drinks_title"
+                                        :title="translations.badges.guest_drinks_title">
                                </span>
 
-                                <p style="color: #222;">Os drinks com este ícone são os drinks que os convidados criaram.</p>
+                                <p style="color: #222;">{{translations.badges.guest_drinks}}</p>
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-mb-primary">Fechar</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-mb-primary">{{translations.buttons.close_modal}}</button>
                     </div>
                 </div>
             </div>
@@ -287,11 +287,11 @@
                     <div class="modal-body">
                         <div class="card">
                             <div class="card-body card-padding">
-                                <h4 class="title-section m-0">Ingredientes</h4>
+                                <h4 class="title-section m-0">{{translations.ingredients}}</h4>
                                 <ul class="list-group m-t-30 m-b-0">
                                     <li class="list-group-item" v-for="(item, index) in currentItems">
                                         <span v-show="item.pivot.is_visible" style="color: #222;">
-                                            {{ item.name_pt }}
+                                            {{ item[`name_${language}`] ? item[`name_${language}`] : item['name_pt'] }}
                                         </span>
                                     </li>
                                 </ul>
@@ -304,7 +304,7 @@
                             class="btn btn-mb-primary"
                             data-dismiss="modal"
                         >
-                            Fechar
+                            {{translations.buttons.close_modal}}
                         </button>
                     </div>
                 </div>

@@ -158,7 +158,7 @@
                                                 </svg>
                                             </div>
                                             <span class="text-muted" v-if="drink.likes_count > 0">
-                                                {{ drink.likes_count > 1 ? `${ drinks.likes_count } Likes` : `1 Like` }}
+                                                {{ drink.likes_count > 1 ? `${ drink.likes_count } Likes` : `1 Like` }}
                                             </span>
                                             <span class="text-muted" v-if="drink.likes_count === 0">Seja o primeiro a curtir</span>
                                         </div>

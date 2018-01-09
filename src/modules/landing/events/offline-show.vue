@@ -120,10 +120,10 @@
 
                                     <!-- Card Body -->
                                     <div class="card-body card-padding text-center">
-                                        <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }">
+                                        <div @click="showDrink(drink)">
                                             <h3 class="card-title t-overflow">{{ drink.name }}</h3>
                                             <p class="description m-0">{{ drink.description }}</p>
-                                        </router-link>
+                                        </div>
 
                                         <button
                                             type="button"

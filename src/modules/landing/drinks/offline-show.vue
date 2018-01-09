@@ -1,63 +1,31 @@
 <template>
     <div class="first-container show">
 
-        <main-header :title="drinkFound ? drink.name : 'Drink não localizado'" />
+        <main-header :title="drinkFound ? drink.name : translations.drink_not_found_title"/>
 
-        <div v-if="drinkFound">
-            <div class="show-header" v-bind:style="{ backgroundImage: drinkBackground }">
+        <div v-if="drinkFound" id="drink-show-offline">
+            <div class="show-header" v-bind:style="{ backgroundImage: drinkBackground}">
 
                 <span>
-                    <a href="#drink" v-scroll-to="'#drink'">Ver detalhes</a>
+                    <a href="#drink" v-scroll-to="'#drink'">{{translations.buttons.details}}</a>
                 </span>
 
-            </div>
-
-            <div class="svg-container text-center m-t-30" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
-                <svg viewBox="0 0 30 30">
-                    <defs>
-                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%"   stop-color="#FB923B"/>
-                            <stop offset="100%" stop-color="#F66439"/>
-                        </linearGradient>
-                    </defs>
-                    <g transform="translate(-8.9261333,-9.447)">
-                        <path
-                            @click.prevent="likeDrink(drink)"
-                            class="animated"
-                            stroke="url(#linear)"
-                            :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
-                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
-                        />
-                    </g>
-                </svg>
-            </div>
-
-            <div class="text-center m-t-20">
-                <h4 class="section-title" v-if="isLogged">{{ drink.likes_count }} Likes</h4>
-                <router-link
-                    tag="button"
-                    class="btn btn-mb-primary"
-                    :to="{ name: 'landing.auth.login', query:{ redirect: $route.path } }"
-                    v-if="!isLogged"
-                >
-                    Faça login para curtir
-                </router-link>
             </div>
 
             <div class="container m-t-30">
                 <div class="badges">
                     <div class="badge-container" v-if="drink.is_exclusive">
                     <span class="badge">
-                        <img src="../../../assets/images/king.svg" alt="DRINK EXCLUSIVO"
-                             title="DRINK EXCLUSIVO">
-                        <span>Drink Exclusivo</span>
+                        <img src="../../../assets/images/king.svg" :alt="translations.exclusive_drink"
+                             :title="translations.exclusive_drink">
+                        <span class="text-uppercase">{{translations.exclusive_drink}}</span>
                     </span>
                     </div>
                     <div class="badge-container" v-if="drink.priority >= 4">
                     <span class="badge">
-                        <img class="zoom" src="../../../assets/images/star.svg" alt="BEST SELLER"
-                             title="BESTE SELLER">
-                        <span>Best Sellers</span>
+                        <img class="zoom" src="../../../assets/images/star.svg" :alt="translations.best_sellers"
+                             :title="translations.best_sellers">
+                        <span class="text-uppercase">{{translations.best_sellers}}</span>
                     </span>
                     </div>
                 </div>
@@ -72,21 +40,21 @@
 
                             <div class="card m-t-30">
                                 <div class="card-body card-padding">
+                                    <h4 class="m-0">{{translations.ingredients}}</h4>
                                     <div v-if="isLogged">
-                                        <h4 class="m-0">Ingredientes</h4>
 
                                         <ul class="list-group m-t-30 m-b-0">
                                             <li class="list-group-item" v-for="item in drink.items" v-if="item.pivot.is_visible">
                                                 <span v-show="item.pivot.is_visible" style="color: #222;">
-                                                    {{ item.name_pt }}
+                                                    {{ item[`name_${language}`] ? item[`name_${language}`] : item['name_pt'] }}
                                                 </span>
                                             </li>
                                         </ul>
                                     </div>
 
                                     <div v-if="!isLogged">
-                                        <router-link tag="button" class="btn btn-mb-primary outline" :to="{ name: 'landing.auth.login' }">
-                                            Faça login para ver a lista de ingredientes ;)
+                                        <router-link tag="button" class="btn btn-mb-primary outline m-t-20" :to="{ name: 'landing.auth.login', query: {redirect: $route.path} }">
+                                            {{translations.unauthenticated}}
                                         </router-link>
                                     </div>
                                 </div>
@@ -96,53 +64,46 @@
                                 <div class="col-md-6 col-xs-12">
                                     <div class="card">
                                         <div class="card-body card-padding">
-                                            <h4 class="m-b-30">Mapa de sabor</h4>
+                                            <h4 class="m-b-30">{{translations.flavor_map}}</h4>
                                             <canvas ref="createdDrinkChart"></canvas>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <router-link
-                                :to="{name: 'landing.drinks.list'}"
-                                class="btn btn-block btn-mb-primary-reverse outline m-b-30">
-                                Ir para cardápio completo
-                            </router-link>
+                                <!--
+                                <div class="col-md-6 col-xs-12">
+                                    <h4 class="m-b-30">Informação nutricional</h4>
+                                    <div class="row text-left">
+                                        <div class="col-md-8 col-md-offset-2 col-xs-12">
+                                        <span class="text-left">
+                                            <small class="f-16 f-500">Porção: 1 unidade</small>
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Descrição</th>
+                                                        <th class="text-center">Quantidade</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="nutri in nutritional_facts_ordereds">
+                                                        <td>{{nutri.name}}</td>
+                                                        <td class="text-center">{{nutri.quantity | formatNumber}} {{nutri.unity}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
 
-                            <!-- Comments -->
-                            <div class="row">
-                                <div class="col-lg-12 text-left">
-                                    <div class="card">
-                                        <div class="card-body card-padding">
-                                            <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
-                                            <div class="text-center m-20">
-                                                <button class="btn btn-mb-primary" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
-                                            </div>
-
-                                            <p class="text-muted" v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
-
-                                            <ul class="media-list">
-                                                <li class="media" v-for="comment in comments">
-                                                    <div class="pull-left">
-                                                        <img class="media-object img-circle" :src="comment.guest.photo_url"
-                                                             width="48">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h5 class="media-heading">{{comment.guest.full_name}}</h5>
-                                                        <span class="text-muted">{{comment.comment}}</span>
-                                                    </div>
-
-                                                </li>
-                                            </ul>
-                                            <div v-if="pagination.total > 0">
-                                                <pagination :source="pagination" @navigate="navigate"
-                                                            :paginator-class="'pagination-sm'"></pagination>
-                                            </div>
+                                            <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
+                                            <p class="nutrition-disclaimer">Fonte: <a target="_blank"
+                                                                                      href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
+                                        </span>
                                         </div>
                                     </div>
                                 </div>
+                                -->
+
+
                             </div>
-                            <!-- Comments -->
+
                         </div>
                     </div>
                 </div>
@@ -150,18 +111,25 @@
             </div>
         </div>
 
-        <div v-if="!drinkFound">
+        <div class="" v-if="!drinkFound">
             <header class="header-greeting"
                     v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
                 <div class="container">
                     <div class="intro-text">
                         <div class="intro-heading">:(</div>
-                        <div class="intro-heading">Não localizamos seu drink</div>
-                        <button class="btn btn-primary" @click="backPage()">Voltar</button>
+                        <div class="intro-heading">{{translations.drink_not_found_message}}</div>
+                        <button class="btn btn-primary" @click="backPage()">{{translations.buttons.back}}</button>
                     </div>
                 </div>
             </header>
         </div>
+
+
+
+        <button class="btn btn-fixed-bottom btn-mb-info" style="position: fixed" @click="backPage()"><i class="fa fa-chevron-left"></i>
+            {{translations.buttons.back}}
+            ({{interactions.idleTime}}<span style="text-transform: lowercase;">s</span>)
+        </button>
 
     </div>
 </template>
@@ -170,6 +138,7 @@
     import {mapGetters, mapActions} from 'vuex'
     import drinkObj from '../../../models/Drink.js'
     import mainHeader from '@/components/main-header.vue'
+    import * as translations from '@/translations/drinks/show'
 
     export default {
         name: 'show-drink',
@@ -177,7 +146,7 @@
             pagination: require('@/components/pagination.vue'),
             mainHeader
         },
-        data () {
+        data() {
             return {
                 interactions: {
                     phraseSelected: '',
@@ -202,7 +171,16 @@
         computed: {
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
+            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes', 'language']),
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            },
             drinkBackground: function () {
                 return `url('${ cordova.file.dataDirectory }/drink-${ this.drink.url }.${ this.drink.typeImg }')`
             },
@@ -234,7 +212,12 @@
             },
 
         },
-        mounted(){
+        watch: {
+            language(val, oldVal) {
+                this.drawChart()
+            }
+        },
+        mounted() {
             this.getDrink();
             this.checkIdleTime();
         },
@@ -242,20 +225,20 @@
 
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike']),
 
-            backPage: function(){
+            backPage: function () {
                 var that = this;
                 clearInterval(that.interactions.interval);
                 this.interactions.idleTime = 60;
                 window.history.back();
             },
 
-            checkIdleTime: function(){
+            checkIdleTime: function () {
                 let that = this
 
                 that.interactions.interval = setInterval(that.timerIncrement, 1000);
                 //Zero the idle timer on mouse movement.
-                $(window).scroll( function (e) {
-                    if(that.$route.name == 'landing.drinks.show-offline'){
+                $(window).scroll(function (e) {
+                    if (that.$route.name == 'landing.drinks.show-offline') {
                         that.interactions.idleTime = 60;
                     }
                 });
@@ -263,7 +246,7 @@
 
             },
 
-            timerIncrement: function(){
+            timerIncrement: function () {
                 let that = this
 
                 that.interactions.idleTime--;
@@ -305,7 +288,7 @@
 
                 var alcohol = this.alcoholStyles.findFromAttr('label', this.drink.style);
 
-                const keys = ['Refrescante', 'Frutado/Doce', 'Amargo', 'Seco', 'Salgado', 'Álcool'];
+                const keys = this.translations.map_labels;
 
                 const values = [this.drink.sour, this.drink.sweet, this.drink.bitter, this.drink.dry, this.drink.salt, alcohol.value];
 
@@ -362,14 +345,14 @@
 
             },
 
-            countDrinkOpenned: function() {
+            countDrinkOpenned: function () {
                 let that = this
                 let drinks = JSON.parse(localStorage.getItem('drinksWithOpenedTimes'))
 
                 let countDrinks = []
 
                 if (drinks) {
-                    const index = _.findIndex(drinks, { 'url': that.drink.url })
+                    const index = _.findIndex(drinks, {'url': that.drink.url})
                     if (index < 0) {
                         that.drink.opened_times = 0
                         drinks.push(that.drink)
@@ -391,7 +374,7 @@
                 }
             },
 
-            handleGuestAvatar(guest){
+            handleGuestAvatar(guest) {
 
                 let guest_avatar = null
 
