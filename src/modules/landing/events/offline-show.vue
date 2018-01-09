@@ -578,7 +578,9 @@
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
 
             eventBackground: function () {
-                return `url('${ cordova.file.dataDirectory }/evento-${ this.event.url }.${ this.event.typeImg }')`
+                if (window.cordova) {
+                    return `url('${ cordova.file.dataDirectory }/evento-${ this.event.url }.${ this.event.typeImg }')`
+                }
             },
 
 
