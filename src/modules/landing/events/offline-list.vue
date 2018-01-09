@@ -1,51 +1,63 @@
 <template>
-    <div class="page">
+    <div class="first-container">
 
-        <main-header :title="'Eventos'" />
+        <main-header :title="'Eventos salvos'" />
 
-        <div v-if="events.length">
-            <div class="container m-t-30 text-center">
-                <h2>Eventos</h2>
+        <!-- Icon SVG + Title -->
+        <div class="container text-center">
+            <div class="svg-container">
+                <svg viewBox="0 0 90 90">
+                    <defs>
+                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%"   stop-color="#FB923B"/>
+                            <stop offset="100%" stop-color="#F66439"/>
+                        </linearGradient>
+                    </defs>
+
+                    <path class="non-fill fix animated" stroke="url(#linear)"
+                        d="m 35.86,55.74 a 1.5,1.5 0 0 0 2.12,0 L 62.16,31.56 a 1.5,1.5 0 0 0 -2.12,-2.12 l -23.12,23.11 -12,-12 a 1.5,1.5 0 1 0 -2.12,2.12 z"
+                    />
+                    <path class="non-fill xl fix animated" stroke="url(#linear)"
+                        d="m 0,67.75 a 9.51,9.51 0 0 0 9.5,9.5 h 66 a 9.51,9.51 0 0 0 9.5,-9.5 v -49 A 9.51,9.51 0 0 0 75.5,9.25 H 64 V 1.5 a 1.5,1.5 0 1 0 -3,0 V 9.25 H 24 V 1.5 a 1.5,1.5 0 1 0 -3,0 V 9.25 H 9.5 A 9.51,9.51 0 0 0 0,18.75 Z m 3,-49 a 6.51,6.51 0 0 1 6.5,-6.5 H 21 v 5.5 a 1.5,1.5 0 0 0 3,0 v -5.5 h 37 v 5.5 a 1.5,1.5 0 0 0 3,0 v -5.5 h 11.5 a 6.51,6.51 0 0 1 6.5,6.5 v 49 a 6.51,6.51 0 0 1 -6.5,6.5 H 9.5 A 6.51,6.51 0 0 1 3,67.75 Z"
+                    />
+                </svg>
             </div>
 
-            <div class="list-events">
-                <div class="container">
-                    <div class="cols">
-                        <div v-for="(event, index) in events" class="col">
-                            <div tag="div" class="box event" :to="{name: 'landing.events.show-offiline', params: {event_slug: event.url}}">
+            <h4 class="title-section m-b-10">
+                {{ events.length ? 'Eventos Salvos' : 'Nenhum Evento Salvo' }}
+            </h4>
 
-                                <router-link tag="span" :to="{name: 'landing.events.show-offline', params: {event_slug: event.url}}">
-                                    <img :src="systemUrl(event)" :alt="event.name" class="event-gallery-image">
-                                    <div class="details">
-                                        <h4 class="event-name">{{ event.name }}</h4>
-                                        <span class="description">{{ event.greeting }}</span>
-                                    </div>
+            <span class="text-muted">
+                {{ events.length ? 'Seus eventos salvos estão listados abaixo' : 'Salve eventos agora mesmo para acessar a qualquer momento mesmo sem conexão com a internet' }}
+            </span>
 
-                                </router-link >
-                                <button class="btn btn-sm btn-block btn-danger m-t-10" @click="removeEvent(event)">Excluir evento do dispositivo</button>
-                            </div>
-                        </div>
+        </div>
+
+        <div class="container-colored m-t-30" v-if="events.length">
+            <div class="container">
+                <!-- Cards Events -->
+                <router-link
+                    tag="div"
+                    class="card"
+                    v-for="(event, index) in events"
+                    :key="index"
+                    :to="{ name: 'landing.events.show-offline', params: { event_slug: event.url } }"
+                >
+
+                    <div class="card-header cover" :style="`background-image: url(${ event.photo_url })`">
                     </div>
-                </div>
+
+                    <div class="card-body card-padding">
+                        <h4 class="event-name">{{ event.name }}</h4>
+                    </div>
+
+                </router-link>
             </div>
         </div>
 
-        <section class="p-t-0" v-if="!events.length">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                        <h2 class="section-heading">Nenhum evento salvo ainda.</h2>
-                        <h3 class="section-subheading text-muted">Salve eventos agora mesmo para acessar a qualquer momento mesmo sem conexão com a internet</h3>
-                    </div>
-
-                    <div class="col-sm-12 text-center">
-                        <router-link tag="button" class="btn btn-xl" :to="{ name: 'landing.events.list' }" exact>
-                            Eventos
-                        </router-link>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <router-link tag="button" class="btn btn-fixed-bottom btn-mb-info" style="position: fixed" :to="{ name: 'landing.events.list' }" exact>
+            Todos os eventos
+        </router-link>
 
    </div>
 </template>
