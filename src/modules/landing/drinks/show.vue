@@ -44,139 +44,135 @@
                 </router-link>
             </div>
 
-
-            <!-- Btn Save Drink -->
-            <div v-if="isLogged">
-                <button
-                    class="btn btn-fixed-bottom btn-mb-info"
-                    @click="addDrinkPreference(drink)"
-                    v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                    style="position: fixed"
-                >
-                    Salvar drink
-                </button>
-                <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action btn-share m-r-5"
-                             :to="{name: 'landing.user.preferences'}"
-                             v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">
-                    Drink salvo <i class="fa fa-check"></i>
-                </router-link>
+            <div class="container m-t-30">
+                <div class="badges">
+                    <div class="badge-container" v-if="drink.is_exclusive">
+                    <span class="badge">
+                        <img src="../../../assets/images/king.svg" alt="DRINK EXCLUSIVO"
+                             title="DRINK EXCLUSIVO">
+                        <span>Drink Exclusivo</span>
+                    </span>
+                    </div>
+                    <div class="badge-container" v-if="drink.priority >= 4">
+                    <span class="badge">
+                        <img class="zoom" src="../../../assets/images/star.svg" alt="BEST SELLER"
+                             title="BESTE SELLER">
+                        <span>Best Sellers</span>
+                    </span>
+                    </div>
+                </div>
             </div>
 
-            <div v-if="!isLogged">
-                <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5"
-                             :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
-                    Faça login para salvar o drink
-                </router-link>
-            </div>
-
-            <section id="drink" class="m-t-30">
+            <div id="drink" class="container-colored m-t-30">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
 
-                            <div class="badges">
-                                <div class="badge-container" v-if="drink.is_exclusive">
-                                <span class="badge">
-                                    <img src="../../../assets/images/king.png" alt="DRINK EXCLUSIVO"
-                                         title="DRINK EXCLUSIVO">
-                                    <span>Drink Exclusivo</span>
-                                </span>
-                                </div>
-                                <div class="badge-container" v-if="drink.priority >= 4">
-                                <span class="badge">
-                                    <img class="zoom" src="../../../assets/images/star.png" alt="BEST SELLER"
-                                         title="BESTE SELLER">
-                                    <span>Best Sellers</span>
-                                </span>
+                            <h4 class="title-in-colored m-0">{{ drink.description }}</h4>
+
+                            <div class="card m-t-30">
+                                <div class="card-body card-padding">
+                                    <div v-if="isLogged">
+                                        <h4 class="m-0">Ingredientes</h4>
+
+                                        <ul class="list-group m-t-30 m-b-0">
+                                            <li class="list-group-item" v-for="item in drink.items" v-if="item.pivot.is_visible">
+                                                <span v-show="item.pivot.is_visible" style="color: #222;">
+                                                    {{ item.name_pt }}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div v-if="!isLogged">
+                                        <router-link tag="button" class="btn btn-mb-primary outline" :to="{ name: 'landing.auth.login' }">
+                                            Faça login para ver a lista de ingredientes ;)
+                                        </router-link>
+                                    </div>
                                 </div>
                             </div>
 
-                            <p class="m-t-30 text-muted">
-                                <strong class="f-20">{{drink.description}}</strong><br>
-                            </p>
-
-                            <h3 class="m-b-30">Ingredientes</h3>
-
-                            <p class="m-t-30 text-muted">
-                            <span v-for="item in drink.items" v-if="item.pivot.is_visible && isLogged">
-                                <strong class="f-20" v-show="item.pivot.is_visible">{{item.name_pt}}</strong><br>
-                            </span>
-
-                            <span class="drink-item" v-if="!isLogged">
-                                Faça login para ver a lista de ingredientes ;)
-                            </span>
-                            </p>
-
                             <div class="row">
                                 <div class="col-md-6 col-xs-12">
-                                    <h4 class="m-b-30">Mapa de sabor</h4>
-                                    <canvas ref="createdDrinkChart"></canvas>
-                                </div>
-
-                                <div class="col-md-6 col-xs-12">
-                                    <h4 class="m-b-30">Informação nutricional</h4>
-                                    <div class="row text-left">
-                                        <div class="col-md-8 col-md-offset-2 col-xs-12">
-                                        <span class="text-left">
-                                            <small class="f-16 f-500">Porção: 1 unidade</small>
-                                            <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Descrição</th>
-                                                        <th class="text-center">Quantidade</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="nutri in nutritional_facts_ordereds">
-                                                        <td>{{nutri.name_pt}}</td>
-                                                        <td class="text-center">{{nutri.quantity | formatNumber}} {{nutri.unity}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                            <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
-                                            <p class="nutrition-disclaimer">Fonte: <a target="_blank"
-                                                                                      href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
-                                        </span>
+                                    <div class="card">
+                                        <div class="card-body card-padding">
+                                            <h4 class="m-b-30">Mapa de sabor</h4>
+                                            <canvas ref="createdDrinkChart"></canvas>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="card">
+                                        <div class="card-body card-padding">
+                                            <h4 class="m-b-30">Informação nutricional</h4>
+                                            <div class="row text-left">
+                                                <div class="col-md-8 col-md-offset-2 col-xs-12">
+                                                <span class="text-left">
+                                                    <small class="f-16 f-500">Porção: 1 unidade</small>
+                                                    <table class="table table-bordered table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Descrição</th>
+                                                                <th class="text-center">Quantidade</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr v-for="nutri in nutritional_facts_ordereds">
+                                                                <td>{{nutri.name_pt}}</td>
+                                                                <td class="text-center">{{nutri.quantity | formatNumber}} {{nutri.unity}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
 
+                                                    <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
+                                                    <p class="nutrition-disclaimer">Fonte: <a target="_blank"
+                                                                                              href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
+                                                </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <hr>
                             <router-link
                                 :to="{name: 'landing.drinks.list'}"
-                                class="btn inline btn-xl m-t-30 m-b-30">
+                                class="btn btn-block btn-mb-primary-reverse outline m-b-30">
                                 Ir para cardápio completo
                             </router-link>
-                            <hr>
+
                             <!-- Comments -->
-                            <div class="col-lg-12 text-left">
-                                <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
-                                <div class="text-center m-20">
-                                    <button class="btn btn-mb-primary" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
-                                </div>
+                            <div class="row">
+                                <div class="col-lg-12 text-left">
+                                    <div class="card">
+                                        <div class="card-body card-padding">
+                                            <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
+                                            <div class="text-center m-20">
+                                                <button class="btn btn-mb-primary" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
+                                            </div>
 
-                                <p class="text-muted" v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
+                                            <p class="text-muted" v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
 
-                                <ul class="media-list">
-                                    <li class="media" v-for="comment in comments">
-                                        <div class="pull-left">
-                                            <img class="media-object img-circle" :src="comment.guest.photo_url"
-                                                 width="48">
+                                            <ul class="media-list">
+                                                <li class="media" v-for="comment in comments">
+                                                    <div class="pull-left">
+                                                        <img class="media-object img-circle" :src="comment.guest.photo_url"
+                                                             width="48">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="media-heading">{{comment.guest.full_name}}</h5>
+                                                        <span class="text-muted">{{comment.comment}}</span>
+                                                    </div>
+
+                                                </li>
+                                            </ul>
+                                            <div v-if="pagination.total > 0">
+                                                <pagination :source="pagination" @navigate="navigate"
+                                                            :paginator-class="'pagination-sm'"></pagination>
+                                            </div>
                                         </div>
-                                        <div class="media-body">
-                                            <h5 class="media-heading">{{comment.guest.full_name}}</h5>
-                                            <span class="text-muted">{{comment.comment}}</span>
-                                        </div>
-
-                                    </li>
-                                </ul>
-                                <div v-if="pagination.total > 0">
-                                    <pagination :source="pagination" @navigate="navigate"
-                                                :paginator-class="'pagination-sm'"></pagination>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Comments -->
@@ -184,7 +180,7 @@
                     </div>
                 </div>
 
-            </section>
+            </div>
         </div>
 
         <div class="" v-if="!drinkFound">
@@ -234,6 +230,31 @@
             </div>
         </div>
         <!-- Modal commentário -->
+
+        <!-- Btn Save Drink -->
+        <div v-if="isLogged">
+            <button
+                class="btn btn-fixed-bottom btn-mb-info"
+                @click="addDrinkPreference(drink)"
+                v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                style="position: fixed"
+            >
+                Salvar drink
+            </button>
+            <router-link tag="button" class="btn btn-fixed-bottom btn-mb-info" style="position: fixed"
+                         :to="{name: 'landing.user.preferences'}"
+                         v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)">
+                Drink salvo <i class="fa fa-check"></i>
+            </router-link>
+        </div>
+
+        <div v-if="!isLogged">
+            <router-link tag="button" class="btn btn-success btn-sm m-b-10 btn-drink-action  btn-share m-r-5"
+                         :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
+                Faça login para salvar o drink
+            </router-link>
+        </div>
+
     </div>
 </template>
 
