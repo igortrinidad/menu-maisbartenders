@@ -3,7 +3,7 @@
         <side-menu v-if="title === 'logo'" />
         <div id="hammer-menu" ref="hammerMenu" v-if="title === 'logo'"></div>
 
-        <div class="circle">
+        <div class="circle" v-if="title === 'logo'">
             <svg viewBox="0 0 100 100">
                 <defs>
                     <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -33,22 +33,18 @@
 
                 <div class="flags">
                     <img
-                        class="m-r-5 country-flag"
                         src="../assets/images/brazil.png"
                         width="32px"
-                        @click="setLanguage('pt')"
-                        :class="{ 'country-selected' : language ===  'pt' }"
+                        @click="setLanguageAndAnimate('en')"
+                        v-show="language ===  'pt'"
                     >
                     <img
-                        class="m-r-5 country-flag"
                         src="../assets/images/united-kingdom.png"
                         width="32px"
-                        @click="setLanguage('en')"
-                        :class="{ 'country-selected' : language ===  'en' }"
+                        @click="setLanguageAndAnimate('pt')"
+                        v-show="language ===  'en'"
                     >
-
                 </div>
-
             </div>
             <!-- /.container-fluid -->
         </nav>
@@ -110,6 +106,15 @@
         methods:{
 
             ...mapActions(['setLanguage']),
+
+            setLanguageAndAnimate(lang) {
+                $('.flags').toggleClass('in')
+
+                let that = this
+                setTimeout(() => {
+                    that.setLanguage(lang)
+                }, 200);
+            },
 
             mountMenuHammer() {
                 let that = this
@@ -276,11 +281,12 @@
     }
 
     .title-header {
-        width: 100%;
+        margin: 0 auto;
+        width: 230px;
         height: 43px;
         color: #fff;
         display: flex;
-        padding: 27px 30px;
+        padding: 27px 0;
         font-weight: 700;
         display: flex;
         align-items: center;
@@ -361,19 +367,19 @@
         z-index: 77777;
     }
 
-    .flags{
+    .flags {
         position: absolute;
-        top: 21px;
-        right: 10px;
+        top: 22px;
+        right: 20px;
         cursor: pointer;
+        transition: all .4s linear;
+        transform: rotateY(0deg);
     }
 
-    .country-flag{
-        filter: grayscale(90%);
-    }
-
-    .country-selected{
-        filter: grayscale(0%);
+    .flags.in {
+        transform-style: preserve-3d;
+        transition: all .4s linear;
+        transform: rotateY(180deg);
     }
 
 </style>
@@ -387,4 +393,5 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 </style>

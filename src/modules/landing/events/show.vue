@@ -1,7 +1,7 @@
 <template>
     <div class="first-container show" ref="container">
 
-        <main-header :title="eventFound ? event.name : 'Evento não encontrado'" />
+        <main-header :title="!eventFound ? event.name : 'Evento'" />
 
         <!-- EventFound -->
         <div v-if="eventFound">
