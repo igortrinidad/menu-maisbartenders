@@ -316,7 +316,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import mainHeader from '@/components/main-header.vue'
     import * as translations from '@/translations/drinks/list'
     import allDrinks from '../../../assets/images/todos_drinks.svg'
@@ -696,6 +696,10 @@
 
 <style scoped>
     .svg-container.min { width: 40px; }
+
+    .btn.btn-mb-info.btn-fixed-bottom.btn-save {
+        border-radius: 0 0 10px 10px;
+    }
 
     .btn.btn-mb-info.btn-fixed-bottom.btn-save {
         border-radius: 0 0 10px 10px;

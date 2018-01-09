@@ -95,128 +95,117 @@
                 </div>
 
 
-                <div class="list-drinks">
+                <div class="container-colored list-drinks p-t-30">
                     <div class="container">
                         <div class="cols" :class="{ 'align-block': drinksFiltered.length === 2 }">
                             <div v-for="(drink, index) in drinksFiltered" class="col">
-                                <div tag="div" class="drink"
-                                     :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                    <div class="badges">
-                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
-                                          data-target="#badge-help">
-                                        <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
-                                             title="Este Drink é exclusivo">
-                                    </span>
-                                        <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
-                                              data-target="#badge-help">
-                                        <img src="../../../assets/images/star.png"
-                                             alt="Este drink está entre os BEST SELLERS"
-                                             title="Este drink está entre os BEST SELLERS">
-                                    </span>
-                                        <span class="badge" v-if="drink.fiancee_drink" data-toggle="modal"
-                                              data-target="#badge-help">
-                                           <img
-                                               src="../../../assets/images/noiva.svg"
-                                               alt="Este drink foi escolhido pela noiva"
-                                               title="Este drink foi escolhido pela noiva">
-                                        </span>
-                                        <span class="badge" v-if="drink.groom_drink" data-toggle="modal"
-                                              data-target="#badge-help">
-                                           <img
-                                               src="../../../assets/images/preferido_do_noivo.svg"
-                                               alt="Este drink foi escolhido pelo noivo"
-                                               title="Este drink foi escolhido pelo noivo">
-                                        </span>
-                                    </div>
 
-                                    <router-link tag="span"
-                                                 :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                        <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                        <div class="details">
-                                            <h3 class="drink-name">{{ drink.name }}</h3>
-                                            <span class="description">{{ drink.description }}</span>
-                                            <hr>
+                                <!-- Start Drink -->
+                                <div class="card m-0">
+                                    <!-- Card Header -->
+                                    <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+                                        <div class="badges">
+                                           <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
+                                                 data-target="#badge-help">
+                                               <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
+                                                    title="Este Drink é exclusivo">
+                                           </span>
+                                            <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
+                                                  data-target="#badge-help">
+                                               <img class="zoom" src="../../../assets/images/star.svg"
+                                                    alt="Este drink está entre os BEST SELLERS"
+                                                    title="Este drink está entre os BEST SELLERS">
+                                           </span>
                                         </div>
-                                    </router-link>
-
-                                    <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
-                                        <i class="fa pull-right"
-                                           :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
-                                        </i>
-                                    </h5>
-
-                                    <div class="items" v-if="isLogged"
-                                         :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                        <span class="drink-item" v-for="(item, index) in drink.items">
-                                            <span v-show="item.pivot.is_visible">
-                                                {{ item.name_pt }}
-                                            </span>
-                                        </span>
                                     </div>
 
-                                    <div class="items"
-                                         :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                        <span class="drink-item" v-if="!isLogged">
-                                            Faça login para ver a lista de ingredientes ;)
-                                        </span>
-                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body card-padding text-center">
+                                        <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }">
+                                            <h3 class="card-title t-overflow">{{ drink.name }}</h3>
+                                            <p class="description m-0">{{ drink.description }}</p>
+                                        </router-link>
 
-                                    <div class="box-footer m-t-15" v-if="isLogged">
                                         <button
-                                            class="btn btn-default m-b-10 btn-drink-action facebook btn-share btn-block"
+                                            type="button"
+                                            class="btn btn-xs btn-mb-primary outline m-t-15"
+                                            @click="itemsModal(drink.items)"
+                                            v-if="isLogged && drink.items.length"
+                                        >
+                                            Ver Ingredientes
+                                        </button>
+
+                                        <!-- Like -->
+                                        <div class="m-t-15 m-b-30" v-if="isLogged">
+                                            <!-- Svg -->
+                                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
+                                                <svg viewBox="0 0 30 30">
+                                                    <defs>
+                                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                            <stop offset="0%"   stop-color="#FB923B"/>
+                                                            <stop offset="100%" stop-color="#F66439"/>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <g transform="translate(-8.9261333,-9.447)">
+                                                        <path
+                                                            @click.prevent="likeDrink(drink)"
+                                                            class="animated"
+                                                            stroke="url(#linear)"
+                                                            :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
+                                                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
+                                                        />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <span class="text-muted" v-if="drink.likes_count > 0">
+                                                {{ drink.likes_count > 1 ? `${ drinks.likes_count } Likes` : `1 Like` }}
+                                            </span>
+                                            <span class="text-muted" v-if="drink.likes_count === 0">Seja o primeiro a curtir</span>
+                                        </div>
+
+                                        <!-- Login To Like -->
+                                        <div class="m-t-20" v-if="!isLogged">
+                                            <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login' }">
+                                                Faça o login para curtir
+                                            </router-link>
+                                        </div>
+
+                                        <!-- Save Drink -->
+                                        <button
+                                            class="btn btn-mb-info btn-fixed-bottom btn-save"
                                             @click="addDrinkPreference(drink)"
                                             v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        >Salvar drink
+                                        > Salvar drink
                                         </button>
 
                                         <router-link
                                             tag="button"
-                                            class="btn btn-success m-b-10 btn-drink-action btn-share btn-block"
-                                            :to="{name: 'landing.user.preferences'}"
+                                            class="btn btn-mb-info btn-fixed-bottom btn-save"
+                                            :to="{ name: 'landing.user.preferences' }"
                                             v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                                         >Drink salvo <i class="fa fa-check"></i>
                                         </router-link>
 
-                                        <button @click.prevent="likeDrink(drink)"
-                                                class="btn btn-sm m-b-10 btn-like btn-block">
-                                            <span class="text-muted">{{drink.likes_count}}</span>
-                                            <i class="fa fa-heart fa-lg text-danger"
-                                               v-if="handleLikedDrinks(drink.id)"></i>
-                                            <i class="fa fa-heart-o fa-lg text-danger"
-                                               v-if="!handleLikedDrinks(drink.id)"></i>
-                                        </button>
                                     </div>
-
-                                    <div class="box-footer" v-if="!isLogged">
-                                        <router-link
-                                            tag="button"
-                                            class="btn btn-default m-b-10 btn-block btn-drink-action facebook btn-share"
-                                            :to="{name: 'landing.auth.login', query:{redirect: '/evento/' + $route.params.event_slug}}"
-                                        >Faça login para salvar drink
-                                        </router-link>
-
-                                        <router-link tag="button" class="btn btn-sm m-b-10 btn-like m-r-5 btn-block"
-                                                     :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
-                                            <span class="text-muted">{{drink.likes_count}}</span> <i
-                                            class="fa fa-heart-o fa-lg text-danger"></i>
-                                            Faça login para curtir
-                                        </router-link>
-                                    </div>
-
                                 </div>
+                                <!-- End Drink -->
+
                             </div>
                         </div>
 
-                        <div class="text-center m-t-20 m-b-20" v-if="interactions.finished_loading_category">
-                            <button type="button" class="btn btn-mb-primary "
-                                    @click.prevent="resetCategory()"
-                            >
-                                Alterar categoria
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             </section>
+
+            <div class="text-center m-t-20 m-b-20" v-if="interactions.finished_loading_category">
+                <button type="button" class="btn btn-mb-primary "
+                        @click.prevent="resetCategory()"
+                >
+                    Alterar categoria
+                </button>
+            </div>
+
 
             <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
@@ -226,64 +215,63 @@
                                 aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Ícones nos drinks</h4>
                         </div>
-                        <div class="modal-body p-25 text-center">
+                        <div class="modal-body text-center">
 
-                            <div class="row">
-                                <div class="col-md-12 col-xs-12 text-center">
+                            <div class="card">
+                                <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                    <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
+                                    <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
                                          title="Este Drink é exclusivo">
                                 </span>
 
-                                    <p>
+                                    <p style="color: #222">
                                         Os drinks que estão marcados com este ícone são drink exclusivos Mais
                                         Bartenders, criados e desenvolvidos por nossa equipe.</p>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12 col-xs-12 text-center">
+                            <div class="card">
+                                <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                    <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo"
+                                    <img src="../../../assets/images/star.svg" alt="Este Drink é exclusivo"
                                          title="Este Drink é exclusivo">
                                 </span>
 
-                                    <p>
+                                    <p style="color: #222">
                                         Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos
                                         eventos.</p>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12 col-xs-12 text-center">
+
+                            <div class="card">
+                                <div class="card-body card-padding">
                                 <span class="modal-badge badge">
                                     <img src="../../../assets/images/noiva.svg"
                                          alt="Este drink foi escolhido pela noiva"
                                          title="Este drink foi escolhido pela noiva">
                                 </span>
 
-                                    <p>Os drinks com este ícone foram especialmente escolhidos pela
+                                    <p style="color: #222">Os drinks com este ícone foram especialmente escolhidos pela
                                         noiva.</p>
                                 </div>
                             </div>
 
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12 col-xs-12 text-center">
+
+                            <div class="card m-b-0">
+                                <div class="card-body card-padding">
                                 <span class="modal-badge badge">
                                     <img src="../../../assets/images/preferido_do_noivo.svg"
                                          alt="Este drink foi escolhido pelo noivo"
                                          title="Este drink foi escolhido pelo noivo">
                                 </span>
 
-                                    <p>Os drinks com este ícone foram especialmente escolhidos pelo
+                                    <p style="color: #222">Os drinks com este ícone foram especialmente escolhidos pelo
                                         noivo.</p>
                                 </div>
                             </div>
                             <br>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-mb-primary">Fechar</button>
                         </div>
                     </div>
                 </div>
@@ -418,7 +406,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-mb-primary" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-mb-whatsapp m-t-20"
+                        <button type="button" class="btn btn-block btn-mb-whatsapp m-t-20"
                                 @click="openShareWhatsapp()"
                                 :disabled="!interactions.whatsappPhraseSelected">Compartilhar no WhatsApp <i
                             class="fa fa-whatsapp"></i>
@@ -991,7 +979,7 @@
                     this.filterCategory.push(category_slug)
                 }
             },
-            
+
             selectCategory(category) {
                 let that = this
 
@@ -1040,6 +1028,12 @@
 </script>
 
 <style scoped>
+
+    .svg-container.min { width: 40px; }
+
+    .btn.btn-mb-info.btn-fixed-bottom.btn-save {
+        border-radius: 0 0 10px 10px;
+    }
 
     .title-section {
         font-size: 30px;
@@ -1182,48 +1176,6 @@
     .drink .stars {
         margin-right: 3px;
     }
-
-    /* Badge */
-    .badges {
-        display: flex;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        cursor: pointer;
-    }
-
-    .badge {
-        width: 45px;
-        height: 45px;
-        border: 2px solid #fed136;
-        display: flex;
-        padding: 10px;
-        background: rgba(44, 62, 80, .8);
-        margin: 5px;
-        border-radius: 50%;
-    }
-
-    .modal-badge.badge {
-        margin: 20px auto;
-    }
-
-    .badge:hover {
-        transform: scale(1.05);
-    }
-
-    .badge:active {
-        transform: scale(1.00);
-    }
-
-    .badge img {
-        max-width: 100%;
-    }
-
-    .badge img.zoom {
-        transform: scale(1.1);
-    }
-
-
 
     /* Like button */
     .btn-like {
