@@ -46,6 +46,7 @@
                         @click="setLanguage('en')"
                         :class="{ 'country-selected' : language ===  'en' }"
                     >
+
                 </div>
 
             </div>
@@ -90,10 +91,11 @@
         },
         computed: {
             ...mapGetters(['currentUser', 'isLogged', 'userPhoto', 'language']),
-
         },
 
         mounted(){
+
+
             if (this.$route.path === '/') {
                 this.mountMenuHammer()
             }
@@ -106,6 +108,7 @@
 
         },
         methods:{
+
             ...mapActions(['setLanguage']),
 
             mountMenuHammer() {
