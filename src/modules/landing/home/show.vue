@@ -34,7 +34,7 @@
                                 <div class="card-body card-padding">
                                     <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
                                     <div class="m-t-5">
-                                        <h4 class="card-title m-b-0">Os melhores drinks estão aqui !</h4>
+                                        <h4 class="card-title m-b-0">{{translations.slogan_mb}}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -44,14 +44,14 @@
 
                 <!-- Categories -->
                 <div class="categories">
-                    <div class="category" v-for="(category, indexCategory) in categories" v-if="indexCategory > 0">
+                    <div class="category" v-for="(category, indexCategory) in getCategories" >
                         <div tag="div" class="card m-0 text-center">
                             <div class="card-body card-padding">
                                 <svg style="width: 50px; height: 50px;">
-                                    <use :xlink:href="`#icon-${ category.slug }`"></use>
+                                    <use :xlink:href="`#icon-${ category.slug_pt }`"></use>
                                 </svg>
                                 <div class="m-t-5">
-                                    <h6 class="card-title m-b-0">{{ category.title_pt }}</h6>
+                                    <h6 class="card-title m-b-0">{{ category[`name_${language}`] }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -79,8 +79,9 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import Swiper from "swiper"
+    import * as translations from '@/translations/home/show'
 
 
     import eventObj from '@/models/Event.js'
@@ -106,22 +107,28 @@
 
         computed:{
             // Map the getters from Vuex to this component.
-            ...mapGetters(['currentUser', 'isLogged']),
+            ...mapGetters(['currentUser', 'isLogged', 'language', 'getCategories']),
+
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            }
 
         },
 
         mounted() {
             this.initSwiper()
-            this.getCategories()
+            this.setCategories()
         },
 
         methods: {
 
-            getCategories() {
-                let that = this
-
-                that.categories = CategoriesModel.map((category) => category)
-            },
+            ...mapActions(['setCategories']),
 
             openWhatsapp: function(){
                 let that = this

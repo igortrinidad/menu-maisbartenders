@@ -8,4 +8,15 @@ export default {
         state.loader = obj.options
     },
 
+    [TYPES.SET_LANGUAGE](state, {language}) {
+
+        localStorage.setItem('language', language)
+
+        state.language = language
+    },
+
+    [TYPES.SET_CATEGORIES](state, {categories}) {
+
+        state.categories = categories
+    }
 }

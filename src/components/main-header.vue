@@ -32,7 +32,7 @@
 
 
                 <div class="flags">
-                    <!-- <img
+                    <img
                         class="m-r-5 country-flag"
                         src="../assets/images/brazil.png"
                         width="32px"
@@ -45,16 +45,6 @@
                         width="32px"
                         @click="setLanguage('en')"
                         :class="{ 'country-selected' : language ===  'en' }"
-                    > -->
-                    <img
-                        class="m-r-5 country-flag country-selected"
-                        src="../assets/images/brazil.png"
-                        width="32px"
-                    >
-                    <img
-                        class="m-r-5 country-flag"
-                        src="../assets/images/united-kingdom.png"
-                        width="32px"
                     >
                 </div>
 
@@ -65,7 +55,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
     import { transition } from 'jquery.transit'
 
     import Hammer from 'hammerjs'
@@ -99,7 +89,8 @@
             }
         },
         computed: {
-            ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
+            ...mapGetters(['currentUser', 'isLogged', 'userPhoto', 'language']),
+
         },
 
         mounted(){
@@ -115,8 +106,7 @@
 
         },
         methods:{
-
-
+            ...mapActions(['setLanguage']),
 
             mountMenuHammer() {
                 let that = this

@@ -1,7 +1,7 @@
 <template>
     <div class="first-container">
 
-        <main-header :title="'Cadastre-se'" />
+        <main-header :title="translations.title" />
 
         <!-- Logo + Title -->
         <div class="container">
@@ -23,16 +23,16 @@
                     </g>
                 </svg>
             </div>
-            <h4 class="title-section m-b-20 m-t-10">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
+            <h4 class="title-section m-b-20 m-t-10">{{translations.message}}</h4>
 
             <!-- Login Options -->
             <div class="text-center m-b-10">
                 <button class="btn btn-mb-facebook btn-block m-b-10" @click="facebookLogin()">
-                    Cadastrar Facebook
+                    {{translations.buttons.signup_facebook}}
                 </button>
 
                 <button class="btn btn-mb-info btn-block" @click="interactions.showEmailLogin = true">
-                    Cadastrar Email
+                    {{translations.buttons.signup_email}}
                 </button>
             </div>
         </div>
@@ -47,56 +47,56 @@
                             <div class="row m-t-20">
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group">
-                                        <label for="signup-name">Nome</label>
-                                        <input id="signup-name" class="form-control" v-model="guest.name" placeholder="Nome">
+                                        <label for="signup-name">{{translations.labels.name}}</label>
+                                        <input id="signup-name" class="form-control" v-model="guest.name" :placeholder="translations.placeholders.name">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group">
-                                        <label for="signup-lastname">Sobrenome</label>
-                                        <input id="signup-lastname" class="form-control" v-model="guest.last_name" placeholder="Sobrenome">
+                                        <label for="signup-lastname">{{translations.labels.last_name}}</label>
+                                        <input id="signup-lastname" class="form-control" v-model="guest.last_name" :placeholder="translations.placeholders.last_name">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group">
-                                        <label for="signup-email">Email</label>
-                                        <input id="signup-email" class="form-control" v-model="guest.email" placeholder="Email">
+                                        <label for="signup-email">{{translations.labels.email}}</label>
+                                        <input id="signup-email" class="form-control" v-model="guest.email" :placeholder="translations.placeholders.email">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group">
-                                        <label for="signup-phone">Telefone</label>
-                                        <input id="signup-phone" class="form-control" v-model="guest.phone" placeholder="Telefone">
+                                        <label for="signup-phone">{{translations.labels.phone}}</label>
+                                        <input id="signup-phone" class="form-control" v-model="guest.phone" :placeholder="translations.placeholders.phone">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group">
-                                        <label for="signup-password">Senha</label>
-                                        <input id="signup-password" class="form-control" type="password" v-model="guest.password" placeholder="Senha">
+                                        <label for="signup-password">{{translations.labels.password}}</label>
+                                        <input id="signup-password" class="form-control" type="password" v-model="guest.password" :placeholder="translations.placeholders.password">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group">
-                                        <label for="signup-confirm">Confirmar senha</label>
-                                        <input id="signup-confirm" class="form-control" type="password" v-model="guest.password_confirmation" placeholder="Confirmar senha">
+                                        <label for="signup-confirm">{{translations.labels.confirm_password}}</label>
+                                        <input id="signup-confirm" class="form-control" type="password" v-model="guest.password_confirmation" :placeholder="translations.placeholders.confirm_password">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group">
-                                        <label for="signup-photo">Foto</label>
+                                        <label for="signup-photo">{{translations.labels.photo}}</label>
                                         <input id="signup-photo" class="form-control" type="file" v-on:change="loadPhoto">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group text-center">
-                                        <button class="btn btn-mb-primary" @click.prevent="signup()">Cadastrar</button>
+                                        <button class="btn btn-mb-primary" @click.prevent="signup()">{{translations.buttons.signup}}</button>
                                     </div>
                                 </div>
 
@@ -109,9 +109,9 @@
                     <div class="card m-b-0">
                         <div class="card-body card-padding">
                             <div class="text-center">
-                                <h5 class="card-title">Já possui cadastro?</h5>
-                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.auth.login'}">Faça login</router-link>
-                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.home.show'}" exact>Voltar para home</router-link>
+                                <h5 class="card-title">{{translations.already_signed}}</h5>
+                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.auth.login'}">{{translations.buttons.login}}</router-link>
+                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.home.show'}" exact>{{translations.buttons.go_home}}</router-link>
                             </div>
                         </div>
                     </div>
@@ -125,6 +125,7 @@
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import eventObj from '@/models/Event.js'
+    import * as translations from '@/translations/auth/signup'
 
     import mainHeader from '@/components/main-header.vue'
 
@@ -153,7 +154,16 @@
         computed: {
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged']),
+            ...mapGetters(['currentUser', 'isLogged', 'language']),
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            }
 
         },
         mounted(){

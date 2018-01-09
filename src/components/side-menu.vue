@@ -11,53 +11,53 @@
                         <!-- User Logged And Online -->
                         <div class="border-inside-card" v-if="isLogged && isOnline">
                             <li  v-if="isLogged && isOnline">
-                                <a href="#">Olá, {{ currentUser.full_name }}</a>
+                                <a href="#">{{translations.greeting}} {{ currentUser.full_name }}</a>
                             </li>
                             <li>
-                                <router-link :to="{name: 'landing.user.preferences'}">Meus drinks</router-link>
+                                <router-link :to="{name: 'landing.user.preferences'}">{{translations.my_drinks}}</router-link>
                             </li>
 
                             <li>
-                                <router-link :to="{name: 'landing.user.show'}">Meu perfil</router-link>
+                                <router-link :to="{name: 'landing.user.show'}">{{translations.my_profile}}</router-link>
                             </li>
                         </div>
 
                         <!-- Fixed #1 -->
                         <div class="border-inside-card">
                             <li>
-                                <router-link :to="{name: 'landing.home.show'}" exact>Home</router-link>
+                                <router-link :to="{name: 'landing.home.show'}" exact>{{translations.home}}</router-link>
                             </li>
 
                             <li>
-                                <router-link :to="{name: 'landing.events.list'}" exact>Eventos</router-link>
+                                <router-link :to="{name: 'landing.events.list'}" exact>{{translations.events}}</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name: 'landing.events-offline.list'}" exact>Eventos salvos</router-link>
+                                <router-link :to="{name: 'landing.events-offline.list'}" exact>{{translations.saved_events}}</router-link>
                             </li>
 
                             <li>
-                                <router-link :to="{name: 'landing.drinks.list'}">Cardápio completo</router-link>
+                                <router-link :to="{name: 'landing.drinks.list'}">{{translations.complete_menu}}</router-link>
                             </li>
                         </div>
 
                         <!-- User Not Logged -->
                         <div class="border-inside-card" v-if="!isLogged">
                             <li>
-                                <router-link :to="{name: 'landing.auth.login'}" v-if="isOnline">Login</router-link>
+                                <router-link :to="{name: 'landing.auth.login'}" v-if="isOnline">{{translations.login}}</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name: 'landing.auth.signup'}" v-if="isOnline">Cadastre-se</router-link>
+                                <router-link :to="{name: 'landing.auth.signup'}" v-if="isOnline">{{translations.signup}}</router-link>
                             </li>
                         </div>
 
                         <!-- Fixed #2 -->
                         <div class="border-inside-card">
                             <li>
-                                <router-link :to="{name: 'landing.contact'}">Contato</router-link>
+                                <router-link :to="{name: 'landing.contact'}">{{translations.contact}}</router-link>
                             </li>
 
                             <li>
-                                <router-link :to="{name: 'landing.simulator'}">Simulador</router-link>
+                                <router-link :to="{name: 'landing.simulator'}">{{translations.simulator}}</router-link>
                             </li>
                         </div>
 
@@ -65,7 +65,7 @@
 
                     <!-- Logout button -->
                     <router-link tag="button" class="btn btn-mb-primary btn-fixed-bottom" :to="{name: 'landing.auth.logout'}" exact v-if="isLogged && isOnline">
-                        <i class="fa fa-sign-out m-r-5"></i>Sair
+                        <i class="fa fa-sign-out m-r-5"></i>{{translations.logout}}
                     </router-link>
                 </div>
 
@@ -80,6 +80,7 @@
 
 <script>
     import { mapGetters } from 'vuex'
+    import * as translations from '@/translations/components/side-menu'
 
     export default {
         name: 'side-menu',
@@ -101,7 +102,17 @@
         },
 
         computed: {
-            ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
+            ...mapGetters(['currentUser', 'isLogged', 'userPhoto', 'language']),
+
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            }
         },
 
         mounted() {

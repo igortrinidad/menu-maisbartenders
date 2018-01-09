@@ -22,11 +22,13 @@
                 this.authSetUser(null) // this is a Vuex action
 
                 var events = localStorage.getItem('events');
+                var language = localStorage.getItem('language');
                 localStorage.clear();
                 localStorage.setItem('events', events);
+                localStorage.setItem('language', language);
 
                 if(window.cordova){
-                    window.cookies.clear(function() {});   
+                    window.cookies.clear(function() {});
                 }
 
                 this.$router.push({path: this.$route.query.redirect ? this.$route.query.redirect : '/', query: { redirect_back: this.$route.query.redirect_back}})

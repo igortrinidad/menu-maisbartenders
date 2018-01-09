@@ -1,7 +1,7 @@
 <template>
    <div class="first-container">
 
-        <main-header :title="'Login'" />
+        <main-header :title="translations.title" />
 
         <!-- Logo + Title -->
         <div class="container">
@@ -23,16 +23,16 @@
                     </g>
                 </svg>
             </div>
-            <h4 class="title-section m-b-20 m-t-10">Salve e compartilhe com os amigos seus drinks preferidos.</h4>
+            <h4 class="title-section m-b-20 m-t-10">{{translations.message}}</h4>
 
             <!-- Login Options -->
             <div class="text-center m-b-10">
                 <button class="btn btn-mb-facebook btn-block m-b-10" @click="facebookLogin()">
-                    Login Facebook
+                    {{translations.buttons.login_facebook}}
                 </button>
 
                 <button class="btn btn-mb-info btn-block" @click="interactions.showEmailLogin = true">
-                    Login Email
+                    {{translations.buttons.login_email}}
                 </button>
             </div>
         </div>
@@ -48,22 +48,23 @@
                             <div class="row m-t-20" @keydown.enter="login">
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group">
-                                        <label for="login-email">Email</label>
-                                        <input id="login-email" type="email" class="form-control" v-model="email" placeholder="Informe seu e-mail">
+                                        <label for="login-email">{{translations.labels.email}}</label>
+                                        <input id="login-email" type="email" class="form-control" v-model="email" :placeholder="translations.placeholders.email">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group" style="position: relative">
-                                        <label for="login-password">Senha</label>
+                                        <label for="login-password">{{translations.labels.password}}</label>
+
                                         <i class="input-icon fa" :class="{ 'fa-eye': interactions.passwordHidden, 'fa-eye-slash': !interactions.passwordHidden }" @click="handlePassword()"></i>
-                                        <input id="login-password" class="form-control" type="password" v-model="password" placeholder="Informe sua senha">
+                                        <input id="login-password" class="form-control" type="password" v-model="password" :placeholder="translations.placeholders.password">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                                     <div class="form-group text-center">
-                                        <button class="btn btn-mb-primary" @click.prevent="login" :disabled="!email || !password">Login</button>
+                                        <button class="btn btn-mb-primary" @click.prevent="login" :disabled="!email || !password">{{translations.buttons.login}}</button>
                                     </div>
                                 </div>
                             </div>
@@ -74,9 +75,9 @@
                     <div class="card m-b-0">
                         <div class="card-body card-padding">
                             <div class="text-center">
-                                <h5 class="card-title">Não possui cadastro?</h5>
-                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.auth.signup'}" exact>Cadastre-se aqui</router-link>
-                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.home.show'}" exact>Voltar para home</router-link>
+                                <h5 class="card-title">{{translations.signup_message}}</h5>
+                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.auth.signup'}" exact>{{translations.buttons.signup}}</router-link>
+                                <router-link tag="button" class="btn btn-xs btn-mb-primary" :to="{name: 'landing.home.show'}" exact>{{translations.buttons.go_home}}</router-link>
                             </div>
                         </div>
                     </div>
@@ -91,6 +92,7 @@
 <script>
     import { mapGetters, mapActions } from 'vuex'
     import eventObj from '@/models/Event.js'
+    import * as translations from '@/translations/auth/login'
 
     import mainHeader from '@/components/main-header.vue'
 
@@ -117,7 +119,16 @@
         computed:{
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged']),
+            ...mapGetters(['currentUser', 'isLogged', 'language']),
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            }
 
         },
         mounted(){

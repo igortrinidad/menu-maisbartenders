@@ -1,7 +1,7 @@
 <template>
     <div class="first-container">
 
-        <main-header :title="page_title" :action="back"/>
+        <main-header :title="translations.title" :action="back"/>
 
 
         <!-- Icon SVG + Title -->
@@ -24,14 +24,14 @@
                 </svg>
             </div>
 
-            <h3 class="title-section m-b-10">Cardápio completo</h3>
+            <h3 class="title-section m-b-10">{{translations.title_section}}</h3>
 
             <div class="card text-center cursor-pointer card-cat m-b-0 m-t-20"
                  @click="resetCategory()" v-if="currentCategory">
                 <div class="card-body card-padding">
                     <img class="cat-icon" :src="currentCategory.photo_url" alt="">
                     <div class="m-t-5">
-                        <h6 class="card-title m-b-0">{{currentCategory['name_pt']}}</h6>
+                        <h6 class="card-title m-b-0">{{currentCategory[`name_${language}`]}}</h6>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                  :class="{'cat-is-selected' : currentCategory}">
             <div class="container" >
 
-                <h5 class="title-in-colored" v-if="!currentCategory">Selecione uma categoria</h5>
+                <h5 class="title-in-colored" v-if="!currentCategory">{{translations.categories}}</h5>
 
                 <!-- Mais Bartenders -->
                 <div class="row">
@@ -53,7 +53,7 @@
                                 <div class="card-body card-padding">
                                     <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">Os melhores drinks estão aqui !</h6>
+                                        <h6 class="card-title m-b-0">{{translations.slogan_mb}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -67,9 +67,9 @@
                         <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
                              @click="selectCategory(categoryAll)">
                             <div class="card-body card-padding">
-                                <img class="cat-icon" src="../../../assets/images/todos_drinks.svg" alt="">
+                                <img class="cat-icon" :src="categoryAll.photo_url" alt="">
                                 <div class="m-t-5">
-                                    <h6 class="card-title m-b-0">{{categoryAll['name_pt']}}</h6>
+                                    <h6 class="card-title m-b-0">{{categoryAll[`name_${language}`]}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             <div class="card-body card-padding">
                                 <img class="cat-icon" :src="category.photo_url" alt="">
                                 <div class="m-t-5">
-                                    <h6 class="card-title m-b-0">{{category['name_pt']}}</h6>
+                                    <h6 class="card-title m-b-0">{{category[`name_${language}`]}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@
                                     @click="itemsModal(drink.items)"
                                     v-if="isLogged && drink.items.length"
                                 >
-                                    Ver Ingredientes
+                                    {{translations.buttons.see_ingredients}}
                                 </button>
 
                                 <!-- Like -->
@@ -159,15 +159,15 @@
                                         </svg>
                                     </div>
                                     <span class="text-muted" v-if="drink.likes_count > 0">
-                                        {{ drink.likes_count > 1 ? `${ drinks.likes_count } Likes` : `1 Like` }}
+                                        {{ drink.likes_count > 1 ? `${ drink.likes_count } Likes` : `1 Like` }}
                                     </span>
-                                    <span class="text-muted" v-if="drink.likes_count === 0">Seja o primeiro a curtir</span>
+                                    <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
                                 </div>
 
                                 <!-- Login To Like -->
                                 <div class="m-t-20" v-if="!isLogged">
                                     <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login' }">
-                                        Faça o login para curtir
+                                        {{translations.buttons.unauthenticated}}
                                     </router-link>
                                 </div>
 
@@ -175,16 +175,16 @@
                                 <button
                                     class="btn btn-mb-info btn-fixed-bottom btn-save"
                                     @click="addDrinkPreference(drink)"
-                                    v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                > Salvar drink
+                                    v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                > {{translations.buttons.save_drink}}
                                 </button>
 
                                 <router-link
                                     tag="button"
                                     class="btn btn-mb-info btn-fixed-bottom btn-save"
                                     :to="{ name: 'landing.user.preferences' }"
-                                    v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                >Drink salvo <i class="fa fa-check"></i>
+                                    v-if="isLogged && currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                >{{translations.buttons.saved_drink}} <i class="fa fa-check"></i>
                                 </router-link>
 
                             </div>
@@ -200,27 +200,25 @@
         <button type="button" class="btn btn-primary btn-mb-primary btn-block btn-fixed-bottom"
                 @click.prevent="resetCategory()"
                 v-if="interactions.finished_loading_category">
-            Alterar categoria
+            {{translations.buttons.change_category}}
         </button>
 
         <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="title-section m-0">Ícones nos drinks</h4>
+                        <h4 class="title-section m-0">{{translations.badges.title}}</h4>
                     </div>
                     <div class="modal-body text-center">
 
                         <div class="card">
                             <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
-                                        title="Este Drink é exclusivo">
+                                   <img src="../../../assets/images/king.svg" :alt="translations.badges.best_sellers"
+                                        :title="translations.badges.best_sellers">
                                </span>
 
-                                <p style="color: #222;">
-                                    Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders,
-                                    criados e desenvolvidos por nossa equipe.</p>
+                                <p style="color: #222;">{{translations.badges.best_sellers}}</p>
                             </div>
                         </div>
                         <div class="card">
@@ -320,6 +318,8 @@
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import mainHeader from '@/components/main-header.vue'
+    import * as translations from '@/translations/drinks/list'
+    import allDrinks from '../../../assets/images/todos_drinks.svg'
 
     export default {
         name: 'list-drink',
@@ -328,7 +328,6 @@
         },
         data() {
             return {
-                page_title: 'Drinks',
                 interactions: {
                     showTags: false,
                     drinksToShowInfo: [],
@@ -352,14 +351,23 @@
                     name_pt: 'Todos os drinks',
                     slug_pt: 'todas',
                     slug_en: 'all',
-                    photo_url: ''
+                    photo_url: allDrinks
                 },
                 currentItems: []
             }
         },
         computed: {
 
-            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
+            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes', 'language']),
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            },
 
             drinks: function () {
                 return _.orderBy(this.drinkFetcheds, 'priority', 'desc');

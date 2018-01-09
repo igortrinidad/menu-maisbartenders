@@ -19,6 +19,16 @@ global_filters();
 import global_functions from './utils/global_functions'
 global_functions();
 
+//Define a linguagem do usuário;
+var language = localStorage.getItem('language');
+
+if(!language || language == "undefined"){
+    language = 'pt';
+    var language = localStorage.setItem('language', language);
+    store.dispatch('setLanguage', language);
+} else {
+    store.dispatch('setLanguage', language);
+}
 
 //FACEBOOK SDK
 (function(d, s, id) {
