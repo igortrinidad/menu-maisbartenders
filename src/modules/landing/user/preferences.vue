@@ -142,6 +142,38 @@
                 </div>
             </div>
         </div>
+
+        <!--Modal Current Items -->
+        <div class="modal" id="modal-items" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body card-padding">
+                                <h4 class="title-section m-0">Ingredientes</h4>
+                                <ul class="list-group m-t-30 m-b-0">
+                                    <li class="list-group-item" v-for="(item, index) in currentItems">
+                                        <span v-show="item.pivot.is_visible" style="color: #222;">
+                                            {{ item.name_pt }}
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-mb-primary"
+                            data-dismiss="modal"
+                        >
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -165,6 +197,7 @@
                 },
                 exclusiveBadge: '../../../../static/assets/king.png',
                 starBadge: '../../../../static/assets/star.png',
+                currentItems: []
             }
         },
         computed: {
@@ -179,6 +212,11 @@
         methods: {
 
             ...mapActions(['setLoading', 'removeDrinkFromSavedDrinks']),
+
+            itemsModal: function(items) {
+                this.currentItems = items
+                $('#modal-items').modal('show')
+            },
 
             getInitialChar(user) {
                 return `${ user.full_name.charAt(0) } ${ user.last_name.charAt(0) }`
