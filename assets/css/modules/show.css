@@ -16,6 +16,7 @@
     align-items: flex-end;
     justify-content: center;
     background-repeat: no-repeat;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, .1);
 }
 
 .show-header span {
@@ -42,12 +43,12 @@
     text-decoration: none;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 612px) {
     .first-container.show {
         padding-top: 430px;
     }
     .show-header {
-        height: 350px;
+        height: 300px;
         top: 70px;
         left: 0; right: 0;
         position: fixed;

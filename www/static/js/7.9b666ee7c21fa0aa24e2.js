@@ -1,2 +1,0 @@
-webpackJsonp([7],{236:function(e,n,t){var r=t(1)(t(548),t(570),null,null);e.exports=r.exports},548:function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.default={name:"dashboard-main"}},570:function(e,n){e.exports={render:function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[t("router-view")],1)},staticRenderFns:[]}}});
-//# sourceMappingURL=7.9b666ee7c21fa0aa24e2.js.map

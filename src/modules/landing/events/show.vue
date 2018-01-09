@@ -327,12 +327,20 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <hr>
+
+                            <div class="row text-center">
+                                <div class="col-md-12 col-xs-12">
+                                    <button class="btn btn-mb-info"  @click="saveEvent()">Salvar evento no dispositivo</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <button class="btn btn-mb-info btn-fixed-bottom" style="position: fixed;" @click="saveEvent()">Salvar evento no dispositivo</button>
+            <button class="btn btn-mb-primary btn-fixed-bottom" style="position: fixed;" @click="resetCategory()" v-if="currentCategory">Alterar categoria</button>
 
         </div>
 
