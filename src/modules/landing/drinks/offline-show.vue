@@ -1,119 +1,156 @@
 <template>
-    <div>
+    <div class="first-container show">
 
-        <main-header :title="drink.name" v-if="drinkFound" />
-        <main-header :title="'Drink não localizado'" v-if="!drinkFound" />
+        <main-header :title="drinkFound ? drink.name : 'Drink não localizado'" />
 
-        <div v-if="drinkFound" id="drink-show-offline">
-            <header id="header-drink" class="header-greeting" v-bind:style="{ backgroundImage: drinkBackground}">
-                <div class="container">
-                    <div class="col-md-6 col-md-offset-3 col-xs-12">
-                        <div class="intro-text">
-                        <span class="text-box">
-                            <span class="event-name">
-                                {{drink.name}}
-                            </span>
-                        </span>
-                            <br>
-                            <a href="#drink" v-scroll-to="'#drink'" class="btn btn-xl m-t-30">Ver detalhes</a>
-                        </div>
-                    </div>
-                </div>
-            </header>
+        <div v-if="drinkFound">
+            <div class="show-header" v-bind:style="{ backgroundImage: drinkBackground }">
 
-            <div class="container-fluid">
-
+                <span>
+                    <a href="#drink" v-scroll-to="'#drink'">Ver detalhes</a>
+                </span>
 
             </div>
 
-            <section id="drink">
+            <div class="svg-container text-center m-t-30" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
+                <svg viewBox="0 0 30 30">
+                    <defs>
+                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%"   stop-color="#FB923B"/>
+                            <stop offset="100%" stop-color="#F66439"/>
+                        </linearGradient>
+                    </defs>
+                    <g transform="translate(-8.9261333,-9.447)">
+                        <path
+                            @click.prevent="likeDrink(drink)"
+                            class="animated"
+                            stroke="url(#linear)"
+                            :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
+                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
+                        />
+                    </g>
+                </svg>
+            </div>
+
+            <div class="text-center m-t-20">
+                <h4 class="section-title" v-if="isLogged">{{ drink.likes_count }} Likes</h4>
+                <router-link
+                    tag="button"
+                    class="btn btn-mb-primary"
+                    :to="{ name: 'landing.auth.login', query:{ redirect: $route.path } }"
+                    v-if="!isLogged"
+                >
+                    Faça login para curtir
+                </router-link>
+            </div>
+
+            <div class="container m-t-30">
+                <div class="badges">
+                    <div class="badge-container" v-if="drink.is_exclusive">
+                    <span class="badge">
+                        <img src="../../../assets/images/king.svg" alt="DRINK EXCLUSIVO"
+                             title="DRINK EXCLUSIVO">
+                        <span>Drink Exclusivo</span>
+                    </span>
+                    </div>
+                    <div class="badge-container" v-if="drink.priority >= 4">
+                    <span class="badge">
+                        <img class="zoom" src="../../../assets/images/star.svg" alt="BEST SELLER"
+                             title="BESTE SELLER">
+                        <span>Best Sellers</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="drink" class="container-colored m-t-30">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
 
-                            <h2 class="section-heading m-b-30">{{drink.name}}</h2>
+                            <h4 class="title-in-colored m-0">{{ drink.description }}</h4>
 
-                            <div class="badges">
-                                <div class="badge-container" v-if="drink.is_exclusive">
-                                <span class="badge">
-                                    <img src="../../../assets/images/king.png" alt="DRINK EXCLUSIVO"
-                                         title="DRINK EXCLUSIVO">
-                                    <span>Drink Exclusivo</span>
-                                </span>
-                                </div>
-                                <div class="badge-container" v-if="drink.priority >= 4">
-                                <span class="badge">
-                                    <img class="zoom" src="../../../assets/images/star.png" alt="BEST SELLER"
-                                         title="BESTE SELLER">
-                                    <span>Best Sellers</span>
-                                </span>
+                            <div class="card m-t-30">
+                                <div class="card-body card-padding">
+                                    <div v-if="isLogged">
+                                        <h4 class="m-0">Ingredientes</h4>
+
+                                        <ul class="list-group m-t-30 m-b-0">
+                                            <li class="list-group-item" v-for="item in drink.items" v-if="item.pivot.is_visible">
+                                                <span v-show="item.pivot.is_visible" style="color: #222;">
+                                                    {{ item.name_pt }}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div v-if="!isLogged">
+                                        <router-link tag="button" class="btn btn-mb-primary outline" :to="{ name: 'landing.auth.login' }">
+                                            Faça login para ver a lista de ingredientes ;)
+                                        </router-link>
+                                    </div>
                                 </div>
                             </div>
 
-                            <p class="m-t-30 text-muted">
-                                <strong class="f-20">{{drink.description}}</strong><br>
-                            </p>
-
-                            <h3 class="m-b-30">Ingredientes</h3>
-
-                            <p class="m-t-30 text-muted">
-                            <span v-for="item in drink.items" v-if="item.pivot.is_visible && isLogged">
-                                <strong class="f-20" v-show="item.pivot.is_visible">{{item.name_pt}}</strong><br>
-                            </span>
-
-                            <span class="drink-item" v-if="!isLogged">
-                                Faça login para ver a lista de ingredientes ;)
-                            </span>
-                            </p>
-
                             <div class="row">
-                                <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
-                                    <h4 class="m-b-30">Mapa de sabor</h4>
-                                    <canvas ref="createdDrinkChart"></canvas>
-                                </div>
-
-                                <!--
                                 <div class="col-md-6 col-xs-12">
-                                    <h4 class="m-b-30">Informação nutricional</h4>
-                                    <div class="row text-left">
-                                        <div class="col-md-8 col-md-offset-2 col-xs-12">
-                                        <span class="text-left">
-                                            <small class="f-16 f-500">Porção: 1 unidade</small>
-                                            <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Descrição</th>
-                                                        <th class="text-center">Quantidade</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="nutri in nutritional_facts_ordereds">
-                                                        <td>{{nutri.name}}</td>
-                                                        <td class="text-center">{{nutri.quantity | formatNumber}} {{nutri.unity}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                            <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
-                                            <p class="nutrition-disclaimer">Fonte: <a target="_blank"
-                                                                                      href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
-                                        </span>
+                                    <div class="card">
+                                        <div class="card-body card-padding">
+                                            <h4 class="m-b-30">Mapa de sabor</h4>
+                                            <canvas ref="createdDrinkChart"></canvas>
                                         </div>
                                     </div>
                                 </div>
-                                -->
-
-
                             </div>
 
+                            <router-link
+                                :to="{name: 'landing.drinks.list'}"
+                                class="btn btn-block btn-mb-primary-reverse outline m-b-30">
+                                Ir para cardápio completo
+                            </router-link>
+
+                            <!-- Comments -->
+                            <div class="row">
+                                <div class="col-lg-12 text-left">
+                                    <div class="card">
+                                        <div class="card-body card-padding">
+                                            <h4 class="m-b-30">Comentários ({{pagination.total}})</h4>
+                                            <div class="text-center m-20">
+                                                <button class="btn btn-mb-primary" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
+                                            </div>
+
+                                            <p class="text-muted" v-if="!comments.length">Este drink ainda não possui nenhum comentário.</p>
+
+                                            <ul class="media-list">
+                                                <li class="media" v-for="comment in comments">
+                                                    <div class="pull-left">
+                                                        <img class="media-object img-circle" :src="comment.guest.photo_url"
+                                                             width="48">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="media-heading">{{comment.guest.full_name}}</h5>
+                                                        <span class="text-muted">{{comment.comment}}</span>
+                                                    </div>
+
+                                                </li>
+                                            </ul>
+                                            <div v-if="pagination.total > 0">
+                                                <pagination :source="pagination" @navigate="navigate"
+                                                            :paginator-class="'pagination-sm'"></pagination>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Comments -->
                         </div>
                     </div>
                 </div>
 
-            </section>
+            </div>
         </div>
 
-        <div class="" v-if="!drinkFound">
+        <div v-if="!drinkFound">
             <header class="header-greeting"
                     v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
                 <div class="container">
@@ -125,10 +162,6 @@
                 </div>
             </header>
         </div>
-
-
-        <button class="btn btn-default btn-fixed btn-xl" @click="backPage()"><i class="fa fa-chevron-left"></i> Voltar ({{interactions.idleTime}}<span style="text-transform: lowercase;">s</span>)</button>
-
 
     </div>
 </template>
