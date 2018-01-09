@@ -8,7 +8,7 @@
             <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
 
                 <span class="t-overflow" v-if="eventHasHappened">
-                    {{ eventHasHappened ? 'Esse evento já passou :(' : event.hashtag }}
+                    {{ eventHasHappened ? 'Esse evento já passou' : event.hashtag }}
                 </span>
 
             </div>
@@ -298,7 +298,7 @@
                                 <div class="col-md-12 col-xs-12">
 
                                     <div class="text-center">
-                                        <h4 class="title-section m-0">Categorias</h4>
+                                        <h4 class="title-section m-0">Comentários</h4>
                                         <p class="sub-header">{{ pagination.total > 0 ? `${ pagination.total } comentários` :
                                             'Nenhum comentário ainda'}}</p>
 
@@ -991,6 +991,7 @@
                     this.filterCategory.push(category_slug)
                 }
             },
+            
             selectCategory(category) {
                 let that = this
 

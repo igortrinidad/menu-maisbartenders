@@ -25,12 +25,22 @@
             </div>
 
             <h3 class="title-section m-b-10">Cardápio completo</h3>
-            <h5 class="text-center f-300">Selecione uma categoria</h5>
+            <h5 class="text-center f-300" v-if="!currentCategory">Selecione uma categoria</h5>
+
+            <div tag="div" class="card text-center cursor-pointer card-cat m-5"
+                 @click="resetCategory()" v-if="currentCategory">
+                <div class="card-body card-padding">
+                    <img class="cat-icon" :src="currentCategory.photo_url" alt="">
+                    <div class="m-t-5">
+                        <h6 class="card-title m-b-0">{{currentCategory['name_pt']}}</h6>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
         <!-- CATEGORIES -->
-        <div class="container-colored" v-show="!interactions.finished_loading_category && !interactions.is_loading"
+        <div class="" v-show="!interactions.finished_loading_category && !interactions.is_loading"
                  :class="{'cat-is-selected' : currentCategory}">
             <div class="container" >
 
@@ -83,7 +93,7 @@
         </div>
         <!-- /CATEGORIES -->
 
-        <div class="container-colored"
+        <div class=""
              v-show="interactions.finished_loading_category">
             <div class="container">
 
@@ -108,24 +118,21 @@
                             <router-link tag="span"
                                          :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
                                 <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                <div class="details">
+                                <div class="details text-center p-10">
                                     <h3 class="drink-name">{{ drink.name }}</h3>
                                     <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
-                                    <span class="description">{{ drink.description }}</span>
+                                    <span class="description m-b-10">{{ drink.description }}</span>
 
-                                    <hr>
+                                    <div class="items show" v-if="isLogged">
+                                        <span class="drink-item" v-for="(item, index) in drink.items">
+                                            <span v-show="item.pivot.is_visible">
+                                                {{ item.name_pt }}
+                                            </span>
+                                        </span>
+                                    </div>
+
                                 </div>
                             </router-link>
-                            <h5 class="cursor-pointer">
-                                Ingredientes
-                            </h5>
-                            <div class="items show" v-if="isLogged">
-                                <span class="drink-item" v-for="(item, index) in drink.items">
-                                    <span v-show="item.pivot.is_visible">
-                                        {{ item.name_pt }}
-                                    </span>
-                                </span>
-                            </div>
 
                             <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
                                 <span class="drink-item" v-if="!isLogged">
@@ -133,8 +140,8 @@
                                 </span>
                             </div>
 
-                            <div class="">
-                                <div class="box-footer" v-if="isLogged">
+                            <div class="p-10">
+                                <div class="" v-if="isLogged">
                                     <button
                                         class="btn btn-default btn-sm btn-block m-b-10 btn-drink-action facebook btn-share"
                                         @click="addDrinkPreference(drink)"
@@ -164,14 +171,7 @@
                                         tag="button"
                                         class="btn btn-success btn-block m-b-10 btn-drink-action btn-share"
                                         :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
-                                    >Faça login para salvar o drink
-                                    </router-link>
-
-                                    <router-link tag="button" class="btn btn-block btn-like"
-                                                 :to="{name: 'landing.auth.login', query:{redirect: $route.path}}">
-                                        <span class="text-muted">{{drink.likes_count}}</span> <i
-                                        class="fa fa-heart-o fa-lg text-danger"></i>
-                                        Faça login para curtir
+                                    >Faça login para salvar ou curtir
                                     </router-link>
                                 </div>
                             </div>
