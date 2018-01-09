@@ -13,3 +13,10 @@
     -webkit-background-clip: unset;
     -webkit-text-fill-color: unset;
 }
+
+.title-in-colored {
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+}

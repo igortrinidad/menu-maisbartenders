@@ -122,5 +122,3 @@
 .card-header:not(.ch-alt):not([class*="bgm-"]) + .card-padding {
   padding-top: 0;
 }
-
-

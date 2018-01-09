@@ -1,5 +1,5 @@
 <template>
-    <div class="first-containerp-b-30">
+    <div class="first-container">
 
         <main-header :title="page_title" :action="back"/>
 
@@ -25,7 +25,6 @@
             </div>
 
             <h3 class="title-section m-b-10">Cardápio completo</h3>
-            <h5 class="text-center f-300" v-if="!currentCategory">Selecione uma categoria</h5>
 
             <div tag="div" class="card text-center cursor-pointer card-cat m-5"
                  @click="resetCategory()" v-if="currentCategory">
@@ -40,10 +39,11 @@
         </div>
 
         <!-- CATEGORIES -->
-        <div class="" v-show="!interactions.finished_loading_category && !interactions.is_loading"
+        <div class="container-colored m-t-30" v-show="!interactions.finished_loading_category && !interactions.is_loading"
                  :class="{'cat-is-selected' : currentCategory}">
             <div class="container" >
 
+                <h5 class="title-in-colored" v-if="!currentCategory">Selecione uma categoria</h5>
 
                 <!-- Mais Bartenders -->
                 <div class="row">
@@ -93,89 +93,96 @@
         </div>
         <!-- /CATEGORIES -->
 
-        <div class=""
-             v-show="interactions.finished_loading_category">
+        <div class="container-colored m-b-30" v-show="interactions.finished_loading_category">
             <div class="container">
 
                 <div class="cols">
-                    <div v-for="(drink, index) in drinksFiltered" class="col">
-                        <div tag="div" class="box drink"
-                             :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                            <div class="badges">
-                               <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
-                                     data-target="#badge-help">
-                                   <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
-                                        title="Este Drink é exclusivo">
-                               </span>
-                                <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
-                                      data-target="#badge-help">
-                                   <img class="zoom" src="../../../assets/images/star.png"
-                                        alt="Este drink está entre os BEST SELLERS"
-                                        title="Este drink está entre os BEST SELLERS">
-                               </span>
+                    <div class="col" v-for="(drink, index) in drinksFiltered">
+                        <router-link tag="div" class="card m-0" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" :key="index">
+                            <!-- Card Header -->
+                            <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+                                <div class="badges">
+                                   <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
+                                         data-target="#badge-help">
+                                       <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
+                                            title="Este Drink é exclusivo">
+                                   </span>
+                                    <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
+                                          data-target="#badge-help">
+                                       <img class="zoom" src="../../../assets/images/star.png"
+                                            alt="Este drink está entre os BEST SELLERS"
+                                            title="Este drink está entre os BEST SELLERS">
+                                   </span>
+                                </div>
                             </div>
 
-                            <router-link tag="span"
-                                         :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                <div class="details text-center p-10">
-                                    <h3 class="drink-name">{{ drink.name }}</h3>
-                                    <!-- <i class="stars fa fa-star" v-for="n in drink.priority"></i> -->
-                                    <span class="description m-b-10">{{ drink.description }}</span>
+                            <!-- Card Body -->
+                            <div class="card-body card-padding text-center">
+                                <h3 class="card-title t-overflow">{{ drink.name }}</h3>
+                                <p class="description m-0">{{ drink.description }}</p>
 
-                                    <div class="items show" v-if="isLogged">
-                                        <span class="drink-item" v-for="(item, index) in drink.items">
-                                            <span v-show="item.pivot.is_visible">
-                                                {{ item.name_pt }}
-                                            </span>
-                                        </span>
+                                <button
+                                    type="button"
+                                    class="btn btn-xs btn-mb-primary outline m-t-15"
+                                    @click="itemsModal(drink.items)"
+                                    v-if="isLogged && drink.items.length"
+                                >
+                                    Ver Ingredientes
+                                </button>
+
+                                <!-- Like -->
+                                <div class="m-t-15 m-b-30" v-if="isLogged">
+                                    <!-- Svg -->
+                                    <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
+                                        <svg viewBox="0 0 30 30">
+                                            <defs>
+                                                <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                    <stop offset="0%"   stop-color="#FB923B"/>
+                                                    <stop offset="100%" stop-color="#F66439"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <g transform="translate(-8.9261333,-9.447)">
+                                                <path
+                                                    @click.prevent="likeDrink(drink)"
+                                                    class="animated"
+                                                    stroke="url(#linear)"
+                                                    :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
+                                                    d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
+                                                />
+                                            </g>
+                                        </svg>
                                     </div>
-
-                                </div>
-                            </router-link>
-
-                            <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                <span class="drink-item" v-if="!isLogged">
-                                    Faça login para ver a lista de ingredientes ;)
-                                </span>
-                            </div>
-
-                            <div class="p-10">
-                                <div class="" v-if="isLogged">
-                                    <button
-                                        class="btn btn-default btn-sm btn-block m-b-10 btn-drink-action facebook btn-share"
-                                        @click="addDrinkPreference(drink)"
-                                        v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                    > Salvar drink
-                                    </button>
-
-                                    <router-link
-                                        tag="button"
-                                        class="btn btn-success btn-sm btn-block m-b-10 btn-drink-action btn-share"
-                                        :to="{name: 'landing.user.preferences'}"
-                                        v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                    >Drink salvo <i class="fa fa-check"></i>
-                                    </router-link>
-
-                                    <button @click.prevent="likeDrink(drink)" class="btn btn-block btn-like">
-                                        <span class="text-muted">{{drink.likes_count}}</span>
-                                        <i class="fa fa-heart fa-lg text-danger"
-                                           v-if="handleLikedDrinks(drink.id)"></i>
-                                        <i class="fa fa-heart-o fa-lg text-danger"
-                                           v-if="!handleLikedDrinks(drink.id)"></i>
-                                    </button>
+                                    <span class="text-muted" v-if="drink.likes_count > 0">
+                                        {{ drink.likes_count > 1 ? `${ drinks.likes_count } Likes` : `1 Like` }}
+                                    </span>
+                                    <span class="text-muted" v-if="drink.likes_count === 0">Seja o primeiro a curtir</span>
                                 </div>
 
-                                <div class="box-footer" v-if="!isLogged">
-                                    <router-link
-                                        tag="button"
-                                        class="btn btn-success btn-block m-b-10 btn-drink-action btn-share"
-                                        :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
-                                    >Faça login para salvar ou curtir
+                                <!-- Login To Like -->
+                                <div class="m-t-20" v-if="!isLogged">
+                                    <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login' }">
+                                        Faça o login para curtir
                                     </router-link>
                                 </div>
+
+                                <!-- Save Drink -->
+                                <button
+                                    class="btn btn-mb-info btn-fixed-bottom btn-save"
+                                    @click="addDrinkPreference(drink)"
+                                    v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                > Salvar drink
+                                </button>
+
+                                <router-link
+                                    tag="button"
+                                    class="btn btn-mb-info btn-fixed-bottom btn-save"
+                                    :to="{ name: 'landing.user.preferences' }"
+                                    v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                >Drink salvo <i class="fa fa-check"></i>
+                                </router-link>
+
                             </div>
-                        </div>
+                        </router-link>
 
                     </div>
                 </div>
@@ -274,6 +281,38 @@
         </div>
         <!--Modal Share-->
 
+        <!--Modal Current Items -->
+        <div class="modal" id="modal-items" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body card-padding">
+                                <h4 class="title-section m-0">Ingredientes</h4>
+                                <ul class="list-group m-t-30 m-b-0">
+                                    <li class="list-group-item" v-for="(item, index) in currentItems">
+                                        <span v-show="item.pivot.is_visible" style="color: #222;">
+                                            {{ item.name_pt }}
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-mb-primary"
+                            data-dismiss="modal"
+                        >
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal Current Items -->
+
     </div>
 </template>
 
@@ -314,6 +353,7 @@
                     slug_en: 'all',
                     photo_url: ''
                 },
+                currentItems: []
             }
         },
         computed: {
@@ -323,6 +363,7 @@
             drinks: function () {
                 return _.orderBy(this.drinkFetcheds, 'priority', 'desc');
             },
+
 
             drinksFiltered: function () {
                 var that = this
@@ -342,6 +383,11 @@
         methods: {
 
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'setLoading', 'addUserDrinkLike', 'removeUserDrinkLike', 'setSelectedCategory']),
+
+            itemsModal: function(items) {
+                this.currentItems = items
+                $('#modal-items').modal('show')
+            },
 
             drinkToShowToggle: function (drink) {
                 let that = this
@@ -640,6 +686,12 @@
 </script>
 
 <style scoped>
+    .svg-container.min { width: 40px; }
+
+    .btn.btn-mb-info.btn-fixed-bottom.btn-save {
+        border-radius: 0 0 10px 10px;
+    }
+
     /* Some Default Styles for page*/
 
     .btn-xl.all {
