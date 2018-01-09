@@ -26,7 +26,7 @@
 
             <h3 class="title-section m-b-10">Cardápio completo</h3>
 
-            <div tag="div" class="card text-center cursor-pointer card-cat m-5"
+            <div class="card text-center cursor-pointer card-cat m-b-0 m-t-20"
                  @click="resetCategory()" v-if="currentCategory">
                 <div class="card-body card-padding">
                     <img class="cat-icon" :src="currentCategory.photo_url" alt="">
@@ -93,10 +93,13 @@
         </div>
         <!-- /CATEGORIES -->
 
-        <div class="container-colored m-b-30" v-show="interactions.finished_loading_category">
+        <div class="container-colored m-t-30 m-b-30" v-show="interactions.finished_loading_category">
             <div class="container">
+                <h4 class="title-in-colored m-0" v-show="drinksFiltered && !drinksFiltered.length">
+                    Nenhum drink para essa categoria
+                </h4>
 
-                <div class="cols">
+                <div class="cols" v-show="drinksFiltered && drinksFiltered.length">
                     <div class="col" v-for="(drink, index) in drinksFiltered">
                         <div class="card m-0" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" :key="index">
                             <!-- Card Header -->
