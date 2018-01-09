@@ -104,12 +104,12 @@
                                 <div class="badges">
                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
                                          data-target="#badge-help">
-                                       <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
+                                       <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
                                             title="Este Drink é exclusivo">
                                    </span>
                                     <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
                                           data-target="#badge-help">
-                                       <img class="zoom" src="../../../assets/images/star.png"
+                                       <img class="zoom" src="../../../assets/images/star.svg"
                                             alt="Este drink está entre os BEST SELLERS"
                                             title="Este drink está entre os BEST SELLERS">
                                    </span>
