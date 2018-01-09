@@ -21,3 +21,8 @@
 .badge:active{ transform: scale(1.00); }
 .badge img{ max-width: 100%; }
 .badge img.zoom{ transform: scale(1.1); }
+
+.modal-badge.badge {
+    width: 70px;
+    height: 70px;
+}

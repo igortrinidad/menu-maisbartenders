@@ -98,7 +98,7 @@
 
                 <div class="cols">
                     <div class="col" v-for="(drink, index) in drinksFiltered">
-                        <router-link tag="div" class="card m-0" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" :key="index">
+                        <div class="card m-0" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" :key="index">
                             <!-- Card Header -->
                             <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
                                 <div class="badges">
@@ -118,8 +118,10 @@
 
                             <!-- Card Body -->
                             <div class="card-body card-padding text-center">
-                                <h3 class="card-title t-overflow">{{ drink.name }}</h3>
-                                <p class="description m-0">{{ drink.description }}</p>
+                                <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }">
+                                    <h3 class="card-title t-overflow">{{ drink.name }}</h3>
+                                    <p class="description m-0">{{ drink.description }}</p>
+                                </router-link>
 
                                 <button
                                     type="button"
@@ -182,7 +184,7 @@
                                 </router-link>
 
                             </div>
-                        </router-link>
+                        </div>
 
                     </div>
                 </div>
@@ -200,52 +202,46 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Ícones nos drinks</h4>
+                        <h4 class="title-section m-0">Ícones nos drinks</h4>
                     </div>
-                    <div class="modal-body p-25 text-center">
+                    <div class="modal-body text-center">
 
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 text-center">
+                        <div class="card">
+                            <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
+                                   <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
                                         title="Este Drink é exclusivo">
                                </span>
 
-                                <p>
+                                <p style="color: #222;">
                                     Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders,
                                     criados e desenvolvidos por nossa equipe.</p>
                             </div>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 text-center">
+                        <div class="card">
+                            <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo"
+                                   <img src="../../../assets/images/star.svg" alt="Este Drink é exclusivo"
                                         title="Este Drink é exclusivo">
                                </span>
 
-                                <p>Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
+                                <p style="color: #222;">Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
                             </div>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 text-center">
+                        <div class="card m-0">
+                            <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/drink-created.png" alt="Este Drink é exclusivo"
+                                   <img src="../../../assets/images/drink-created.svg" alt="Este Drink é exclusivo"
                                         title="Este Drink é exclusivo">
                                </span>
 
-                                <p>Os drinks com este ícone são os drinks que os convidados criaram.</p>
+                                <p style="color: #222;">Os drinks com este ícone são os drinks que os convidados criaram.</p>
                             </div>
                         </div>
-
-                        <br>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-mb-primary">Fechar</button>
                     </div>
                 </div>
             </div>
