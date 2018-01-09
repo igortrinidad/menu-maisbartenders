@@ -55,6 +55,13 @@
     color: #fff;
 }
 
+/* Button Mais Bartenders Danger */
+.btn.btn-mb-danger {
+    background: -webkit-linear-gradient(left, #f63953, #f7281e);
+    border: 0;
+    color: #fff;
+}
+
 /* Button Mais Bartenders Facebook */
 .btn.btn-mb-facebook {
     background: -webkit-linear-gradient(left, #4267b2, #3b5998);

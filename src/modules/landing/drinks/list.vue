@@ -101,7 +101,8 @@
 
                 <div class="cols" v-show="drinksFiltered && drinksFiltered.length">
                     <div class="col" v-for="(drink, index) in drinksFiltered">
-                        <div class="card m-0" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" :key="index">
+                        <!-- Start Drink -->
+                        <div class="card m-0">
                             <!-- Card Header -->
                             <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
                                 <div class="badges">
@@ -188,6 +189,7 @@
 
                             </div>
                         </div>
+                        <!-- End Drink -->
 
                     </div>
                 </div>

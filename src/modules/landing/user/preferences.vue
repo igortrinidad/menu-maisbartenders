@@ -25,68 +25,58 @@
                     </div>
                 </div>
 
-                <div class="card" v-if="currentUser.saved_drinks.length">
-                    <div class="card-body card-padding">
-                        <div class="cols">
-                            <div v-for="(drink, index) in currentUser.saved_drinks" class="col">
-                                <div tag="div" class="box drink" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                    <div class="badges" data-toggle="modal" data-target="#badge-help">
-                                        <span class="badge" v-if="drink.is_exclusive">
-                                            <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
-                                        </span>
-                                        <span class="badge" v-if="drink.priority >= 4">
-                                            <img
-                                                class="zoom"
-                                                src="../../../assets/images/star.png"
-                                                alt="Este drink está entre os BEST SELLERS"
-                                                title="Este drink está entre os BEST SELLERS"
-                                            >
-                                        </span>
-                                    </div>
+                <div class="cols">
+                    <div v-for="(drink, index) in currentUser.saved_drinks" class="col">
 
-                                    <router-link tag="span" :to="{name: 'landing.drinks.show', params: {drink_slug: drink.url}}">
-                                        <img :src="drink.photo_url" :alt="drink.name" class="drink-gallery-image">
-                                        <div class="details">
-                                            <h3 class="drink-name">{{ drink.name }}</h3>
-                                            <span class="description">{{ drink.description }}</span>
-
-                                            <hr>
-                                        </div>
-                                    </router-link>
-
-                                    <h5 class="cursor-pointer" @click="drinkToShowToggle(drink)">Ingredientes
-                                        <i class="fa pull-right" :class="{'fa-plus' : interactions.drinksToShowInfo.indexOf(drink) < 0, 'fa-minus' : interactions.drinksToShowInfo.indexOf(drink) > -1}">
-                                        </i>
-                                    </h5>
-                                    <div
-                                        class="items"
-                                        :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}"
-                                        v-show="interactions.drinksToShowInfo.indexOf(drink) >-1"
-                                    >
-                                        <span class="drink-item" v-for="(item, index) in drink.items">
-                                            {{ item.name }}
-                                        </span>
-                                    </div>
-                                    <div class="items" :class="{'show': interactions.drinksToShowInfo.indexOf(drink) >-1}">
-                                        <span class="drink-item" v-if="!drink.items.length">
-                                            Não foi possível carregar items para este drink :(
-                                        </span>
-                                    </div>
-
-                                    <div class="box-footer">
-                                        <button
-                                            class="btn btn-danger btn-block m-b-10 btn-drink-action btn-share m-t-5"
-                                            @click="removeDrinkPreference(drink)"
-                                            >Excluir drink
-                                        </button>
-                                    </div>
-
+                        <!-- Start Drink -->
+                        <div class="card m-0">
+                            <!-- Card Header -->
+                            <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+                                <div class="badges">
+                                   <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
+                                         data-target="#badge-help">
+                                       <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
+                                            title="Este Drink é exclusivo">
+                                   </span>
+                                    <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
+                                          data-target="#badge-help">
+                                       <img class="zoom" src="../../../assets/images/star.svg"
+                                            alt="Este drink está entre os BEST SELLERS"
+                                            title="Este drink está entre os BEST SELLERS">
+                                   </span>
                                 </div>
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="card-body card-padding text-center">
+                                <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }">
+                                    <h3 class="card-title t-overflow">{{ drink.name }}</h3>
+                                    <p class="description m-0">{{ drink.description }}</p>
+                                </router-link>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-xs btn-mb-primary outline m-t-15 m-b-30"
+                                    @click="itemsModal(drink.items)"
+                                    v-if="isLogged && drink.items.length"
+                                >
+                                    Ver Ingredientes
+                                </button>
+
+                                <button
+                                    class="btn btn-mb-danger btn-fixed-bottom"
+                                    @click="removeDrinkPreference(drink)"
+                                    >Excluir drink
+                                </button>
+
 
                             </div>
                         </div>
+                        <!-- End Drink -->
+
                     </div>
                 </div>
+
 
                 <!-- Call To Create Drink -->
                 <div class="text-center m-t-30 p-5">
@@ -103,52 +93,51 @@
             </div>
         </div>
 
+        <!-- Modal Badges -->
         <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-
                     <div class="modal-header">
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                            >
-                                <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title">Ícones nos drinks</h4>
+                        <h4 class="title-section m-0">Ícones nos drinks</h4>
                     </div>
+                    <div class="modal-body text-center">
 
-                    <div class="modal-body p-25 text-center">
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 text-center">
+                        <div class="card">
+                            <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                    <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
-                                </span>
+                                   <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
+                                        title="Este Drink é exclusivo">
+                               </span>
 
-                                <p>
-                                    Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.
-                                </p>
+                                <p style="color: #222;">
+                                    Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders,
+                                    criados e desenvolvidos por nossa equipe.</p>
                             </div>
                         </div>
-
-                        <hr>
-
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 text-center">
+                        <div class="card">
+                            <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                    <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
-                                </span>
+                                   <img src="../../../assets/images/star.svg" alt="Este Drink é exclusivo"
+                                        title="Este Drink é exclusivo">
+                               </span>
 
-                                <p>Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
+                                <p style="color: #222;">Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
                             </div>
                         </div>
+                        <div class="card m-0">
+                            <div class="card-body card-padding">
+                                <span class="modal-badge badge">
+                                   <img src="../../../assets/images/drink-created.svg" alt="Este Drink é exclusivo"
+                                        title="Este Drink é exclusivo">
+                               </span>
 
-                        <br>
+                                <p style="color: #222;">Os drinks com este ícone são os drinks que os convidados criaram.</p>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-mb-primary">Fechar</button>
                     </div>
                 </div>
             </div>
@@ -247,6 +236,10 @@
 
 <style scoped>
 
+    .btn.btn-fixed-bottom {
+        border-radius: 0 0 10px 10px;
+    }
+
     a.interactions {
         color: #2C3E50;
     }
@@ -329,10 +322,6 @@
         border-top-right-radius: 4px;
     }
 
-    .badges + span {
-        cursor: pointer;
-    }
-
     .drink .description {
         display: block;
         max-width: 100%;
@@ -346,46 +335,6 @@
 
     .drink .stars {
         margin-right: 3px;
-    }
-
-    /* Badge */
-    .badges {
-        display: flex;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        cursor: pointer;
-    }
-
-    .badge {
-        width: 45px;
-        height: 45px;
-        border: 2px solid #fed136;
-        display: flex;
-        padding: 10px;
-        background: rgba(44, 62, 80, .8);
-        margin: 5px;
-        border-radius: 50%;
-    }
-
-    .modal-badge.badge {
-        margin: 20px auto;
-    }
-
-    .badge:hover {
-        transform: scale(1.05);
-    }
-
-    .badge:active {
-        transform: scale(1.00);
-    }
-
-    .badge img {
-        max-width: 100%;
-    }
-
-    .badge img.zoom {
-        transform: scale(1.1);
     }
 
     .btn-share {
