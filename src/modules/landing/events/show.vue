@@ -175,72 +175,6 @@
                 </button>
             </div>
 
-
-            <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">{{translations.badges.title}}</h4>
-                        </div>
-                        <div class="modal-body text-center">
-
-                            <div class="card">
-                                <div class="card-body card-padding">
-                                <span class="modal-badge badge">
-                                    <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
-                                         :title="translations.badges.exclusive_drinks_title">
-                                </span>
-
-                                    <p style="color: #222">{{translations.badges.exclusive_drinks}}</p>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body card-padding">
-                                <span class="modal-badge badge">
-                                    <img src="../../../assets/images/star.svg" :alt="translations.badges.best_sellers_title"
-                                         :title="translations.badges.best_sellers_title">
-                                </span>
-
-                                    <p style="color: #222">{{translations.badges.best_sellers}}</p>
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body card-padding">
-                                <span class="modal-badge badge">
-                                    <img src="../../../assets/images/noiva.svg"
-                                         :alt="translations.badges.bride_drinks_title"
-                                         :title="translations.badges.bride_drinks_title">
-                                </span>
-
-                                    <p style="color: #222">{{translations.badges.bride_drinks}}</p>
-                                </div>
-                            </div>
-
-
-                            <div class="card m-b-0">
-                                <div class="card-body card-padding">
-                                <span class="modal-badge badge">
-                                    <img src="../../../assets/images/preferido_do_noivo.svg"
-                                         :alt="translations.badges.gromm_drinks_title"
-                                         :title="translations.badges.gromm_drinks_title">
-                                </span>
-
-                                    <p style="color: #222">{{translations.badges.groom_drinks}}</p>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn btn-mb-primary">{{translations.buttons.close}}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
             <div class="container-colored m-t-30 p-t-30">
                 <div class="container">
                     <div class="card m-b-0">
@@ -396,12 +330,12 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-block btn-mb-whatsapp"
-                                @click="openShareWhatsapp()"
-                                :disabled="!interactions.whatsappPhraseSelected">{{translations.modal_whatsapp.button}} <i
+                                @click="openShareWhatsapp()">
+                                {{translations.modal_whatsapp.button}} <i
                             class="fa fa-whatsapp"></i>
                         </button>
 
-                        <button type="button" class="btn btn-mb-primary m-t-20" data-dismiss="modal">{{translations.modal_whatsapp.close}}</button>
+                        <button type="button" class="btn btn-block btn-mb-default m-t-20" data-dismiss="modal">{{translations.modal_whatsapp.close}}</button>
                     </div>
                 </div>
             </div>
@@ -491,16 +425,12 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{translations.modal_comment.title}}</h4>
+                        <h4 class="title-section m-0 m-b-10">{{translations.modal_comment.title}}</h4>
+                        <p>{{translations.modal_comment.message}} {{event.name}}</p>
                     </div>
                     <div class="modal-body">
 
-                        <p>
-                            {{translations.modal_comment.message}} {{event.name}}</p>
-                        <br>
-                        <div class="form-group">
+                        <div class="form-group m-t-20">
                             <label>{{translations.modal_comment.label}}*</label>
                             <textarea class="form-control" v-model="newComment.comment"
                                       :placeholder="translations.modal_comment.placeholder"></textarea>
@@ -509,9 +439,15 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button"
-                                class="btn btn-mb-primary m-b-10 btn-block"
+                                class="btn btn-mb-primary btn-block"
                                 @click="saveComment()"
-                                :disabled="!newComment.comment"> {{translations.modal_comment.button}}
+                                >{{ translations.modal_comment.button }}
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-mb-default btn-block"
+                                data-dismiss="modal"
+                                >{{ translations.buttons.close }}
                         </button>
                     </div>
                 </div>
