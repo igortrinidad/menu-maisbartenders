@@ -113,7 +113,7 @@
                                 <div class="card-body card-padding text-center">
 
                                     <h3 class="card-title t-overflow">{{ drink.name }}</h3>
-                                    <p class="description m-0">{{ drink.description }}</p>
+                                    <p class="description m-0 t-overflow">{{ drink.description }}</p>
 
                                     <!-- Like -->
                                     <div class="m-t-15" v-if="isLogged">
@@ -148,7 +148,6 @@
                                         class="btn btn-xs btn-mb-primary outline m-t-15"
                                         style="margin-bottom: 40px;"
                                         @click="drinkModal(drink)"
-                                        v-if="isLogged && drink.items.length"
                                     >
                                         {{ translations.buttons.drink_details }}
                                     </button>
