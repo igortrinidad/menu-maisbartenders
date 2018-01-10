@@ -1,7 +1,7 @@
 <template>
     <div class="first-container">
 
-        <main-header :title="'Meus drinks'" />
+        <main-header :title="translations.title" />
 
         <!-- User Pic + Title -->
         <div class="container">
@@ -9,7 +9,7 @@
             <div class="pic large center" :style="`background-image: url(${ currentUser.photo_url })`" v-show="currentUser.photo_url"></div>
             <div class="pic large center non-pic" v-show="!currentUser.photo_url">{{ getInitialChar(currentUser) }}</div>
 
-            <h4 class="title-section">Suas criações e os drinks que você salvou.</h4>
+            <h4 class="title-section">{{translations.section_title}}</h4>
         </div>
 
         <div class="container-colored">
@@ -18,9 +18,9 @@
                 <!-- User Has No Drinks -->
                 <div class="card text-center" v-if="!currentUser.saved_drinks.length">
                     <div class="card-body card-padding">
-                        <h5 class="card-title">Você não possui nenhum drink salvo</h5>
+                        <h5 class="card-title">{{translations.no_drinks}}</h5>
                         <router-link class="btn btn-mb-primary outline" :to="{ name: 'landing.drinks.list' }">
-                            Acesse o menu
+                            {{translations.buttons.go_to_menu}}
                         </router-link>
                     </div>
                 </div>
@@ -35,15 +35,15 @@
                                 <div class="badges">
                                    <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
                                          data-target="#badge-help">
-                                       <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
-                                            title="Este Drink é exclusivo">
+                                       <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
+                                            :title="translations.badges.exclusive_drinks_title">
                                    </span>
                                     <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
-                                          data-target="#badge-help">
-                                       <img class="zoom" src="../../../assets/images/star.svg"
-                                            alt="Este drink está entre os BEST SELLERS"
-                                            title="Este drink está entre os BEST SELLERS">
-                                   </span>
+                                        data-target="#badge-help">
+                                        <img class="zoom" src="../../../assets/images/star.svg"
+                                            :alt="translations.badges.best_sellers_title"
+                                            :title="translations.badges.best_sellers_title">
+                                    </span>
                                 </div>
                             </div>
 
@@ -61,15 +61,14 @@
                                     @click="itemsModal(drink.items)"
                                     v-if="isLogged && drink.items.length"
                                 >
-                                    Detalhes do drink
+                                    {{translations.buttons.ingredients}}
                                 </button>
 
                                 <button
                                     class="btn btn-mb-danger btn-fixed-bottom"
                                     style="box-shadow: none"
                                     @click="removeDrinkPreference(drink)"
-                                >
-                                    Excluir drink
+                                    >{{translations.buttons.remove}}
                                 </button>
 
 
@@ -83,14 +82,14 @@
 
                 <!-- Call To Create Drink -->
                 <div class="text-center m-t-30 p-5">
-                    <h5 class="m-b-20" style="color: #fff">Não encontrou o drink que procura ?</h5>
+                    <h5 class="m-b-20" style="color: #fff">{{translations.not_found}}</h5>
 
                     <router-link tag="button" :to="{ name: 'landing.drinks.createdrink' }" class="btn btn-block btn-mb-primary-reverse" v-if="isLogged">
-                        Crie o seu próprio drink
+                        {{translations.buttons.create}}
                     </router-link>
 
                     <router-link tag="button" :to="{ name: 'landing.auth.login' }" class="btn btn-block btn-mb-primary-reverse" v-if="!isLogged">
-                        Faça login para começar a criar
+                        {{translations.buttons.unauthenticated}}
                     </router-link>
                 </div>
             </div>
@@ -101,46 +100,44 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="title-section m-0">Ícones nos drinks</h4>
+                        <h4 class="title-section m-0">{{translations.badges.title}}</h4>
                     </div>
                     <div class="modal-body ext text-center">
 
                         <div class="card">
                             <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
-                                        title="Este Drink é exclusivo">
+                                   <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
+                                        :title="translations.badges.exclusive_drinks_title">
                                </span>
 
-                                <p style="color: #222;">
-                                    Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders,
-                                    criados e desenvolvidos por nossa equipe.</p>
+                                <p style="color: #222;">{{translations.badges.exclusive_drinks}}</p>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/star.svg" alt="Este Drink é exclusivo"
-                                        title="Este Drink é exclusivo">
+                                   <img src="../../../assets/images/star.svg" :alt="translations.badges.best_sellers_title"
+                                        :title="translations.badges.best_sellers_title">
                                </span>
 
-                                <p style="color: #222;">Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
+                                <p style="color: #222;">{{translations.badges.best_sellers}}</p>
                             </div>
                         </div>
                         <div class="card m-0">
                             <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                   <img src="../../../assets/images/drink-created.svg" alt="Este Drink é exclusivo"
-                                        title="Este Drink é exclusivo">
+                                   <img src="../../../assets/images/drink-created.svg" :alt="translations.badges.guest_drinks_title"
+                                        :title="translations.badges.guest_drinks_title">
                                </span>
 
-                                <p style="color: #222;">Os drinks com este ícone são os drinks que os convidados criaram.</p>
+                                <p style="color: #222;">{{translations.badges.guest_drinks}}</p>
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-block btn-mb-default">Fechar</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-mb-primary">{{translations.buttons.close_modal}}</button>
                     </div>
                 </div>
             </div>
@@ -184,6 +181,7 @@
 <script>
     import {mapGetters, mapActions} from 'vuex'
     import mainHeader from '@/components/main-header.vue'
+    import * as translations from '@/translations/user/preferences'
 
     import userObj from '../../../models/User.js'
 
@@ -207,7 +205,16 @@
         computed: {
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged']),
+            ...mapGetters(['currentUser', 'isLogged', 'language']),
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            }
 
         },
         mounted(){

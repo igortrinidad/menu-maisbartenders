@@ -1,14 +1,14 @@
 <template>
    <div class="first-container">
 
-       <main-header :title="'Meus dados'" />
+       <main-header :title="translations.title" />
 
        <!-- User Image + Title -->
        <div class="container">
            <div class="pic large center" :style="`background-image: url(${ user.photo_url })`" v-show="user.photo_url"></div>
            <div class="pic large center non-pic" v-show="!user.photo_url">{{ getInitialChar(user) }}</div>
 
-           <h4 class="title-section">Altere suas informações.</h4>
+           <h4 class="title-section">{{translations.section_title}}</h4>
        </div>
 
        <!-- Container Colored -->
@@ -19,27 +19,27 @@
                 <div class="card">
                     <div class="card-body card-padding">
                         <div class="form-group">
-                            <label>Primeiro nome</label>
-                            <input class="form-control" v-model="user.name">
+                            <label>{{translations.labels.name}}</label>
+                            <input class="form-control" v-model="user.name" :placeholder="translations.placeholders.name">
                         </div>
 
                         <div class="form-group">
-                            <label>Segundo nome</label>
-                            <input class="form-control" v-model="user.last_name">
+                            <label>{{translations.labels.last_name}}</label>
+                            <input class="form-control" v-model="user.last_name" :placeholder="translations.placeholders.last_name">
                         </div>
 
                         <div class="form-group">
-                            <label>Email</label>
-                            <input class="form-control" v-model="user.email">
+                            <label>{{translations.labels.email}}</label>
+                            <input class="form-control" v-model="user.email" :placeholder="translations.placeholders.email">
                         </div>
 
                         <div class="form-group">
-                            <label>Telefone</label>
-                            <input class="form-control" v-model="user.phone">
+                            <label>{{translations.labels.phone}}</label>
+                            <input class="form-control" v-model="user.phone" :placeholder="translations.placeholders.phone">
                         </div>
 
                         <div class="form-group">
-                            <label>Foto</label>
+                            <label>{{translations.labels.photo}}</label>
                             <input class="form-control" type="file" v-on:change="loadPhoto">
                         </div>
                     </div>
@@ -49,10 +49,10 @@
                 <div class="form-group m-t-0">
                     <button class="btn btn-block btn-mb-primary-reverse outline" @click.prevent="interactions.manage_password = true"
                             v-if="!interactions.manage_password">
-                        {{currentUser.blank_password ? 'Definir senha' : 'Alterar senha'}}
+                        {{currentUser.blank_password ? translations.buttons.create_password : translations.buttons.change_password}}
                     </button>
                     <button class="btn btn-block btn-mb-primary-reverse" @click.prevent="cancelManagePassword()"
-                            v-if="interactions.manage_password"> Cancelar alteração de senha
+                            v-if="interactions.manage_password"> {{translations.buttons.cancel_password_change}}
                     </button>
                 </div>
 
@@ -62,21 +62,21 @@
                         <div class="m-t-20" v-if="!currentUser.blank_password">
 
                             <div class="form-group">
-                                <label class="control-label">Senha atual</label>
-                                <input class="form-control" type="password" v-model="user.current_password">
+                                <label class="control-label">{{translations.labels.current_password}}</label>
+                                <input class="form-control" type="password" v-model="user.current_password" :placeholder="translations.placeholders.current_password">
                                 <p class="help-block text-danger" v-if="interactions.current_password_error">
                                     Senha atual incorreta.</p>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label">Nova senha</label>
-                                <input class="form-control" type="password" v-model="user.password">
+                                <label class="control-label">{{translations.labels.new_password}}</label>
+                                <input class="form-control" type="password" v-model="user.password"  :placeholder="translations.placeholders.new_password">
                             </div>
 
                             <div class="form-group">
                                 <label
-                                    class="control-label">{{ !currentUser.blank_password ? 'Confirmar nova senha' : 'Confirmar senha'}}</label>
-                                <input class="form-control" type="password" v-model="user.password_confirmation">
+                                    class="control-label">{{translations.labels.confirm_password}}</label>
+                                <input class="form-control" type="password" v-model="user.password_confirmation"  :placeholder="translations.placeholders.confirm_password">
                             </div>
 
                         </div>
@@ -84,14 +84,14 @@
                         <!--Usuário não possui uma senha cadastada-->
                         <div class="m-t-20" v-if="currentUser.blank_password">
                             <div class="form-group">
-                                <label class="control-label">Nova senha</label>
-                                <input class="form-control" type="password" v-model="user.password">
+                                <label class="control-label">{{translations.labels.new_password}}</label>
+                                <input class="form-control" type="password" v-model="user.password" :placeholder="translations.placeholders.new_password">
                             </div>
 
                             <div class="form-group">
                                 <label
-                                    class="control-label">{{ !currentUser.blank_password ? 'Confirmar nova senha' : 'Confirmar senha'}}</label>
-                                <input class="form-control" type="password" v-model="user.password_confirmation">
+                                    class="control-label">{{translations.labels.confirm_password}}</label>
+                                <input class="form-control" type="password" v-model="user.password_confirmation" :placeholder="translations.placeholders.confirm_password">
                             </div>
                         </div>
 
@@ -104,21 +104,21 @@
         <!-- Facebook -->
         <div class="container m-t-30 last-container">
             <div class="form-group text-center">
-                <h4 class="section-title">Redes sociais</h4>
-                <p>Nosso sistema permite que você se conecte utilizando o facebook ou email e senha, escolha uma opção disponível e conecte-se.</p>
+                <h4 class="section-title">{{translations.social_networks}}</h4>
+                <p>{{translations.social_networks_message}}</p>
 
                 <button class="btn btn-block btn-mb-facebook" @click="socialLogin('facebook')"
                     :disabled="interactions.socialProviders.facebook"
                 >
                     <i class="fa fa-facebook fa-lg button-icon"></i>
-                    {{interactions.socialProviders.facebook ? 'Conectado ao' : 'Conectar com'}} Facebook
+                    {{interactions.socialProviders.facebook ? translations.buttons.facebook_connected : translations.buttons.facebook_connect}}
                 </button>
 
             </div>
         </div>
 
         <!-- Btn Save -->
-        <button class="btn btn-fixed-bottom btn-mb-info" @click.prevent="save()">Atualizar cadastro</button>
+        <button class="btn btn-fixed-bottom btn-mb-info" @click.prevent="save()">{{translations.buttons.update}}</button>
 
     </div>
 </template>
@@ -128,6 +128,7 @@
     import mainHeader from '@/components/main-header.vue'
     import userObj from '../../../models/User.js'
     import {cloneDeep} from 'lodash'
+    import * as translations from '@/translations/user/show'
 
     var Swiper = require('swiper')
 
@@ -153,7 +154,16 @@
         computed: {
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged', 'userPhoto']),
+            ...mapGetters(['currentUser', 'isLogged', 'userPhoto', 'language']),
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            }
 
         },
         mounted(){

@@ -1,22 +1,15 @@
 export const en = {
-    title: 'Drinks',
-    title_section: 'Complete menu',
-    categories: 'Pick a category',
-    slogan_mb: 'The best drinks are here!',
-    be_first: 'Be the first to like',
-    like: 'Like',
-    likes: 'Likes',
-    no_drinks: 'No drink found in this category',
-    ingredients: 'Ingredients',
-    exclusive_drink: 'Exclusive drink',
-    best_sellers: 'Best sellers',
+    title: 'My drinks',
+    section_title: 'Your creations and saved drinks',
+    not_found: 'Can not find the drink you are looking for?',
+    no_drinks: 'You have no saved drinks',
     buttons:{
-        unauthenticated: 'Sign in to save or like',
-        change_category: 'Change category',
-        save_drink: 'Save drink',
-        saved_drink: 'Saved drink',
-        drink_details: 'Drink details',
-        close_modal: 'Close'
+        ingredients: 'See the ingredients',
+        remove: 'Remove drink',
+        create: 'Create your own drink',
+        go_to_menu: 'Go to Mais Bartenders complete menu',
+        unauthenticated: 'Sign in to create a drink',
+        close_modal: 'Fechar'
     },
     badges:{
         title: 'Badges on drinks',
@@ -30,23 +23,16 @@ export const en = {
 }
 
 export const pt = {
-    title: 'Drinks',
-    title_section: 'Cardápio completo',
-    categories: 'Selecione uma categoria',
-    slogan_mb: 'Os melhores drinks estão aqui!',
-    be_first: 'Seja o primeiro a curtir',
-    like: 'Curtida',
-    likes: 'Curtidas',
-    no_drinks: 'Nenhum drink foi encontrado nesta categoria.',
-    ingredients: 'Ingredientes',
-    exclusive_drink: 'Drink exclusivo',
-    best_sellers: 'Best sellers',
+    title: 'Meus drinks',
+    section_title: 'Suas criações e os drinks que você salvou.',
+    not_found: 'Não encontrou o drink que procura?',
+    no_drinks: 'Você não possui nenhum drink salvo',
     buttons:{
-        unauthenticated: 'Faça login para salvar ou curtir',
-        change_category: 'Alterar categoria',
-        save_drink: 'Salvar drink',
-        saved_drink: 'Drink salvo',
-        drink_details: 'Detalhes do drink',
+        ingredients: 'Ver ingredientes',
+        remove: 'Remover drink',
+        create: 'Crie seu próprio drink',
+        go_to_menu: 'Ir para menu completo Mais Bartenders',
+        unauthenticated: 'Faça login para criar um drink',
         close_modal: 'Fechar'
     },
     badges:{

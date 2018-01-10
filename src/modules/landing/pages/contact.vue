@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="first-container">
 
-        <main-header :title="'Entre em contato'" />
+        <main-header :title="translations.title" />
 
 
         <!-- Icon SVG + Title -->
@@ -28,7 +28,7 @@
                 </svg>
             </div>
 
-            <h4 class="title-section">Contrate o melhor BAR para sua festa</h4>
+            <h4 class="title-section">{{translations.section_title}}</h4>
         </div>
 
         <div class="container-colored">
@@ -38,54 +38,54 @@
                     <div class="card-body card-padding">
                         <form @submit.prevent="submitForm()">
                             <div class="form-group">
-                                <label class="cursor-pointer" for="contact-name">Nome</label>
+                                <label class="cursor-pointer" for="contact-name">{{translations.labels.name}}</label>
                                 <input
                                     id="contact-name"
                                     class="form-control"
-                                    placeholder="Seu nome"
+                                    :placeholder="translations.placeholders.name"
                                     type="text"
                                     v-model="contact.name"
                                 >
                             </div>
                             <div class="form-group">
-                                <label class="cursor-pointer" for="contact-email">E-mail</label>
+                                <label class="cursor-pointer" for="contact-email">{{translations.labels.email}}</label>
                                 <input
                                     id="contact-email"
                                     class="form-control"
-                                    placeholder="Seu E-mail"
+                                    :placeholder="translations.placeholders.email"
                                     type="email"
                                     v-model="contact.email"
                                 >
                             </div>
                             <div class="form-group">
-                                <label class="cursor-pointer" for="contact-phone">Celular</label>
+                                <label class="cursor-pointer" for="contact-phone">{{translations.labels.phone}}</label>
                                 <input
                                     id="contact-phone"
                                     class="form-control"
-                                    placeholder="Seu número de ceular com ddd"
+                                    :placeholder="translations.placeholders.phone"
                                     type="text"
                                     v-model="contact.phone"
                                 >
                             </div>
                             <div class="form-group">
-                                <label for="drink-style">Assunto</label>
+                                <label for="drink-style">{{translations.labels.subject}}</label>
                                 <v-select
                                     id="drink-style"
                                     :label="'name'"
                                     :options="services"
                                     :multiple="false"
-                                    placeholder="Escolha uma opção."
+                                    :placeholder="translations.placeholders.subject"
                                     v-model="contact.subject"
                                 >
-                                    <span slot="no-options">Não foi possível localizar uma opção :(</span>
+                                    <span slot="no-options">{{translations.no_options}} :(</span>
                                 </v-select>
                             </div>
                             <div class="form-group">
-                                <label class="cursor-pointer" for="contact-msg">Mensagem</label>
+                                <label class="cursor-pointer" for="contact-msg">{{translations.labels.message}}</label>
                                 <textarea
                                     id="contact-msg"
                                     class="form-control"
-                                    placeholder="Sua mensagem"
+                                    :placeholder="translations.placeholders.message"
                                     type="text"
                                     v-model="contact.message"
                                 >
@@ -93,7 +93,7 @@
                             </div>
 
                             <div class="text-center m-t-30">
-                                <button class="btn btn-mb-primary" type="submit">Deixe sua mensagem</button>
+                                <button class="btn btn-mb-primary" type="submit">{{translations.buttons.send}}</button>
                             </div>
                         </form>
                     </div>
@@ -104,12 +104,12 @@
                 <div class="card text-center m-b-0">
                     <div class="card-body card-padding">
 
-                        <h5 class="card-title">WhatsApp <i class="fa fa-whatsapp"></i></h5>
+                        <h5 class="card-title">{{translations.labels.whatsapp}} <i class="fa fa-whatsapp"></i></h5>
 
-                        <button title="Clique para enviar uma mensagem no WhatsApp!" @click="openWhatsapp()" class="btn btn-xs btn-mb-primary">Envie um WhatsApp agora</button>
+                        <button title="Clique para enviar uma mensagem no WhatsApp!" @click="openWhatsapp()" class="btn btn-xs btn-mb-primary">{{translations.buttons.whatsapp}}</button>
 
                         <div class="m-t-30">
-                            <h5 class="card-title">Ligue agora <i class="fa fa-phone"></i></h5>
+                            <h5 class="card-title">{{translations.labels.call}} <i class="fa fa-phone"></i></h5>
                             <a title="Fixo - Clique para ligar!" class="btn btn-xs btn-mb-primary" href="tel:31 3296-5673">31 3296-5673</a>
                             <a title="Celular - Clique para ligar!" class="btn btn-xs btn-mb-primary" href="tel:31 98213-4820">31 98213-4820</a>
                         </div>
@@ -126,6 +126,7 @@
 import vSelect from 'vue-select'
 import {mapGetters, mapActions} from 'vuex'
 import mainHeader from '@/components/main-header.vue'
+import * as translations from '@/translations/pages/contact'
 
 export default {
     name: 'contact',
@@ -143,7 +144,16 @@ export default {
         }
     },
     computed:{
-        ...mapGetters(['isLogged', 'currentUser'])
+        ...mapGetters(['isLogged', 'currentUser', 'language']),
+        translations() {
+
+            if (this.language === 'en') {
+                return translations.en
+            }
+            if (this.language === 'pt') {
+                return translations.pt
+            }
+        }
     },
     mounted(){
         if(this.isLogged){

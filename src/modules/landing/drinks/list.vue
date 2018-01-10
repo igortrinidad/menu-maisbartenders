@@ -241,12 +241,12 @@
                         <!-- Badges -->
                         <div class="badges">
                            <span class="badge" v-if="currentDrink.is_exclusive">
-                               <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
-                               Drink Exclusivo
+                               <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title" :title="translations.badges.exclusive_drinks_title">
+                              {{translations.exclusive_drink}}
                            </span>
                             <span class="badge" v-if="currentDrink.priority >= 4">
-                               <img src="../../../assets/images/star.svg" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
-                               Best sellers
+                               <img src="../../../assets/images/star.svg" :alt="translations.badges.best_sellers_title" :title="translations.badges.best_sellers_title">
+                               {{translations.best_sellers}}
                            </span>
                         </div>
 

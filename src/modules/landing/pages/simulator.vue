@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="first-container">
 
-        <main-header :title="'Simulador'" />
+        <main-header :title="translations.title" />
 
         <!-- Icon SVG + Title -->
         <div class="container">
@@ -19,7 +19,7 @@
                    />
                 </svg>
             </div>
-            <h4 class="title-section">Calcule a quantidade de bebidas para seu evento.</h4>
+            <h4 class="title-section">{{translations.section_title}}</h4>
         </div>
 
         <!-- Simulador -->
@@ -29,7 +29,7 @@
                 <!-- Guests -->
                 <div class="card">
                     <div class="card-body card-padding">
-                        <h5 class="card-title" for="guests">Número de convidados</h5>
+                        <h5 class="card-title" for="guests">{{translations.labels.guests}}</h5>
                         <input id="guests" type="number" class="form-control" v-model="guests">
                         <p class="help-block text-danger"></p>
                     </div>
@@ -38,15 +38,15 @@
                 <!-- Event Type -->
                 <div class="card">
                     <div class="card-body card-padding">
-                        <h5 class="card-title" for="">Qual o tipo do evento ?</h5>
+                        <h5 class="card-title" for="">{{translations.labels.event_type}}</h5>
                         <button
                             v-for="type in event_types"
                             class="btn btn-xs btn-mb-primary"
                             style="margin: 2px;"
                             @click="addType($event, type)"
-                            :class="{'outline':typeSelected.name !== type.name}"
+                            :class="{'outline':typeSelected[`name_${language}`] !== type[`name_${language}`]}"
                         >
-                            {{ type.name }}
+                            {{ type[`name_${language}`] }}
                         </button>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                 <!-- Drinks -->
                 <div class="card">
                     <div class="card-body card-padding">
-                        <h5 class="card-title">Bebidas que vou servir?</h5>
+                        <h5 class="card-title">{{translations.labels.drinks_types}}</h5>
 
                         <button
                             v-for="bev in beverages"
@@ -62,7 +62,7 @@
                             style="margin: 2px;"
                             @click="addBeverages($event, bev.id)"
                             :class="{'outline':bevSelected.indexOf(bev.id) < 0}"
-                        >{{bev.name}}
+                        >{{bev[`name_${language}`]}}
                         </button>
                     </div>
                 </div>
@@ -70,13 +70,13 @@
                 <!-- Bar -->
                 <div class="card">
                     <div class="card-body card-padding">
-                        <h5 class="card-title">Vai ter bar de drinks?</h5>
+                        <h5 class="card-title">{{translations.labels.has_bar}}</h5>
 
                         <button
                             class="btn btn-mb-primary outline"
                             @click="toggle(has_bar, true)"
                             :class="{'reset-outline':has_bar.selected && sum > 0.4 && is_clicked_bar}"
-                            >Sim
+                            >{{translations.buttons.yes}}
                         </button>
                         <button
                             class="btn btn-mb-primary outline"
@@ -84,21 +84,21 @@
                             :class="{'reset-outline':!has_bar.selected && sum > 0.4 && is_clicked_bar}"
                             data-toggle="modal"
                             data-target="#modalReactionCry"
-                        >Não
+                        >{{translations.buttons.no}}
                         </button>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-body card-padding">
-                        <h5 class="card-title">O bar será da Mais Bartenders?</h5>
+                        <h5 class="card-title">{{translations.labels.has_mb}}</h5>
                         <button
                             class="btn btn-mb-primary outline"
                             :class="{'reset-outline':has_mb.selected && sum > 0.4 && is_clicked_mb}"
                             @click="toggle(has_mb, true)"
                             data-toggle="modal"
                             data-target="#modalReaction"
-                        >Sim
+                        >{{translations.buttons.yes}}
                         </button>
                         <button
                             class="btn btn-mb-primary outline"
@@ -106,12 +106,12 @@
                             @click="toggle(has_mb, false)"
                             data-toggle="modal"
                             data-target="#modalReactionCry"
-                        >Não</button>
+                        >{{translations.buttons.no}}</button>
                     </div>
                 </div>
 
                 <!-- Calculate -->
-                <button class="btn btn-block btn-mb-primary-reverse"@click="openResult()">Calcular</button>
+                <button class="btn btn-block btn-mb-primary-reverse"@click="openResult()">{{translations.buttons.calculate}}</button>
 
             </div>
         </div>
@@ -146,12 +146,12 @@
 
                 <div class="modal-content">
                     <div class="modal-body text-center" style="margin-top: 100px">
-                        <h4 class="title-section m-0 m-b-10">Atenção</h4>
-                        <small class="smallCaption">Por favor, preencha todas as informações.</small>
+                        <h4 class="title-section m-0 m-b-10">{{translations.labels.atention}}</h4>
+                        <small class="smallCaption">{{translations.warning}}</small>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-block btn-mb-default">
-                            Essa janela fecha em: {{ timeToClose }}s
+                            {{translations.window_close}}: {{ timeToClose }}s
                         </button>
                     </div>
                 </div>
@@ -166,38 +166,38 @@
 
                 <div class="modal-content">
                     <div class="modal-body ext text-center">
-                        <h4 class="title-section m-0 m-b-10">Simulador</h4>
-                        <small class="smallCaption">Quantidade indicada para seu evento.</small>
+                        <h4 class="title-section m-0 m-b-10">{{translations.title}}</h4>
+                        <small class="smallCaption">{{translations.result_message}}</small>
 
                         <div class="panel panel-default m-t-30" style="color: #222">
                             <table class="table table-bordered">
                                 <thead>
-                                    <tr>
-                                        <th class="text-center">Bebida</th>
-                                        <th class="text-center">Qtde indicada</th>
-                                        <th class="text-center">Qtde com reserva (20%)</th>
-                                    </tr>
+                                <tr>
+                                    <th class="text-center">{{translations.labels.drink_type}}</th>
+                                    <th class="text-center">{{translations.labels.indicated_quantity}}</th>
+                                    <th class="text-center">{{translations.labels.quantity_reserve}} (20%)</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="bev in bevsFiltered">
-                                        <td>{{bev.name}}</td>
-                                        <td class="text-center">{{(bev.ref/100  * sum * guests).toFixed(0)}}</td>
-                                        <td class="text-center">{{(bev.ref/100  * sum * guests * 1.20).toFixed(0)}}</td>
-                                    </tr>
+                                <tr v-for="bev in bevsFiltered">
+                                    <td>{{bev[`name_${language}`]}}</td>
+                                    <td class="text-center">{{(bev.ref/100  * sum * guests).toFixed(0)}}</td>
+                                    <td class="text-center">{{(bev.ref/100  * sum * guests * 1.20).toFixed(0)}}</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="card m-0 attention" style="color: #222">
                             <div class="card-body card-padding">
-                                <h5 class="card-title m-0">Atenção</h5>
-                                <p class="m-b-0">Estimativa somente para referência considerando eventos sociais com duração de 6 horas.</p>
+                                <h5 class="card-title m-0">{{translations.labels.atention}}</h5>
+                                <p class="m-b-0">{{translations.result_warning}}</p>
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-block btn-mb-default" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-block btn-mb-default" data-dismiss="modal">{{translations.buttons.close}}</button>
                     </div>
                 </div>
             </div>
@@ -209,6 +209,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import mainHeader from '@/components/main-header.vue'
+import * as translations from '@/translations/pages/simulator'
 
 export default {
     name: 'simulator',
@@ -228,22 +229,22 @@ export default {
             },
             guests: 100,
             event_types: [
-                {id: '1', name: 'Casamento', coef: 1.6},
-                {id: '2', name: '15 anos', coef: 1.7},
-                {id: '3', name: 'Formatura', coef: 1.9},
-                {id: '4', name: 'Festa Jovem', coef: 2.1},
-                {id: '5', name: 'Festa Adulto', coef: 1.5},
+                {id: '1', name_pt: 'Casamento', name_en: 'Wedding', coef: 1.6},
+                {id: '2', name_pt: '15 anos', name_en: 'Fifteenth birthday', coef: 1.7},
+                {id: '3', name_pt: 'Formatura', name_en: 'Graduation', coef: 1.9},
+                {id: '4', name_pt: 'Festa Jovem', name_en: 'Young party', coef: 2.1},
+                {id: '5', name_pt: 'Festa Adulto', name_en: 'Adult party', coef: 1.5},
             ],
-            typeSelected: {id: '1', name: 'Casamento', coef: 1.4},
+            typeSelected: {id: '1', name_pt: 'Casamento', name_en: 'Wedding', coef: 1.4},
             beverages: [
-                {id: '1', name: 'Cerveja', coef: -0.2, selected: false, ref: 84, quantity: ''},
-                {id: '2', name: 'Whisky', coef: -0.1, selected: false, ref: 12, quantity: ''},
-                {id: '3', name: 'Vinho', coef: -0.04, selected: false, ref: 14, quantity: ''},
-                {id: '4', name: 'Espumante', coef: -0.06, selected: false, ref: 36, quantity: ''},
-                {id: '5', name: 'Vodka', coef: -0.08, selected: false, ref: 8, quantity: ''},
-                {id: '7', name: 'Energético', coef: 0.1, selected: false, ref: 40, quantity: ''},
-                {id: '8', name: 'Gin', coef: -0.08, selected: false, ref: 8, quantity: ''},
-                {id: '9', name: 'Tônica', coef: 0.1, selected: false, ref: 45, quantity: ''},
+                {id: '1', name_pt: 'Cerveja', name_en: 'Beer', coef: -0.2, selected: false, ref: 84, quantity: ''},
+                {id: '2', name_pt: 'Whisky', name_en: 'Whisky',coef: -0.1, selected: false, ref: 12, quantity: ''},
+                {id: '3', name_pt: 'Vinho', name_en: 'Whisky', coef: -0.04, selected: false, ref: 14, quantity: ''},
+                {id: '4', name_pt: 'Espumante', name_en: 'Sparkling wine', coef: -0.06, selected: false, ref: 36, quantity: ''},
+                {id: '5', name_pt: 'Vodka', name_en: 'Vodka', coef: -0.08, selected: false, ref: 8, quantity: ''},
+                {id: '7', name_pt: 'Energético', name_en: 'Energy drink', coef: 0.1, selected: false, ref: 40, quantity: ''},
+                {id: '8', name_pt: 'Gin', name_en: 'Gin',coef: -0.08, selected: false, ref: 8, quantity: ''},
+                {id: '9', name_pt: 'Tônica', name_en: 'Tonic water', coef: 0.1, selected: false, ref: 45, quantity: ''},
             ],
             bevSelected: [],
             has_bar: {name: 'has_bar', selected: false, coef: -0.1},
@@ -288,7 +289,16 @@ export default {
         }
     },
     computed:{
-        ...mapGetters(['isLogged', 'currentUser']),
+        ...mapGetters(['isLogged', 'currentUser', 'language']),
+        translations() {
+
+            if (this.language === 'en') {
+                return translations.en
+            }
+            if (this.language === 'pt') {
+                return translations.pt
+            }
+        },
 
         bevsFiltered: function() {
 
