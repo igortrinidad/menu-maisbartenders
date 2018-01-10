@@ -150,9 +150,9 @@
                         <small class="smallCaption">Por favor, preencha todas as informações.</small>
                     </div>
                     <div class="modal-footer">
-                        <div class="">
-                            <span>Essa janela fecha em: {{ timeToClose }}s</span>
-                        </div>
+                        <button class="btn btn-block btn-mb-default">
+                            Essa janela fecha em: {{ timeToClose }}s
+                        </button>
                     </div>
                 </div>
 
@@ -165,7 +165,7 @@
             <div class="modal-dialog" >
 
                 <div class="modal-content">
-                    <div class="modal-body text-center">
+                    <div class="modal-body ext text-center">
                         <h4 class="title-section m-0 m-b-10">Simulador</h4>
                         <small class="smallCaption">Quantidade indicada para seu evento.</small>
 
