@@ -413,13 +413,14 @@
                         </div>
 
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-mb-primary" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-block btn-mb-whatsapp m-t-20"
+                    <div class="modal-footer" style="position: fixed; bottom: 0; left: 0; right: 0">
+                        <button type="button" class="btn btn-block btn-mb-whatsapp m-0"
                                 @click="openShareWhatsapp()"
                                 :disabled="!interactions.whatsappPhraseSelected">Compartilhar no WhatsApp <i
                             class="fa fa-whatsapp"></i>
                         </button>
+
+                        <button type="button" class="btn btn-mb-primary" data-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
