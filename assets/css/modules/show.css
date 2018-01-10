@@ -1,7 +1,4 @@
 /* Show Header */
-.first-container.show {
-    margin-bottom: 30px;
-}
 
 .first-container.show .container-colored { padding-top: 60px; }
 
@@ -46,7 +43,7 @@
 
 @media (max-width: 414px) {
     .first-container.show {
-        padding-top: 210px;
+        padding-top: 130px;
     }
     .show-header {
         height: 130px;

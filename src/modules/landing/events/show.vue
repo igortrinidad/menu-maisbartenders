@@ -1,5 +1,5 @@
 <template>
-    <div class="first-container show" ref="container">
+    <div class="first-container show" :class="{ 'm-b-30': currentCategory }" ref="container">
 
         <main-header :title="!eventFound ? translations.title: event.name"/>
 
@@ -279,7 +279,7 @@
             </div>
 
 
-            <div class="container-colored m-t-30 m-b-0 p-t-30">
+            <div class="container-colored m-t-30 p-t-30">
                 <div class="container">
                     <div class="card m-b-0">
                         <div class="card-body card-padding">
@@ -432,8 +432,8 @@
                         </div>
 
                     </div>
-                    <div class="modal-footer" style="position: fixed; bottom: 0; left: 0; right: 0">
-                        <button type="button" class="btn btn-block btn-mb-whatsapp m-0"
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-block btn-mb-whatsapp"
                                 @click="openShareWhatsapp()"
                                 :disabled="!interactions.whatsappPhraseSelected">{{translations.modal_whatsapp.button}} <i
                             class="fa fa-whatsapp"></i>
