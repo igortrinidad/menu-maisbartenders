@@ -103,7 +103,7 @@
                                 <!-- Start Drink -->
                                 <div class="card m-0">
                                     <!-- Card Header -->
-                                    <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+                                    <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" class="card-header cover cursor-pointer" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
                                         <div class="badges">
                                            <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
                                                  data-target="#badge-help">
@@ -117,7 +117,7 @@
                                                     title="Este drink está entre os BEST SELLERS">
                                            </span>
                                         </div>
-                                    </div>
+                                    </router-link>
 
                                     <!-- Card Body -->
                                     <div class="card-body card-padding text-center">
