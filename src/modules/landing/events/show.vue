@@ -663,9 +663,14 @@
 
             openShareWhatsapp: function () {
                 let that = this
+                console.log();
+
+                if (that.interactions.whatsappPhraseSelected === '') {
+                    errorNotify('', 'Selecione uma frase para compartilhar')
+                    return
+                }
 
                 var url = `https://api.whatsapp.com/send?text=${that.interactions.whatsappPhraseSelected} Acesse o link: https://maisbartenders.com.br/opengraph/events/${that.event.url}`;
-
                 window.open(url, '_system', null);
             },
 

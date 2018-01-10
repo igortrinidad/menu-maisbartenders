@@ -22,6 +22,14 @@
 .btn:active { outline: none !important; }
 
 /* Button Mais Bartenders Primary */
+.btn.btn-mb-default{
+    background: -webkit-linear-gradient(left, #fff, #ddd);
+    border: 0;
+    color: #222;
+}
+
+
+/* Button Mais Bartenders Primary */
 .btn.btn-mb-primary,
 .btn.btn-mb-primary.outline.reset-outline {
     background: -webkit-linear-gradient(left, #f7941e, #f66439);
