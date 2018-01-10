@@ -1,7 +1,7 @@
 <template>
     <div class="first-container">
 
-        <main-header :title="'Eventos salvos'" />
+        <main-header :title="translations.title" />
 
         <!-- Icon SVG + Title -->
         <div class="container text-center">
@@ -24,11 +24,11 @@
             </div>
 
             <h4 class="title-section m-b-10">
-                {{ events.length ? 'Eventos Salvos' : 'Nenhum Evento Salvo' }}
+                {{ events.length ? translations.title_section : translations.no_events }}
             </h4>
 
             <span class="text-muted">
-                {{ events.length ? 'Seus eventos salvos estão listados abaixo' : 'Salve eventos agora mesmo para acessar a qualquer momento mesmo sem conexão com a internet' }}
+                {{ events.length ? translations.list_message : translations.list_message_no_events }}
             </span>
 
         </div>
@@ -56,7 +56,7 @@
         </div>
 
         <router-link tag="button" class="btn btn-fixed-bottom btn-mb-info" style="position: fixed" :to="{ name: 'landing.events.list' }" exact>
-            Todos os eventos
+            {{translations.buttons.go_to_events}}
         </router-link>
 
    </div>
@@ -65,6 +65,7 @@
 <script>
     import { mapGetters, mapActions } from 'vuex'
     import mainHeader from '@/components/main-header.vue'
+    import * as translations from '@/translations/events/offline-list'
 
 
     export default {
@@ -82,7 +83,17 @@
         computed:{
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged']),
+            ...mapGetters(['currentUser', 'isLogged', 'language']),
+
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            }
 
         },
         mounted(){

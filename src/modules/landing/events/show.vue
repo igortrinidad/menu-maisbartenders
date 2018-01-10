@@ -1,7 +1,7 @@
 <template>
     <div class="first-container show" ref="container">
 
-        <main-header :title="!eventFound ? event.name : 'Evento'" />
+        <main-header :title="!eventFound ? translations.title: event.name"/>
 
         <!-- EventFound -->
         <div v-if="eventFound">
@@ -23,8 +23,9 @@
                             <div v-html="event.greeting">
                             </div>
 
-                            <button class="btn btn-block btn-mb-whatsapp m-t-20" data-toggle="modal" data-target="#modalShareWhatsApp">
-                                Compartilhar no WhatsApp
+                            <button class="btn btn-block btn-mb-whatsapp m-t-20" data-toggle="modal"
+                                    data-target="#modalShareWhatsApp">
+                                {{translations.buttons.whatsapp}}
                             </button>
                         </div>
                     </div>
@@ -33,15 +34,15 @@
 
             <span id="categories"></span>
             <span id="drinks"></span>
-            <section  v-show="!interactions.finished_loading_category && !interactions.is_loading">
+            <section v-show="!interactions.finished_loading_category && !interactions.is_loading">
                 <!-- CATEGORIES -->
 
-                <h4 class="title-section">Categorias</h4>
+                <h4 class="title-section">{{translations.labels.categories}}</h4>
 
                 <div class="container"
                      :class="{'cat-is-selected' : currentCategory}">
 
-                    <p class="text-center section-subheading text-muted">Selecione uma categoria para ver os drinks especialmente selecionados para este evento.</p>
+                    <p class="text-center section-subheading text-muted">{{translations.categories_message}}</p>
 
                     <div class="categories">
                         <!-- ALL -->
@@ -51,7 +52,7 @@
                                 <div class="card-body card-padding">
                                     <img class="cat-icon" src="../../../assets/images/todos_drinks.svg" alt="">
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">{{categoryAll['name_pt']}}</h6>
+                                        <h6 class="card-title m-b-0">{{categoryAll[`name_${language}`]}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +65,7 @@
                                 <div class="card-body card-padding">
                                     <img class="cat-icon" :src="category.photo_url" alt="">
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">{{category['name_pt']}}</h6>
+                                        <h6 class="card-title m-b-0">{{category[`name_${language}`]}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -76,21 +77,21 @@
 
             </section>
 
-            <section  v-show="interactions.finished_loading_category">
+            <section v-show="interactions.finished_loading_category">
                 <div class="text-center" v-if="interactions.finished_loading_category">
-                    <h3>Drinks</h3>
-                    <p class="text-center section-subheading text-muted">Você está visualizando os drinks da categoria</p>
+                    <h3>{{translations.labels.drinks}}</h3>
+                    <p class="text-center section-subheading text-muted">{{translations.category_selected}}</p>
                     <div class="card-body card-padding m-b-20">
                         <img class="cat-icon" :src="currentCategory.photo_url" alt="">
                         <div class="m-t-5">
-                            <h6 class="card-title m-b-0">{{currentCategory['name_pt']}}</h6>
+                            <h6 class="card-title m-b-0">{{currentCategory[`name_${language}`]}}</h6>
                         </div>
                     </div>
 
                     <button type="button" class="btn btn-mb-primary "
                             @click.prevent="resetCategory()"
                     >
-                        Alterar categoria
+                        {{translations.buttons.change_category}}
                     </button>
                 </div>
 
@@ -103,25 +104,29 @@
                                 <!-- Start Drink -->
                                 <div class="card m-0">
                                     <!-- Card Header -->
-                                    <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" class="card-header cover cursor-pointer" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
-                                        <div class="badges">
-                                           <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
-                                                 data-target="#badge-help">
-                                               <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
-                                                    title="Este Drink é exclusivo">
-                                           </span>
-                                            <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
-                                                  data-target="#badge-help">
-                                               <img class="zoom" src="../../../assets/images/star.svg"
-                                                    alt="Este drink está entre os BEST SELLERS"
-                                                    title="Este drink está entre os BEST SELLERS">
-                                           </span>
-                                        </div>
+                                    <router-link tag="div"
+                                                 :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }"
+                                                 class="card-header cover cursor-pointer"
+                                                 :style="{ backgroundImage: `url(${ drink.photo_url })` }">
                                     </router-link>
 
                                     <!-- Card Body -->
                                     <div class="card-body card-padding text-center">
-                                        <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }">
+                                        <div class="badges">
+                                           <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
+                                                 data-target="#badge-help">
+                                               <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
+                                                    :title="translations.badges.exclusive_drinks_title">
+                                           </span>
+                                            <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
+                                                  data-target="#badge-help">
+                                               <img class="zoom" src="../../../assets/images/star.svg"
+                                                    :alt="translations.badges.best_sellers_title"
+                                                    :title="translations.badges.best_sellers_title">
+                                           </span>
+                                        </div>
+                                        <router-link tag="div"
+                                                     :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }">
                                             <h3 class="card-title t-overflow">{{ drink.name }}</h3>
                                             <p class="description m-0">{{ drink.description }}</p>
                                         </router-link>
@@ -132,17 +137,18 @@
                                             @click="itemsModal(drink.items)"
                                             v-if="isLogged && drink.items.length"
                                         >
-                                            Ver Ingredientes
+                                            {{translations.buttons.ingredients}}
                                         </button>
 
                                         <!-- Like -->
                                         <div class="m-t-15 m-b-30" v-if="isLogged">
                                             <!-- Svg -->
-                                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
+                                            <div class="svg-container min"
+                                                 :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
                                                 <svg viewBox="0 0 30 30">
                                                     <defs>
                                                         <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                            <stop offset="0%"   stop-color="#FB923B"/>
+                                                            <stop offset="0%" stop-color="#FB923B"/>
                                                             <stop offset="100%" stop-color="#F66439"/>
                                                         </linearGradient>
                                                     </defs>
@@ -158,15 +164,16 @@
                                                 </svg>
                                             </div>
                                             <span class="text-muted" v-if="drink.likes_count > 0">
-                                                {{ drink.likes_count > 1 ? `${ drink.likes_count } Likes` : `1 Like` }}
+                                                {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${translations.like }` }}
                                             </span>
-                                            <span class="text-muted" v-if="drink.likes_count === 0">Seja o primeiro a curtir</span>
+                                            <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
                                         </div>
 
                                         <!-- Login To Like -->
                                         <div class="m-t-20" v-if="!isLogged">
-                                            <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login' }">
-                                                Faça o login para curtir
+                                            <router-link class="btn btn-mb-primary" tag="button"
+                                                         :to="{ name: 'landing.auth.login' }">
+                                                {{translations.buttons.unauthenticated}}
                                             </router-link>
                                         </div>
 
@@ -174,16 +181,16 @@
                                         <button
                                             class="btn btn-mb-info btn-fixed-bottom btn-save"
                                             @click="addDrinkPreference(drink)"
-                                            v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        > Salvar drink
+                                            v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                        > {{translations.buttons.save_drink}}
                                         </button>
 
                                         <router-link
                                             tag="button"
                                             class="btn btn-mb-info btn-fixed-bottom btn-save"
                                             :to="{ name: 'landing.user.preferences' }"
-                                            v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        >Drink salvo <i class="fa fa-check"></i>
+                                            v-if="isLogged && currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                        > {{translations.buttons.saved_drink}} <i class="fa fa-check"></i>
                                         </router-link>
 
                                     </div>
@@ -202,7 +209,7 @@
                 <button type="button" class="btn btn-mb-primary "
                         @click.prevent="resetCategory()"
                 >
-                    Alterar categoria
+                    {{translations.buttons.change_category}}
                 </button>
             </div>
 
@@ -213,32 +220,28 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Ícones nos drinks</h4>
+                            <h4 class="modal-title">{{translations.badges.title}}</h4>
                         </div>
                         <div class="modal-body text-center">
 
                             <div class="card">
                                 <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                    <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
-                                         title="Este Drink é exclusivo">
+                                    <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
+                                         :title="translations.badges.exclusive_drinks_title">
                                 </span>
 
-                                    <p style="color: #222">
-                                        Os drinks que estão marcados com este ícone são drink exclusivos Mais
-                                        Bartenders, criados e desenvolvidos por nossa equipe.</p>
+                                    <p style="color: #222">{{translations.badges.exclusive_drinks}}</p>
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body card-padding">
                                 <span class="modal-badge badge">
-                                    <img src="../../../assets/images/star.svg" alt="Este Drink é exclusivo"
-                                         title="Este Drink é exclusivo">
+                                    <img src="../../../assets/images/star.svg" :alt="translations.badges.best_sellers_title"
+                                         :title="translations.badges.best_sellers_title">
                                 </span>
 
-                                    <p style="color: #222">
-                                        Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos
-                                        eventos.</p>
+                                    <p style="color: #222">{{translations.badges.best_sellers}}</p>
                                 </div>
                             </div>
 
@@ -246,12 +249,11 @@
                                 <div class="card-body card-padding">
                                 <span class="modal-badge badge">
                                     <img src="../../../assets/images/noiva.svg"
-                                         alt="Este drink foi escolhido pela noiva"
-                                         title="Este drink foi escolhido pela noiva">
+                                         :alt="translations.badges.bride_drinks_title"
+                                         :title="translations.badges.bride_drinks_title">
                                 </span>
 
-                                    <p style="color: #222">Os drinks com este ícone foram especialmente escolhidos pela
-                                        noiva.</p>
+                                    <p style="color: #222">{{translations.badges.bride_drinks}}</p>
                                 </div>
                             </div>
 
@@ -260,18 +262,17 @@
                                 <div class="card-body card-padding">
                                 <span class="modal-badge badge">
                                     <img src="../../../assets/images/preferido_do_noivo.svg"
-                                         alt="Este drink foi escolhido pelo noivo"
-                                         title="Este drink foi escolhido pelo noivo">
+                                         :alt="translations.badges.gromm_drinks_title"
+                                         :title="translations.badges.gromm_drinks_title">
                                 </span>
 
-                                    <p style="color: #222">Os drinks com este ícone foram especialmente escolhidos pelo
-                                        noivo.</p>
+                                    <p style="color: #222">{{translations.badges.groom_drinks}}</p>
                                 </div>
                             </div>
                             <br>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn btn-mb-primary">Fechar</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-mb-primary">{{translations.buttons.close}}</button>
                         </div>
                     </div>
                 </div>
@@ -286,15 +287,28 @@
                                 <div class="col-md-12 col-xs-12">
 
                                     <div class="text-center">
-                                        <h4 class="title-section m-0">Comentários</h4>
-                                        <p class="sub-header">{{ pagination.total > 0 ? `${ pagination.total } comentários` :
-                                            'Nenhum comentário ainda'}}</p>
+                                        <h4 class="title-section m-0">{{translations.labels.comments}}</h4>
+                                        <p class="sub-header"> {{ pagination.total > 1 ? `${ pagination.total } ${ translations.comments }` : `1 ${translations.comment }` }}</p>
+
 
                                         <p class="text-muted m-b-0 m-t-10">
-                                            Deixe aqui seu comentário para o {{event.name}}
+                                            {{translations.comment_message}} {{event.name}}
                                         </p>
 
-                                        <button class="btn btn-mb-primary m-10" data-target="#modal-comment" data-toggle="modal"><i class="fa fa-comment"></i> Novo comentário</button>
+                                        <div class="text-center m-20" v-if="isLogged">
+                                            <button class="btn btn-mb-primary" data-target="#modal-comment"
+                                                    data-toggle="modal"><i class="fa fa-comment"></i>
+                                                {{translations.buttons.new_comment}}
+                                            </button>
+                                        </div>
+
+                                        <div class="text-center m-20" v-if="!isLogged">
+                                            <router-link tag="button" class="btn btn-mb-primary"
+                                                         :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
+                                            >
+                                                {{translations.buttons.comment_unauthenticated}}
+                                            </router-link>
+                                        </div>
                                     </div>
 
                                     <span v-for="(comment, index) in comments">
@@ -307,12 +321,13 @@
                                                     </div>
                                                     <div class="col-md-11 col-xs-9">
                                                         <br>
-                                                        <span class="comment-user-name">{{comment.guest.full_name}}</span>
+                                                        <span
+                                                            class="comment-user-name">{{comment.guest.full_name}}</span>
                                                     </div>
                                                 </div>
                                                 <p class="m-t-10">{{comment.comment}}</p>
                                                 <span
-                                                    class="text-right comment-date">Criado em: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss')
+                                                    class="text-right comment-date">{{translations.created_at}}: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss')
                                                     }}</span>
                                             </span>
                                         </div>
@@ -321,18 +336,19 @@
                                     <div class="row">
                                         <div class="col-sm-12" v-show="comments.length">
                                             <div class="text-center">
-                                                <pagination :source="pagination" @navigate="navigate" :range="6"></pagination>
+                                                <pagination :source="pagination" @navigate="navigate"
+                                                            :range="6"></pagination>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <hr>
-
-                            <div class="row text-center">
+                            <div class="row text-center" v-if="isMobile">
                                 <div class="col-md-12 col-xs-12">
-                                    <button class="btn btn-mb-info"  @click="saveEvent()">Salvar evento no dispositivo</button>
+                                    <hr>
+                                    <button class="btn btn-mb-info" @click="saveEvent()">{{translations.buttons.save_event}}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -340,7 +356,9 @@
                 </div>
             </div>
 
-            <button class="btn btn-mb-primary btn-fixed-bottom" style="position: fixed;" @click="resetCategory()" v-if="currentCategory">Alterar categoria</button>
+            <button class="btn btn-mb-primary btn-fixed-bottom" style="position: fixed;" @click="resetCategory()"
+                    v-if="currentCategory">{{translations.buttons.change_category}}
+            </button>
 
         </div>
 
@@ -352,28 +370,28 @@
                         <svg viewBox="0 0 60 60">
                             <defs>
                                 <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%"   stop-color="#FB923B"/>
+                                    <stop offset="0%" stop-color="#FB923B"/>
                                     <stop offset="100%" stop-color="#F66439"/>
                                 </linearGradient>
                             </defs>
                             <g style="transform: translate(2px, 2px)">
                                 <path class="non-fill animated" stroke="url(#linear)"
-                                    d="M 49.124566,50.785258 H 7.7292211 c -2.6133405,0 -4.9494455,-1.349848 -6.2538423,-3.613229 -1.30439678,-2.258839 -1.30439678,-4.958535 0.00455,-7.21737 L 22.1776,4.1086916 c 1.29985,-2.2588437 3.640493,-3.60869161 6.249291,-3.60869161 2.608798,0 4.949446,1.34984791 6.253842,3.60868691 L 55.373861,39.954655 c 1.304397,2.263381 1.304397,4.963077 0,7.221916 -1.304397,2.258839 -3.640497,3.608687 -6.249295,3.608687 z M 28.426891,5.1540222 c -0.445404,0 -1.554369,0.1227126 -2.21793,1.2816758 L 5.506744,42.281666 c -0.6681081,1.158958 -0.2227043,2.181573 0,2.567894 0.2227043,0.38633 0.8862655,1.281676 2.2224771,1.281676 H 49.124566 c 1.336212,0 1.99523,-0.895355 2.21793,-1.281676 0.222695,-0.386331 0.67265,-1.408931 0,-2.567894 L 30.649368,6.435698 C 29.981265,5.2767348 28.872295,5.1540222 28.426891,5.1540222 Z"
-                                 />
+                                      d="M 49.124566,50.785258 H 7.7292211 c -2.6133405,0 -4.9494455,-1.349848 -6.2538423,-3.613229 -1.30439678,-2.258839 -1.30439678,-4.958535 0.00455,-7.21737 L 22.1776,4.1086916 c 1.29985,-2.2588437 3.640493,-3.60869161 6.249291,-3.60869161 2.608798,0 4.949446,1.34984791 6.253842,3.60868691 L 55.373861,39.954655 c 1.304397,2.263381 1.304397,4.963077 0,7.221916 -1.304397,2.258839 -3.640497,3.608687 -6.249295,3.608687 z M 28.426891,5.1540222 c -0.445404,0 -1.554369,0.1227126 -2.21793,1.2816758 L 5.506744,42.281666 c -0.6681081,1.158958 -0.2227043,2.181573 0,2.567894 0.2227043,0.38633 0.8862655,1.281676 2.2224771,1.281676 H 49.124566 c 1.336212,0 1.99523,-0.895355 2.21793,-1.281676 0.222695,-0.386331 0.67265,-1.408931 0,-2.567894 L 30.649368,6.435698 C 29.981265,5.2767348 28.872295,5.1540222 28.426891,5.1540222 Z"
+                                />
                                 <path class="non-fill animated" stroke="url(#linear)"
-                                    d="m 28.822302,32.987258 c -1.286219,0 -2.327012,-1.040793 -2.327012,-2.327011 V 17.848049 c 0,-1.286218 1.040793,-2.327011 2.327012,-2.327011 1.286218,0 2.327011,1.040793 2.327011,2.327011 v 12.812198 c 0,1.286218 -1.040793,2.327011 -2.327011,2.327011 z"
-                                 />
+                                      d="m 28.822302,32.987258 c -1.286219,0 -2.327012,-1.040793 -2.327012,-2.327011 V 17.848049 c 0,-1.286218 1.040793,-2.327011 2.327012,-2.327011 1.286218,0 2.327011,1.040793 2.327011,2.327011 v 12.812198 c 0,1.286218 -1.040793,2.327011 -2.327011,2.327011 z"
+                                />
                                 <circle class="non-fill animated" stroke="url(#linear)"
-                                    cx="28.821358"
-                                    cy="38.414032"
-                                    r="2.7924135"
+                                        cx="28.821358"
+                                        cy="38.414032"
+                                        r="2.7924135"
                                 />
                             </g>
                         </svg>
                     </div>
 
                     <h3 class="section-title">Ops!</h3>
-                    <span>Não localizamos o evento informado! :(</span>
+                    <span>{{translations.event_not_found}} :(</span>
 
                     <router-link
                         :to="{name: 'landing.drinks.list'}"
@@ -381,7 +399,7 @@
                         style="position: fixed"
                         @click="closeMenu()"
                     >
-                        Ir para cardápio completo
+                        {{translations.buttons.go_to_menu}}
                     </router-link>
 
                 </div>
@@ -393,8 +411,8 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="title-section m-0 m-b-10">Escolha uma frase</h4>
-                        <p class="m-0">Escolha uma frase e compartilhe com seus amigos este evento no WhatsApp.</p>
+                        <h4 class="title-section m-0 m-b-10">{{translations.modal_whatsapp.title}}</h4>
+                        <p class="m-0">{{translations.modal_whatsapp.message}}</p>
                     </div>
                     <div class="modal-body m-t-0">
                         <div
@@ -406,9 +424,10 @@
 
                         >
                             <div class="card-body card-padding">
-                                <p class="m-0" :style="`color: ${ interactions.whatsappPhraseSelected === phrase ? '#FFF' : '#FB923B' }`">
-                                   {{ phrase }}
-                               </p>
+                                <p class="m-0"
+                                   :style="`color: ${ interactions.whatsappPhraseSelected === phrase ? '#FFF' : '#FB923B' }`">
+                                    {{ phrase }}
+                                </p>
                             </div>
                         </div>
 
@@ -416,11 +435,11 @@
                     <div class="modal-footer" style="position: fixed; bottom: 0; left: 0; right: 0">
                         <button type="button" class="btn btn-block btn-mb-whatsapp m-0"
                                 @click="openShareWhatsapp()"
-                                :disabled="!interactions.whatsappPhraseSelected">Compartilhar no WhatsApp <i
+                                :disabled="!interactions.whatsappPhraseSelected">{{translations.modal_whatsapp.button}} <i
                             class="fa fa-whatsapp"></i>
                         </button>
 
-                        <button type="button" class="btn btn-mb-primary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-mb-primary m-t-20" data-dismiss="modal">{{translations.modal_whatsapp.close}}</button>
                     </div>
                 </div>
             </div>
@@ -433,16 +452,17 @@
                     <div class="modal-header">
                         <button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Novo comentário</h4>
+                        <h4 class="modal-title">{{translations.modal_comment.title}}</h4>
                     </div>
                     <div class="modal-body p-25">
 
                         <p>
-                            Escreva seu comentário para o evento {{event.name}}</p>
+                            {{translations.modal_comment.message}} {{event.name}}</p>
                         <br>
                         <div class="form-group">
-                            <label>Mensagem*</label>
-                            <textarea class="form-control" v-model="newComment.comment" placeholder="Digite seu comentário"></textarea>
+                            <label>{{translations.modal_comment.label}}*</label>
+                            <textarea class="form-control" v-model="newComment.comment"
+                                      :placeholder="translations.modal_comment.placeholder"></textarea>
                         </div>
 
                     </div>
@@ -450,7 +470,7 @@
                         <button type="button"
                                 class="btn btn-mb-primary m-b-10 btn-block"
                                 @click="saveComment()"
-                                :disabled="!newComment.comment"> Salvar comentário
+                                :disabled="!newComment.comment"> {{translations.modal_comment.button}}
                         </button>
                     </div>
                 </div>
@@ -470,6 +490,7 @@
     import moment from 'moment'
     import mainHeader from '@/components/main-header.vue'
     import pagination from '@/components/pagination'
+    import * as translations from '@/translations/events/show'
 
     import allDrinks from '../../../assets/images/todos_drinks.svg'
 
@@ -519,12 +540,22 @@
                     user_id: '',
                     comment: ''
                 },
+                isMobile: false
             }
         },
         computed: {
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
+            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes', 'language']),
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            },
             eventBackground: function () {
                 return 'url(' + this.event.photo_url + ')';
             },
@@ -582,6 +613,10 @@
         },
         mounted() {
             var that = this
+
+            if (window.cordova) {
+                that.isMobile = true
+            }
 
             this.getEvent();
             this.getEventComments();
@@ -740,16 +775,16 @@
                         })
                         that.event.drink_categories = _.orderBy(that.event.drink_categories, ['name_pt'], ['asc'])
 
-                        that.$nextTick(() =>{
+                        that.$nextTick(() => {
                             let currentCategory = JSON.parse(localStorage.getItem('selected_category'))
-                            if(currentCategory){
+                            if (currentCategory) {
 
-                                if(currentCategory.slug_pt == 'todas' || currentCategory.slug_en == 'all'){
+                                if (currentCategory.slug_pt == 'todas' || currentCategory.slug_en == 'all') {
                                     that.selectCategory(that.categoryAll)
-                                }else{
-                                    let category = _.find(that.event.drink_categories, {name_pt: currentCategory.name_pt} )
+                                } else {
+                                    let category = _.find(that.event.drink_categories, {name_pt: currentCategory.name_pt})
 
-                                    if(category){
+                                    if (category) {
                                         that.selectCategory(category)
                                     }
                                 }
@@ -1028,7 +1063,7 @@
                 })
             },
 
-            resetComment(){
+            resetComment() {
                 let that = this
                 that.newComment.comment = '';
                 $('#modal-comment').modal('hide');
@@ -1039,7 +1074,9 @@
 
 <style scoped>
 
-    .svg-container.min { width: 40px; }
+    .svg-container.min {
+        width: 40px;
+    }
 
     .btn.btn-mb-info.btn-fixed-bottom.btn-save {
         border-radius: 0 0 10px 10px;

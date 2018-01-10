@@ -1,7 +1,7 @@
 <template>
     <div class="first-container">
 
-        <main-header :title="'Eventos'" />
+        <main-header :title="translations.title" />
 
         <!-- Icon SVG + Title -->
         <div class="container">
@@ -23,26 +23,25 @@
                 </svg>
             </div>
 
-            <h4 class="title-section">Eventos Mais Bartenders</h4>
+            <h4 class="title-section">{{translations.title_section}}</h4>
 
 
             <div class="text-center m-b-30">
 
                 <div class="form-group">
-                    <label class="cursor-pointer" for="contact-name">Pesquisar evento</label>
+                    <label class="cursor-pointer" for="contact-name">{{translations.labels.search}}</label>
                     <input
                         id="contact-name"
                         class="form-control"
-                        placeholder="Nome ou data do evento"
+                        :placeholder="translations.placeholders.search"
                         type="text"
                         v-model="search"
                         @keyup.enter="getEvents()"
                     >
                 </div>
 
-
                 <button class="btn btn-mb-primary" @click="getEvents()">
-                    Pesquisar
+                    {{translations.buttons.search}}
                 </button>
             </div>
         </div>
@@ -59,7 +58,7 @@
                                 <div class="card-body card-padding">
                                     <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
                                     <div class="m-t-5">
-                                        <h4 class="card-title m-b-0">Seu evento merece os melhores drinks !</h4>
+                                        <h4 class="card-title m-b-0">{{translations.message}}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -94,9 +93,9 @@
 
                 <!-- Menu Mais Bartenders -->
                 <div class="border-inside-card text-center p-15">
-                    <h4 class="card-title m-b-30">Veja o cardápio completo Mais Bartenders</h4>
+                    <h4 class="card-title m-b-30">{{translations.labels.menu}}</h4>
                     <router-link class="btn btn-block btn-mb-primary-reverse" :to="{ name: 'landing.drinks.list' }">
-                        Acesse o cardápio
+                        {{translations.buttons.go_to_menu}}
                     </router-link>
                 </div>
 
@@ -108,7 +107,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="title-section m-0">Digite o código do evento ou selecione abaixo.</h5>
+                        <h5 class="title-section m-0">{{translations.modal.title}}</h5>
                     </div>
                     <div class="modal-body">
                         <div class="card text-center">
@@ -116,16 +115,16 @@
                                 <h5 class="card-title m-0"></h5>
 
                                 <div class="form-group m-t-20">
-                                    <input class="form-control" v-model="event_url" placeholder="Código de acesso do evento.">
+                                    <input class="form-control" v-model="event_url" :placeholder="translations.modal.placeholder">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-mb-primary" data-dismiss="modal" @click="eventGo()" :disabled="!event_url">Acessar com código</button>
+                                    <button class="btn btn-mb-primary" data-dismiss="modal" @click="eventGo()" :disabled="!event_url">{{translations.modal.button}}</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-mb-primary-reverse" data-dismiss="modal">Fechar</button>
+                        <button class="btn btn-mb-primary-reverse" data-dismiss="modal">{{translations.modal.close}}</button>
                     </div>
                 </div>
             </div>
@@ -139,6 +138,7 @@
     import pagination from '@/components/pagination'
 
     import mainHeader from '@/components/main-header.vue'
+    import * as translations from '@/translations/events/list'
 
     export default {
         name: 'list-events',
@@ -158,7 +158,17 @@
         computed:{
             // Map the getters from Vuex to this component.
 
-            ...mapGetters(['currentUser', 'isLogged']),
+            ...mapGetters(['currentUser', 'isLogged', 'language']),
+
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            }
 
         },
         mounted(){

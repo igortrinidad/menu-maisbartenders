@@ -31,7 +31,7 @@
                             <li>
                                 <router-link :to="{name: 'landing.events.list'}" exact>{{translations.events}}</router-link>
                             </li>
-                            <li>
+                            <li v-if="isMobile">
                                 <router-link :to="{name: 'landing.events-offline.list'}" exact>{{translations.saved_events}}</router-link>
                             </li>
 
@@ -98,6 +98,7 @@
                 },
                 hasEventSaved: false,
                 isOnline: true,
+                isMobile: false
             }
         },
 
@@ -118,6 +119,10 @@
         mounted() {
             var that = this;
             var events = JSON.parse(localStorage.getItem('events'));
+
+            if(window.cordova){
+                that.isMobile = true
+            }
 
             if(Array.isArray(events) && events.length){
                 this.hasEventSaved = true;

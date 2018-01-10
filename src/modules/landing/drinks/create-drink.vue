@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="first-container">
 
-        <main-header :title="'Crie seu drink'" />
+        <main-header :title="translations.title" />
 
         <!-- Icon SVG + Title -->
         <div class="container">
@@ -30,7 +30,7 @@
                 </svg>
             </div>
 
-            <h4 class="title-section">Crie seu drink personalizado!</h4>
+            <h4 class="title-section">{{translations.message}}</h4>
         </div>
 
         <div class="container-colored">
@@ -40,38 +40,38 @@
                 <div class="card">
                     <div class="card-body card-padding">
                         <div class="form-group">
-                            <label for="drink-name">Nome do drink</label>
+                            <label for="drink-name">{{translations.labels.name}}</label>
                             <input
                                 id="drink-name"
                                 class="form-control"
-                                placeholder="Dê um nome para seu drink"
+                                :placeholder="translations.placeholders.name"
                                 type="text"
                                 v-model="drink.name"
                             >
                         </div>
 
                         <div class="form-group">
-                            <label for="drink-description">Alguma descrição para seu drink?</label>
+                            <label for="drink-description">{{translations.labels.description}}</label>
                             <input
                                 id="drink-description"
                                 class="form-control"
-                                placeholder="Dê uma descrição para seu drink (opcional)"
+                                :placeholder="translations.placeholders.description"
                                 type="text"
                                 v-model="drink.description"
                             >
                         </div>
 
                         <div class="form-group" style="position: relative;">
-                            <label for="drink-ingredients">Ingredientes</label>
+                            <label for="drink-ingredients">{{translations.labels.ingredients}}</label>
                             <v-select
                                 id="drink-ingredients"
                                 :label="'name_pt'"
                                 :options="ingredients"
                                 :multiple="true"
                                 v-model="selectedIngredients"
-                                placeholder="Selecione no minímo 2 ingredientes"
+                                :placeholder="translations.placeholders.ingredients"
                             >
-                                <span slot="no-options">Não foi possível localizar ingredientes :(</span>
+                                <span slot="no-options">{{translations.no_ingredients}}</span>
                             </v-select>
                         </div>
                     </div>
@@ -83,12 +83,12 @@
 
                         <!-- Presentation -->
                         <div class="form-group">
-                            <label>Apresentação</label>
+                            <label>{{translations.labels.presentation}}</label>
                             <div class="row-x">
                                 <div ref="presentation" class="presentation" v-for="(presentation, index) in presentations" :key="index">
-                                    <img class="cursor-pointer" :src="presentation.path" @click="setPresentation(presentation.name, $event)">
+                                    <img class="cursor-pointer" :src="presentation.path" @click="setPresentation(presentation[`name_${language}`], $event)">
                                     <div class="text-center text-overflow">
-                                        <span>{{ presentation.name }}
+                                        <span>{{ presentation[`name_${language}`] }}
                                             <i class="fa fa-check"></i>
                                         </span>
                                     </div>
@@ -98,17 +98,17 @@
 
                         <!-- Style -->
                         <div class="form-group">
-                            <label for="drink-style">Estilo</label>
+                            <label for="drink-style">{{translations.labels.style}}</label>
 
                             <div class="m-t-10">
                                 <button
                                     type="button"
                                     class="btn btn-xs btn-mb-primary m-5"
                                     v-for="style in styles"
-                                    :class="{ 'outline': style !== drink.style }"
-                                    @click="drink.style = style"
+                                    :class="{ 'outline': style[`name_${language}`] !== drink.style }"
+                                    @click="drink.style = style[`name_${language}`]"
                                 >
-                                    {{ style.name }}
+                                    {{ style[`name_${language}`] }}
                                 </button>
                             </div>
 
@@ -121,16 +121,14 @@
                 <div class="card" v-if="!isNewDrink">
                     <div class="card-body card-padding">
 
-                        <div class="badges">
-                            <div class="badge-container">
+                        <div class="badge-container">
                                 <span class="badge">
                                     <img :src="guestBadge" alt="Drink Criado Por Um Convidado" title="Drink Criado Por Um Convidado">
                                 </span>
-                                <div class="text-center">
+                            <div class="text-center">
                                     <span class="text">
-                                        Drinks criados por convidados recebem essa medalha
+                                        {{translations.badge}}
                                     </span>
-                                </div>
                             </div>
                         </div>
 
@@ -142,15 +140,15 @@
 
                 <!-- Create/Update -->
                 <button type="button" class="btn btn-mb-primary-reverse btn-block m-b-30" name="button" @click="setDrink()">
-                    <span v-if="isNewDrink">Criar drink!</span>
-                    <span v-if="!isNewDrink">Atualizar drink!</span>
+                    <span v-if="isNewDrink">{{translations.buttons.create}}</span>
+                    <span v-if="!isNewDrink">{{translations.buttons.update}}</span>
                 </button>
 
             </div>
         </div>
 
         <router-link class="btn btn-mb-info btn-fixed-bottom" style="position: fixed" :to="{ name: 'landing.drinks.list' }">
-            Ir para o cardápio completo
+            {{translations.buttons.go_to_menu}}
         </router-link>
 
     </div>
@@ -171,6 +169,7 @@
     import barone from '../../../assets/mockup/barone.png'
 
     import mainHeader from '@/components/main-header.vue'
+    import * as translations from '@/translations/drinks/create-drink'
 
     export default {
 
@@ -185,19 +184,19 @@
                 ingredientsFetcheds: [],
                 selectedIngredients: [],
                 presentations: [
-                    { name: 'High ball', path: high_ball },
-                    { name: 'Ilha bela alto', path: ilha_bela_alto },
-                    { name: 'Ilha bela baixo', path: ilha_bela_baixo },
-                    { name: 'Margarita', path: margarita },
-                    { name: 'Martini', path: martini },
-                    { name: 'Barone', path: barone }
+                    { name_pt: 'High ball', name_en: 'High ball', path: high_ball },
+                    { name_pt: 'Ilha bela alto', name_en: 'Ilha bela high', path: ilha_bela_alto },
+                    { name_pt: 'Ilha bela baixo', name_en: 'Ilha bela low', path: ilha_bela_baixo },
+                    { name_pt: 'Margarita', name_en: 'Margarita', path: margarita },
+                    { name_pt: 'Martini', name_en: 'Martini', path: martini },
+                    { name_pt: 'Barone', name_en: 'Barone', path: barone }
                 ],
                 styles: [
-                    {name: 'Sem álcool', value: 0},
-                    { name: 'Leve', value: 2.5 },
-                    { name: 'Normal', value: 5.0 },
-                    { name: 'Forte', value: 7.5 },
-                    { name: 'Super Forte', value: 10.0 },
+                    {name_pt: 'Sem álcool', name_en: 'Alcohol-free', value: 0},
+                    { name_pt: 'Leve', name_en: 'Light', value: 2.5 },
+                    { name_pt: 'Normal', name_en: 'Normal', value: 5.0 },
+                    { name_pt: 'Forte', name_en: 'Strong', value: 7.5 },
+                    { name_pt: 'Super Forte', name_en: 'Super strong', value: 10.0 },
                 ],
                 guestBadge: '../../../../static/assets/drink-created.png',
                 drink: {
@@ -206,6 +205,8 @@
                     url: '',
                     created_at: '',
                     updated_at: '',
+                    presentation: '',
+                    style: '',
                     sour: 0,
                     sweet: 0,
                     bitter: 0,
@@ -219,7 +220,17 @@
         },
 
         computed:{
-            ...mapGetters(['currentUser', 'isLogged']),
+            ...mapGetters(['currentUser', 'isLogged', 'language']),
+
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            },
 
             ingredients: function() {
                 let arr = []

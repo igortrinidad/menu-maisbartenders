@@ -1,7 +1,7 @@
 <template>
     <div class="first-container show" ref="container">
 
-        <main-header :title="eventFound ? event.name : 'Evento não encontrado'" />
+        <main-header :title="eventFound ? event.name : translations.event_not_found" />
 
         <div v-if="eventFound">
             <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
@@ -23,7 +23,7 @@
                             </div>
 
                             <button class="btn btn-block btn-mb-whatsapp m-t-20" data-toggle="modal" data-target="#modalShareWhatsApp">
-                                Compartilhar no WhatsApp
+                                {{translations.buttons.whatsapp}}
                             </button>
                         </div>
                     </div>
@@ -35,12 +35,12 @@
             <section  v-show="!interactions.finished_loading_category && !interactions.is_loading">
                 <!-- CATEGORIES -->
 
-                <h4 class="title-section">Categorias</h4>
+                <h4 class="title-section">{{translations.labels.categories}}</h4>
 
                 <div class="container"
                      :class="{'cat-is-selected' : currentCategory}">
 
-                    <p class="text-center section-subheading text-muted">Selecione uma categoria para ver os drinks especialmente selecionados para este evento.</p>
+                    <p class="text-center section-subheading text-muted">{{translations.categories_message}}</p>
 
                     <div class="categories">
                         <!-- ALL -->
@@ -50,7 +50,7 @@
                                 <div class="card-body card-padding">
                                     <img class="cat-icon" src="../../../assets/images/todos_drinks.svg" alt="">
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">{{categoryAll['name_pt']}}</h6>
+                                        <h6 class="card-title m-b-0">{{categoryAll[`name_${language}`]}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                 <div class="card-body card-padding">
                                     <img class="cat-icon" :src="category.photo_url" alt="">
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">{{category['name_pt']}}</h6>
+                                        <h6 class="card-title m-b-0">{{category[`name_${language}`]}}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -77,19 +77,19 @@
 
             <section  v-show="interactions.finished_loading_category">
                 <div class="text-center" v-if="interactions.finished_loading_category">
-                    <h3>Drinks</h3>
-                    <p class="text-center section-subheading text-muted">Você está visualizando os drinks da categoria</p>
+                    <h3>{{translations.labels.drinks}}</h3>
+                    <p class="text-center section-subheading text-muted">{{translations.category_selected}}</p>
                     <div class="card-body card-padding m-b-20">
                         <img class="cat-icon" :src="currentCategory.photo_url" alt="">
                         <div class="m-t-5">
-                            <h6 class="card-title m-b-0">{{currentCategory['name_pt']}}</h6>
+                            <h6 class="card-title m-b-0">{{currentCategory[`name_${language}`]}}</h6>
                         </div>
                     </div>
 
                     <button type="button" class="btn btn-mb-primary "
                             @click.prevent="resetCategory()"
                     >
-                        Alterar categoria
+                        {{translations.buttons.change_category}}
                     </button>
                 </div>
 
@@ -106,14 +106,14 @@
                                         <div class="badges">
                                            <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
                                                  data-target="#badge-help">
-                                               <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
-                                                    title="Este Drink é exclusivo">
+                                               <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
+                                                    :title="translations.badges.exclusive_drinks_title">
                                            </span>
                                             <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
                                                   data-target="#badge-help">
                                                <img class="zoom" src="../../../assets/images/star.svg"
-                                                    alt="Este drink está entre os BEST SELLERS"
-                                                    title="Este drink está entre os BEST SELLERS">
+                                                    :alt="translations.badges.best_sellers_title"
+                                                    :title="translations.badges.best_sellers_title">
                                            </span>
                                         </div>
                                     </div>
@@ -131,7 +131,7 @@
                                             @click="itemsModal(drink.items)"
                                             v-if="isLogged && drink.items.length"
                                         >
-                                            Ver Ingredientes
+                                            {{translations.buttons.ingredients}}
                                         </button>
 
                                         <!-- Like -->
@@ -157,15 +157,15 @@
                                                 </svg>
                                             </div>
                                             <span class="text-muted" v-if="drink.likes_count > 0">
-                                                {{ drink.likes_count > 1 ? `${ drinks.likes_count } Likes` : `1 Like` }}
+                                                {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${translations.like }` }}
                                             </span>
-                                            <span class="text-muted" v-if="drink.likes_count === 0">Seja o primeiro a curtir</span>
+                                            <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
                                         </div>
 
                                         <!-- Login To Like -->
                                         <div class="m-t-20" v-if="!isLogged">
                                             <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login' }">
-                                                Faça o login para curtir
+                                                {{translations.buttons.unauthenticated}}
                                             </router-link>
                                         </div>
 
@@ -174,7 +174,7 @@
                                             class="btn btn-mb-info btn-fixed-bottom btn-save"
                                             @click="addDrinkPreference(drink)"
                                             v-if="currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        > Salvar drink
+                                        >{{translations.buttons.save_drink}}
                                         </button>
 
                                         <router-link
@@ -182,7 +182,7 @@
                                             class="btn btn-mb-info btn-fixed-bottom btn-save"
                                             :to="{ name: 'landing.user.preferences' }"
                                             v-if="currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        >Drink salvo <i class="fa fa-check"></i>
+                                        >  {{translations.buttons.saved_drink}} <i class="fa fa-check"></i>
                                         </router-link>
 
                                     </div>
@@ -201,7 +201,7 @@
                 <button type="button" class="btn btn-mb-primary "
                         @click.prevent="resetCategory()"
                 >
-                    Alterar categoria
+                    {{translations.buttons.change_category}}
                 </button>
             </div>
 
@@ -210,9 +210,9 @@
 
                     <div class="row">
                         <div class="col-md-12 col-xs-12 text-center">
-                            <button class="btn btn-mb-info" data-toggle="modal" data-target="#comment-modal">Enviar mensagem</button><br><br>
+                            <button class="btn btn-mb-info" data-toggle="modal" data-target="#comment-modal">{{translations.buttons.send_message}}</button><br><br>
                             <small class="m-t-20">
-                                Compartilhe um drink através do aplicativo <b>Menu Mais Bartenders</b> ou deixe aqui uma mensagem para o {{event.name}}.
+                                {{translations.leave_message}} {{event.name}}.
                             </small>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12">
 
-                            <h4 class="m-b-20">Mensagens ({{pagination.total}})</h4>
+                            <h4 class="m-b-20">{{translations.messages}} ({{pagination.total}})</h4>
                             <span v-for="(comment, index) in commentsOrdereds">
                                 <div class="row" v-if="comment.guest">
                                     <span class="interactions m-10 p-l-20 p-b-20">
@@ -285,7 +285,7 @@
                     </div>
 
                     <h3 class="section-title">Ops!</h3>
-                    <span>Não localizamos o evento informado! :(</span>
+                    <span>{{translations.event_not_found}} :(</span>
 
                     <router-link
                         :to="{name: 'landing.drinks.list'}"
@@ -293,7 +293,7 @@
                         style="position: fixed"
                         @click="closeMenu()"
                     >
-                        Ir para cardápio completo
+                        {{translations.buttons.go_to_menu}}
                     </router-link>
 
                 </div>
@@ -307,8 +307,8 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="title-section m-0 m-b-10">Escolha uma frase</h4>
-                        <p class="m-0">Escolha uma frase e compartilhe com seus amigos este evento no WhatsApp.</p>
+                        <h4 class="title-section m-0 m-b-10">{{translations.modal_whatsapp.title}}</h4>
+                        <p class="m-0">{{translations.modal_whatsapp.message}}</p>
                     </div>
                     <div class="modal-body m-t-0">
                         <div
@@ -320,20 +320,22 @@
 
                         >
                             <div class="card-body card-padding">
-                                <p class="m-0" :style="`color: ${ interactions.whatsappPhraseSelected === phrase ? '#FFF' : '#FB923B' }`">
-                                   {{ phrase }}
-                               </p>
+                                <p class="m-0"
+                                   :style="`color: ${ interactions.whatsappPhraseSelected === phrase ? '#FFF' : '#FB923B' }`">
+                                    {{ phrase }}
+                                </p>
                             </div>
                         </div>
 
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-mb-primary" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-block btn-mb-whatsapp m-t-20"
+                    <div class="modal-footer" style="position: fixed; bottom: 0; left: 0; right: 0">
+                        <button type="button" class="btn btn-block btn-mb-whatsapp m-0"
                                 @click="openShareWhatsapp()"
-                                :disabled="!interactions.whatsappPhraseSelected">Compartilhar no WhatsApp <i
+                                :disabled="!interactions.whatsappPhraseSelected">{{translations.modal_whatsapp.button}} <i
                             class="fa fa-whatsapp"></i>
                         </button>
+
+                        <button type="button" class="btn btn-mb-primary m-t-20" data-dismiss="modal">{{translations.modal_whatsapp.close}}</button>
                     </div>
                 </div>
             </div>
@@ -346,64 +348,59 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Ícones nos drinks</h4>
+                        <h4 class="modal-title">{{translations.badges.title}}</h4>
                     </div>
-                    <div class="modal-body p-25 text-center">
+                    <div class="modal-body text-center">
 
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 text-center">
-                            <span class="modal-badge badge">
-                                <img src="../../../assets/images/king.png" alt="Este Drink é exclusivo"
-                                     title="Este Drink é exclusivo">
-                            </span>
+                        <div class="card">
+                            <div class="card-body card-padding">
+                                <span class="modal-badge badge">
+                                    <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
+                                         :title="translations.badges.exclusive_drinks_title">
+                                </span>
 
-                                <p>
-                                    Os drinks que estão marcados com este ícone são drink exclusivos Mais Bartenders, criados e desenvolvidos por nossa equipe.</p>
+                                <p style="color: #222">{{translations.badges.exclusive_drinks}}</p>
                             </div>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 text-center">
-                            <span class="modal-badge badge">
-                                <img src="../../../assets/images/star.png" alt="Este Drink é exclusivo"
-                                     title="Este Drink é exclusivo">
-                            </span>
+                        <div class="card">
+                            <div class="card-body card-padding">
+                                <span class="modal-badge badge">
+                                    <img src="../../../assets/images/star.svg" :alt="translations.badges.best_sellers_title"
+                                         :title="translations.badges.best_sellers_title">
+                                </span>
 
-                                <p>
-                                    Os drinks com este ícone são os drinks que mais fazem sucesso nos nossos eventos.</p>
+                                <p style="color: #222">{{translations.badges.best_sellers}}</p>
                             </div>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 text-center">
+
+                        <div class="card">
+                            <div class="card-body card-padding">
                                 <span class="modal-badge badge">
                                     <img src="../../../assets/images/noiva.svg"
-                                         alt="Este drink foi escolhido pela noiva"
-                                         title="Este drink foi escolhido pela noiva">
+                                         :alt="translations.badges.bride_drinks_title"
+                                         :title="translations.badges.bride_drinks_title">
                                 </span>
 
-                                <p>Os drinks com este ícone foram especialmente escolhidos pela
-                                    noiva.</p>
+                                <p style="color: #222">{{translations.badges.bride_drinks}}</p>
                             </div>
                         </div>
 
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-12 col-xs-12 text-center">
+
+                        <div class="card m-b-0">
+                            <div class="card-body card-padding">
                                 <span class="modal-badge badge">
                                     <img src="../../../assets/images/preferido_do_noivo.svg"
-                                         alt="Este drink foi escolhido pelo noivo"
-                                         title="Este drink foi escolhido pelo noivo">
+                                         :alt="translations.badges.gromm_drinks_title"
+                                         :title="translations.badges.gromm_drinks_title">
                                 </span>
 
-                                <p>Os drinks com este ícone foram especialmente escolhidos pelo
-                                    noivo.</p>
+                                <p style="color: #222">{{translations.badges.groom_drinks}}</p>
                             </div>
                         </div>
                         <br>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-primary">Fechar</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-mb-primary">{{translations.buttons.close}}</button>
                     </div>
                 </div>
             </div>
@@ -414,49 +411,52 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="title-section m-0 m-b-10">Enviar mensagem</h4>
-                        <p class="m-0">Deixe aqui sua mensagem para o {{event.name}}.</p>
+                        <h4 class="title-section m-0 m-b-10">{{translations.modal_message.title}}</h4>
+                        <p class="m-0">{{translations.leave_message}} {{event.name}}.</p>
                     </div>
                     <div class="modal-body">
                         <div class="card">
                             <div class="card-body card-padding text-left">
 
                                 <div class="form-group">
-                                    <label>Primeiro Nome*</label>
-                                    <input class="form-control" v-model="newMessage.name" placeholder="Somente o primeiro nome">
+                                    <label>{{translations.modal_message.labels.name}}*</label>
+                                    <input class="form-control" v-model="newMessage.name" :placeholder="translations.modal_message.placeholders.name">
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Sobrenome*</label>
-                                    <input class="form-control" v-model="newMessage.last_name" placeholder="Sobrenome">
+                                    <label>{{translations.modal_message.labels.last_name}}*</label>
+                                    <input class="form-control" v-model="newMessage.last_name" :placeholder="translations.modal_message.placeholders.last_name">
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Email*</label>
-                                    <input class="form-control" v-model="newMessage.email">
+                                    <label>{{translations.modal_message.labels.email}}*</label>
+                                    <input class="form-control" v-model="newMessage.email" :placeholder="translations.modal_message.placeholders.email">
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Mensagem*</label>
-                                    <textarea class="form-control" v-model="newMessage.comment"></textarea>
+                                    <label>{{translations.modal_message.labels.email}}*</label>
+                                    <textarea class="form-control" v-model="newMessage.comment" :placeholder="translations.modal_message.placeholders.message"></textarea>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Quero receber novidades sobre a Mais Bartenders</label><br>
+                                    <label>{{translations.modal_message.labels.mailling}}</label><br>
                                     <label class="switch">
                                       <input type="checkbox" v-model="newMessage.accept_mailling">
                                       <div class="slider round"></div>
                                     </label>
                                 </div>
 
-                                <button class="btn btn-primary btn-block facebook" @click="saveComment()" :disabled="!newMessage.comment || !newMessage.email || !newMessage.last_name || !newMessage.name">Deixar mensagem</button>
+                                <button class="btn btn-primary btn-block facebook" @click="saveComment()"
+                                        :disabled="!newMessage.comment || !newMessage.email || !newMessage.last_name || !newMessage.name">
+                                    {{translations.modal_message.buttons.send_message}}
+                                </button>
 
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-mb-primary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-mb-primary" data-dismiss="modal">{{translations.modal_message.buttons.close}}</button>
                     </div>
 
                 </div>
@@ -476,6 +476,7 @@
     import mainHeader from '@/components/main-header.vue'
     import pagination from '@/components/pagination'
     import allDrinks from '../../../assets/images/todos_drinks.svg'
+    import * as translations from '@/translations/events/show'
 
     var moment = require('moment');
 
@@ -550,7 +551,16 @@
         },
         computed: {
 
-            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes']),
+            ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes', 'language']),
+            translations() {
+
+                if (this.language === 'en') {
+                    return translations.en
+                }
+                if (this.language === 'pt') {
+                    return translations.pt
+                }
+            },
 
             eventBackground: function () {
                 if (window.cordova) {
