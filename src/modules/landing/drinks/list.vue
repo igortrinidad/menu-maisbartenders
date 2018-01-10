@@ -227,7 +227,7 @@
         </div>
         <!--Modal Share-->
 
-        <!--Modal Current Items -->
+        <!--Modal Current Drink -->
         <div class="modal" id="modal-drink" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -304,7 +304,7 @@
                 </div>
             </div>
         </div>
-        <!--Modal Current Items -->
+        <!--Modal Current Drink -->
 
     </div>
 </template>
