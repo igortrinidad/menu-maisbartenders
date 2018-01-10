@@ -454,7 +454,7 @@
                             aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">{{translations.modal_comment.title}}</h4>
                     </div>
-                    <div class="modal-body p-25">
+                    <div class="modal-body">
 
                         <p>
                             {{translations.modal_comment.message}} {{event.name}}</p>
@@ -725,6 +725,11 @@
 
             saveComment: function () {
                 let that = this
+
+                if (!that.newComment.comment) {
+                    errorNotify('', 'Digite seu comentário para o evento')
+                    return
+                }
 
                 var data = {
                     event_id: that.event.id,
