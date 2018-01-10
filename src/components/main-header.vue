@@ -34,15 +34,14 @@
                 <div class="flags">
                     <img
                         src="../assets/images/brazil.png"
-                        width="32px"
-                        @click="setLanguageAndAnimate('en')"
-                        v-show="language ===  'pt'"
+                        :class="{ 'in': language === 'pt' }"
+                        @click="setLanguage('pt')"
                     >
                     <img
+                        class="m-l-5"
                         src="../assets/images/united-kingdom.png"
-                        width="32px"
-                        @click="setLanguageAndAnimate('pt')"
-                        v-show="language ===  'en'"
+                        :class="{ 'in': language === 'en' }"
+                        @click="setLanguage('en')"
                     >
                 </div>
             </div>
@@ -106,15 +105,6 @@
         methods:{
 
             ...mapActions(['setLanguage']),
-
-            setLanguageAndAnimate(lang) {
-                $('.flags').toggleClass('in')
-
-                let that = this
-                setTimeout(() => {
-                    that.setLanguage(lang)
-                }, 200);
-            },
 
             mountMenuHammer() {
                 let that = this
@@ -376,11 +366,13 @@
         transform: rotateY(0deg);
     }
 
-    .flags.in {
-        transform-style: preserve-3d;
-        transition: all .4s linear;
-        transform: rotateY(180deg);
+    .flags img {
+        width: 32px;
+        filter: grayscale(.9);
+        transition: ease .4s;
     }
+
+    .flags img.in { filter: grayscale(0); }
 
 </style>
 
