@@ -52,7 +52,7 @@
                                 <div class="card-body card-padding">
                                     <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">{{translations.slogan_mb}}</h6>
+                                        <h6 class="card-title m-b-0">{{ translations.slogan_mb }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -106,39 +106,17 @@
                             <div class="card m-0">
                                 <!-- Card Header -->
                                 <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" class="card-header cover cursor-pointer" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
-                                    <div class="badges">
-                                       <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
-                                             data-target="#badge-help">
-                                           <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
-                                                title="Este Drink é exclusivo">
-                                       </span>
-                                        <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
-                                              data-target="#badge-help">
-                                           <img class="zoom" src="../../../assets/images/star.svg"
-                                                alt="Este drink está entre os BEST SELLERS"
-                                                title="Este drink está entre os BEST SELLERS">
-                                       </span>
-                                    </div>
+
                                 </router-link>
 
                                 <!-- Card Body -->
                                 <div class="card-body card-padding text-center">
-                                    <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }">
-                                        <h3 class="card-title t-overflow">{{ drink.name }}</h3>
-                                        <p class="description m-0">{{ drink.description }}</p>
-                                    </router-link>
 
-                                    <button
-                                        type="button"
-                                        class="btn btn-xs btn-mb-primary outline m-t-15"
-                                        @click="itemsModal(drink.items)"
-                                        v-if="isLogged && drink.items.length"
-                                    >
-                                        {{translations.buttons.see_ingredients}}
-                                    </button>
+                                    <h3 class="card-title t-overflow">{{ drink.name }}</h3>
+                                    <p class="description m-0">{{ drink.description }}</p>
 
                                     <!-- Like -->
-                                    <div class="m-t-15 m-b-30" v-if="isLogged">
+                                    <div class="m-t-15" v-if="isLogged">
                                         <!-- Svg -->
                                         <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
                                             <svg viewBox="0 0 30 30">
@@ -165,6 +143,16 @@
                                         <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
                                     </div>
 
+                                    <button
+                                        type="button"
+                                        class="btn btn-xs btn-mb-primary outline m-t-15"
+                                        style="margin-bottom: 40px;"
+                                        @click="drinkModal(drink)"
+                                        v-if="isLogged && drink.items.length"
+                                    >
+                                        {{ translations.buttons.drink_details }}
+                                    </button>
+
                                     <!-- Login To Like -->
                                     <div class="m-t-20" v-if="!isLogged">
                                         <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login', query:{redirect: $route.path} }">
@@ -174,7 +162,8 @@
 
                                     <!-- Save Drink -->
                                     <button
-                                        class="btn btn-mb-info btn-fixed-bottom btn-save" style="z-index:10;"
+                                        class="btn btn-mb-info btn-fixed-bottom btn-save"
+                                        style="z-index:10; box-shadow: none"
                                         @click="addDrinkPreference(drink)"
                                         v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                                     > {{translations.buttons.save_drink}}
@@ -183,7 +172,7 @@
                                     <router-link
                                         tag="button"
                                         class="btn btn-mb-info btn-fixed-bottom btn-save"
-                                        style="z-index:10;"
+                                        style="z-index:10; box-shadow: none"
                                         :to="{ name: 'landing.user.preferences' }"
                                         v-if="isLogged && currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                                     >{{translations.buttons.saved_drink}} <i class="fa fa-check"></i>
@@ -200,7 +189,7 @@
             <!-- /DRINKS -->
 
         </div>
-        
+
 
         <!-- FIXED BUTTON -->
         <button type="button" class="btn btn-primary btn-mb-primary btn-block btn-fixed-bottom"
@@ -208,53 +197,6 @@
                 v-if="interactions.finished_loading_category">
             {{translations.buttons.change_category}}
         </button>
-
-        <div class="modal fade" id="badge-help" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="title-section m-0">{{translations.badges.title}}</h4>
-                    </div>
-                    <div class="modal-body text-center">
-
-                        <div class="card">
-                            <div class="card-body card-padding">
-                                <span class="modal-badge badge">
-                                   <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
-                                        :title="translations.badges.exclusive_drinks_title">
-                               </span>
-
-                                <p style="color: #222;">{{translations.badges.exclusive_drinks}}</p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body card-padding">
-                                <span class="modal-badge badge">
-                                   <img src="../../../assets/images/star.svg" :alt="translations.badges.best_sellers_title"
-                                        :title="translations.badges.best_sellers_title">
-                               </span>
-
-                                <p style="color: #222;">{{translations.badges.best_sellers}}</p>
-                            </div>
-                        </div>
-                        <div class="card m-0">
-                            <div class="card-body card-padding">
-                                <span class="modal-badge badge">
-                                   <img src="../../../assets/images/drink-created.svg" :alt="translations.badges.guest_drinks_title"
-                                        :title="translations.badges.guest_drinks_title">
-                               </span>
-
-                                <p style="color: #222;">{{translations.badges.guest_drinks}}</p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-mb-primary">{{translations.buttons.close_modal}}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!--Modal Share-->
         <div class="modal fade" id="modalSharePhrase" tabindex="-1" role="dialog">
@@ -287,15 +229,62 @@
         <!--Modal Share-->
 
         <!--Modal Current Items -->
-        <div class="modal" id="modal-items" tabindex="-1" role="dialog">
+        <div class="modal" id="modal-drink" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-body">
+
+                    <div class="modal-header">
+                        <h4 class="title-section m-0" style="font-size: 30px;">{{ currentDrink.name }}</h4>
+                    </div>
+
+                    <div class="modal-body ext">
+
+                        <!-- Badges -->
+                        <div class="badges">
+                           <span class="badge" v-if="currentDrink.is_exclusive">
+                               <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                               Drink Exclusivo
+                           </span>
+                            <span class="badge" v-if="currentDrink.priority >= 4">
+                               <img src="../../../assets/images/star.svg" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
+                               Best sellers
+                           </span>
+                        </div>
+
+                        <!-- Like -->
+                        <div class="m-t-15 m-b-30" v-if="isLogged">
+                            <!-- Svg -->
+                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(currentDrink.id) }">
+                                <svg viewBox="0 0 30 30">
+                                    <defs>
+                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%"   stop-color="#FB923B"/>
+                                            <stop offset="100%" stop-color="#F66439"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <g transform="translate(-8.9261333,-9.447)">
+                                        <path
+                                            @click.prevent="likeDrink(currentDrink)"
+                                            class="animated"
+                                            stroke="url(#linear)"
+                                            :fill="`${ handleLikedDrinks(currentDrink.id) ? 'url(#linear)' : 'transparent' }`"
+                                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
+                                        />
+                                    </g>
+                                </svg>
+                            </div>
+                            <span class="text-muted" v-if="currentDrink.likes_count > 0">
+                                {{ currentDrink.likes_count > 1 ? `${ currentDrink.likes_count } ${ translations.likes }` : `1 ${ translations.like }` }}
+                            </span>
+                            <span class="text-muted" v-if="currentDrink.likes_count === 0">{{translations.be_first}}</span>
+                        </div>
+
+                        <!-- Ingredients -->
                         <div class="card">
                             <div class="card-body card-padding">
-                                <h4 class="title-section m-0">{{translations.ingredients}}</h4>
+                                <h4 class="title-section m-0">{{ translations.ingredients }}</h4>
                                 <ul class="list-group m-t-30 m-b-0">
-                                    <li class="list-group-item" v-for="(item, index) in currentItems">
+                                    <li class="list-group-item" v-for="(item, index) in currentDrink.items">
                                         <span v-show="item.pivot.is_visible" style="color: #222;">
                                             {{ item[`name_${language}`] ? item[`name_${language}`] : item['name_pt'] }}
                                         </span>
@@ -307,10 +296,10 @@
                     <div class="modal-footer">
                         <button
                             type="button"
-                            class="btn btn-mb-primary"
+                            class="btn btn-block btn-mb-default"
                             data-dismiss="modal"
                         >
-                            {{translations.buttons.close_modal}}
+                            {{ translations.buttons.close_modal }}
                         </button>
                     </div>
                 </div>
@@ -359,7 +348,7 @@
                     slug_en: 'all',
                     photo_url: allDrinks
                 },
-                currentItems: []
+                currentDrink: []
             }
         },
         computed: {
@@ -399,9 +388,9 @@
 
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'setLoading', 'addUserDrinkLike', 'removeUserDrinkLike', 'setSelectedCategory']),
 
-            itemsModal: function(items) {
-                this.currentItems = items
-                $('#modal-items').modal('show')
+            drinkModal: function(drink) {
+                this.currentDrink = drink
+                $('#modal-drink').modal('show')
             },
 
             drinkToShowToggle: function (drink) {

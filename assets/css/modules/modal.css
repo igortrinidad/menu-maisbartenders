@@ -31,6 +31,8 @@
     overflow-y: scroll;
 }
 
+.modal .modal-body.ext { height: calc(100vh - 180px); }
+
 .modal .modal-title,
 .modal .modal-content {
     color: #FFF;

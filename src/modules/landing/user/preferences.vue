@@ -56,17 +56,20 @@
 
                                 <button
                                     type="button"
-                                    class="btn btn-xs btn-mb-primary outline m-t-15 m-b-30"
+                                    class="btn btn-xs btn-mb-primary outline m-t-30"
+                                    style="margin-bottom: 60px;"
                                     @click="itemsModal(drink.items)"
                                     v-if="isLogged && drink.items.length"
                                 >
-                                    Ver Ingredientes
+                                    Detalhes do drink
                                 </button>
 
                                 <button
                                     class="btn btn-mb-danger btn-fixed-bottom"
+                                    style="box-shadow: none"
                                     @click="removeDrinkPreference(drink)"
-                                    >Excluir drink
+                                >
+                                    Excluir drink
                                 </button>
 
 
@@ -100,7 +103,7 @@
                     <div class="modal-header">
                         <h4 class="title-section m-0">Ícones nos drinks</h4>
                     </div>
-                    <div class="modal-body text-center">
+                    <div class="modal-body ext text-center">
 
                         <div class="card">
                             <div class="card-body card-padding">
@@ -137,7 +140,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-mb-primary">Fechar</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-block btn-mb-default">Fechar</button>
                     </div>
                 </div>
             </div>
@@ -147,11 +150,16 @@
         <div class="modal" id="modal-items" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="title-section m-0">Detalhes do drink</h4>
+                    </div>
+
                     <div class="modal-body">
                         <div class="card">
                             <div class="card-body card-padding">
                                 <h4 class="title-section m-0">Ingredientes</h4>
-                                <ul class="list-group m-t-30 m-b-0">
+                                <ul class="list-group m-t-20 m-b-0">
                                     <li class="list-group-item" v-for="(item, index) in currentItems">
                                         <span v-show="item.pivot.is_visible" style="color: #222;">
                                             {{ item.name_pt }}
@@ -162,11 +170,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-mb-primary"
-                            data-dismiss="modal"
-                        >
+                        <button type="button" class="btn btn-block btn-mb-default" data-dismiss="modal">
                             Fechar
                         </button>
                     </div>

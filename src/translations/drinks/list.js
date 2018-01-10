@@ -13,7 +13,7 @@ export const en = {
         change_category: 'Change category',
         save_drink: 'Save drink',
         saved_drink: 'Saved drink',
-        see_ingredients: 'See the ingredients',
+        drink_details: 'Drink details',
         close_modal: 'Close'
     },
     badges:{
@@ -42,7 +42,7 @@ export const pt = {
         change_category: 'Alterar categoria',
         save_drink: 'Salvar drink',
         saved_drink: 'Drink salvo',
-        see_ingredients: 'Ver ingredientes',
+        drink_details: 'Detalhes do drink',
         close_modal: 'Fechar'
     },
     badges:{
