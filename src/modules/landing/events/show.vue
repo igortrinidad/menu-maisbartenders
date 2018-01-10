@@ -98,56 +98,30 @@
 
                 <div class="container-colored list-drinks p-t-30">
                     <div class="container">
+
                         <div class="cols" v-show="drinksFiltered && drinksFiltered.length">
                             <div class="col" v-for="(drink, index) in drinksFiltered">
                                 <!-- Start Drink -->
                                 <div class="card m-0">
                                     <!-- Card Header -->
-                                    <router-link tag="div"
-                                                 :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }"
-                                                 class="card-header cover cursor-pointer"
-                                                 :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+                                    <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" class="card-header cover cursor-pointer" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+
                                     </router-link>
 
                                     <!-- Card Body -->
                                     <div class="card-body card-padding text-center">
-                                        <div class="badges">
-                                           <span class="badge" v-if="drink.is_exclusive" data-toggle="modal"
-                                                 data-target="#badge-help">
-                                               <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title"
-                                                    :title="translations.badges.exclusive_drinks_title">
-                                           </span>
-                                            <span class="badge" v-if="drink.priority >= 4" data-toggle="modal"
-                                                  data-target="#badge-help">
-                                               <img class="zoom" src="../../../assets/images/star.svg"
-                                                    :alt="translations.badges.best_sellers_title"
-                                                    :title="translations.badges.best_sellers_title">
-                                           </span>
-                                        </div>
-                                        <router-link tag="div"
-                                                     :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }">
-                                            <h3 class="card-title t-overflow">{{ drink.name }}</h3>
-                                            <p class="description m-0">{{ drink.description }}</p>
-                                        </router-link>
 
-                                        <button
-                                            type="button"
-                                            class="btn btn-xs btn-mb-primary outline m-t-15"
-                                            @click="itemsModal(drink.items)"
-                                            v-if="isLogged && drink.items.length"
-                                        >
-                                            {{translations.buttons.ingredients}}
-                                        </button>
+                                        <h3 class="card-title t-overflow">{{ drink.name }}</h3>
+                                        <p class="description m-0 t-overflow">{{ drink.description }}</p>
 
                                         <!-- Like -->
                                         <div class="m-t-15" v-if="isLogged">
                                             <!-- Svg -->
-                                            <div class="svg-container min"
-                                                 :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
+                                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
                                                 <svg viewBox="0 0 30 30">
                                                     <defs>
                                                         <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                            <stop offset="0%" stop-color="#FB923B"/>
+                                                            <stop offset="0%"   stop-color="#FB923B"/>
                                                             <stop offset="100%" stop-color="#F66439"/>
                                                         </linearGradient>
                                                     </defs>
@@ -163,47 +137,29 @@
                                                 </svg>
                                             </div>
                                             <span class="text-muted" v-if="drink.likes_count > 0">
-                                                {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${translations.like }` }}
+                                                {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${ translations.like }` }}
                                             </span>
                                             <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
                                         </div>
-
                                         <button
                                             type="button"
                                             class="btn btn-xs btn-mb-primary outline m-t-15"
-                                            style="margin-bottom: 40px;"
                                             @click="drinkModal(drink)"
                                         >
-                                            Detalhes do drink
+                                            {{ translations.buttons.drink_details }}
                                         </button>
 
                                         <!-- Login To Like -->
                                         <div class="m-t-20" v-if="!isLogged">
-                                            <router-link class="btn btn-mb-primary" tag="button"
-                                                         :to="{ name: 'landing.auth.login' }">
-                                                {{translations.buttons.unauthenticated}}
+                                            <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login', query:{redirect: $route.path} }">
+                                                {{ translations.buttons.unauthenticated }}
                                             </router-link>
                                         </div>
-
-                                        <!-- Save Drink -->
-                                        <button
-                                            class="btn btn-mb-info btn-fixed-bottom btn-save"
-                                            @click="addDrinkPreference(drink)"
-                                            v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        > {{translations.buttons.save_drink}}
-                                        </button>
-
-                                        <router-link
-                                            tag="button"
-                                            class="btn btn-mb-info btn-fixed-bottom btn-save"
-                                            :to="{ name: 'landing.user.preferences' }"
-                                            v-if="isLogged && currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        > {{translations.buttons.saved_drink}} <i class="fa fa-check"></i>
-                                        </router-link>
 
                                     </div>
                                 </div>
                                 <!-- End Drink -->
+
                             </div>
                         </div>
 
@@ -562,6 +518,7 @@
             </div>
         </div>
         <!-- Modal commentário -->
+        </div>
     </div>
 </template>
 
