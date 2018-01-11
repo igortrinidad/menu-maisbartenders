@@ -97,7 +97,7 @@
         mounted(){
 
 
-            if (this.$route.path === '/') {
+            if (this.type === 'menu') {
                 this.mountMenuHammer()
             }
 
@@ -359,7 +359,7 @@
         position: fixed;
         top: 74px; left: -50px; bottom: 0;
         width: 100px;
-        background: transparent;
+        background: red;
         z-index: 77777;
     }
 
