@@ -359,7 +359,7 @@
         position: fixed;
         top: 74px; left: -50px; bottom: 0;
         width: 100px;
-        background: red;
+        background: transparent;
         z-index: 77777;
     }
 
