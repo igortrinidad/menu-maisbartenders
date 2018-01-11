@@ -97,88 +97,33 @@
                         {{translations.no_drinks}}
                     </h4>
 
+                    <!-- Cols -->
                     <div class="cols" v-show="drinksFiltered && drinksFiltered.length">
                         <div class="col" v-for="(drink, index) in drinksFiltered">
                             <!-- Start Drink -->
                             <div class="card m-0">
                                 <!-- Card Header -->
-                                <router-link tag="div" :to="{ name: 'landing.drinks.show', params: { drink_slug: drink.url} }" class="card-header cover cursor-pointer" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
-
-                                </router-link>
+                                <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+                                </div>
 
                                 <!-- Card Body -->
                                 <div class="card-body card-padding text-center">
-
-                                    <h3 class="title-section m-b-10 t-overflow">{{ drink.name }}</h3>
-                                    <p class="t-overflow" style="color: #000">{{ drink.description }}</p>
-
-                                    <!-- Like -->
-                                    <div class="m-t-10" v-if="isLogged">
-                                        <!-- Svg -->
-                                        <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
-                                            <svg viewBox="0 0 30 30">
-                                                <defs>
-                                                    <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                        <stop offset="0%"   stop-color="#FB923B"/>
-                                                        <stop offset="100%" stop-color="#F66439"/>
-                                                    </linearGradient>
-                                                </defs>
-                                                <g transform="translate(-8.9261333,-9.447)">
-                                                    <path
-                                                        @click.prevent="likeDrink(drink)"
-                                                        class="animated"
-                                                        stroke="url(#linear)"
-                                                        :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
-                                                        d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
-                                                    />
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <span class="text-muted" v-if="drink.likes_count > 0">
-                                            {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${ translations.like }` }}
-                                        </span>
-                                        <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
-                                    </div>
-
+                                    <h3 class="title-section t-overflow m-t-10 m-b-10 f-20">{{ drink.name }}</h3>
+                                    <p class="m-0" style="color: #222">{{ drink.description }}</p>
                                     <button
                                         type="button"
-                                        class="btn btn-xs btn-mb-primary outline m-t-10"
+                                        class="btn btn-xs btn-mb-primary outline m-t-15"
                                         @click="drinkModal(drink)"
                                     >
                                         {{ translations.buttons.drink_details }}
                                     </button>
-
-                                    <!-- Login To Like -->
-                                    <div class="m-t-20" v-if="!isLogged">
-                                        <router-link class="btn btn-mb-primary" tag="button" :to="{ name: 'landing.auth.login', query:{redirect: $route.path} }">
-                                            {{translations.buttons.unauthenticated}}
-                                        </router-link>
-                                    </div>
-
-                                    <!-- Save Drink -->
-                                    <button
-                                        class="btn btn-mb-info btn-fixed-bottom btn-save"
-                                        style="z-index:10; box-shadow: none"
-                                        @click="addDrinkPreference(drink)"
-                                        v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                    > {{translations.buttons.save_drink}}
-                                    </button>
-
-                                    <router-link
-                                        tag="button"
-                                        class="btn btn-mb-info btn-fixed-bottom btn-save"
-                                        style="z-index:10; box-shadow: none"
-                                        :to="{ name: 'landing.user.preferences' }"
-                                        v-if="isLogged && currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                    >{{translations.buttons.saved_drink}} <i class="fa fa-check"></i>
-                                    </router-link>
-
                                 </div>
                             </div>
                             <!-- End Drink -->
-
                         </div>
                     </div>
+                    <!-- / Cols -->
+
                 </div>
             </div>
             <!-- /DRINKS -->
