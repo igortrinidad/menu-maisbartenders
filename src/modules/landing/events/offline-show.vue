@@ -7,7 +7,7 @@
             <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
 
                 <span class="t-overflow" v-if="eventHasHappened">
-                    {{ eventHasHappened ? 'Esse evento já passou' : event.hashtag }}
+                    {{ eventHasHappened ? event.date : event.hashtag }}
                 </span>
 
             </div>
