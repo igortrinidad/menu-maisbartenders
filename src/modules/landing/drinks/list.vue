@@ -109,11 +109,11 @@
                                 <!-- Card Body -->
                                 <div class="card-body card-padding text-center">
 
-                                    <h3 class="card-title t-overflow">{{ drink.name }}</h3>
-                                    <p class="description m-0 t-overflow">{{ drink.description }}</p>
+                                    <h3 class="title-section m-b-10 t-overflow">{{ drink.name }}</h3>
+                                    <p class="t-overflow" style="color: #000">{{ drink.description }}</p>
 
                                     <!-- Like -->
-                                    <div class="m-t-15" v-if="isLogged">
+                                    <div class="m-t-10" v-if="isLogged">
                                         <!-- Svg -->
                                         <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
                                             <svg viewBox="0 0 30 30">
@@ -142,8 +142,7 @@
 
                                     <button
                                         type="button"
-                                        class="btn btn-xs btn-mb-primary outline m-t-15"
-                                        style="margin-bottom: 40px;"
+                                        class="btn btn-xs btn-mb-primary outline m-t-10"
                                         @click="drinkModal(drink)"
                                     >
                                         {{ translations.buttons.drink_details }}

@@ -5,6 +5,7 @@ export const en = {
     no_drinks: 'You have no saved drinks',
     buttons:{
         ingredients: 'See the ingredients',
+        details: 'Drink details',
         remove: 'Remove drink',
         create: 'Create your own drink',
         go_to_menu: 'Go to Mais Bartenders complete menu',
@@ -29,6 +30,7 @@ export const pt = {
     no_drinks: 'Você não possui nenhum drink salvo',
     buttons:{
         ingredients: 'Ver ingredientes',
+        details: 'Detalhes do drink',
         remove: 'Remover drink',
         create: 'Crie seu próprio drink',
         go_to_menu: 'Ir para menu completo Mais Bartenders',

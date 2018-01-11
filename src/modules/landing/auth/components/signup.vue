@@ -23,7 +23,7 @@
                     </g>
                 </svg>
             </div>
-            <h4 class="title-section m-b-20 m-t-10">{{translations.message}}</h4>
+            <h4 class="title-section m-b-20 m-t-10 f-20">{{translations.message}}</h4>
 
             <!-- Login Options -->
             <div class="text-center m-b-10">
