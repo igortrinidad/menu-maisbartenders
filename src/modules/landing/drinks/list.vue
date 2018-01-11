@@ -191,34 +191,6 @@
                            </span>
                         </div>
 
-                        <!-- Like -->
-                        <div class="m-t-15 m-b-30" v-if="isLogged">
-                            <!-- Svg -->
-                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(currentDrink.id) }">
-                                <svg viewBox="0 0 30 30">
-                                    <defs>
-                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%"   stop-color="#FB923B"/>
-                                            <stop offset="100%" stop-color="#F66439"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <g transform="translate(-8.9261333,-9.447)">
-                                        <path
-                                            @click.prevent="likeDrink(currentDrink)"
-                                            class="animated"
-                                            stroke="url(#linear)"
-                                            :fill="`${ handleLikedDrinks(currentDrink.id) ? 'url(#linear)' : 'transparent' }`"
-                                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
-                                        />
-                                    </g>
-                                </svg>
-                            </div>
-                            <span class="text-muted" v-if="currentDrink.likes_count > 0">
-                                {{ currentDrink.likes_count > 1 ? `${ currentDrink.likes_count } ${ translations.likes }` : `1 ${ translations.like }` }}
-                            </span>
-                            <span class="text-muted" v-if="currentDrink.likes_count === 0">{{translations.be_first}}</span>
-                        </div>
-
                         <!-- Ingredients -->
                         <div class="card">
                             <div class="card-body card-padding">
