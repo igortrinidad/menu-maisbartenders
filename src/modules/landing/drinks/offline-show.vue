@@ -12,6 +12,7 @@
 
             </div>
 
+            <!-- RETIRAR OS BADGES
             <div class="container m-t-30">
                 <div class="badges">
                     <div class="badge-container" v-if="drink.is_exclusive">
@@ -30,6 +31,7 @@
                     </div>
                 </div>
             </div>
+            -->
 
             <div id="drink" class="container-colored m-t-30">
                 <div class="container">

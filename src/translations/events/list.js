@@ -1,7 +1,7 @@
 export const en = {
     title: 'Events',
     title_section: 'Mais Bartenders events',
-    message: 'Your event deserves the best drinks!',
+    message: 'Your guests deserves the best drinks!',
     labels:{
         search: 'Event search',
         menu: 'See the full menu of Mais Bartenders '
@@ -25,7 +25,7 @@ export const en = {
 export const pt = {
     title: 'Eventos',
     title_section: 'Eventos Mais Bartenders',
-    message: 'Seu evento merece os melhores drinks!',
+    message: 'Seus convidados merecem os melhores drinks!',
     labels:{
         search: 'Pesquisar evento',
         menu: 'Veja o cardápio completo Mais Bartenders'

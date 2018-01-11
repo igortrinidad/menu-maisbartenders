@@ -1,9 +1,9 @@
 <template>
     <div>
-        <side-menu v-if="title === 'logo'" />
-        <div id="hammer-menu" ref="hammerMenu" v-if="title === 'logo'"></div>
+        <side-menu v-if="type === 'menu'" />
+        <div id="hammer-menu" ref="hammerMenu" v-if="type === 'menu'"></div>
 
-        <div class="circle" v-if="title === 'logo'">
+        <div class="circle" v-if="type === 'menu'">
             <svg viewBox="0 0 100 100">
                 <defs>
                     <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -14,7 +14,8 @@
                 <circle cx="50" cy="50" r="40" stroke="url(#linear)" stroke-width="5" fill="transparent" />
             </svg>
         </div>
-        <button type="button" class="hamburger" :class="{ 'back': title !== 'logo' }" @click="handleSideMenu()">
+
+        <button type="button" class="hamburger" :class="{ 'back': type === 'back' }" @click="handleSideMenu()">
             <span class="line"></span>
             <span class="line"></span>
             <span class="line"></span>
@@ -60,9 +61,14 @@
     export default {
         name: 'main-header',
         props: {
+            type: {
+                type: String,
+                default: 'menu'
+            },
             title: {
                 type: String,
-                required: true
+                required: true,
+                default: 'logo'
             },
             action: {
                 type: Function,
@@ -197,7 +203,7 @@
                 var that = this
 
                 //Se o titulo do menu for diferente da logo, executa a action do header
-                if (that.title !== 'logo') {
+                if (that.type !== 'menu') {
 
                     that.action();
 

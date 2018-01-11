@@ -1,7 +1,7 @@
 <template>
     <div class="first-container show">
 
-        <main-header :title="drinkFound ? drink.name : translations.drink_not_found_title" />
+        <main-header :type="'back'" :title="drinkFound ? drink.name : translations.drink_not_found_title" />
 
         <div v-if="drinkFound">
             <div class="show-header" v-bind:style="{ backgroundImage: drinkBackground}">
@@ -47,6 +47,7 @@
                 </router-link>
             </div>
 
+            <!-- NAO UTILIZAR
             <div class="container m-t-30">
                 <div class="badges">
                     <div class="badge-container" v-if="drink.is_exclusive">
@@ -65,6 +66,7 @@
                     </div>
                 </div>
             </div>
+            -->
 
             <div id="drink" class="container-colored m-t-30">
                 <div class="container">

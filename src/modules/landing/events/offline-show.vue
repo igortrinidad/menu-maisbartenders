@@ -42,6 +42,23 @@
 
                     <p class="text-center section-subheading text-muted">{{translations.categories_message}}</p>
 
+
+                    <!-- Mais Bartenders -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="p-5">
+                                <div class="card m-0 text-center">
+                                    <div class="card-body card-padding">
+                                        <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
+                                        <div class="m-t-5">
+                                            <h4 class="card-title m-b-0">{{translations.slogan_mb}}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="categories">
                         <!-- ALL -->
                         <div class="category">

@@ -1,7 +1,7 @@
 <template>
     <div class="first-container">
 
-        <main-header :title="translations.title" :action="back"/>
+        <main-header :type="'menu'" :title="translations.title" :action="back"/>
 
 
         <!-- Icon SVG + Title -->
