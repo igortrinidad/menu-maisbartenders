@@ -109,10 +109,16 @@
                                 <!-- Card Body -->
                                 <div class="card-body card-padding text-center">
                                     <h3 class="title-section t-overflow m-t-10 m-b-10 f-20">{{ drink.name }}</h3>
-                                    <p class="m-0" style="color: #222">{{ drink.description }}</p>
+                                    <p class="m-0 m-b-10 text-overflow" style="color: #222">{{ drink.description }}</p>
+
+                                    <div class="m-b-20" v-if="drink.items.length">
+                                        <h3 class="title-section t-overflow m-t-10 m-b-10 f-20">{{ translations.ingredients }}</h3>
+                                        <span class="btn btn-xs btn-mb-primary outline m-5" v-for="item in drink.items">{{ language === 'pt' ? item.name_pt : item_en }}</span>
+                                    </div>
+
                                     <button
                                         type="button"
-                                        class="btn btn-xs btn-mb-primary outline m-t-15"
+                                        class="btn btn-block btn-mb-primary"
                                         @click="drinkModal(drink)"
                                     >
                                         {{ translations.buttons.drink_details }}

@@ -121,6 +121,23 @@
     border-radius: 0;
 }
 
+.btn.btn-fixed-bottom {
+    position: absolute;
+    left: 0; bottom: 0; right: 0;
+    width: 100%;
+    display: block;
+    border-radius: 0;
+}
+
+.btn.btn-fixed-card {
+    position: absolute;
+    left: 0; bottom: 0; right: 0;
+    width: 100%;
+    display: block;
+    border-radius: 0 0 10px 10px;
+    padding: 10px 0 !important;
+}
+
 /*
 Social Buttons
  */
