@@ -5,6 +5,8 @@
     background: -webkit-linear-gradient(#FB923B, #F66439);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-family: 'Lobster Two', cursive;
+    font-size: 30px;
 }
 
 .title-section.inverse {
