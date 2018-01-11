@@ -300,7 +300,7 @@
     text-align: center;
     margin: 28.5px 0;
     font-weight: 300;
-    color: #222;
+    color: #000;
 }
 
 .drink .stars { margin-right: 3px; }

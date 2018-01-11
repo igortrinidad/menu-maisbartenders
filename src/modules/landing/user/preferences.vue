@@ -111,7 +111,7 @@
                                         :title="translations.badges.exclusive_drinks_title">
                                </span>
 
-                                <p style="color: #222;">{{translations.badges.exclusive_drinks}}</p>
+                                <p style="color: #000;">{{translations.badges.exclusive_drinks}}</p>
                             </div>
                         </div>
                         <div class="card">
@@ -121,7 +121,7 @@
                                         :title="translations.badges.best_sellers_title">
                                </span>
 
-                                <p style="color: #222;">{{translations.badges.best_sellers}}</p>
+                                <p style="color: #000;">{{translations.badges.best_sellers}}</p>
                             </div>
                         </div>
                         <div class="card m-0">
@@ -131,7 +131,7 @@
                                         :title="translations.badges.guest_drinks_title">
                                </span>
 
-                                <p style="color: #222;">{{translations.badges.guest_drinks}}</p>
+                                <p style="color: #000;">{{translations.badges.guest_drinks}}</p>
                             </div>
                         </div>
 
@@ -158,7 +158,7 @@
                                 <h4 class="title-section m-0">Ingredientes</h4>
                                 <ul class="list-group m-t-20 m-b-0">
                                     <li class="list-group-item" v-for="(item, index) in currentItems">
-                                        <span v-show="item.pivot.is_visible" style="color: #222;">
+                                        <span v-show="item.pivot.is_visible" style="color: #000;">
                                             {{ item.name_pt }}
                                         </span>
                                     </li>

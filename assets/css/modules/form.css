@@ -6,7 +6,7 @@
 }
 
 .form-group label {
-    color: #222;
+    color: #000;
 }
 
 .form-group .form-control {
@@ -15,7 +15,7 @@
 }
 
 .form-group .form-control:focus {
-    border-color: #222
+    border-color: #000
 }
 
 /* Vue Select */
@@ -71,7 +71,7 @@
     margin: 0px 0px 0px 0px !important;
     min-height: 45px !important;
     border: 2px solid #FB923B;
-    color: #222;
+    color: #000;
     border-radius: 10px;
 }
 

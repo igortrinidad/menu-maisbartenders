@@ -47,7 +47,7 @@
 
                                         <ul class="list-group m-t-30 m-b-0">
                                             <li class="list-group-item" v-for="item in drink.items" v-if="item.pivot.is_visible">
-                                                <span v-show="item.pivot.is_visible" style="color: #222;">
+                                                <span v-show="item.pivot.is_visible" style="color: #000;">
                                                     {{ item[`name_${language}`] ? item[`name_${language}`] : item['name_pt'] }}
                                                 </span>
                                             </li>

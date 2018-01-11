@@ -169,7 +169,7 @@
                         <h4 class="title-section m-0 m-b-10">{{translations.title}}</h4>
                         <small class="smallCaption">{{translations.result_message}}</small>
 
-                        <div class="panel panel-default m-t-30" style="color: #222">
+                        <div class="panel panel-default m-t-30" style="color: #000">
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -188,7 +188,7 @@
                             </table>
                         </div>
 
-                        <div class="card m-0 attention" style="color: #222">
+                        <div class="card m-0 attention" style="color: #000">
                             <div class="card-body card-padding">
                                 <h5 class="card-title m-0">{{translations.labels.atention}}</h5>
                                 <p class="m-b-0">{{translations.result_warning}}</p>

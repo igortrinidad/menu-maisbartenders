@@ -415,7 +415,7 @@
                                 <h4 class="title-section m-0">Ingredientes</h4>
                                 <ul class="list-group m-t-30 m-b-0">
                                     <li class="list-group-item" v-for="(item, index) in currentDrink.items">
-                                        <span v-show="item.pivot.is_visible" style="color: #222;">
+                                        <span v-show="item.pivot.is_visible" style="color: #000;">
                                             {{ item[`name_pt`] ? item[`name_pt`] : item['name_pt'] }}
                                         </span>
                                     </li>

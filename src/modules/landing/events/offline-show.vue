@@ -376,7 +376,7 @@
                                          :title="translations.badges.exclusive_drinks_title">
                                 </span>
 
-                                <p style="color: #222">{{translations.badges.exclusive_drinks}}</p>
+                                <p style="color: #000">{{translations.badges.exclusive_drinks}}</p>
                             </div>
                         </div>
                         <div class="card">
@@ -386,7 +386,7 @@
                                          :title="translations.badges.best_sellers_title">
                                 </span>
 
-                                <p style="color: #222">{{translations.badges.best_sellers}}</p>
+                                <p style="color: #000">{{translations.badges.best_sellers}}</p>
                             </div>
                         </div>
 
@@ -398,7 +398,7 @@
                                          :title="translations.badges.bride_drinks_title">
                                 </span>
 
-                                <p style="color: #222">{{translations.badges.bride_drinks}}</p>
+                                <p style="color: #000">{{translations.badges.bride_drinks}}</p>
                             </div>
                         </div>
 
@@ -411,7 +411,7 @@
                                          :title="translations.badges.gromm_drinks_title">
                                 </span>
 
-                                <p style="color: #222">{{translations.badges.groom_drinks}}</p>
+                                <p style="color: #000">{{translations.badges.groom_drinks}}</p>
                             </div>
                         </div>
                         <br>
@@ -1035,8 +1035,8 @@
     /*Hashtag*/
     .hashtag .label.label-primary {
         font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-        background-color: #222;
-        border-color: #222;
+        background-color: #000;
+        border-color: #000;
         color: rgba(254, 209, 54,.9);
     }
 

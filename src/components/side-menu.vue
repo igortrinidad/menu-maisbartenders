@@ -155,7 +155,7 @@
         left: 0;
         width: 250px;
         min-height: 100vh;
-        background: #222;
+        background: #000;
         z-index: 777;
         box-shadow: 0 2px 4px rgba(0, 0, 0, .4);
         padding: 80px 0 0 0;
