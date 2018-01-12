@@ -539,35 +539,9 @@
                 this.formatedYear = moment(this.event.date, 'DD/MM/YYYY').format('YYYY')
             },
 
-            checkRemainTime: function(){
-                let that = this
-                var then = that.event.date + ' ' +  that.event.time;
-
-                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore( moment() ) ) {
-                    that.eventHasHappened = true
-                } else {
-                    setInterval( function(){
-                        var then = that.event.date + that.event.time;
-                        var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
-                        var d = moment.duration(ms);
-                        that.remain.days = d.days();
-                        that.remain.hours = d.hours();
-                        that.remain.minutes = d.minutes();
-                        that.remain.seconds = d.seconds();
-                    }, 1000)
-                }
-            },
 
             systemUrlToGetDrinks: function (drink) {
                 return `${ cordova.file.dataDirectory }/drink-${ drink.url }.${ drink.typeImg }`
-            },
-
-            openShareWhatsapp: function(){
-                let that = this
-
-                var url = `https://api.whatsapp.com/send?text=${that.interactions.whatsappPhraseSelected} Acesse o link: https://maisbartenders.com.br/opengraph/events/${that.event.url}`;
-
-                window.open(url, '_system', null);
             },
 
 
@@ -727,7 +701,6 @@
                     }
                 })
                 that.getFormatedDates();
-                that.checkRemainTime();
             },
 
             getEventComments: function () {
