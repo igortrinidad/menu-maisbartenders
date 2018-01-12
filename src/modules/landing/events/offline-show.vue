@@ -3,7 +3,8 @@
 
         <main-header :title="eventFound ? event.name : translations.event_not_found" :hide="true" />
 
-        <div v-if="eventFound">
+        <!-- Event Found -->
+        <div v-if="!eventFound">
             <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
 
                 <span class="t-overflow" v-if="eventHasHappened">
@@ -21,10 +22,6 @@
                         <div class="card-body card-padding">
                             <div v-html="event.greeting">
                             </div>
-
-                            <button class="btn btn-block btn-mb-whatsapp m-t-20" data-toggle="modal" data-target="#modalShareWhatsApp">
-                                {{translations.buttons.whatsapp}}
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -37,7 +34,7 @@
 
                 <div class="container" :class="{'cat-is-selected' : currentCategory}">
 
-                    <h4 class="title-section m-0 m-b-10">{{translations.labels.categories}}</h4>
+                    <h4 class="title-section m-t-10 m-b-10">{{translations.labels.categories}}</h4>
                     <p class="text-center section-subheading text-muted">{{ translations.categories_message }}</p>
 
                     <div class="categories">
@@ -83,14 +80,7 @@
                             <h6 class="card-title m-b-0">{{currentCategory[`name_${language}`]}}</h6>
                         </div>
                     </div>
-
-                    <button type="button" class="btn btn-mb-primary "
-                            @click.prevent="resetCategory()"
-                    >
-                        {{translations.buttons.change_category}}
-                    </button>
                 </div>
-
 
                 <div class="container-colored list-drinks p-t-30">
                     <div class="container">
@@ -107,34 +97,6 @@
                                     <div class="card-body card-padding text-center">
                                         <h3 class="title-section t-overflow m-t-10 m-b-10">{{ drink.name }}</h3>
                                         <p class="m-0 m-b-10 text-overflow" style="color: #222">{{ drink.description }}</p>
-
-                                        <!-- Like -->
-                                        <div class="m-t-10" v-if="isLogged">
-                                            <!-- Svg -->
-                                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
-                                                <svg viewBox="0 0 30 30">
-                                                    <defs>
-                                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                            <stop offset="0%"   stop-color="#FB923B"/>
-                                                            <stop offset="100%" stop-color="#F66439"/>
-                                                        </linearGradient>
-                                                    </defs>
-                                                    <g transform="translate(-8.9261333,-9.447)">
-                                                        <path
-                                                        @click.prevent="likeDrink(drink)"
-                                                        class="animated"
-                                                        stroke="url(#linear)"
-                                                        :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
-                                                        d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
-                                                        />
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                            <span class="text-muted" v-if="drink.likes_count > 0">
-                                                {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${ translations.like }` }}
-                                            </span>
-                                            <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
-                                        </div>
 
                                         <div class="m-t-10 border-inside-card strong" v-if="drink.items.length">
                                             <h3 class="title-section t-overflow m-t-0 m-b-10 f-20">{{ translations.ingredients }}</h3>
@@ -157,14 +119,6 @@
                                             @click="drinkModal(drink)"
                                         >
                                             {{ translations.buttons.drink_details }}
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-mb-info"
-                                            @click="addDrinkPreference(drink)"
-                                            v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        >
-                                            {{ translations.buttons.save_drink }}
                                         </button>
                                     </div>
 
@@ -219,7 +173,7 @@
 
             </section>
 
-            <div class="text-center m-t-30 m-b-30">
+            <div class="text-center m-t-30" style="margin-bottom: 60px;">
                 <button type="button" class="btn btn-mb-danger" @click="leaveEvent()">
                     {{ translations.buttons.leave_event }}
                 </button>
@@ -227,7 +181,8 @@
 
         </div>
 
-        <div v-if="!eventFound">
+        <!-- Event Not Found -->
+        <div v-if="eventFound">
             <header id="header-drink" class="header-greeting">
                 <div class="container">
 
@@ -261,55 +216,18 @@
             </header>
         </div>
 
-            <button
-                type="button"
-                class="btn btn-mb-primary btn-fixed-bottom"
-                style="position: fixed"
-                @click.prevent="resetCategory()"
-                v-if="interactions.finished_loading_category"
-            >
-                {{translations.buttons.change_category}}
-            </button>
+        <!-- Fixed Button To Change Category -->
+        <button
+            type="button"
+            class="btn btn-mb-primary btn-fixed-bottom"
+            style="position: fixed"
+            @click.prevent="resetCategory()"
+            v-if="interactions.finished_loading_category"
+        >
+            {{translations.buttons.change_category}}
+        </button>
 
 
-        <!-- MODAL FRASE FACEBOOK -->
-        <div class="modal" id="modalShareWhatsApp" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="title-section m-0 m-b-10">{{translations.modal_whatsapp.title}}</h4>
-                        <p class="m-0">{{translations.modal_whatsapp.message}}</p>
-                    </div>
-                    <div class="modal-body m-t-0">
-                        <div
-                            class="card"
-                            v-for="(phrase, index) in whatsappPhrases"
-                            :class="{ 'm-b-0': index ===  whatsappPhrases.length - 1 }"
-                            :style="`background-color: ${ interactions.whatsappPhraseSelected === phrase ? '#FB923B' : '#FFF' }`"
-                            @click="interactions.whatsappPhraseSelected = phrase"
-
-                        >
-                            <div class="card-body card-padding">
-                                <p class="m-0"
-                                   :style="`color: ${ interactions.whatsappPhraseSelected === phrase ? '#FFF' : '#FB923B' }`">
-                                    {{ phrase }}
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer" style="position: fixed; bottom: 0; left: 0; right: 0">
-                        <button type="button" class="btn btn-block btn-mb-whatsapp m-0"
-                                @click="openShareWhatsapp()"
-                                :disabled="!interactions.whatsappPhraseSelected">{{translations.modal_whatsapp.button}} <i
-                            class="fa fa-whatsapp"></i>
-                        </button>
-
-                        <button type="button" class="btn btn-mb-primary m-t-20" data-dismiss="modal">{{translations.modal_whatsapp.close}}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- MODAL COMMENT -->
         <div class="modal fade" id="comment-modal" tabindex="-1" role="dialog">
@@ -339,7 +257,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>{{translations.modal_message.labels.email}}*</label>
+                                    <label>{{translations.modal_message.labels.message}}*</label>
                                     <textarea class="form-control" v-model="newMessage.comment" :placeholder="translations.modal_message.placeholders.message"></textarea>
                                 </div>
 
@@ -351,16 +269,16 @@
                                     </label>
                                 </div>
 
-                                <button class="btn btn-primary btn-block facebook" @click="saveComment()"
-                                        :disabled="!newMessage.comment || !newMessage.email || !newMessage.last_name || !newMessage.name">
-                                    {{translations.modal_message.buttons.send_message}}
-                                </button>
-
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
+
+                        <button class="btn btn-mb-info btn-block facebook" @click="saveComment()">
+                            {{translations.modal_message.buttons.send_message}}
+                        </button>
+
                         <button type="button" class="btn btn-block btn-mb-default" data-dismiss="modal">{{translations.modal_message.buttons.close}}</button>
                     </div>
 
@@ -391,34 +309,6 @@
                                <img src="../../../assets/images/star.svg" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
                                Best Sellers
                            </span>
-                        </div>
-
-                        <!-- Like -->
-                        <div class="m-t-15 m-b-30" v-if="isLogged">
-                            <!-- Svg -->
-                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(currentDrink.id) }">
-                                <svg viewBox="0 0 30 30">
-                                    <defs>
-                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%"   stop-color="#FB923B"/>
-                                            <stop offset="100%" stop-color="#F66439"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <g transform="translate(-8.9261333,-9.447)">
-                                        <path
-                                            @click.prevent="likeDrink(currentDrink)"
-                                            class="animated"
-                                            stroke="url(#linear)"
-                                            :fill="`${ handleLikedDrinks(currentDrink.id) ? 'url(#linear)' : 'transparent' }`"
-                                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
-                                        />
-                                    </g>
-                                </svg>
-                            </div>
-                            <span class="text-muted" v-if="currentDrink.likes_count > 0">
-                                {{ currentDrink.likes_count > 1 ? `${ currentDrink.likes_count } Likes` : `1 Like` }}
-                            </span>
-                            <span class="text-muted" v-if="currentDrink.likes_count === 0">Seja o primeiro a curtir</span>
                         </div>
 
                         <!-- Ingredients -->
@@ -694,6 +584,11 @@
             saveComment: function(){
                 let that = this
 
+                if (!that.newMessage.comment || !that.newMessage.email || !that.newMessage.last_name || !that.newMessage.name) {
+                    errorNotify('', 'Preencha todos os campos')
+                    return
+                }
+
                 that.setLoading({is_loading: true, message: ''})
                 that.$http.post('/guest/eventRunningComment', that.newMessage)
                     .then(function (response) {
@@ -833,7 +728,6 @@
                 })
                 that.getFormatedDates();
                 that.checkRemainTime();
-
             },
 
             showDrink: function(drink){
@@ -1011,6 +905,8 @@
                 that.setLoading({is_loading: true, message: ''})
                 that.currentCategory = category;
                 that.applyCategoryFilter(category.slug_pt)
+
+                console.log(that.event.drinks);
 
                 setTimeout(function () {
                     that.interactions.is_loading = false;
