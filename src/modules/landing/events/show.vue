@@ -1,7 +1,7 @@
 <template>
     <div class="first-container show" :class="{ 'm-b-30': currentCategory }" ref="container">
 
-        <main-header :type="'back'" :title="!eventFound ? translations.title: event.name"/>
+        <main-header :type="'back'" :title="!eventFound ? translations.title : `${ event.name } Não quero mais andar em circulos`"/>
 
         <!-- EventFound -->
         <div v-if="eventFound">

@@ -277,12 +277,12 @@
     }
 
     .title-header {
-        margin: 0 auto;
-        width: 230px;
+        margin: 0;
+        width: 100%;
         height: 43px;
         color: #fff;
         display: flex;
-        padding: 27px 0;
+        padding: 27px 80px;
         font-weight: 700;
         display: flex;
         align-items: center;
@@ -293,6 +293,7 @@
         width: 90px;
         margin-top: 9px;
     }
+
     /* Hamburger Button Effect */
 
     .circle {
