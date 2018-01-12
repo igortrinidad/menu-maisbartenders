@@ -22,7 +22,7 @@
                 <div class="card text-center">
                     <div class="card-body card-padding">
                         <h5 class="card-title">{{translations.no_drinks}}</h5>
-                        <router-link class="btn btn-mb-primary outline" :to="{ name: 'landing.drinks.list' }">
+                        <router-link class="btn btn-block btn-mb-primary outline f-12" :to="{ name: 'landing.drinks.list' }">
                             {{translations.buttons.go_to_menu}}
                         </router-link>
                     </div>
@@ -53,14 +53,15 @@
                                     {{ translations.buttons.details }}
                                 </span>
 
+                            </div>
+
+                            <!-- Card Footer -->
+                            <div class="card-footer card-padding">
                                 <button
-                                    class="btn btn-mb-danger btn-fixed-bottom"
-                                    style="box-shadow: none"
+                                    class="btn btn-block btn-mb-danger"
                                     @click="removeDrinkPreference(drink)"
                                     >{{ translations.buttons.remove }}
                                 </button>
-
-
                             </div>
                         </div>
                         <!-- End Drink -->
