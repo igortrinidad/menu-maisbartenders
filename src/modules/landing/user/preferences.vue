@@ -5,7 +5,6 @@
 
         <!-- User Pic + Title -->
         <div class="container">
-
             <div class="pic large center" :style="`background-image: url(${ currentUser.photo_url })`" v-show="currentUser.photo_url"></div>
             <div class="pic large center non-pic" v-show="!currentUser.photo_url">{{ getInitialChar(currentUser) }}</div>
 
@@ -20,10 +19,10 @@
             <div class="container">
 
                 <!-- User Has No Drinks -->
-                <div class="card text-center" v-if="!currentUser.saved_drinks.length">
+                <div class="card text-center">
                     <div class="card-body card-padding">
                         <h5 class="card-title">{{translations.no_drinks}}</h5>
-                        <router-link class="btn btn-mb-primary outline" :to="{ name: 'landing.drinks.list' }">
+                        <router-link class="btn btn-block btn-mb-primary outline f-12" :to="{ name: 'landing.drinks.list' }">
                             {{translations.buttons.go_to_menu}}
                         </router-link>
                     </div>
@@ -45,24 +44,24 @@
                                     <p class="description m-0" style="color: #222">{{ drink.description }}</p>
                                 </router-link>
 
-                                <button
-                                    type="button"
+                                <span
                                     class="btn btn-xs btn-mb-primary outline m-t-20"
                                     style="margin-bottom: 50px;"
                                     @click="drinkModal(drink)"
-                                    v-if="isLogged && drink.items.length"
+                                    v-if="isLogged"
                                 >
                                     {{ translations.buttons.details }}
-                                </button>
+                                </span>
 
+                            </div>
+
+                            <!-- Card Footer -->
+                            <div class="card-footer card-padding">
                                 <button
-                                    class="btn btn-mb-danger btn-fixed-bottom"
-                                    style="box-shadow: none"
+                                    class="btn btn-block btn-mb-danger"
                                     @click="removeDrinkPreference(drink)"
                                     >{{ translations.buttons.remove }}
                                 </button>
-
-
                             </div>
                         </div>
                         <!-- End Drink -->

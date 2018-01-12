@@ -31,7 +31,7 @@
                             <li>
                                 <router-link :to="{name: 'landing.events.list'}" exact>{{translations.events}}</router-link>
                             </li>
-                            <li v-if="!isMobile">
+                            <li v-if="isMobile">
                                 <router-link :to="{name: 'landing.events-offline.list'}" exact>{{translations.saved_events}}</router-link>
                             </li>
 

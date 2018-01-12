@@ -3,6 +3,7 @@
 
         <main-header :title="eventFound ? event.name : translations.event_not_found" :hide="true" />
 
+        <!-- Event Found -->
         <div v-if="!eventFound">
             <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
 
@@ -21,10 +22,6 @@
                         <div class="card-body card-padding">
                             <div v-html="event.greeting">
                             </div>
-
-                            <button class="btn btn-block btn-mb-whatsapp m-t-20" data-toggle="modal" data-target="#modalShareWhatsApp">
-                                {{translations.buttons.whatsapp}}
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -37,7 +34,7 @@
 
                 <div class="container" :class="{'cat-is-selected' : currentCategory}">
 
-                    <h4 class="title-section m-0 m-b-10">{{translations.labels.categories}}</h4>
+                    <h4 class="title-section m-t-10 m-b-10">{{translations.labels.categories}}</h4>
                     <p class="text-center section-subheading text-muted">{{ translations.categories_message }}</p>
 
                     <div class="categories">
@@ -83,14 +80,7 @@
                             <h6 class="card-title m-b-0">{{currentCategory[`name_${language}`]}}</h6>
                         </div>
                     </div>
-
-                    <button type="button" class="btn btn-mb-primary "
-                            @click.prevent="resetCategory()"
-                    >
-                        {{translations.buttons.change_category}}
-                    </button>
                 </div>
-
 
                 <div class="container-colored list-drinks p-t-30">
                     <div class="container">
@@ -105,22 +95,33 @@
 
                                     <!-- Card Body -->
                                     <div class="card-body card-padding text-center">
-                                        <h3 class="title-section t-overflow m-t-10 m-b-10 f-20">{{ drink.name }}</h3>
+                                        <h3 class="title-section t-overflow m-t-10 m-b-10">{{ drink.name }}</h3>
                                         <p class="m-0 m-b-10 text-overflow" style="color: #222">{{ drink.description }}</p>
 
-                                        <div class="m-b-20" v-if="drink.items.length">
-                                            <h3 class="title-section t-overflow m-t-10 m-b-10 f-20">{{ translations.ingredients }}</h3>
-                                            <span class="btn btn-xs btn-mb-primary outline m-5" v-for="item in drink.items">{{ language === 'pt' ? item.name_pt : item_en }}</span>
+                                        <div class="m-t-10 border-inside-card strong" v-if="drink.items.length">
+                                            <h3 class="title-section t-overflow m-t-0 m-b-10 f-20">{{ translations.ingredients }}</h3>
+                                            <span
+                                                class="btn btn-xs btn-mb-primary outline m-5"
+                                                v-for="item in drink.items"
+                                                v-show="item.pivot.is_visible"
+                                            >
+                                                {{ language === 'pt' ? item.name_pt : item_en }}
+                                            </span>
                                         </div>
 
+                                    </div>
+
+                                    <!-- Card Footer -->
+                                    <div class="card-footer card-padding flex">
                                         <button
                                             type="button"
-                                            class="btn btn-block btn-mb-primary"
+                                            class="btn btn-mb-primary"
                                             @click="drinkModal(drink)"
                                         >
                                             {{ translations.buttons.drink_details }}
                                         </button>
                                     </div>
+
                                 </div>
                                 <!-- End Drink -->
                             </div>
@@ -129,14 +130,6 @@
                     </div>
                 </div>
             </section>
-
-            <div class="text-center m-t-20 m-b-20" v-if="interactions.finished_loading_category">
-                <button type="button" class="btn btn-mb-primary "
-                        @click.prevent="resetCategory()"
-                >
-                    {{translations.buttons.change_category}}
-                </button>
-            </div>
 
             <section class="m-t-30" id="comments">
                 <div class="container text-center">
@@ -147,7 +140,6 @@
                                 {{translations.leave_message}} {{event.name}}.
                             </h4>
                             <button class="btn btn-mb-info" data-toggle="modal" data-target="#comment-modal">{{translations.buttons.send_message}}</button><br><br>
-
                         </div>
                     </div>
 
@@ -181,7 +173,7 @@
 
             </section>
 
-            <div class="text-center m-t-30 m-b-30">
+            <div class="text-center m-t-30" style="margin-bottom: 60px;">
                 <button type="button" class="btn btn-mb-danger" @click="leaveEvent()">
                     {{ translations.buttons.leave_event }}
                 </button>
@@ -189,6 +181,7 @@
 
         </div>
 
+        <!-- Event Not Found -->
         <div v-if="eventFound">
             <header id="header-drink" class="header-greeting">
                 <div class="container">
@@ -219,60 +212,22 @@
 
                     <h3 class="section-title">Ops!</h3>
                     <span>{{translations.event_not_found}} :(</span>
-
-                    <router-link
-                        :to="{name: 'landing.drinks.list'}"
-                        class="btn btn-mb-primary btn-fixed-bottom m-0"
-                        style="position: fixed"
-                        @click="closeMenu()"
-                    >
-                        {{translations.buttons.go_to_menu}}
-                    </router-link>
-
                 </div>
             </header>
         </div>
 
-        <!-- <button class="btn btn-default btn-fixed btn-xl facebook" data-target="#comment-modal" data-toggle="modal">Deixe uma mensagem <i class="fa fa-comment"></i></button> -->
+        <!-- Fixed Button To Change Category -->
+        <button
+            type="button"
+            class="btn btn-mb-primary btn-fixed-bottom"
+            style="position: fixed"
+            @click.prevent="resetCategory()"
+            v-if="interactions.finished_loading_category"
+        >
+            {{translations.buttons.change_category}}
+        </button>
 
-        <!-- MODAL FRASE FACEBOOK -->
-        <div class="modal" id="modalShareWhatsApp" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="title-section m-0 m-b-10">{{translations.modal_whatsapp.title}}</h4>
-                        <p class="m-0">{{translations.modal_whatsapp.message}}</p>
-                    </div>
-                    <div class="modal-body m-t-0">
-                        <div
-                            class="card"
-                            v-for="(phrase, index) in whatsappPhrases"
-                            :class="{ 'm-b-0': index ===  whatsappPhrases.length - 1 }"
-                            :style="`background-color: ${ interactions.whatsappPhraseSelected === phrase ? '#FB923B' : '#FFF' }`"
-                            @click="interactions.whatsappPhraseSelected = phrase"
 
-                        >
-                            <div class="card-body card-padding">
-                                <p class="m-0"
-                                   :style="`color: ${ interactions.whatsappPhraseSelected === phrase ? '#FFF' : '#FB923B' }`">
-                                    {{ phrase }}
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer" style="position: fixed; bottom: 0; left: 0; right: 0">
-                        <button type="button" class="btn btn-block btn-mb-whatsapp m-0"
-                                @click="openShareWhatsapp()"
-                                :disabled="!interactions.whatsappPhraseSelected">{{translations.modal_whatsapp.button}} <i
-                            class="fa fa-whatsapp"></i>
-                        </button>
-
-                        <button type="button" class="btn btn-mb-primary m-t-20" data-dismiss="modal">{{translations.modal_whatsapp.close}}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- MODAL COMMENT -->
         <div class="modal fade" id="comment-modal" tabindex="-1" role="dialog">
@@ -302,7 +257,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>{{translations.modal_message.labels.email}}*</label>
+                                    <label>{{translations.modal_message.labels.message}}*</label>
                                     <textarea class="form-control" v-model="newMessage.comment" :placeholder="translations.modal_message.placeholders.message"></textarea>
                                 </div>
 
@@ -314,16 +269,16 @@
                                     </label>
                                 </div>
 
-                                <button class="btn btn-primary btn-block facebook" @click="saveComment()"
-                                        :disabled="!newMessage.comment || !newMessage.email || !newMessage.last_name || !newMessage.name">
-                                    {{translations.modal_message.buttons.send_message}}
-                                </button>
-
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
+
+                        <button class="btn btn-mb-info btn-block facebook" @click="saveComment()">
+                            {{translations.modal_message.buttons.send_message}}
+                        </button>
+
                         <button type="button" class="btn btn-block btn-mb-default" data-dismiss="modal">{{translations.modal_message.buttons.close}}</button>
                     </div>
 
@@ -338,7 +293,8 @@
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h4 class="title-section m-0" style="font-size: 30px;">{{ currentDrink.name }}</h4>
+                        <h4 class="title-section m-0 m-b-10" style="font-size: 30px;">{{ currentDrink.name }}</h4>
+                        <div class="text-muted" v-html="currentDrink.description"></div>
                     </div>
 
                     <div class="modal-body ext">
@@ -351,51 +307,24 @@
                            </span>
                             <span class="badge" v-if="currentDrink.priority >= 4">
                                <img src="../../../assets/images/star.svg" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
-                               Best sellers
+                               Best Sellers
                            </span>
-                        </div>
-
-                        <!-- Like -->
-                        <div class="m-t-15 m-b-30" v-if="isLogged">
-                            <!-- Svg -->
-                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(currentDrink.id) }">
-                                <svg viewBox="0 0 30 30">
-                                    <defs>
-                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%"   stop-color="#FB923B"/>
-                                            <stop offset="100%" stop-color="#F66439"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <g transform="translate(-8.9261333,-9.447)">
-                                        <path
-                                            @click.prevent="likeDrink(currentDrink)"
-                                            class="animated"
-                                            stroke="url(#linear)"
-                                            :fill="`${ handleLikedDrinks(currentDrink.id) ? 'url(#linear)' : 'transparent' }`"
-                                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
-                                        />
-                                    </g>
-                                </svg>
-                            </div>
-                            <span class="text-muted" v-if="currentDrink.likes_count > 0">
-                                {{ currentDrink.likes_count > 1 ? `${ currentDrink.likes_count } Likes` : `1 Like` }}
-                            </span>
-                            <span class="text-muted" v-if="currentDrink.likes_count === 0">Seja o primeiro a curtir</span>
                         </div>
 
                         <!-- Ingredients -->
                         <div class="card">
                             <div class="card-body card-padding">
-                                <h4 class="title-section m-0">Ingredientes</h4>
-                                <ul class="list-group m-t-30 m-b-0">
-                                    <li class="list-group-item" v-for="(item, index) in currentDrink.items">
-                                        <span v-show="item.pivot.is_visible" style="color: #000;">
-                                            {{ item[`name_pt`] ? item[`name_pt`] : item['name_pt'] }}
-                                        </span>
-                                    </li>
-                                </ul>
+                                <h4 class="title-section m-0 m-b-10">Ingredientes</h4>
+                                <span
+                                    class="btn btn-xs btn-mb-primary outline m-5"
+                                    v-for="item in currentDrink.items"
+                                    v-show="item.pivot.is_visible"
+                                >
+                                    {{ language === 'pt' ? item.name_pt : item_en }}
+                                </span>
                             </div>
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button
@@ -610,35 +539,9 @@
                 this.formatedYear = moment(this.event.date, 'DD/MM/YYYY').format('YYYY')
             },
 
-            checkRemainTime: function(){
-                let that = this
-                var then = that.event.date + ' ' +  that.event.time;
-
-                if ( moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore( moment() ) ) {
-                    that.eventHasHappened = true
-                } else {
-                    setInterval( function(){
-                        var then = that.event.date + that.event.time;
-                        var ms = moment(then,"DD/MM/YYYY HH:mm:ss").diff(moment());
-                        var d = moment.duration(ms);
-                        that.remain.days = d.days();
-                        that.remain.hours = d.hours();
-                        that.remain.minutes = d.minutes();
-                        that.remain.seconds = d.seconds();
-                    }, 1000)
-                }
-            },
 
             systemUrlToGetDrinks: function (drink) {
                 return `${ cordova.file.dataDirectory }/drink-${ drink.url }.${ drink.typeImg }`
-            },
-
-            openShareWhatsapp: function(){
-                let that = this
-
-                var url = `https://api.whatsapp.com/send?text=${that.interactions.whatsappPhraseSelected} Acesse o link: https://maisbartenders.com.br/opengraph/events/${that.event.url}`;
-
-                window.open(url, '_system', null);
             },
 
 
@@ -654,6 +557,11 @@
 
             saveComment: function(){
                 let that = this
+
+                if (!that.newMessage.comment || !that.newMessage.email || !that.newMessage.last_name || !that.newMessage.name) {
+                    errorNotify('', 'Preencha todos os campos')
+                    return
+                }
 
                 that.setLoading({is_loading: true, message: ''})
                 that.$http.post('/guest/eventRunningComment', that.newMessage)
@@ -793,15 +701,6 @@
                     }
                 })
                 that.getFormatedDates();
-                that.checkRemainTime();
-
-            },
-
-            showDrink: function(drink){
-                let that = this
-
-                localStorage.setItem('drink', JSON.stringify(drink));
-                that.$router.push({name: 'landing.drinks.show-offline', params: {drink_slug: drink.url}});
             },
 
             getEventComments: function () {
@@ -854,43 +753,6 @@
                     });
             },
 
-            likeDrink(drink){
-                let that = this
-
-                let data = {
-                    drink_id: drink.id,
-                    guest_id: that.currentUser.id
-                }
-
-                if(that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
-                    that.removeUserDrinkLike({"drink_id": drink.id})
-                    drink.likes_count = drink.likes_count - 1
-                } else {
-                    that.addUserDrinkLike({"drink_id": drink.id})
-                    drink.likes_count = drink.likes_count + 1
-                }
-
-                that.$http.post('/guest/likeDrink', data)
-                    .then(function (response) {
-
-                    })
-                    .catch(function (error) {
-
-                        if(!that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
-                            that.removeUserDrinkLike({"drink_id": drink.id})
-                            drink.likes_count = drink.likes_count - 1
-                        } else {
-                            that.addUserDrinkLike({"drink_id": drink.id})
-                            drink.likes_count = drink.likes_count + 1
-                        }
-
-                    });
-            },
-
-            handleLikedDrinks(drink_id){
-                return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
-            },
-
             leaveEvent() {
 
                 let that = this
@@ -930,32 +792,6 @@
                 }
             },
 
-            saveEvent: function(){
-                let that = this
-
-                var events = JSON.parse(localStorage.getItem('events'));
-
-                if(Array.isArray(events) && events.length){
-
-                    var index = events.indexFromAttr('id', that.event.id);
-
-                    if(index > -1){
-                        events[index] = that.event;
-                    } else {
-                        events.push(that.event);
-                    }
-
-                    var events = JSON.stringify(events);
-                    localStorage.setItem('events', events);
-                    successNotify('', 'Evento salvo no dispositivo.')
-
-                } else {
-                    var events = JSON.stringify([that.event]);
-                    localStorage.setItem('events', events);
-                    successNotify('', 'Evento salvo no dispositivo.')
-                }
-            },
-
             applyCategoryFilter(category_slug) {
                 let index = this.filterCategory.indexOf(category_slug)
 
@@ -970,13 +806,17 @@
                 let that = this
 
                 that.setLoading({is_loading: true, message: ''})
+                that.setSelectedCategory(category)
+
                 that.currentCategory = category;
                 that.applyCategoryFilter(category.slug_pt)
+
+                console.log(that.event.drinks);
 
                 setTimeout(function () {
                     that.interactions.is_loading = false;
                     that.interactions.finished_loading_category = true;
-                    that.setSelectedCategory(category)
+
                     that.setLoading({is_loading: false, message: ''})
 
                 }, 500);
@@ -1150,46 +990,6 @@
 
     .drink .stars {
         margin-right: 3px;
-    }
-
-    /* Badge */
-    .badges {
-        display: flex;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        cursor: pointer;
-    }
-
-    .badge {
-        width: 45px;
-        height: 45px;
-        border: 2px solid #fed136;
-        display: flex;
-        padding: 10px;
-        background: rgba(44, 62, 80, .8);
-        margin: 5px;
-        border-radius: 50%;
-    }
-
-    .modal-badge.badge {
-        margin: 20px auto;
-    }
-
-    .badge:hover {
-        transform: scale(1.05);
-    }
-
-    .badge:active {
-        transform: scale(1.00);
-    }
-
-    .badge img {
-        max-width: 100%;
-    }
-
-    .badge img.zoom {
-        transform: scale(1.1);
     }
 
     /* Filter */

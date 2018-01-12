@@ -112,22 +112,63 @@
 
                                 <!-- Card Body -->
                                 <div class="card-body card-padding text-center">
-                                    <h3 class="title-section t-overflow m-t-10 m-b-10 f-20">{{ drink.name }}</h3>
+                                    <h3 class="title-section t-overflow m-t-10 m-b-10">{{ drink.name }}</h3>
                                     <p class="m-0 m-b-10 text-overflow" style="color: #222">{{ drink.description }}</p>
 
-                                    <div class="m-b-20" v-if="drink.items.length">
-                                        <h3 class="title-section t-overflow m-t-10 m-b-10 f-20">{{ translations.ingredients }}</h3>
+                                    <!-- Like -->
+                                    <div class="m-t-10" v-if="isLogged">
+                                        <!-- Svg -->
+                                        <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
+                                            <svg viewBox="0 0 30 30">
+                                                <defs>
+                                                    <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                        <stop offset="0%"   stop-color="#FB923B"/>
+                                                        <stop offset="100%" stop-color="#F66439"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <g transform="translate(-8.9261333,-9.447)">
+                                                    <path
+                                                    @click.prevent="likeDrink(drink)"
+                                                    class="animated"
+                                                    stroke="url(#linear)"
+                                                    :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
+                                                    d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
+                                                    />
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <span class="text-muted" v-if="drink.likes_count > 0">
+                                            {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${ translations.like }` }}
+                                        </span>
+                                        <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
+                                    </div>
+
+                                    <div class="m-t-10 border-inside-card strong" v-if="drink.items.length">
+                                        <h3 class="title-section t-overflow m-t-0 m-b-10 f-20">{{ translations.ingredients }}</h3>
                                         <span class="btn btn-xs btn-mb-primary outline m-5" v-for="item in drink.items">{{ language === 'pt' ? item.name_pt : item_en }}</span>
                                     </div>
 
+                                </div>
+
+                                <!-- Card Footer -->
+                                <div class="card-footer card-padding flex">
                                     <button
                                         type="button"
-                                        class="btn btn-block btn-mb-primary"
+                                        class="btn btn-mb-primary"
                                         @click="drinkModal(drink)"
                                     >
                                         {{ translations.buttons.drink_details }}
                                     </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-mb-info"
+                                        @click="addDrinkPreference(drink)"
+                                        v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                    >
+                                        {{ translations.buttons.save_drink }}
+                                    </button>
                                 </div>
+
                             </div>
                             <!-- End Drink -->
                         </div>
@@ -184,7 +225,8 @@
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h4 class="title-section m-0" style="font-size: 30px;">{{ currentDrink.name }}</h4>
+                        <h4 class="title-section m-0 m-b-10" style="font-size: 30px;">{{ currentDrink.name }}</h4>
+                        <div class="text-muted" v-html="currentDrink.description"></div>
                     </div>
 
                     <div class="modal-body ext">
@@ -192,28 +234,57 @@
                         <!-- Badges -->
                         <div class="badges">
                            <span class="badge" v-if="currentDrink.is_exclusive">
-                               <img src="../../../assets/images/king.svg" :alt="translations.badges.exclusive_drinks_title" :title="translations.badges.exclusive_drinks_title">
-                              {{translations.exclusive_drink}}
+                               <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                               Drink Exclusivo
                            </span>
                             <span class="badge" v-if="currentDrink.priority >= 4">
-                               <img src="../../../assets/images/star.svg" :alt="translations.badges.best_sellers_title" :title="translations.badges.best_sellers_title">
-                               {{translations.best_sellers}}
+                               <img src="../../../assets/images/star.svg" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
+                               Best Sellers
                            </span>
+                        </div>
+
+                        <!-- Like -->
+                        <div class="m-t-15 m-b-30" v-if="isLogged">
+                            <!-- Svg -->
+                            <div class="svg-container min" :class="{ 'bounce' : handleLikedDrinks(currentDrink.id) }">
+                                <svg viewBox="0 0 30 30">
+                                    <defs>
+                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%"   stop-color="#FB923B"/>
+                                            <stop offset="100%" stop-color="#F66439"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <g transform="translate(-8.9261333,-9.447)">
+                                        <path
+                                            @click.prevent="likeDrink(currentDrink)"
+                                            class="animated"
+                                            stroke="url(#linear)"
+                                            :fill="`${ handleLikedDrinks(currentDrink.id) ? 'url(#linear)' : 'transparent' }`"
+                                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
+                                        />
+                                    </g>
+                                </svg>
+                            </div>
+                            <span class="text-muted" v-if="currentDrink.likes_count > 0">
+                                {{ currentDrink.likes_count > 1 ? `${ currentDrink.likes_count } Likes` : `1 Like` }}
+                            </span>
+                            <span class="text-muted" v-if="currentDrink.likes_count === 0">Seja o primeiro a curtir</span>
                         </div>
 
                         <!-- Ingredients -->
                         <div class="card">
                             <div class="card-body card-padding">
-                                <h4 class="title-section m-0">{{ translations.ingredients }}</h4>
-                                <ul class="list-group m-t-30 m-b-0">
-                                    <li class="list-group-item" v-for="(item, index) in currentDrink.items">
-                                        <span v-show="item.pivot.is_visible" style="color: #000;">
-                                            {{ item[`name_${language}`] ? item[`name_${language}`] : item['name_pt'] }}
-                                        </span>
-                                    </li>
-                                </ul>
+                                <h4 class="title-section m-0 m-b-10">Ingredientes</h4>
+                                <span
+                                    class="btn btn-xs btn-mb-primary outline m-5"
+                                    v-for="item in currentDrink.items"
+                                    v-show="item.pivot.is_visible"
+                                >
+                                    {{ language === 'pt' ? item.name_pt : item_en }}
+                                </span>
                             </div>
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button
@@ -221,7 +292,7 @@
                             class="btn btn-block btn-mb-default"
                             data-dismiss="modal"
                         >
-                            {{ translations.buttons.close_modal }}
+                            Fechar
                         </button>
                     </div>
                 </div>
