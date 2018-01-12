@@ -1,7 +1,8 @@
 <template>
     <div class="first-container show" :class="{ 'm-b-30': currentCategory }" ref="container">
 
-        <main-header :type="'back'" :title="!eventFound ? translations.title : `${ event.name } Não quero mais andar em circulos`"/>
+        <main-header :type="'back'" :title="!eventFound ? translations.title : event.name"/>
+        <svgIcons />
 
         <!-- EventFound -->
         <div v-if="eventFound">
@@ -37,29 +38,10 @@
             <section v-show="!interactions.finished_loading_category && !interactions.is_loading">
                 <!-- CATEGORIES -->
 
-                <h4 class="title-section">{{translations.labels.categories}}</h4>
+                <div class="container m-t-30" :class="{'cat-is-selected' : currentCategory}">
 
-                <div class="container"
-                     :class="{'cat-is-selected' : currentCategory}">
-
-                    <p class="text-center section-subheading text-muted">{{translations.categories_message}}</p>
-
-
-                    <!-- Mais Bartenders -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="p-5">
-                                <div class="card m-0 text-center">
-                                    <div class="card-body card-padding">
-                                        <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
-                                        <div class="m-t-5">
-                                            <h4 class="card-title m-b-0">{{translations.slogan_mb}}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <h4 class="title-section m-0 m-b-10">{{translations.labels.categories}}</h4>
+                    <p class="text-center section-subheading text-muted">{{ translations.categories_message }}</p>
 
                     <div class="categories">
                         <!-- ALL -->
@@ -80,9 +62,13 @@
                             <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
                                  @click="selectCategory(category)">
                                 <div class="card-body card-padding">
-                                    <img class="cat-icon" :src="category.photo_url" alt="">
+                                    <div class="cat-icon-svg">
+                                        <svg viewBox="0 0 100 100">
+                                            <use :xlink:href="`#icon-${ category.slug_pt }`"></use>
+                                        </svg>
+                                    </div>
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">{{category[`name_${language}`]}}</h6>
+                                        <h6 class="card-title m-b-0">{{ category[`name_${language}`] }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -451,6 +437,7 @@
     import drinkObj from '../../../models/Drink.js'
     import moment from 'moment'
     import mainHeader from '@/components/main-header.vue'
+    import svgIcons from '@/components/svg-icons.vue'
     import pagination from '@/components/pagination'
     import * as translations from '@/translations/events/show'
 
@@ -460,7 +447,8 @@
         name: 'show-event',
         components: {
             pagination,
-            mainHeader
+            mainHeader,
+            svgIcons
         },
         data() {
             return {

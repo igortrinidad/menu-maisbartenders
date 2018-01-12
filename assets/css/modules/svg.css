@@ -2,6 +2,13 @@
     max-width: 80px;
     margin: 0 auto;
 }
+
+.cat-icon-svg {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+}
+
 .non-fill { fill: transparent; stroke-width: 2px; }
 
 .non-fill.xs { stroke-width: 1px; }
@@ -10,6 +17,8 @@
 
 path.fix { transform: translate(2px, 2px); }
 path.fix-user { transform: translate(-5px, -2px); }
+
+
 
 
 /* Desnha Linha */

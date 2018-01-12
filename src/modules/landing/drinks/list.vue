@@ -2,7 +2,7 @@
     <div class="first-container">
 
         <main-header :type="'menu'" :title="translations.title" :action="back"/>
-
+        <svgIcons />
 
         <!-- Icon SVG + Title -->
         <div class="container">
@@ -77,7 +77,11 @@
                         <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
                              @click="selectCategory(category)">
                             <div class="card-body card-padding">
-                                <img class="cat-icon" :src="category.photo_url" alt="">
+                                <div class="cat-icon-svg">
+                                    <svg viewBox="0 0 100 100">
+                                        <use :xlink:href="`#icon-${ category.slug_pt }`"></use>
+                                    </svg>
+                                </div>
                                 <div class="m-t-5">
                                     <h6 class="card-title m-b-0">{{category[`name_${language}`]}}</h6>
                                 </div>
@@ -231,13 +235,15 @@
 <script>
     import { mapGetters, mapActions } from 'vuex'
     import mainHeader from '@/components/main-header.vue'
+    import svgIcons from '@/components/svg-icons.vue'
     import * as translations from '@/translations/drinks/list'
     import allDrinks from '../../../assets/images/todos_drinks.svg'
 
     export default {
         name: 'list-drink',
         components: {
-            mainHeader
+            mainHeader,
+            svgIcons
         },
         data() {
             return {
@@ -658,6 +664,7 @@
         width: auto;
         height: 60px;
     }
+
 
     .card-cat {
         box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
