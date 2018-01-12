@@ -17,7 +17,8 @@
     "accounting": "^0.4.1",
     "axios": "^0.16.0",
     "chart.js": "^2.6.0",
-    "cordova-android": "^6.4.0",
+    "com.bez4pieci.cookies": "~0.0.1",
+    "cordova-android": "^7.0.0",
     "cordova-browser": "^4.1.0",
     "cordova-ios": "^4.5.4",
     "cordova-plugin-compat": "^1.1.0",
@@ -51,8 +52,7 @@
     "vue-select": "github:sagalbot/vue-select",
     "vue-spinner": "^1.0.2",
     "vue-sweetalert": "^0.1.17",
-    "vuex": "^2.2.1",
-    "com.bez4pieci.cookies": "~0.0.1"
+    "vuex": "^2.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
@@ -112,9 +112,9 @@
       "com.bez4pieci.cookies": {}
     },
     "platforms": [
-      "android",
       "browser",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

@@ -9,8 +9,8 @@
                     <ul class="main-menu">
 
                         <!-- User Logged And Online -->
-                        <div class="border-inside-card" v-if="isLogged && isOnline">
-                            <li  v-if="isLogged && isOnline">
+                        <div class="border-inside-card" v-if="isLogged">
+                            <li  v-if="isLogged">
                                 <a href="#">{{translations.greeting}} {{ currentUser.full_name }}</a>
                             </li>
                             <li>
@@ -64,7 +64,7 @@
                     </ul>
 
                     <!-- Logout button -->
-                    <router-link tag="button" class="btn btn-mb-primary btn-fixed-bottom" :to="{name: 'landing.auth.logout'}" exact v-if="isLogged && isOnline">
+                    <router-link tag="button" class="btn btn-mb-primary btn-fixed-bottom" :to="{name: 'landing.auth.logout'}" exact v-if="isLogged">
                         <i class="fa fa-sign-out m-r-5"></i>{{translations.logout}}
                     </router-link>
                 </div>
@@ -97,7 +97,6 @@
                     adminPublicPlaces: false,
                 },
                 hasEventSaved: false,
-                isOnline: true,
                 isMobile: false
             }
         },
@@ -120,17 +119,19 @@
             var that = this;
             var events = JSON.parse(localStorage.getItem('events'));
 
-            if(window.cordova){
-                that.isMobile = true
-            }
+            
 
             if(Array.isArray(events) && events.length){
                 this.hasEventSaved = true;
             }
 
             setInterval(function () {
-                that.checkConnection()
-            }, 10000)
+
+                if(window.cordova){
+                    that.isMobile = true
+                }
+
+            }, 5000)
         },
 
 
