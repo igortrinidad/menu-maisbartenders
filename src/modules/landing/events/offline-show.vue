@@ -3,7 +3,7 @@
 
         <main-header :title="eventFound ? event.name : translations.event_not_found" :hide="true" />
 
-        <div v-if="!eventFound">
+        <div v-if="eventFound">
             <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
 
                 <span class="t-overflow" v-if="eventHasHappened">
@@ -189,7 +189,7 @@
 
         </div>
 
-        <div v-if="eventFound">
+        <div v-if="!eventFound">
             <header id="header-drink" class="header-greeting">
                 <div class="container">
 

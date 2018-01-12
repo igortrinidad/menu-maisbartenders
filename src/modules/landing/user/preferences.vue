@@ -20,7 +20,7 @@
             <div class="container">
 
                 <!-- User Has No Drinks -->
-                <div class="card text-center" v-if="!currentUser.saved_drinks.length">
+                <div class="card text-center">
                     <div class="card-body card-padding">
                         <h5 class="card-title">{{translations.no_drinks}}</h5>
                         <router-link class="btn btn-mb-primary outline" :to="{ name: 'landing.drinks.list' }">
@@ -45,15 +45,14 @@
                                     <p class="description m-0" style="color: #222">{{ drink.description }}</p>
                                 </router-link>
 
-                                <button
-                                    type="button"
+                                <span
                                     class="btn btn-xs btn-mb-primary outline m-t-20"
                                     style="margin-bottom: 50px;"
                                     @click="drinkModal(drink)"
-                                    v-if="isLogged && drink.items.length"
+                                    v-if="isLogged"
                                 >
                                     {{ translations.buttons.details }}
-                                </button>
+                                </span>
 
                                 <button
                                     class="btn btn-mb-danger btn-fixed-bottom"
