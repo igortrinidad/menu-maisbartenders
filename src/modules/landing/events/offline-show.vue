@@ -177,14 +177,6 @@
                 </div>
             </section>
 
-            <div class="text-center m-t-20 m-b-20" v-if="interactions.finished_loading_category">
-                <button type="button" class="btn btn-mb-primary "
-                        @click.prevent="resetCategory()"
-                >
-                    {{translations.buttons.change_category}}
-                </button>
-            </div>
-
             <section class="m-t-30" id="comments">
                 <div class="container text-center">
 
@@ -194,7 +186,6 @@
                                 {{translations.leave_message}} {{event.name}}.
                             </h4>
                             <button class="btn btn-mb-info" data-toggle="modal" data-target="#comment-modal">{{translations.buttons.send_message}}</button><br><br>
-
                         </div>
                     </div>
 
@@ -269,6 +260,16 @@
                 </div>
             </header>
         </div>
+
+            <button
+                type="button"
+                class="btn btn-mb-primary btn-fixed-bottom"
+                style="position: fixed"
+                @click.prevent="resetCategory()"
+                v-if="interactions.finished_loading_category"
+            >
+                {{translations.buttons.change_category}}
+            </button>
 
 
         <!-- MODAL FRASE FACEBOOK -->
@@ -1188,46 +1189,6 @@
 
     .drink .stars {
         margin-right: 3px;
-    }
-
-    /* Badge */
-    .badges {
-        display: flex;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        cursor: pointer;
-    }
-
-    .badge {
-        width: 45px;
-        height: 45px;
-        border: 2px solid #fed136;
-        display: flex;
-        padding: 10px;
-        background: rgba(44, 62, 80, .8);
-        margin: 5px;
-        border-radius: 50%;
-    }
-
-    .modal-badge.badge {
-        margin: 20px auto;
-    }
-
-    .badge:hover {
-        transform: scale(1.05);
-    }
-
-    .badge:active {
-        transform: scale(1.00);
-    }
-
-    .badge img {
-        max-width: 100%;
-    }
-
-    .badge img.zoom {
-        transform: scale(1.1);
     }
 
     /* Filter */
