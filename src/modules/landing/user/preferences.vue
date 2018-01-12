@@ -5,7 +5,6 @@
 
         <!-- User Pic + Title -->
         <div class="container">
-
             <div class="pic large center" :style="`background-image: url(${ currentUser.photo_url })`" v-show="currentUser.photo_url"></div>
             <div class="pic large center non-pic" v-show="!currentUser.photo_url">{{ getInitialChar(currentUser) }}</div>
 

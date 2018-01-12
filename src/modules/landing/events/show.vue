@@ -145,7 +145,13 @@
 
                                         <div class="m-t-10 border-inside-card strong" v-if="drink.items.length">
                                             <h3 class="title-section t-overflow m-t-0 m-b-10 f-20">{{ translations.ingredients }}</h3>
-                                            <span class="btn btn-xs btn-mb-primary outline m-5" v-for="item in drink.items">{{ language === 'pt' ? item.name_pt : item_en }}</span>
+                                            <span
+                                                class="btn btn-xs btn-mb-primary outline m-5"
+                                                v-for="item in drink.items"
+                                                v-show="item.pivot.is_visible"
+                                            >
+                                                {{ language === 'pt' ? item.name_pt : item_en }}
+                                            </span>
                                         </div>
 
                                     </div>
@@ -344,7 +350,8 @@
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h4 class="title-section m-0" style="font-size: 30px;">{{ currentDrink.name }}</h4>
+                        <h4 class="title-section m-0 m-b-10" style="font-size: 30px;">{{ currentDrink.name }}</h4>
+                        <div class="text-muted" v-html="currentDrink.description"></div>
                     </div>
 
                     <div class="modal-body ext">
@@ -357,7 +364,7 @@
                            </span>
                             <span class="badge" v-if="currentDrink.priority >= 4">
                                <img src="../../../assets/images/star.svg" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
-                               Best sellers
+                               Best Sellers
                            </span>
                         </div>
 
@@ -392,16 +399,17 @@
                         <!-- Ingredients -->
                         <div class="card">
                             <div class="card-body card-padding">
-                                <h4 class="title-section m-0">Ingredientes</h4>
-                                <ul class="list-group m-t-30 m-b-0">
-                                    <li class="list-group-item" v-for="(item, index) in currentDrink.items">
-                                        <span v-show="item.pivot.is_visible" style="color: #000;">
-                                            {{ item[`name_pt`] ? item[`name_pt`] : item['name_pt'] }}
-                                        </span>
-                                    </li>
-                                </ul>
+                                <h4 class="title-section m-0 m-b-10">Ingredientes</h4>
+                                <span
+                                    class="btn btn-xs btn-mb-primary outline m-5"
+                                    v-for="item in currentDrink.items"
+                                    v-show="item.pivot.is_visible"
+                                >
+                                    {{ language === 'pt' ? item.name_pt : item_en }}
+                                </span>
                             </div>
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button
