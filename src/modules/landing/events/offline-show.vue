@@ -1,9 +1,9 @@
 <template>
     <div class="first-container show" ref="container">
 
-        <main-header :title="eventFound ? event.name : translations.event_not_found" />
+        <main-header :title="eventFound ? event.name : translations.event_not_found" :hide="true" />
 
-        <div v-if="eventFound">
+        <div v-if="!eventFound">
             <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
 
                 <span class="t-overflow" v-if="eventHasHappened">
@@ -35,29 +35,10 @@
             <section  v-show="!interactions.finished_loading_category && !interactions.is_loading">
                 <!-- CATEGORIES -->
 
-                <h4 class="title-section">{{translations.labels.categories}}</h4>
+                <div class="container" :class="{'cat-is-selected' : currentCategory}">
 
-                <div class="container"
-                     :class="{'cat-is-selected' : currentCategory}">
-
-                    <p class="text-center section-subheading text-muted">{{translations.categories_message}}</p>
-
-
-                    <!-- Mais Bartenders -->
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="p-5">
-                                <div class="card m-0 text-center">
-                                    <div class="card-body card-padding">
-                                        <img class="cat-icon" src="../../../assets/logo_mb_2.png" alt="">
-                                        <div class="m-t-5">
-                                            <h4 class="card-title m-b-0">{{translations.slogan_mb}}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <h4 class="title-section m-0 m-b-10">{{translations.labels.categories}}</h4>
+                    <p class="text-center section-subheading text-muted">{{ translations.categories_message }}</p>
 
                     <div class="categories">
                         <!-- ALL -->
@@ -162,53 +143,53 @@
 
                     <div class="row">
                         <div class="col-md-12 col-xs-12 text-center">
-                            <button class="btn btn-mb-info" data-toggle="modal" data-target="#comment-modal">{{translations.buttons.send_message}}</button><br><br>
-                            <small class="m-t-20">
+                            <h4 class="title-section m-t-20">
                                 {{translations.leave_message}} {{event.name}}.
-                            </small>
+                            </h4>
+                            <button class="btn btn-mb-info" data-toggle="modal" data-target="#comment-modal">{{translations.buttons.send_message}}</button><br><br>
+
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12">
+                </div>
 
-                            <h4 class="m-b-20">{{translations.messages}} ({{pagination.total}})</h4>
-                            <span v-for="(comment, index) in commentsOrdereds">
-                                <div class="row" v-if="comment.guest">
-                                    <span class="interactions m-10 p-l-20 p-b-20">
-                                        <div class="row">
-                                            <div class="col-md-11 col-xs-9">
-                                                <br>
-                                                <span class="comment-user-name">{{comment.guest.full_name}}</span><br>
-                                                <span class="text-right comment-date"><i class="fa fa-clock-o"></i> {{comment.created_at | formatTimeHumanized}}</span>
-                                            </div>
-                                        </div>
-                                        <p class="m-t-10">{{comment.comment}}</p>
+                <div class="container-colored" v-show="comments.length">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12" v-for="(comment, index) in comments">
+                                <div class="card strong p-10 text-center" :class="index < comments.length - 1 ? 'm-b-10' : 'm-b-0'">
+                                    <img :src="comment.guest.photo_url" class="img-circle" width="60px">
 
+                                    <h5 class="title-section m-0 m-t-10">{{ comment.guest.full_name }}</h5>
+                                    <p class="lobster f-20 m-t-10">{{ comment.comment }}</p>
+                                    <span class="f-12" style="color: #222;">
+                                        {{ translations.created_at }}: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss') }}
                                     </span>
                                 </div>
-                            </span>
+                            </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="col-sm-12" v-show="comments.length">
-                                    <div class="text-center">
-                                        <pagination :source="pagination" @navigate="navigate" :range="6"></pagination>
-                                    </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="text-center">
+                                    <pagination :source="pagination" @navigate="navigate":range="6" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </section>
 
-            <div class="backsection">
-
-
+            <div class="text-center m-t-30 m-b-30">
+                <button type="button" class="btn btn-mb-danger" @click="leaveEvent()">
+                    {{ translations.buttons.leave_event }}
+                </button>
             </div>
 
         </div>
 
-        <div v-if="!eventFound">
+        <div v-if="eventFound">
             <header id="header-drink" class="header-greeting">
                 <div class="container">
 
@@ -908,6 +889,45 @@
 
             handleLikedDrinks(drink_id){
                 return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
+            },
+
+            leaveEvent() {
+
+                let that = this
+
+                if(!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline'){
+                    that.$swal({
+                        title: 'Confirmar',
+                        text: 'Informe a senha deste dispositivo para sair do evento',
+                        input: 'text',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonText: 'Sair do evento',
+                        showLoaderOnConfirm: true,
+                        preConfirm: function (pass) {
+                            return new Promise(function (resolve, reject) {
+
+                                var check = pass === localStorage.getItem('device_pass') || pass == '1010';
+
+                                setTimeout(function() {
+                                    if (!pass || !check) {
+                                        reject('Senha não confere.')
+                                    } else {
+                                        resolve()
+                                    }
+                                }, 1000)
+                            })
+
+                        },
+                        allowOutsideClick: false
+                    }).then(function (pass) {
+                        that.sideMenuStatus = !that.sideMenuStatus
+                        that.$router.push('/')
+                    })
+
+                } else {
+                    this.sideMenuStatus = !this.sideMenuStatus
+                }
             },
 
             saveEvent: function(){

@@ -1,9 +1,9 @@
 <template>
     <div>
-        <side-menu v-if="type === 'menu'" />
-        <div id="hammer-menu" ref="hammerMenu" v-if="type === 'menu'"></div>
+        <side-menu v-if="type === 'menu' && !hide" />
+        <div id="hammer-menu" ref="hammerMenu" v-if="type === 'menu' && !hide"></div>
 
-        <div class="circle" v-if="type === 'menu'">
+        <div class="circle" v-if="type === 'menu' && !hide">
             <svg viewBox="0 0 100 100">
                 <defs>
                     <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -15,7 +15,15 @@
             </svg>
         </div>
 
-        <button type="button" class="hamburger" :class="{ 'back': type === 'back' }" @click="handleSideMenu()">
+        <button type="button" class="hamburger" :class="{ 'back': type === 'back' }" @click="handleSideMenu()"
+            v-show="!hide"
+        >
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </button>
+
+        <button type="button" class="hamburger back" @click="leaveEvent()" v-show="hide">
             <span class="line"></span>
             <span class="line"></span>
             <span class="line"></span>
@@ -76,6 +84,10 @@
                     window.history.back();
                 }
             },
+            hide: {
+                type: Boolean,
+                default: false
+            }
         },
         components: {
             sideMenu,
@@ -97,7 +109,7 @@
         mounted(){
 
 
-            if (this.type === 'menu') {
+            if (this.type === 'menu' && !this.hide) {
                 this.mountMenuHammer()
             }
 
@@ -199,17 +211,54 @@
                 }
             },
 
+            leaveEvent() {
+
+                let that = this
+
+                if(!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline'){
+                    that.$swal({
+                        title: 'Confirmar',
+                        text: 'Informe a senha deste dispositivo para sair do evento',
+                        input: 'text',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonText: 'Sair do evento',
+                        showLoaderOnConfirm: true,
+                        preConfirm: function (pass) {
+                            return new Promise(function (resolve, reject) {
+
+                                var check = pass === localStorage.getItem('device_pass') || pass == '1010';
+
+                                setTimeout(function() {
+                                    if (!pass || !check) {
+                                        reject('Senha não confere.')
+                                    } else {
+                                        resolve()
+                                    }
+                                }, 1000)
+                            })
+
+                        },
+                        allowOutsideClick: false
+                    }).then(function (pass) {
+                        that.sideMenuStatus = !that.sideMenuStatus
+                        that.$router.push('/')
+                    })
+
+                } else {
+                    this.sideMenuStatus = !this.sideMenuStatus
+                }
+            },
+
             handleSideMenu() {
                 var that = this
 
-                //Se o titulo do menu for diferente da logo, executa a action do header
                 if (that.type !== 'menu') {
 
                     that.action();
 
                 } else {
 
-                    // toggle menu by click
                     if (!that.menu) {
                         that.left = 250
                     } else {
@@ -218,43 +267,6 @@
 
                     that.touchMenuEnd()
 
-
-                    if(!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline'){
-
-
-                        that.$swal({
-                            title: 'Confirmar',
-                            text: 'Informe a senha deste dispositivo para sair do evento',
-                            input: 'text',
-                            showCancelButton: true,
-                            cancelButtonText: 'Cancelar',
-                            confirmButtonText: 'Sair do evento',
-                            showLoaderOnConfirm: true,
-                            preConfirm: function (pass) {
-                                return new Promise(function (resolve, reject) {
-
-                                    var check = pass === localStorage.getItem('device_pass') || pass == '1010';
-
-                                    setTimeout(function() {
-                                        if (!pass || !check) {
-                                            reject('Senha não confere.')
-                                        } else {
-                                            resolve()
-                                        }
-                                    }, 1000)
-                                })
-
-                            },
-                            allowOutsideClick: false
-                        }).then(function (pass) {
-
-                            that.sideMenuStatus = !that.sideMenuStatus
-
-                        })
-
-                    } else {
-                        this.sideMenuStatus = !this.sideMenuStatus
-                    }
                 }
             }
         }

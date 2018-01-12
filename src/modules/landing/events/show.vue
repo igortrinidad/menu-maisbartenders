@@ -208,7 +208,6 @@
                 </div>
             </div>
 
-
             <button class="btn btn-mb-primary btn-fixed-bottom" style="position: fixed;" @click="resetCategory()"
                     v-if="currentCategory">{{translations.buttons.change_category}}
             </button>

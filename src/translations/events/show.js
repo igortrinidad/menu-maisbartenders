@@ -36,7 +36,8 @@ export const en = {
         go_to_menu: 'Go to Mais Bartenders complete menu',
         save_event: 'Save event on this device',
         close: 'Close',
-        send_message: 'Send a message'
+        send_message: 'Send a message',
+        leave_event: 'Leave Event',
     },
     modal_comment:{
         title: 'New comment',
@@ -125,7 +126,8 @@ export const pt = {
         go_to_menu: 'Ir para cardápio completo Mais Bartenders',
         save_event: 'Salvar evento no disposivo',
         close: 'Fechar',
-        send_message: 'Enviar mensagem'
+        send_message: 'Enviar mensagem',
+        leave_event: 'Sair do evento',
     },
     modal_comment:{
         title: 'New comment',
