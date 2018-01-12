@@ -137,15 +137,8 @@
                 </div>
             </section>
 
-            <div class="text-center m-t-20 m-b-20" v-if="interactions.finished_loading_category">
-                <button type="button" class="btn btn-mb-primary "
-                        @click.prevent="resetCategory()"
-                >
-                    {{translations.buttons.change_category}}
-                </button>
-            </div>
 
-            <div class="container-colored m-t-30 p-t-30">
+            <div class="m-t-30 p-t-30">
                 <div class="container">
                     <div class="card m-b-0">
                         <div class="card-body card-padding">
