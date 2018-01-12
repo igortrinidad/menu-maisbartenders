@@ -4,7 +4,7 @@
         <main-header :title="eventFound ? event.name : translations.event_not_found" :hide="true" />
 
         <!-- Event Found -->
-        <div v-if="eventFound">
+        <div v-if="!eventFound">
             <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
 
                 <span class="t-overflow" v-if="eventHasHappened">
@@ -182,7 +182,7 @@
         </div>
 
         <!-- Event Not Found -->
-        <div v-if="!eventFound">
+        <div v-if="eventFound">
             <header id="header-drink" class="header-greeting">
                 <div class="container">
 
@@ -730,13 +730,6 @@
                 that.checkRemainTime();
             },
 
-            showDrink: function(drink){
-                let that = this
-
-                localStorage.setItem('drink', JSON.stringify(drink));
-                that.$router.push({name: 'landing.drinks.show-offline', params: {drink_slug: drink.url}});
-            },
-
             getEventComments: function () {
                 let that = this
                 that.$http.get('/events/comments/' + that.$route.params.event_slug)
@@ -787,43 +780,6 @@
                     });
             },
 
-            likeDrink(drink){
-                let that = this
-
-                let data = {
-                    drink_id: drink.id,
-                    guest_id: that.currentUser.id
-                }
-
-                if(that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
-                    that.removeUserDrinkLike({"drink_id": drink.id})
-                    drink.likes_count = drink.likes_count - 1
-                } else {
-                    that.addUserDrinkLike({"drink_id": drink.id})
-                    drink.likes_count = drink.likes_count + 1
-                }
-
-                that.$http.post('/guest/likeDrink', data)
-                    .then(function (response) {
-
-                    })
-                    .catch(function (error) {
-
-                        if(!that.userDrinkLikes.checkFromAttr('drink_id', drink.id)){
-                            that.removeUserDrinkLike({"drink_id": drink.id})
-                            drink.likes_count = drink.likes_count - 1
-                        } else {
-                            that.addUserDrinkLike({"drink_id": drink.id})
-                            drink.likes_count = drink.likes_count + 1
-                        }
-
-                    });
-            },
-
-            handleLikedDrinks(drink_id){
-                return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
-            },
-
             leaveEvent() {
 
                 let that = this
@@ -863,32 +819,6 @@
                 }
             },
 
-            saveEvent: function(){
-                let that = this
-
-                var events = JSON.parse(localStorage.getItem('events'));
-
-                if(Array.isArray(events) && events.length){
-
-                    var index = events.indexFromAttr('id', that.event.id);
-
-                    if(index > -1){
-                        events[index] = that.event;
-                    } else {
-                        events.push(that.event);
-                    }
-
-                    var events = JSON.stringify(events);
-                    localStorage.setItem('events', events);
-                    successNotify('', 'Evento salvo no dispositivo.')
-
-                } else {
-                    var events = JSON.stringify([that.event]);
-                    localStorage.setItem('events', events);
-                    successNotify('', 'Evento salvo no dispositivo.')
-                }
-            },
-
             applyCategoryFilter(category_slug) {
                 let index = this.filterCategory.indexOf(category_slug)
 
@@ -903,6 +833,8 @@
                 let that = this
 
                 that.setLoading({is_loading: true, message: ''})
+                that.setSelectedCategory(category)
+
                 that.currentCategory = category;
                 that.applyCategoryFilter(category.slug_pt)
 
@@ -911,7 +843,7 @@
                 setTimeout(function () {
                     that.interactions.is_loading = false;
                     that.interactions.finished_loading_category = true;
-                    that.setSelectedCategory(category)
+
                     that.setLoading({is_loading: false, message: ''})
 
                 }, 500);
