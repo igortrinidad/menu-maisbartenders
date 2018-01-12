@@ -12,27 +12,6 @@
 
             </div>
 
-            <!-- RETIRAR OS BADGES
-            <div class="container m-t-30">
-                <div class="badges">
-                    <div class="badge-container" v-if="drink.is_exclusive">
-                    <span class="badge">
-                        <img src="../../../assets/images/king.svg" :alt="translations.exclusive_drink"
-                             :title="translations.exclusive_drink">
-                        <span class="text-uppercase">{{translations.exclusive_drink}}</span>
-                    </span>
-                    </div>
-                    <div class="badge-container" v-if="drink.priority >= 4">
-                    <span class="badge">
-                        <img class="zoom" src="../../../assets/images/star.svg" :alt="translations.best_sellers"
-                             :title="translations.best_sellers">
-                        <span class="text-uppercase">{{translations.best_sellers}}</span>
-                    </span>
-                    </div>
-                </div>
-            </div>
-            -->
-
             <div id="drink" class="container-colored m-t-30">
                 <div class="container">
                     <div class="row">
