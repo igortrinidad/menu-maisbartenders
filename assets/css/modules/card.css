@@ -21,10 +21,14 @@
 
 /* Border Inside Card */
 
-.border-inside-card{
+.border-inside-card {
     border: 1px solid rgba(255, 255, 255, .1);
     padding: 7px 0px;
     border-radius: 10px;
+}
+
+.border-inside-card.strong {
+    border: 1px solid rgba(0, 0, 0, .7);
 }
 
 .card {

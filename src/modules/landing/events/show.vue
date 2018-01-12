@@ -99,7 +99,7 @@
                 </div>
 
 
-                <div class="container-colored list-drinks p-t-30">
+                <div class="container-colored list-drinks p-t-30 m-b-0">
                     <div class="container">
                         <!-- Cols -->
                         <div class="cols" v-show="drinksFiltered && drinksFiltered.length">
@@ -138,82 +138,76 @@
             </section>
 
 
-            <div class="m-t-30 p-t-30">
-                <div class="container">
-                    <div class="card m-b-0">
-                        <div class="card-body card-padding">
-                            <div class="row">
-                                <div class="col-md-12 col-xs-12">
+            <div class="container">
+                <div class="card m-b-0">
+                    <div class="card-body card-padding">
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12">
 
-                                    <div class="text-center">
-                                        <h4 class="title-section m-0">{{translations.labels.comments}}</h4>
-                                        <p class="sub-header"> {{ pagination.total > 1 ? `${ pagination.total } ${ translations.comments }` : `1 ${translations.comment }` }}</p>
+                                <div class="text-center">
+                                    <h4 class="title-section m-0">{{translations.labels.comments}}</h4>
+                                    <p class="sub-header"> {{ pagination.total > 1 ? `${ pagination.total } ${ translations.comments }` : `1 ${translations.comment }` }}</p>
 
 
-                                        <p class="text-muted m-b-0 m-t-10">
-                                            {{translations.comment_message}} {{event.name}}
-                                        </p>
+                                    <p class="text-muted m-b-0 m-t-10">
+                                        {{translations.comment_message}} {{event.name}}
+                                    </p>
 
-                                        <div class="text-center m-20" v-if="isLogged">
-                                            <button class="btn btn-mb-primary" data-target="#modal-comment"
-                                                    data-toggle="modal"><i class="fa fa-comment"></i>
-                                                {{translations.buttons.new_comment}}
-                                            </button>
-                                        </div>
-
-                                        <div class="text-center m-20" v-if="!isLogged">
-                                            <router-link tag="button" class="btn btn-mb-primary"
-                                                         :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
-                                            >
-                                                {{translations.buttons.comment_unauthenticated}}
-                                            </router-link>
-                                        </div>
+                                    <div class="text-center m-20" v-if="isLogged">
+                                        <button class="btn btn-mb-primary" data-target="#modal-comment"
+                                                data-toggle="modal"><i class="fa fa-comment"></i>
+                                            {{translations.buttons.new_comment}}
+                                        </button>
                                     </div>
 
-                                    <span v-for="(comment, index) in comments">
-                                        <div class="row">
-                                            <span class="interactions m-10">
-                                                <div class="row">
-                                                    <div class="col-md-1 col-xs-3">
-                                                        <img :src="comment.guest.photo_url" class="img-circle"
-                                                             width="60px">
-                                                    </div>
-                                                    <div class="col-md-11 col-xs-9">
-                                                        <br>
-                                                        <span
-                                                            class="comment-user-name">{{comment.guest.full_name}}</span>
-                                                    </div>
-                                                </div>
-                                                <p class="m-t-10">{{comment.comment}}</p>
-                                                <span
-                                                    class="text-right comment-date">{{translations.created_at}}: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss')
-                                                    }}</span>
-                                            </span>
-                                        </div>
-                                    </span>
-
-                                    <div class="row">
-                                        <div class="col-sm-12" v-show="comments.length">
-                                            <div class="text-center">
-                                                <pagination :source="pagination" @navigate="navigate"
-                                                            :range="6"></pagination>
-                                            </div>
-                                        </div>
+                                    <div class="text-center m-20" v-if="!isLogged">
+                                        <router-link tag="button" class="btn btn-mb-primary"
+                                                     :to="{name: 'landing.auth.login', query:{redirect: $route.path}}"
+                                        >
+                                            {{ translations.buttons.comment_unauthenticated }}
+                                        </router-link>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="row text-center" v-if="isMobile">
-                                <div class="col-md-12 col-xs-12">
-                                    <hr>
-                                    <button class="btn btn-mb-info" @click="saveEvent()">{{translations.buttons.save_event}}
-                                    </button>
-                                </div>
+                        <div class="row text-center" v-if="isMobile">
+                            <div class="col-md-12 col-xs-12">
+                                <hr>
+                                <button class="btn btn-mb-info" @click="saveEvent()">{{translations.buttons.save_event}}
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="container-colored" v-show="comments.length">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12" v-for="(comment, index) in comments">
+                            <div class="card strong p-10 text-center" :class="index < comments.length - 1 ? 'm-b-10' : 'm-b-0'">
+                                <img :src="comment.guest.photo_url" class="img-circle" width="60px">
+
+                                <h5 class="title-section m-0 m-t-10">{{ comment.guest.full_name }}</h5>
+                                <p class="lobster f-20 m-t-10">{{ comment.comment }}</p>
+                                <span class="f-12" style="color: #222;">
+                                    {{ translations.created_at }}: {{comment.created_at | moment('DD/MM/YYYY HH:mm:ss') }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="text-center">
+                                <pagination :source="pagination" @navigate="navigate":range="6" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <button class="btn btn-mb-primary btn-fixed-bottom" style="position: fixed;" @click="resetCategory()"
                     v-if="currentCategory">{{translations.buttons.change_category}}
