@@ -26,10 +26,10 @@ cd automating;
 
 mkdir ../apk_versions/$version;
 
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore menu-maisbartenders.keystore ../platforms/android/build/outputs/apk/android-release-unsigned.apk menu-maisbartenders -storepass swatty -keypass swatty;
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore menu-maisbartenders.keystore ../platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk menu-maisbartenders -storepass swatty -keypass swatty;
 wait;
 
-zipalign -v 4 ../platforms/android/build/outputs/apk/android-release-unsigned.apk ../apk_versions/$version/APP-BUILDED-SIGNED.apk;
+zipalign -v 4 ../platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ../apk_versions/$version/APP-BUILDED-SIGNED.apk;
 
 echo "TASK FINISHED.";
 echo "*****************************************";

@@ -107,7 +107,7 @@
                                 <!-- Start Drink -->
                                 <div class="card m-0">
                                     <!-- Card Header -->
-                                    <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+                                    <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }" @click="openDrink(drink)">
                                     </div>
 
                                     <!-- Card Body -->
@@ -161,7 +161,7 @@
                                         <button
                                             type="button"
                                             class="btn btn-mb-primary"
-                                            @click="drinkModal(drink)"
+                                            @click="openDrink(drink)"
                                         >
                                             {{ translations.buttons.drink_details }}
                                         </button>
@@ -621,6 +621,10 @@
             drinkModal: function(drink) {
                 this.currentDrink = drink
                 $('#modal-drink').modal('show')
+            },
+
+            openDrink: function(drink){
+                this.$router.push({name: 'landing.drinks.show', params: { drink_slug: drink.url }})
             },
 
             getFormatedDates: function () {

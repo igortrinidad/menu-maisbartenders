@@ -119,19 +119,20 @@
             var that = this;
             var events = JSON.parse(localStorage.getItem('events'));
 
-            
 
+            //Esperar o device estar pronto para verificar se é mobile
+            if(window.cordova){
+
+                document.addEventListener("deviceready", function(){
+                    that.isMobile = true
+                }, false);
+
+            }
+            
             if(Array.isArray(events) && events.length){
                 this.hasEventSaved = true;
             }
 
-            setInterval(function () {
-
-                if(window.cordova){
-                    that.isMobile = true
-                }
-
-            }, 5000)
         },
 
 

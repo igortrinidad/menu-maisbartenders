@@ -1,10 +1,10 @@
 <template>
     <div class="first-container show" ref="container">
 
-        <main-header :title="eventFound ? event.name : translations.event_not_found" :hide="true" />
+        <main-header :title="event.name" :type="'no-button'" />
 
         <!-- Event Found -->
-        <div v-if="!eventFound">
+        <div>
             <div class="show-header" v-bind:style="{ backgroundImage: eventBackground}">
 
                 <span class="t-overflow" v-if="eventHasHappened">
@@ -29,7 +29,7 @@
 
             <span id="categories"></span>
             <span id="drinks"></span>
-            <section  v-show="!interactions.finished_loading_category && !interactions.is_loading">
+            <section  v-show="!currentCategory">
                 <!-- CATEGORIES -->
 
                 <div class="container" :class="{'cat-is-selected' : currentCategory}">
@@ -70,11 +70,11 @@
 
             </section>
 
-            <section  v-show="interactions.finished_loading_category">
-                <div class="text-center" v-if="interactions.finished_loading_category">
+            <section  v-if="currentCategory">
+                <div class="text-center">
                     <h3>{{translations.labels.drinks}}</h3>
                     <p class="text-center section-subheading text-muted">{{translations.category_selected}}</p>
-                    <div class="card-body card-padding m-b-20">
+                    <div class="card-body card-padding m-b-20" @click="resetCategory()">
                         <img class="cat-icon" :src="currentCategory.photo_url" alt="">
                         <div class="m-t-5">
                             <h6 class="card-title m-b-0">{{currentCategory[`name_${language}`]}}</h6>
@@ -90,7 +90,7 @@
                                 <!-- Start Drink -->
                                 <div class="card m-0">
                                     <!-- Card Header -->
-                                    <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }">
+                                    <div class="card-header cover" :style="{ backgroundImage: `url(${ drink.photo_url })` }" @click="openDrink(drink)">
                                     </div>
 
                                     <!-- Card Body -->
@@ -116,7 +116,7 @@
                                         <button
                                             type="button"
                                             class="btn btn-mb-primary"
-                                            @click="drinkModal(drink)"
+                                            @click="openDrink(drink)"
                                         >
                                             {{ translations.buttons.drink_details }}
                                         </button>
@@ -161,7 +161,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row m-b-30">
                             <div class="col-sm-12">
                                 <div class="text-center">
                                     <pagination :source="pagination" @navigate="navigate":range="6" />
@@ -174,46 +174,11 @@
             </section>
 
             <div class="text-center m-t-30" style="margin-bottom: 60px;">
-                <button type="button" class="btn btn-mb-danger" @click="leaveEvent()">
+                <button type="button" class="btn btn-mb-danger btn-xs" @click="leaveEvent()">
                     {{ translations.buttons.leave_event }}
                 </button>
             </div>
 
-        </div>
-
-        <!-- Event Not Found -->
-        <div v-if="eventFound">
-            <header id="header-drink" class="header-greeting">
-                <div class="container">
-
-                    <div class="svg-container">
-                        <svg viewBox="0 0 60 60">
-                            <defs>
-                                <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%"   stop-color="#FB923B"/>
-                                    <stop offset="100%" stop-color="#F66439"/>
-                                </linearGradient>
-                            </defs>
-                            <g style="transform: translate(2px, 2px)">
-                                <path class="non-fill animated" stroke="url(#linear)"
-                                    d="M 49.124566,50.785258 H 7.7292211 c -2.6133405,0 -4.9494455,-1.349848 -6.2538423,-3.613229 -1.30439678,-2.258839 -1.30439678,-4.958535 0.00455,-7.21737 L 22.1776,4.1086916 c 1.29985,-2.2588437 3.640493,-3.60869161 6.249291,-3.60869161 2.608798,0 4.949446,1.34984791 6.253842,3.60868691 L 55.373861,39.954655 c 1.304397,2.263381 1.304397,4.963077 0,7.221916 -1.304397,2.258839 -3.640497,3.608687 -6.249295,3.608687 z M 28.426891,5.1540222 c -0.445404,0 -1.554369,0.1227126 -2.21793,1.2816758 L 5.506744,42.281666 c -0.6681081,1.158958 -0.2227043,2.181573 0,2.567894 0.2227043,0.38633 0.8862655,1.281676 2.2224771,1.281676 H 49.124566 c 1.336212,0 1.99523,-0.895355 2.21793,-1.281676 0.222695,-0.386331 0.67265,-1.408931 0,-2.567894 L 30.649368,6.435698 C 29.981265,5.2767348 28.872295,5.1540222 28.426891,5.1540222 Z"
-                                 />
-                                <path class="non-fill animated" stroke="url(#linear)"
-                                    d="m 28.822302,32.987258 c -1.286219,0 -2.327012,-1.040793 -2.327012,-2.327011 V 17.848049 c 0,-1.286218 1.040793,-2.327011 2.327012,-2.327011 1.286218,0 2.327011,1.040793 2.327011,2.327011 v 12.812198 c 0,1.286218 -1.040793,2.327011 -2.327011,2.327011 z"
-                                 />
-                                <circle class="non-fill animated" stroke="url(#linear)"
-                                    cx="28.821358"
-                                    cy="38.414032"
-                                    r="2.7924135"
-                                />
-                            </g>
-                        </svg>
-                    </div>
-
-                    <h3 class="section-title">Ops!</h3>
-                    <span>{{translations.event_not_found}} :(</span>
-                </div>
-            </header>
         </div>
 
         <!-- Fixed Button To Change Category -->
@@ -222,7 +187,7 @@
             class="btn btn-mb-primary btn-fixed-bottom"
             style="position: fixed"
             @click.prevent="resetCategory()"
-            v-if="interactions.finished_loading_category"
+            v-if="currentCategory"
         >
             {{translations.buttons.change_category}}
         </button>
@@ -424,7 +389,7 @@
                     slug_pt: 'todas',
                     slug_en: 'all',
                     photo_url: allDrinks
-                }
+                },
             }
         },
         computed: {
@@ -444,10 +409,6 @@
                 if (window.cordova) {
                     return `url('${ cordova.file.dataDirectory }/evento-${ this.event.url }.${ this.event.typeImg }')`
                 }
-            },
-
-            eventFound: function() {
-                return window.cordova ? true : false
             },
 
             commentsOrdereds: function(){
@@ -531,6 +492,12 @@
             drinkModal: function(drink) {
                 this.currentDrink = drink
                 $('#modal-drink').modal('show')
+            },
+
+            openDrink: function(drink){
+                localStorage.setItem('drink_selected_to_show_off',JSON.stringify(drink));
+
+                this.$router.push({name: 'landing.drinks.show-offline', params: { drink_slug: drink.url }})
             },
 
             getFormatedDates: function () {
@@ -805,21 +772,10 @@
             selectCategory(category) {
                 let that = this
 
-                that.setLoading({is_loading: true, message: ''})
                 that.setSelectedCategory(category)
 
                 that.currentCategory = category;
                 that.applyCategoryFilter(category.slug_pt)
-
-                console.log(that.event.drinks);
-
-                setTimeout(function () {
-                    that.interactions.is_loading = false;
-                    that.interactions.finished_loading_category = true;
-
-                    that.setLoading({is_loading: false, message: ''})
-
-                }, 500);
 
                 that.$nextTick(() => {
                     that.$scrollTo('#drinks')

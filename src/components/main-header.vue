@@ -1,9 +1,9 @@
 <template>
     <div>
-        <side-menu v-if="type === 'menu' && !hide" />
-        <div id="hammer-menu" ref="hammerMenu" v-if="type === 'menu' && !hide"></div>
+        <side-menu v-if="type === 'menu'" />
+        <div id="hammer-menu" ref="hammerMenu" v-if="type === 'menu'"></div>
 
-        <div class="circle" v-if="type === 'menu' && !hide">
+        <div class="circle" v-if="type === 'menu'">
             <svg viewBox="0 0 100 100">
                 <defs>
                     <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -15,15 +15,8 @@
             </svg>
         </div>
 
-        <button type="button" class="hamburger" :class="{ 'back': type === 'back' }" @click="handleSideMenu()"
-            v-show="!hide"
+        <button type="button" class="hamburger" v-if="type === 'menu' || type === 'back'" :class="{ 'back': type === 'back' }" @click="handleSideMenu()"
         >
-            <span class="line"></span>
-            <span class="line"></span>
-            <span class="line"></span>
-        </button>
-
-        <button type="button" class="hamburger back" @click="leaveEvent()" v-show="hide">
             <span class="line"></span>
             <span class="line"></span>
             <span class="line"></span>
@@ -83,10 +76,6 @@
                 default: function(){
                     window.history.back();
                 }
-            },
-            hide: {
-                type: Boolean,
-                default: false
             }
         },
         components: {
@@ -109,7 +98,7 @@
         mounted(){
 
 
-            if (this.type === 'menu' && !this.hide) {
+            if (this.type === 'menu') {
                 this.mountMenuHammer()
             }
 

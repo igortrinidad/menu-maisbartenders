@@ -1,9 +1,9 @@
 <template>
     <div class="first-container show">
 
-        <main-header :title="drinkFound ? drink.name : translations.drink_not_found_title"/>
+        <main-header :title="drink.name" :type="'no-button'"/>
 
-        <div v-if="drinkFound" id="drink-show-offline">
+        <div id="drink-show-offline">
             <div class="show-header" v-bind:style="{ backgroundImage: drinkBackground}">
 
                 <span>
@@ -92,20 +92,6 @@
             </div>
         </div>
 
-        <div class="" v-if="!drinkFound">
-            <header class="header-greeting"
-                    v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
-                <div class="container">
-                    <div class="intro-text">
-                        <div class="intro-heading">:(</div>
-                        <div class="intro-heading">{{translations.drink_not_found_message}}</div>
-                        <button class="btn btn-primary" @click="backPage()">{{translations.buttons.back}}</button>
-                    </div>
-                </div>
-            </header>
-        </div>
-
-
 
         <button class="btn btn-fixed-bottom btn-mb-info" style="position: fixed" @click="backPage()"><i class="fa fa-chevron-left"></i>
             {{translations.buttons.back}}
@@ -134,7 +120,6 @@
                     idleTime: 60,
                     interval: null,
                 },
-                drinkFound: true,
                 drink: drinkObj,
                 comments: [],
                 pagination: {},
@@ -318,7 +303,7 @@
             getDrink: function () {
                 let that = this
 
-                that.drink = JSON.parse(localStorage.getItem('drink'));
+                that.drink = JSON.parse(localStorage.getItem('drink_selected_to_show_off'));
                 //that.checkDrinkNutrition();
 
                 that.drawChart();

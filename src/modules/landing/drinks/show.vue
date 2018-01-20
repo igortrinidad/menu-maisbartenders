@@ -1,9 +1,9 @@
 <template>
     <div class="first-container show">
 
-        <main-header :type="'back'" :title="drinkFound ? drink.name : translations.drink_not_found_title" />
+        <main-header :type="'back'" :title="drink.name" />
 
-        <div v-if="drinkFound">
+        <div>
             <div class="show-header" v-bind:style="{ backgroundImage: drinkBackground}">
 
                 <span>
@@ -200,6 +200,7 @@
             </div>
         </div>
 
+        <!--
         <div class="" v-if="!drinkFound">
             <header class="header-greeting"
                     v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
@@ -216,6 +217,7 @@
                 </div>
             </header>
         </div>
+    -->
 
         <!-- Modal commentário -->
         <div class="modal fade" id="modal-comment" tabindex="-1" role="dialog">
@@ -250,7 +252,7 @@
         <!-- Modal commentário -->
 
         <!-- Btn Save Drink -->
-        <div v-if="isLogged && drinkFound">
+        <div v-if="isLogged">
             <button
                 class="btn btn-fixed-bottom btn-mb-info"
                 @click="addDrinkPreference(drink)"
@@ -294,7 +296,6 @@
                 interactions: {
                     phraseSelected: '',
                 },
-                drinkFound: true,
                 drink: drinkObj,
                 comments: [],
                 pagination: {},
@@ -494,14 +495,12 @@
                     .then(function (response) {
 
                         that.drink = response.data;
-                        that.drinkFound = true;
                         that.checkDrinkNutrition();
                         that.setLoading({is_loading: false, message: ''})
                         that.drawChart();
                     })
                     .catch(function (error) {
                         console.log(error)
-                        that.drinkFound = false;
                         that.setLoading({is_loading: false, message: ''})
                     });
 
