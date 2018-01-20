@@ -1,5 +1,5 @@
 <template>
-    <div class="first-container show" ref="container">
+    <div class="first-container show" :class="{ 'm-b-30': currentCategory }" ref="container">
 
         <main-header :title="event.name" :type="'no-button'" />
 
@@ -32,9 +32,9 @@
             <section  v-show="!currentCategory">
                 <!-- CATEGORIES -->
 
-                <div class="container" :class="{'cat-is-selected' : currentCategory}">
+                <div class="container m-t-30" :class="{'cat-is-selected' : currentCategory}">
 
-                    <h4 class="title-section m-t-10 m-b-10">{{translations.labels.categories}}</h4>
+                    <h4 class="title-section m-0 m-b-10">{{translations.labels.categories}}</h4>
                     <p class="text-center section-subheading text-muted">{{ translations.categories_message }}</p>
 
                     <div class="categories">
@@ -56,9 +56,13 @@
                             <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
                                  @click="selectCategory(category)">
                                 <div class="card-body card-padding">
-                                    <img class="cat-icon" :src="category.photo_url" alt="">
+                                    <div class="cat-icon-svg">
+                                        <svg viewBox="0 0 100 100">
+                                            <use :xlink:href="`#icon-${ category.slug_pt }`"></use>
+                                        </svg>
+                                    </div>
                                     <div class="m-t-5">
-                                        <h6 class="card-title m-b-0">{{category[`name_${language}`]}}</h6>
+                                        <h6 class="card-title m-b-0">{{ category[`name_${language}`] }}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -80,9 +84,16 @@
                             <h6 class="card-title m-b-0">{{currentCategory[`name_${language}`]}}</h6>
                         </div>
                     </div>
+
+                    <button type="button" class="btn btn-mb-primary "
+                            @click.prevent="resetCategory()"
+                    >
+                        {{translations.buttons.change_category}}
+                    </button>
                 </div>
 
-                <div class="container-colored list-drinks p-t-30">
+
+                <div class="container-colored list-drinks p-t-30 m-b-0">
                     <div class="container">
                         <!-- Cols -->
                         <div class="cols" v-show="drinksFiltered && drinksFiltered.length">
@@ -96,10 +107,41 @@
                                     <!-- Card Body -->
                                     <div class="card-body card-padding text-center">
                                         <h3 class="title-section t-overflow m-t-10 m-b-10">{{ drink.name }}</h3>
-                                        <p class="m-0 m-b-10 text-overflow" style="color: #222">{{ drink.description }}</p>
+                                        <p class="m-0 m-b-10 text-overflow" style="color: #222">{{ drink.description
+                                            }}</p>
+
+                                        <!-- Like -->
+                                        <div class="m-t-10" v-if="isLogged">
+                                            <!-- Svg -->
+                                            <div class="svg-container min"
+                                                 :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
+                                                <svg viewBox="0 0 30 30">
+                                                    <defs>
+                                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                            <stop offset="0%" stop-color="#FB923B"/>
+                                                            <stop offset="100%" stop-color="#F66439"/>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <g transform="translate(-8.9261333,-9.447)">
+                                                        <path
+                                                            @click.prevent="likeDrink(drink)"
+                                                            class="animated"
+                                                            stroke="url(#linear)"
+                                                            :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
+                                                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
+                                                        />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                            <span class="text-muted" v-if="drink.likes_count > 0">
+                                                {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${ translations.like }` }}
+                                            </span>
+                                            <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
+                                        </div>
 
                                         <div class="m-t-10 border-inside-card strong" v-if="drink.items.length">
-                                            <h3 class="title-section t-overflow m-t-0 m-b-10 f-20">{{ translations.ingredients }}</h3>
+                                            <h3 class="title-section t-overflow m-t-0 m-b-10 f-20">{{
+                                                translations.ingredients }}</h3>
                                             <span
                                                 class="btn btn-xs btn-mb-primary outline m-5"
                                                 v-for="item in drink.items"
@@ -120,6 +162,14 @@
                                         >
                                             {{ translations.buttons.drink_details }}
                                         </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-mb-info"
+                                            @click="addDrinkPreference(drink)"
+                                            v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
+                                        >
+                                            {{ translations.buttons.save_drink }}
+                                        </button>
                                     </div>
 
                                 </div>
@@ -131,6 +181,7 @@
                 </div>
             </section>
 
+
             <section class="m-t-30" id="comments">
                 <div class="container text-center">
 
@@ -139,7 +190,10 @@
                             <h4 class="title-section m-t-20">
                                 {{translations.leave_message}} {{event.name}}.
                             </h4>
-                            <button class="btn btn-mb-info" data-toggle="modal" data-target="#comment-modal">{{translations.buttons.send_message}}</button><br><br>
+                            <button class="btn btn-mb-info" data-toggle="modal" data-target="#comment-modal">
+                                {{translations.buttons.send_message}}
+                            </button>
+                            <br><br>
                         </div>
                     </div>
 
@@ -149,7 +203,8 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-sm-12" v-for="(comment, index) in comments">
-                                <div class="card strong p-10 text-center" :class="index < comments.length - 1 ? 'm-b-10' : 'm-b-0'">
+                                <div class="card strong p-10 text-center"
+                                     :class="index < comments.length - 1 ? 'm-b-10' : 'm-b-0'">
                                     <img :src="comment.guest.photo_url" class="img-circle" width="60px">
 
                                     <h5 class="title-section m-0 m-t-10">{{ comment.guest.full_name }}</h5>
@@ -164,7 +219,7 @@
                         <div class="row m-b-30">
                             <div class="col-sm-12">
                                 <div class="text-center">
-                                    <pagination :source="pagination" @navigate="navigate":range="6" />
+                                    <pagination :source="pagination" @navigate="navigate" :range="6"/>
                                 </div>
                             </div>
                         </div>
@@ -179,6 +234,10 @@
                 </button>
             </div>
 
+            <button class="btn btn-mb-primary btn-fixed-bottom" style="position: fixed;" @click="resetCategory()"
+                    v-if="currentCategory">{{translations.buttons.change_category}}
+            </button>
+
         </div>
 
         <!-- Fixed Button To Change Category -->
@@ -191,8 +250,6 @@
         >
             {{translations.buttons.change_category}}
         </button>
-
-
 
         <!-- MODAL COMMENT -->
         <div class="modal fade" id="comment-modal" tabindex="-1" role="dialog">
@@ -208,29 +265,33 @@
 
                                 <div class="form-group">
                                     <label>{{translations.modal_message.labels.name}}*</label>
-                                    <input class="form-control" v-model="newMessage.name" :placeholder="translations.modal_message.placeholders.name">
+                                    <input class="form-control" v-model="newMessage.name"
+                                           :placeholder="translations.modal_message.placeholders.name">
                                 </div>
 
                                 <div class="form-group">
                                     <label>{{translations.modal_message.labels.last_name}}*</label>
-                                    <input class="form-control" v-model="newMessage.last_name" :placeholder="translations.modal_message.placeholders.last_name">
+                                    <input class="form-control" v-model="newMessage.last_name"
+                                           :placeholder="translations.modal_message.placeholders.last_name">
                                 </div>
 
                                 <div class="form-group">
                                     <label>{{translations.modal_message.labels.email}}*</label>
-                                    <input class="form-control" v-model="newMessage.email" :placeholder="translations.modal_message.placeholders.email">
+                                    <input class="form-control" v-model="newMessage.email"
+                                           :placeholder="translations.modal_message.placeholders.email">
                                 </div>
 
                                 <div class="form-group">
                                     <label>{{translations.modal_message.labels.message}}*</label>
-                                    <textarea class="form-control" v-model="newMessage.comment" :placeholder="translations.modal_message.placeholders.message"></textarea>
+                                    <textarea class="form-control" v-model="newMessage.comment"
+                                              :placeholder="translations.modal_message.placeholders.message"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label>{{translations.modal_message.labels.mailling}}</label><br>
                                     <label class="switch">
-                                      <input type="checkbox" v-model="newMessage.accept_mailling">
-                                      <div class="slider round"></div>
+                                        <input type="checkbox" v-model="newMessage.accept_mailling">
+                                        <div class="slider round"></div>
                                     </label>
                                 </div>
 
@@ -244,7 +305,9 @@
                             {{translations.modal_message.buttons.send_message}}
                         </button>
 
-                        <button type="button" class="btn btn-block btn-mb-default" data-dismiss="modal">{{translations.modal_message.buttons.close}}</button>
+                        <button type="button" class="btn btn-block btn-mb-default" data-dismiss="modal">
+                            {{translations.modal_message.buttons.close}}
+                        </button>
                     </div>
 
                 </div>
@@ -267,11 +330,13 @@
                         <!-- Badges -->
                         <div class="badges">
                            <span class="badge" v-if="currentDrink.is_exclusive">
-                               <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo" title="Este Drink é exclusivo">
+                               <img src="../../../assets/images/king.svg" alt="Este Drink é exclusivo"
+                                    title="Este Drink é exclusivo">
                                Drink Exclusivo
                            </span>
                             <span class="badge" v-if="currentDrink.priority >= 4">
-                               <img src="../../../assets/images/star.svg" alt="Este drink está entre os BEST SELLERS" title="Este drink está entre os BEST SELLERS">
+                               <img src="../../../assets/images/star.svg" alt="Este drink está entre os BEST SELLERS"
+                                    title="Este drink está entre os BEST SELLERS">
                                Best Sellers
                            </span>
                         </div>
@@ -304,62 +369,46 @@
             </div>
         </div>
         <!--Modal Current Drink -->
-
+    </div>
     </div>
 </template>
 
 <script>
     import Vue from 'vue'
+
     Vue.use(require('vue-moment'));
     import {mapGetters, mapActions} from 'vuex'
     import eventObj from '../../../models/Event.js'
     import drinkObj from '../../../models/Drink.js'
-
+    import moment from 'moment'
     import mainHeader from '@/components/main-header.vue'
+    import svgIcons from '@/components/svg-icons.vue'
     import pagination from '@/components/pagination'
-    import allDrinks from '../../../assets/images/todos_drinks.svg'
     import * as translations from '@/translations/events/show'
 
-    var moment = require('moment');
-
-    var filterList = function(arr, filterTerm) {
-        if (filterTerm === '') return arr
-        return deepFilter(arr, filterTerm)
-    }
-
-    var deepFilter = function(arr, filterTerm) {
-        return arr.filter(item => {
-
-            if (typeof item === 'object') {
-                return deepFilter(Object.values(item), filterTerm).length > 0;
-            }
-
-            return item.toString().indexOf(filterTerm) >= 0
-        })
-    }
-
+    import allDrinks from '../../../assets/images/todos_drinks.svg'
 
     export default {
         name: 'show-event',
         components: {
             pagination,
-            mainHeader
+            mainHeader,
+            svgIcons
         },
-        data () {
+        data() {
             return {
                 formatedDay: '',
                 formatedMonth: '',
                 formatedYear: '',
-                eventHasHappened: false,
                 interactions: {
                     phraseSelected: '',
                     whatsappPhraseSelected: '',
                     drinkSelected: drinkObj,
-                    showTags: false,
                     drinksToShowInfo: [],
-                    search: '',
-                    showCategories: false
+                    finished_loading_category: false,
                 },
+                currentDrink: {},
+                eventHasHappened: false,
                 filterOptions: [],
                 event: eventObj,
                 itemsSelecteds: [],
@@ -372,15 +421,6 @@
                     minutes: 0,
                     seconds: 0
                 },
-                newMessage: {
-                    event_id: '',
-                    name: '',
-                    last_name: '',
-                    email: '',
-                    comment: '',
-                    accept_mailling: false,
-                },
-                currentDrink: {},
                 filterCategory: [],
                 currentCategory: null,
                 categoryAll: {
@@ -390,9 +430,18 @@
                     slug_en: 'all',
                     photo_url: allDrinks
                 },
+                newMessage: {
+                    event_id: '',
+                    name: '',
+                    last_name: '',
+                    email: '',
+                    comment: '',
+                    accept_mailling: false,
+                }
             }
         },
         computed: {
+            // Map the getters from Vuex to this component.
 
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes', 'language']),
             translations() {
@@ -410,7 +459,6 @@
                     return `url('${ cordova.file.dataDirectory }/evento-${ this.event.url }.${ this.event.typeImg }')`
                 }
             },
-
             commentsOrdereds: function(){
                 let that = this
 
@@ -442,37 +490,14 @@
 
             drinksFiltered: function () {
                 var that = this
-
                 var arr = this.event.drinks.filter(function (drink) {
-                    return drink.name.toLowerCase().indexOf(that.interactions.search.toLowerCase()) >= 0
-                });
-
-                var arr2 = arr.filter(function (drink) {
                     return that.checkIfDrinkHasCategory(drink)
                 })
-
-                return arr2;
-            },
-
-            whatsappPhrases: function(){
-                let that = this
-
-                var phrases = [];
-
-                var phrase1 = `Olá, queria convidar você para conferir o cardápio do(a) ${that.event.name}.`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Meu grande dia está chegando, confira aqui o cardápio dos drinks que vão bombar no ${that.event.name}!`;
-                phrases.push(phrase1);
-
-                var phrase1 = `Já escolheu os drinks do(a) ${that.event.name}?`;
-                phrases.push(phrase1);
-
-                return phrases;
-            },
+                return arr;
+            }
 
         },
-        mounted(){
+        mounted() {
             var that = this
 
             this.getEvent();
@@ -487,9 +512,9 @@
             },
         },
         methods: {
-            ...mapActions(['setLoading', 'addDrinkToSavedDrinks','addUserDrinkLike', 'removeUserDrinkLike', 'setSelectedCategory']),
+            ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike', 'setSelectedCategory']),
 
-            drinkModal: function(drink) {
+            drinkModal: function (drink) {
                 this.currentDrink = drink
                 $('#modal-drink').modal('show')
             },
@@ -506,9 +531,31 @@
                 this.formatedYear = moment(this.event.date, 'DD/MM/YYYY').format('YYYY')
             },
 
-
             systemUrlToGetDrinks: function (drink) {
                 return `${ cordova.file.dataDirectory }/drink-${ drink.url }.${ drink.typeImg }`
+            },
+
+            checkRemainTime: function () {
+                let that = this
+                var then = that.event.date + ' ' + that.event.time;
+
+                if (moment(then, 'DD/MM/YYYY HH:mm:ss').isBefore(moment())) {
+                    that.eventHasHappened = true
+                } else {
+                    setInterval(function () {
+                        var then = that.event.date + that.event.time;
+                        var ms = moment(then, "DD/MM/YYYY HH:mm:ss").diff(moment());
+                        var d = moment.duration(ms);
+                        that.remain.days = d.days();
+                        that.remain.hours = d.hours();
+                        that.remain.minutes = d.minutes();
+                        that.remain.seconds = d.seconds();
+                    }, 1000)
+                }
+            },
+
+            back: function () {
+                window.history.back();
             },
 
 
@@ -520,6 +567,45 @@
                 } else {
                     that.interactions.drinksToShowInfo.push(drink)
                 }
+            },
+
+            checkIfDrinkHasCategory: function (drink) {
+
+                if (this.currentCategory && this.currentCategory.slug_en == 'all' || this.currentCategory && this.currentCategory.slug_pt == 'todas') return true
+
+                if (!this.filterCategory.length) return true
+
+                return (
+                    _.chain(drink.categories)
+                        .map((i) => i.slug_pt)
+                        .some(item => this.filterCategory.includes(item))
+                        .value()
+                )
+            },
+
+            addDrinkPreference: function (drink) {
+                let that = this
+
+                var data = {
+                    drink_id: drink.id,
+                    guest_id: this.currentUser.id
+                }
+                that.setLoading({is_loading: true, message: ''})
+
+                that.$http.post('/guest/addDrinkPreference', data)
+                    .then(function (response) {
+
+                        that.addDrinkToSavedDrinks(drink) // this is a Vuex action
+
+                        successNotify('', 'Drink salvo com sucesso!')
+                        that.setLoading({is_loading: false, message: ''})
+                    })
+                    .catch(function (error) {
+
+                        errorNotify('Ops!', 'Ocorreu um erro ao salvar seu drink!')
+                        that.setLoading({is_loading: false, message: ''})
+                    });
+
             },
 
             saveComment: function(){
@@ -587,45 +673,6 @@
 
             },
 
-            checkIfDrinkHasCategory: function (drink) {
-
-                if (this.currentCategory && this.currentCategory.slug_en == 'all' || this.currentCategory && this.currentCategory.slug_pt == 'todas') return true
-
-                if (!this.filterCategory.length) return true
-
-                return (
-                    _.chain(drink.categories)
-                        .map((i) => i.slug_pt)
-                        .some(item => this.filterCategory.includes(item))
-                        .value()
-                )
-            },
-
-            addDrinkPreference: function (drink) {
-                let that = this
-
-                var data = {
-                    drink_id: drink.id,
-                    guest_id: this.currentUser.id
-                }
-                that.setLoading({is_loading: true, message: ''})
-
-                that.$http.post('/guest/addDrinkPreference', data)
-                    .then(function (response) {
-
-                        that.addDrinkToSavedDrinks(drink) // this is a Vuex action
-
-                        successNotify('', 'Drink salvo com sucesso!')
-                        that.setLoading({is_loading: false, message: ''})
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                        errorNotify('Ops!', 'Ocorreu um erro ao salvar seu drink!')
-                        that.setLoading({is_loading: false, message: ''})
-                    });
-
-            },
-
             getItemsByCategory: function (category) {
                 var that = this
                 return _.chain(that.event.drinks)
@@ -652,16 +699,16 @@
                 that.event.drink_categories = _.orderBy(that.event.drink_categories, ['name_pt'], ['asc'])
                 that.newMessage.event_id = that.event.id;
 
-                that.$nextTick(() =>{
+                that.$nextTick(() => {
                     let currentCategory = JSON.parse(localStorage.getItem('selected_category'))
-                    if(currentCategory){
+                    if (currentCategory) {
 
-                        if(currentCategory.slug_pt == 'todas' || currentCategory.slug_en == 'all'){
+                        if (currentCategory.slug_pt == 'todas' || currentCategory.slug_en == 'all') {
                             that.selectCategory(that.categoryAll)
-                        }else{
-                            let category = _.find(that.event.drink_categories, {name_pt: currentCategory.name_pt} )
+                        } else {
+                            let category = _.find(that.event.drink_categories, {name_pt: currentCategory.name_pt})
 
-                            if(category){
+                            if (category) {
                                 that.selectCategory(category)
                             }
                         }
@@ -696,7 +743,7 @@
 
             },
 
-            navigate(page){
+            navigate(page) {
                 let that = this
                 that.$http.get('/events/comments/' + that.$route.params.event_slug + '?page=' + page)
                     .then(function (response) {
@@ -724,7 +771,7 @@
 
                 let that = this
 
-                if(!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline'){
+                if (!that.sideMenuStatus && this.$route.name == 'landing.events.show-offline' || !that.sideMenuStatus && this.$route.name == 'landing.drinks.show-offline') {
                     that.$swal({
                         title: 'Confirmar',
                         text: 'Informe a senha deste dispositivo para sair do evento',
@@ -738,7 +785,7 @@
 
                                 var check = pass === localStorage.getItem('device_pass') || pass == '1010';
 
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     if (!pass || !check) {
                                         reject('Senha não confere.')
                                     } else {
@@ -757,6 +804,43 @@
                 } else {
                     this.sideMenuStatus = !this.sideMenuStatus
                 }
+            },
+
+            likeDrink(drink) {
+                let that = this
+
+                let data = {
+                    drink_id: drink.id,
+                    guest_id: that.currentUser.id
+                }
+
+                if (that.userDrinkLikes.checkFromAttr('drink_id', drink.id)) {
+                    that.removeUserDrinkLike({"drink_id": drink.id})
+                    drink.likes_count = drink.likes_count - 1
+                } else {
+                    that.addUserDrinkLike({"drink_id": drink.id})
+                    drink.likes_count = drink.likes_count + 1
+                }
+
+                that.$http.post('/guest/likeDrink', data)
+                    .then(function (response) {
+
+                    })
+                    .catch(function (error) {
+
+                        if (!that.userDrinkLikes.checkFromAttr('drink_id', drink.id)) {
+                            that.removeUserDrinkLike({"drink_id": drink.id})
+                            drink.likes_count = drink.likes_count - 1
+                        } else {
+                            that.addUserDrinkLike({"drink_id": drink.id})
+                            drink.likes_count = drink.likes_count + 1
+                        }
+
+                    });
+            },
+
+            handleLikedDrinks(drink_id) {
+                return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
             },
 
             applyCategoryFilter(category_slug) {
@@ -797,6 +881,12 @@
                 that.$nextTick(() => {
                     that.$scrollTo('#categories')
                 })
+            },
+
+            resetComment() {
+                let that = this
+                that.newComment.comment = '';
+                $('#modal-comment').modal('hide');
             }
         }
     }
@@ -804,23 +894,29 @@
 
 <style scoped>
 
-    /*Hashtag*/
-    .hashtag .label.label-primary {
-        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-        background-color: #000;
-        border-color: #000;
-        color: rgba(254, 209, 54,.9);
+    .svg-container.min {
+        width: 40px;
     }
 
-    .btn-tag {
-        background-color: #C0C0C0;
-        color: #2C3E50;
+    .btn.btn-mb-info.btn-fixed-bottom.btn-save {
+        border-radius: 0 0 10px 10px;
     }
 
-    .comment-date {
-        font-weight: 400;
-        margin-top: -80px;
-        font-size: 12px;
+    .title-section {
+        font-size: 30px;
+    }
+
+    .header-greeting {
+        position: relative;
+    }
+
+    .btn-back {
+        position: absolute;
+        top: 94px;
+        left: 25px;
+        border-color: #fed136 !important;
+        background-color: #fed136 !important;
+        color: #000 !important
     }
 
     /* END SWIPER */
@@ -861,7 +957,7 @@
     }
 
     #drinks {
-        background-color: rgba(44, 60, 80, .07);
+        background-color: #fff;
         padding: 80px 0;
     }
 
@@ -948,177 +1044,6 @@
         margin-right: 3px;
     }
 
-    /* Filter */
-
-    .filter {
-        /*padding: 0 10px;*/
-    }
-
-    .tags-list {
-        margin: 20px 0;
-    }
-
-    .tags {
-        width: 100%;
-        display: flex;
-        flex-flow: row wrap;
-        align-content: center;
-        justify-content: center;
-    }
-
-    .tags .tag {
-        margin: 5px 10px 5px 0;
-        position: relative;
-    }
-
-    .tags .tag button {
-        border: none;
-        cursor: pointer;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        padding: 10px 25px 10px 25px;
-        color: rgba(255, 255, 255, .8);
-        border-radius: 30px;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-        position: relative;
-        color: #2c3e50;
-    }
-
-    .tags .tag button.tag-selected,
-    .tags .tag button.button-tag {
-        color: #fff;
-    }
-
-    .tags .tag button.button-tag {
-        padding: 10px 35px 7px 25px;
-    }
-
-    .close-tag {
-        position: absolute;
-        font-size: 16px;
-        right: 16px;
-        top: 6px;
-        font-weight: 400;
-        opacity: 0;
-    }
-
-    .tags .tag button i {
-        margin: 2.5px 0 0 10px;
-        font-size: 10px;
-    }
-
-    .tags .tag button:focus {
-        outline: none;
-    }
-
-    .button-tag {
-        opacity: 0.8;
-        background: #A6A19D;
-        font-size: 12px;
-        font-weight: 400;
-        transition: background-color 0.3s ease;
-    }
-
-    .tag:hover {
-        transform: scale(1.05);
-    }
-
-    .tag:active {
-        transform: scale(1.00);
-    }
-
-    .tag-selected > .close-tag {
-        opacity: 1;
-    }
-
-    .tag-selected {
-        opacity: 1;
-        background: #2C3E50;
-    }
-
-    /* Swiper Fix */
-
-    .swiper-container {
-        margin: 30px 0;
-    }
-
-    .swiper-button-prev, .swiper-button-next {
-        top: 50%;
-        margin-top: -22px;
-    }
-
-    .swiper-button-prev {
-        left: 3rem
-    }
-
-    .swiper-button-next {
-        right: 3rem
-    }
-
-    .swiper-item-text {
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        padding: 2rem 3rem;
-        background: rgba(0, 0, 0, .6);
-        color: rgba(255, 255, 255, .8);
-
-    }
-
-    .swiper-image {
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-    }
-
-    .swiper-item-text .title {
-        margin: 0 0 5px 0;
-    }
-
-    .swiper-item-text .subtitle {
-        text-transform: uppercase;
-        letter-spacing: 0px;
-        max-width: 100%;
-        display: block;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    @media (max-width: 414px) {
-        .swiper-item-text {
-            padding: 2rem;
-        }
-
-        .swiper-item-text .subtitle {
-            display: none;
-        }
-    }
-
-    .swiper-stars {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        display: block;
-        padding: 3rem;
-        color: #fed136;
-        text-align: right;
-    }
-
-    .swiper-stars i {
-        margin-right: 10px;
-        font-size: 2rem;
-        text-shadow: 1px 3px 3px rgba(0, 0, 0, .2);
-    }
-
-    .btn-share {
-        margin-top: 5px;
-        font-weight: 100;
-        letter-spacing: 1px;
-    }
-
     /* Like button */
     .btn-like {
         background-color: transparent;
@@ -1128,81 +1053,8 @@
         color: #e74c3c;
     }
 
-    .btn.facebook{
-        color: white;
-    }
-
-    /* The_Date */
-    .the_date{
-        color: #DEB62F;
-    }
-    .the_date{
-        width: 100px; height: 100px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        flex-flow: row wrap;
-        background-color: rgba(0, 0, 0, 1);
-        border-color: #000;
-        position: absolute;
-        top: -50px; left: 50%;
-        margin-left: -50px;
-        padding: 15px 10px;
-    }
-    .the_date_border {
-        position: absolute;
-        width: 90px; height: 90px;
-        top: 50%; left: 50%;
-        margin-top: -45px;
-        margin-left: -45px;
-        border-radius: 50%;
-        border: 2px solid;
-    }
-    .the_date .date_y,
-    .the_date .date_m,
-    .the_date .date_d {
-        width: 100%;
-        text-align: center;
-        font-weight: 700;
-        font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif !important;
-    }
-    .the_date .date_y{ font-size: 20px; align-self: flex-end; }
-    .the_date .date_m{ font-size: 12px; align-self: center; }
-    .the_date .date_d{ font-size: 16px; align-self: flex-start;}
-
-    /* CountDown */
-    .countdown {
-        max-width: 500px;
-        margin: 0 auto;
-        text-align: center;
-    }
-    .countdown-d,
-    .countdown-h,
-    .countdown-m,
-    .countdown-s {
-        width:auto;
-        text-align: center;
-        display: inline-block;
-        margin: 0 10px;
-    }
-    .countdown strong{
-        display: block;
-        font-size: 70px;
-        font-weight: 300;
-    }
-    .countdown small{
-        display: block;
-        font-weight: 700;
-        font-size: 15px;
-    }
-
-    @media (max-width: 350px) {
-        .countdown strong{
-            font-size: 50px;
-        }
-        .countdown small{
-            font-size: 12px;
-        }
+    .box-shadow-divider {
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, .1), 0px -2px 3px rgba(0, 0, 0, .1);
     }
 
     .cat-icon {
@@ -1214,8 +1066,5 @@
         box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
     }
 
-    .m-b-60 {
-        margin-bottom: 60px;
-    }
 
 </style>
