@@ -2,6 +2,7 @@
     <div class="first-container show" :class="{ 'm-b-30': currentCategory }" ref="container">
 
         <main-header :title="event.name" :type="'no-button'" />
+        <svgIcons />
 
         <!-- Event Found -->
         <div>
