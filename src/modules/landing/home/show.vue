@@ -8,7 +8,7 @@
         <div class="container">
 
             <div class="svg-container">
-                <svg viewBox="0 0 100 100">
+                <svg viewBox="0 0 95 95">
                     <defs>
                         <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
                             <stop offset="0%"   stop-color="#FB923B"/>

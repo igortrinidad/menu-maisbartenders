@@ -1,12 +1,14 @@
 .svg-container {
-    max-width: 80px;
+    width: 80px;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 .cat-icon-svg {
     width: 60px;
     height: 60px;
     margin: 0 auto;
+    overflow: hidden;
 }
 
 .non-fill { fill: transparent; stroke-width: 2px; }
