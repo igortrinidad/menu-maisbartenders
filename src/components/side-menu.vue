@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <div class="side-menu-bg" id="side-menu-bg"></div>
+        <div class="side-menu-bg" id="side-menu-bg" @click="closeMenu(true)"></div>
 
     </div>
 
@@ -97,7 +97,7 @@
                     adminPublicPlaces: false,
                 },
                 hasEventSaved: false,
-                isMobile: false
+                isMobile: false,
             }
         },
 
@@ -128,15 +128,17 @@
                 }, false);
 
             }
-            
+
             if(Array.isArray(events) && events.length){
                 this.hasEventSaved = true;
             }
 
         },
 
-
         methods: {
+            closeMenu: function () {
+                this.$emit('closeMenu')
+            },
             checkConnection: function () {
                 var that = this
                 if (navigator.onLine) {
