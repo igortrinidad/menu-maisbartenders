@@ -41,12 +41,12 @@
                         </div>
 
                         <!-- User Not Logged -->
-                        <div class="border-inside-card" v-if="!isLogged">
+                        <div class="border-inside-card" v-if="!isLogged && isOnline">
                             <li>
-                                <router-link :to="{name: 'landing.auth.login'}" v-if="isOnline">{{translations.login}}</router-link>
+                                <router-link :to="{name: 'landing.auth.login'}">{{translations.login}}</router-link>
                             </li>
                             <li>
-                                <router-link :to="{name: 'landing.auth.signup'}" v-if="isOnline">{{translations.signup}}</router-link>
+                                <router-link :to="{name: 'landing.auth.signup'}">{{translations.signup}}</router-link>
                             </li>
                         </div>
 
@@ -112,6 +112,15 @@
                 if (this.language === 'pt') {
                     return translations.pt
                 }
+            },
+
+            isOnline () {
+                if (navigator.onLine) {
+                    return true
+                }
+                else {
+                    return false
+                }
             }
         },
 
@@ -138,15 +147,7 @@
         methods: {
             closeMenu: function () {
                 this.$emit('closeMenu')
-            },
-            checkConnection: function () {
-                var that = this
-                if (navigator.onLine) {
-                    that.isOnline = true
-                } else {
-                    that.isOnline = false
-                }
-            },
+            }
         }
     }
 </script>
