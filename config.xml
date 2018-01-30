@@ -8,6 +8,9 @@
         Criado por We-Planner Soluções Tecnológicas
     </author>
     <access origin="*" />
+    <allow-intent href="file://*" />
+    <allow-intent href="file:///*" />
+    <allow-intent href="localhost:8080//*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -97,8 +100,6 @@
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.0" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
-    <plugin name="cordova-plugin-wkwebview-engine" spec="^1.1.4" />
-    <plugin name="cordova-plugin-wkwebviewxhrfix" spec="git+https://github.com/TheMattRay/cordova-plugin-wkwebviewxhrfix.git" />
     <plugin name="cordova-plugin-remove-cookies" spec="https://github.com/igortrinidad/cordova-plugin-remove-cookies" />
     <engine name="browser" spec="^4.1.0" />
     <engine name="android" spec="^7.0.0" />
