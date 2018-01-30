@@ -12,11 +12,11 @@
 }
 
 .cover {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     background-size: cover;
     background-position: center;
-    border: 1px solid red;
+    margin: 0 auto;
 }
 
 .non-fill { fill: transparent; stroke-width: 2px; }
