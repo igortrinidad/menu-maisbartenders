@@ -11,6 +11,14 @@
     overflow: hidden;
 }
 
+.cover {
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid red;
+}
+
 .non-fill { fill: transparent; stroke-width: 2px; }
 
 .non-fill.xs { stroke-width: 1px; }

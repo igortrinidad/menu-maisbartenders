@@ -2,7 +2,6 @@
     <div class="first-container show" :class="{ 'm-b-30': currentCategory }" ref="container">
 
         <main-header :title="event.name" :type="'no-button'" />
-        <svg-icons />
 
         <!-- Event Found -->
         <div>
@@ -59,9 +58,7 @@
                                 <div class="card-body card-padding">
                                     <div class="cat-icon-svg">
                                         <div class="cat-icon-svg">
-                                            <svg viewBox="0 0 100 100">
-                                                <use :xlink:href="`#icon-${ category.slug_pt }`"></use>
-                                            </svg>
+                                            <img :src="`../../../assets/images/categories/${ category.slug_pt }.svg`">
                                         </div>
                                     </div>
                                     <div class="m-t-5">

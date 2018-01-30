@@ -50,6 +50,7 @@
                                 <svg style="width: 50px; height: 50px;">
                                     <use :xlink:href="`#icon-${ category.slug_pt }`"></use>
                                 </svg>
+                                <div class="cover" style="background-image: url('../../../assets/images/categories/leve.svg')"></div>
                                 <div class="m-t-5">
                                     <h6 class="card-title m-b-0">{{ category[`name_${language}`] }}</h6>
                                 </div>
@@ -83,6 +84,10 @@
     import Swiper from "swiper"
     import * as translations from '@/translations/home/show'
 
+    // CATEGORIES
+    import leve from '@/assets/images/categories/leve.svg'
+
+    console.log(leve);
 
     import eventObj from '@/models/Event.js'
     import CategoriesModel from '@/models/Categories.js'
