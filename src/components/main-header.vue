@@ -358,8 +358,8 @@
     /* Hammer Menu */
     #hammer-menu {
         position: fixed;
-        top: 74px; left: -50px; bottom: 0;
-        width: 100px;
+        top: 74px; left: -25px; bottom: 0;
+        width: 50px;
         background: transparent;
         z-index: 77777;
     }
