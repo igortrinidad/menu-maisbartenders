@@ -56,7 +56,7 @@
                             <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
                                  @click="selectCategory(category)">
                                 <div class="card-body card-padding">
-                                    <div class="cover" :style="{ backgroundImage: `url(${ getIconForCategory(category.slug_pt) })` }"></div>
+                                    <div class="icon-cover" :style="{ backgroundImage: `url(${ getIconForCategory(category.slug_pt) })` }"></div>
                                     <div class="m-t-5">
                                         <h6 class="card-title m-b-0">{{ category[`name_${language}`] }}</h6>
                                     </div>
