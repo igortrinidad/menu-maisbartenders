@@ -2,6 +2,7 @@
     <div class="first-container show" :class="{ 'm-b-30': currentCategory }" ref="container">
 
         <main-header :title="event.name" :type="'no-button'" />
+        <svg-icons />
 
         <!-- Event Found -->
         <div>
@@ -57,22 +58,11 @@
                                  @click="selectCategory(category)">
                                 <div class="card-body card-padding">
                                     <div class="cat-icon-svg">
-                                        <img v-if="category.slug_pt === 'a-prova-de-danca'" class="img-responsive" src="../../../assets/images/categories/a_prova_de_danca.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'cachaca'" class="img-responsive" src="../../../assets/images/categories/cachaca.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'doce'" class="img-responsive" src="../../../assets/images/categories/doce.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'equilibrado'" class="img-responsive" src="../../../assets/images/categories/equilibrado.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'forte'" class="img-responsive" src="../../../assets/images/categories/forte.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'frutado'" class="img-responsive" src="../../../assets/images/categories/frutado.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'gin'" class="img-responsive" src="../../../assets/images/categories/gin.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'leve'" class="img-responsive" src="../../../assets/images/categories/leve.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'martini'" class="img-responsive" src="../../../assets/images/categories/martini.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'para-tirar-aquela-foto'" class="img-responsive" src="../../../assets/images/categories/para_tirar_aquela_foto.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'preferido-da-noiva'" class="img-responsive" src="../../../assets/images/categories/preferido_da_noiva.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'preferido-do-noiva'" class="img-responsive" src="../../../assets/images/categories/preferido_do_noivo.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'refrescante'" class="img-responsive" src="../../../assets/images/categories/refrescante.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'rum'" class="img-responsive" src="../../../assets/images/categories/rum.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'sem-alcool'" class="img-responsive" src="../../../assets/images/categories/sem_alcool.svg" :alt="category[`name_${ language }`]">
-                                        <img v-if="category.slug_pt === 'vodka'" class="img-responsive" src="../../../assets/images/categories/vodka.svg" :alt="category[`name_${ language }`]">
+                                        <div class="cat-icon-svg">
+                                            <svg viewBox="0 0 100 100">
+                                                <use :xlink:href="`#icon-${ category.slug_pt }`"></use>
+                                            </svg>
+                                        </div>
                                     </div>
                                     <div class="m-t-5">
                                         <h6 class="card-title m-b-0">{{ category[`name_${language}`] }}</h6>
@@ -405,7 +395,8 @@
         name: 'show-event',
         components: {
             pagination,
-            mainHeader
+            mainHeader,
+            svgIcons
         },
         data() {
             return {

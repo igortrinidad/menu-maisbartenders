@@ -2,7 +2,7 @@
     <div class="first-container">
 
         <main-header :type="'menu'" :title="translations.title" :action="back"/>
-        <svgIcons />
+        <svg-icons />
 
         <!-- Icon SVG + Title -->
         <div class="container">
