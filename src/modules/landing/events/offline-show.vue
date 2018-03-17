@@ -75,7 +75,7 @@
                     <h3>{{translations.labels.drinks}}</h3>
                     <p class="text-center section-subheading text-muted">{{translations.category_selected}}</p>
                     <div class="card-body card-padding m-b-20" @click="resetCategory()">
-                        <img class="cat-icon" :src="currentCategory.photo_url" alt="">
+                        <img class="cat-icon" :src="getIconForCategory(currentCategory.slug_pt)" alt="">
                         <div class="m-t-5">
                             <h6 class="card-title m-b-0">{{currentCategory[`name_${language}`]}}</h6>
                         </div>
@@ -143,7 +143,7 @@
                                                 v-for="item in drink.items"
                                                 v-show="item.pivot.is_visible"
                                             >
-                                                {{ language === 'pt' ? item.name_pt : item_en }}
+                                                {{ language === 'pt' ? item.name_pt : item.name_en }}
                                             </span>
                                         </div>
 

@@ -145,7 +145,7 @@
 
                                     <div class="m-t-10 border-inside-card strong" v-if="drink.items.length">
                                         <h3 class="title-section t-overflow m-t-0 m-b-10 f-20">{{ translations.ingredients }}</h3>
-                                        <span class="btn btn-xs btn-mb-primary outline m-5" v-for="item in drink.items">{{ language === 'pt' ? item.name_pt : item_en }}</span>
+                                        <span class="btn btn-xs btn-mb-primary outline m-5" v-for="item in drink.items">{{ language === 'pt' ? item.name_pt : item.name_en }}</span>
                                     </div>
 
                                 </div>
