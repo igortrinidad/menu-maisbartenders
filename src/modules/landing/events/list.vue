@@ -6,7 +6,7 @@
         <!-- Icon SVG + Title -->
         <div class="container">
             <div class="svg-container">
-                <svg viewBox="0 0 90 90">
+                <svg width="80px" height="80px" viewBox="0 0 90 90">
                     <defs>
                         <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
                             <stop offset="0%"   stop-color="#FB923B"/>

@@ -56,11 +56,7 @@
                             <div tag="div" class="card m-0 text-center cursor-pointer card-cat"
                                  @click="selectCategory(category)">
                                 <div class="card-body card-padding">
-                                    <div class="cat-icon-svg">
-                                        <svg viewBox="0 0 100 100">
-                                            <use :xlink:href="`#icon-${ category.slug_pt }`"></use>
-                                        </svg>
-                                    </div>
+                                    <div class="icon-cover" :style="{ backgroundImage: `url(${ getIconForCategory(category.slug_pt) })` }"></div>
                                     <div class="m-t-5">
                                         <h6 class="card-title m-b-0">{{ category[`name_${language}`] }}</h6>
                                     </div>
@@ -79,7 +75,7 @@
                     <h3>{{translations.labels.drinks}}</h3>
                     <p class="text-center section-subheading text-muted">{{translations.category_selected}}</p>
                     <div class="card-body card-padding m-b-20" @click="resetCategory()">
-                        <img class="cat-icon" :src="currentCategory.photo_url" alt="">
+                        <img class="cat-icon" :src="getIconForCategory(currentCategory.slug_pt)" alt="">
                         <div class="m-t-5">
                             <h6 class="card-title m-b-0">{{currentCategory[`name_${language}`]}}</h6>
                         </div>
@@ -147,7 +143,7 @@
                                                 v-for="item in drink.items"
                                                 v-show="item.pivot.is_visible"
                                             >
-                                                {{ language === 'pt' ? item.name_pt : item_en }}
+                                                {{ language === 'pt' ? item.name_pt : item.name_en }}
                                             </span>
                                         </div>
 
@@ -376,6 +372,24 @@
 <script>
     import Vue from 'vue'
 
+    // CATEGORIES
+    import danca from '../../../assets/images/categories/a-prova-de-danca.svg'
+    import cachaca from '../../../assets/images/categories/cachaca.svg'
+    import doce from '../../../assets/images/categories/doce.svg'
+    import equilibrado from '../../../assets/images/categories/equilibrado.svg'
+    import frutado from '../../../assets/images/categories/frutado.svg'
+    import forte from '../../../assets/images/categories/forte.svg'
+    import gin from '../../../assets/images/categories/gin.svg'
+    import leve from '../../../assets/images/categories/leve.svg'
+    import martini from '../../../assets/images/categories/martini.svg'
+    import foto from '../../../assets/images/categories/para-tirar-aquela-foto.svg'
+    import noiva from '../../../assets/images/categories/preferido-da-noiva.svg'
+    import noivo from '../../../assets/images/categories/preferido-do-noivo.svg'
+    import refrescante from '../../../assets/images/categories/refrescante.svg'
+    import rum from '../../../assets/images/categories/rum.svg'
+    import alcool from '../../../assets/images/categories/sem-alcool.svg'
+    import vodka from '../../../assets/images/categories/vodka.svg'
+
     Vue.use(require('vue-moment'));
     import {mapGetters, mapActions} from 'vuex'
     import eventObj from '../../../models/Event.js'
@@ -444,6 +458,18 @@
             // Map the getters from Vuex to this component.
 
             ...mapGetters(['currentUser', 'isLogged', 'userDrinkLikes', 'language']),
+
+            categoriesImages() {
+                return {
+                    danca: danca, cachaca: cachaca, doce: doce,
+                    equilibrado: equilibrado, frutado: frutado, forte: forte,
+                    gin: gin, leve: leve, martini: martini,
+                    foto: foto, noiva: noiva, noivo: noivo,
+                    refrescante: refrescante, rum: rum, alcool: alcool,
+                    vodka: vodka
+                }
+            },
+
             translations() {
 
                 if (this.language === 'en') {
@@ -513,6 +539,25 @@
         },
         methods: {
             ...mapActions(['setLoading', 'addDrinkToSavedDrinks', 'addUserDrinkLike', 'removeUserDrinkLike', 'setSelectedCategory']),
+
+            getIconForCategory: function (slug) {
+                if (slug === 'a-prova-de-danca') return this.categoriesImages.danca
+                if (slug === 'cachaca') return this.categoriesImages.cachaca
+                if (slug === 'doce') return this.categoriesImages.doce
+                if (slug === 'equilibrado') return this.categoriesImages.equilibrado
+                if (slug === 'frutado') return this.categoriesImages.frutado
+                if (slug === 'forte') return this.categoriesImages.forte
+                if (slug === 'gin') return this.categoriesImages.gin
+                if (slug === 'leve') return this.categoriesImages.leve
+                if (slug === 'martini') return this.categoriesImages.martini
+                if (slug === 'para-tirar-aquela-foto') return this.categoriesImages.foto
+                if (slug === 'preferido-da-noiva') return this.categoriesImages.noiva
+                if (slug === 'preferido-do-noivo') return this.categoriesImages.noivo
+                if (slug === 'refrescante') return this.categoriesImages.refrescante
+                if (slug === 'rum') return this.categoriesImages.rum
+                if (slug === 'sem-alcool') return this.categoriesImages.alcool
+                if (slug === 'vodka') return this.categoriesImages.vodka
+            },
 
             drinkModal: function (drink) {
                 this.currentDrink = drink

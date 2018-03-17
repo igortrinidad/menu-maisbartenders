@@ -1,6 +1,6 @@
 <template>
     <div>
-        <side-menu v-if="type === 'menu'" />
+        <side-menu v-if="type === 'menu'" @closeMenu="handleSideMenu()" />
         <div id="hammer-menu" ref="hammerMenu" v-if="type === 'menu'"></div>
 
         <div class="circle" v-if="type === 'menu'">
@@ -241,7 +241,6 @@
 
             handleSideMenu() {
                 var that = this
-
                 if (that.type !== 'menu') {
 
                     that.action();
@@ -359,8 +358,8 @@
     /* Hammer Menu */
     #hammer-menu {
         position: fixed;
-        top: 74px; left: -50px; bottom: 0;
-        width: 100px;
+        top: 74px; left: -25px; bottom: 0;
+        width: 50px;
         background: transparent;
         z-index: 77777;
     }

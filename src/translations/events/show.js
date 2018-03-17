@@ -120,7 +120,7 @@ export const pt = {
         save_drink: 'Salvar drink',
         saved_drink: 'Drink salvo',
         unauthenticated: 'Faça login para salvar ou curtir',
-        drink_details: 'Detalhes dos drinks',
+        drink_details: 'Ver detalhes',
         comment_unauthenticated: 'Faça login para postar um comentário',
         new_comment: 'Novo comentário',
         go_to_menu: 'Ir para cardápio completo Mais Bartenders',

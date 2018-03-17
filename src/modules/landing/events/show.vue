@@ -150,7 +150,7 @@
                                                 v-for="item in drink.items"
                                                 v-show="item.pivot.is_visible"
                                             >
-                                                {{ language === 'pt' ? item.name_pt : item_en }}
+                                                {{ language === 'pt' ? item.name_pt : item.name_en }}
                                             </span>
                                         </div>
 

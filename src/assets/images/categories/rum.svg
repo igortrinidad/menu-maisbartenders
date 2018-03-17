@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1200px" height="1200px" viewBox="0 0 1200 1200" enable-background="new 0 0 1200 1200" xml:space="preserve">
+<g>
+	<path fill="#E4E7E9" d="M685.714,360.946V85.719H514.286v275.227c-75.601,33.086-128.57,108.386-128.57,196.199v599.998
+		c0,23.656,19.199,42.856,42.856,42.856h342.854c23.657,0,42.856-19.2,42.856-42.856V557.146
+		C814.284,469.332,761.312,394.032,685.714,360.946z"/>
+	<rect x="385.716" y="728.611" fill="#E0A55F" width="428.568" height="428.568"/>
+	<rect x="514.286" fill="#AB7136" width="171.428" height="85.714"/>
+	<rect x="600" fill="#653B21" width="85.714" height="85.714"/>
+	<rect x="471.43" y="642.896" fill="#FFFFFF" width="257.142" height="385.713"/>
+	<g>
+		<rect x="514.286" y="814.325" fill="#ACACAC" width="171.428" height="42.855"/>
+		<circle fill="#ACACAC" cx="600" cy="728.611" r="42.857"/>
+		<rect x="514.286" y="900.039" fill="#ACACAC" width="171.428" height="42.855"/>
+	</g>
+	<rect x="514.286" y="85.714" fill="#D1D2D3" width="171.428" height="42.857"/>
+</g>
+</svg>

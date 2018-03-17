@@ -1,7 +1,7 @@
 <template>
     <div class="first-container show">
 
-        <main-header :title="drink.name" :type="'no-button'"/>
+        <main-header :title="drink.name" :type="'back'" />
 
         <div id="drink-show-offline">
             <div class="show-header" v-bind:style="{ backgroundImage: drinkBackground}">
@@ -22,7 +22,7 @@
                             <div class="card m-t-30">
                                 <div class="card-body card-padding">
                                     <h4 class="m-0">{{translations.ingredients}}</h4>
-                                    <div v-if="isLogged">
+                                    <div>
 
                                         <ul class="list-group m-t-30 m-b-0">
                                             <li class="list-group-item" v-for="item in drink.items" v-if="item.pivot.is_visible">
@@ -33,11 +33,6 @@
                                         </ul>
                                     </div>
 
-                                    <div v-if="!isLogged">
-                                        <router-link tag="button" class="btn btn-mb-primary outline m-t-20" :to="{ name: 'landing.auth.login', query: {redirect: $route.path} }">
-                                            {{translations.unauthenticated}}
-                                        </router-link>
-                                    </div>
                                 </div>
                             </div>
 
@@ -50,37 +45,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!--
-                                <div class="col-md-6 col-xs-12">
-                                    <h4 class="m-b-30">Informação nutricional</h4>
-                                    <div class="row text-left">
-                                        <div class="col-md-8 col-md-offset-2 col-xs-12">
-                                        <span class="text-left">
-                                            <small class="f-16 f-500">Porção: 1 unidade</small>
-                                            <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Descrição</th>
-                                                        <th class="text-center">Quantidade</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-for="nutri in nutritional_facts_ordereds">
-                                                        <td>{{nutri.name}}</td>
-                                                        <td class="text-center">{{nutri.quantity | formatNumber}} {{nutri.unity}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                            <p class="nutrition-disclaimer">*Os valores nutricionais podem alterar levemente devido à maturação das frutas e quantidade utilizada de cada ingrediente no preparo.</p>
-                                            <p class="nutrition-disclaimer">Fonte: <a target="_blank"
-                                                                                      href="http://www.tabelanutricional.com.br/">tabelanutricional.com.br</a></p>
-                                        </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                -->
 
 
                             </div>
