@@ -106,35 +106,6 @@
                                         <p class="m-0 m-b-10 text-overflow" style="color: #222">{{ drink.description
                                             }}</p>
 
-                                        <!-- Like -->
-                                        <div class="m-t-10" v-if="isLogged">
-                                            <!-- Svg -->
-                                            <div class="svg-container min"
-                                                 :class="{ 'bounce' : handleLikedDrinks(drink.id) }">
-                                                <svg viewBox="0 0 30 30">
-                                                    <defs>
-                                                        <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                            <stop offset="0%" stop-color="#FB923B"/>
-                                                            <stop offset="100%" stop-color="#F66439"/>
-                                                        </linearGradient>
-                                                    </defs>
-                                                    <g transform="translate(-8.9261333,-9.447)">
-                                                        <path
-                                                            @click.prevent="likeDrink(drink)"
-                                                            class="animated"
-                                                            stroke="url(#linear)"
-                                                            :fill="`${ handleLikedDrinks(drink.id) ? 'url(#linear)' : 'transparent' }`"
-                                                            d="M 24,38.052 23.497,37.756 C 23.19,37.575 15.924,33.25 11.778,26.697 9.575,23.218 8.89,19.544 9.848,16.354 c 0.785,-2.611 2.605,-4.676 5.126,-5.81 0.88,-0.396 1.788,-0.597 2.699,-0.597 2.917,0 5.181,2.028 6.327,3.321 1.147,-1.293 3.41,-3.321 6.328,-3.321 0.911,0 1.819,0.2 2.698,0.597 2.521,1.134 4.342,3.198 5.127,5.81 0.958,3.189 0.272,6.862 -1.93,10.344 -4.146,6.552 -11.412,10.877 -11.719,11.058 z"
-                                                        />
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                            <span class="text-muted" v-if="drink.likes_count > 0">
-                                                {{ drink.likes_count > 1 ? `${ drink.likes_count } ${ translations.likes }` : `1 ${ translations.like }` }}
-                                            </span>
-                                            <span class="text-muted" v-if="drink.likes_count === 0">{{translations.be_first}}</span>
-                                        </div>
-
                                         <div class="m-t-10 border-inside-card strong" v-if="drink.items.length">
                                             <h3 class="title-section t-overflow m-t-0 m-b-10 f-20">{{
                                                 translations.ingredients }}</h3>
@@ -157,14 +128,6 @@
                                             @click="openDrink(drink)"
                                         >
                                             {{ translations.buttons.drink_details }}
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-mb-info"
-                                            @click="addDrinkPreference(drink)"
-                                            v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        >
-                                            {{ translations.buttons.save_drink }}
                                         </button>
                                     </div>
 
@@ -529,6 +492,7 @@
             this.getEvent();
             this.getEventComments();
 
+
         },
 
         filters: {
@@ -760,6 +724,8 @@
                     }
                 })
                 that.getFormatedDates();
+
+                $('html, body').stop().animate({ scrollTop: 0 }, 500, 'easeInOutExpo');
             },
 
             getEventComments: function () {
@@ -820,7 +786,7 @@
                     that.$swal({
                         title: 'Confirmar',
                         text: 'Informe a senha deste dispositivo para sair do evento',
-                        input: 'text',
+                        input: 'number',
                         showCancelButton: true,
                         cancelButtonText: 'Cancelar',
                         confirmButtonText: 'Sair do evento',
@@ -831,10 +797,10 @@
                                 var check = pass === localStorage.getItem('device_pass') || pass == '1010';
 
                                 setTimeout(function () {
-                                    if (!pass || !check) {
-                                        reject('Senha não confere.')
-                                    } else {
+                                    if (pass || check) {
                                         resolve()
+                                    } else {
+                                        reject('Senha não confere.')
                                     }
                                 }, 1000)
                             })
@@ -851,42 +817,6 @@
                 }
             },
 
-            likeDrink(drink) {
-                let that = this
-
-                let data = {
-                    drink_id: drink.id,
-                    guest_id: that.currentUser.id
-                }
-
-                if (that.userDrinkLikes.checkFromAttr('drink_id', drink.id)) {
-                    that.removeUserDrinkLike({"drink_id": drink.id})
-                    drink.likes_count = drink.likes_count - 1
-                } else {
-                    that.addUserDrinkLike({"drink_id": drink.id})
-                    drink.likes_count = drink.likes_count + 1
-                }
-
-                that.$http.post('/guest/likeDrink', data)
-                    .then(function (response) {
-
-                    })
-                    .catch(function (error) {
-
-                        if (!that.userDrinkLikes.checkFromAttr('drink_id', drink.id)) {
-                            that.removeUserDrinkLike({"drink_id": drink.id})
-                            drink.likes_count = drink.likes_count - 1
-                        } else {
-                            that.addUserDrinkLike({"drink_id": drink.id})
-                            drink.likes_count = drink.likes_count + 1
-                        }
-
-                    });
-            },
-
-            handleLikedDrinks(drink_id) {
-                return this.userDrinkLikes.find(like => like.drink_id === drink_id) ? true : false
-            },
 
             applyCategoryFilter(category_slug) {
                 let index = this.filterCategory.indexOf(category_slug)
@@ -913,14 +843,12 @@
 
             resetCategory() {
                 let that = this
-                that.setLoading({is_loading: true, message: ''})
 
                 setTimeout(function () {
                     that.currentCategory = null;
                     that.filterCategory = [];
                     that.interactions.finished_loading_category = false;
                     localStorage.removeItem('selected_category')
-                    that.setLoading({is_loading: false, message: ''})
                 }, 500);
 
                 that.$nextTick(() => {

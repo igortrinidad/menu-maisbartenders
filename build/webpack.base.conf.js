@@ -55,7 +55,10 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]'),
+          // workaround for vuejs-templates webpack issue 1266
+          //Esta linha danada resolveu o problema das fonts !!! UFA!!!
+          publicPath: process.env.NODE_ENV === 'production' ? '../../' : '/'
         }
       }
     ]

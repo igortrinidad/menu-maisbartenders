@@ -47,33 +47,24 @@
                 </router-link>
             </div>
 
-            <!-- NAO UTILIZAR
-            <div class="container m-t-30">
-                <div class="badges">
-                    <div class="badge-container" v-if="drink.is_exclusive">
-                    <span class="badge">
-                        <img src="../../../assets/images/king.svg" :alt="translations.exclusive_drink"
-                             :title="translations.exclusive_drink">
-                        <span class="text-uppercase">{{translations.exclusive_drink}}</span>
-                    </span>
-                    </div>
-                    <div class="badge-container" v-if="drink.priority >= 4">
-                    <span class="badge">
-                        <img class="zoom" src="../../../assets/images/star.svg" :alt="translations.best_sellers"
-                             :title="translations.best_sellers">
-                        <span class="text-uppercase">{{translations.best_sellers}}</span>
-                    </span>
-                    </div>
-                </div>
-            </div>
-            -->
-
             <div id="drink" class="container-colored m-t-30">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 text-center">
 
-                            <h4 class="title-in-colored m-0">{{ drink.description }}</h4>
+                            <!-- drink description and created_by -->
+                            <div class="card m-t-30">
+                                <div class="card-body card-padding">
+
+                                    <div class="" v-if="drink.created_by">
+                                        <p>{{ translations.created_by }}</p>
+                                        <h4>{{drink.created_by}}</h4>
+                                    </div>
+
+                                    <p class="f-16">{{drink.description}}</p>
+                                </div>
+                            </div>               
+                            
 
                             <div class="card m-t-30">
                                 <div class="card-body card-padding">
@@ -200,24 +191,6 @@
             </div>
         </div>
 
-        <!--
-        <div class="" v-if="!drinkFound">
-            <header class="header-greeting"
-                    v-bind:style="{ backgroundImage: 'url(https://maisbartenders.com.br/img/header-bg.jpg)'}">
-                <div class="container">
-                    <div class="intro-text">
-                        <div class="intro-heading">:(</div>
-                        <div class="intro-heading">{{translations.drink_not_found_message}}</div>
-                        <router-link
-                            :to="{name: 'landing.drinks.list'}"
-                            class="btn btn-info m-20">
-                           {{translations.buttons.go_to_menu}}
-                        </router-link>
-                    </div>
-                </div>
-            </header>
-        </div>
-    -->
 
         <!-- Modal commentário -->
         <div class="modal fade" id="modal-comment" tabindex="-1" role="dialog">

@@ -58,19 +58,6 @@
                     </div>
                 </div>
 
-                <!-- Call To Create Drink
-                <div class="text-center m-t-30 p-5">
-                    <h5 class="m-b-20" style="color: #fff">Não encontrou o drink que procura ?</h5>
-
-                    <router-link tag="button" :to="{ name: 'landing.drinks.createdrink' }" class="btn btn-block btn-mb-primary-reverse" v-if="isLogged">
-                        Crie o seu próprio drink
-                    </router-link>
-
-                    <router-link tag="button" :to="{ name: 'landing.auth.login' }" class="btn btn-block btn-mb-primary-reverse" v-if="!isLogged">
-                        Faça login para começar a criar
-                    </router-link>
-                </div>
-                -->
 
             </div>
         </div>
@@ -80,7 +67,6 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex'
-    import Swiper from "swiper"
     import * as translations from '@/translations/home/show'
 
     import eventObj from '@/models/Event.js'
@@ -121,7 +107,6 @@
         },
 
         mounted() {
-            this.initSwiper()
             this.setCategories()
         },
 
@@ -141,21 +126,6 @@
                 window.open(url, '_system', null);
             },
 
-            initSwiper() {
-                let that = this
-
-                that.$nextTick(()=>{
-                    var swiperWelcome = new Swiper(that.$refs.swiperWelcome, {
-                        spaceBetween: 0,
-                        slidesPerView: 1,
-                        pagination: {
-                            el: '.swiper-pagination',
-                            type: 'bullets',
-                            clickable: true,
-                        }
-                    })
-                })
-            },
 
             goToMenu(category){
                 localStorage.setItem('selected_category', JSON.stringify(category))

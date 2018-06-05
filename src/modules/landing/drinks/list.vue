@@ -154,14 +154,15 @@
                                 <div class="card-footer card-padding flex">
                                     <button
                                         type="button"
-                                        class="btn btn-mb-primary"
+                                        class="btn btn-block btn-mb-primary"
                                         @click="openDrink(drink)"
                                     >
                                         {{ translations.buttons.drink_details }}
                                     </button>
+                                    <!--
                                     <button
                                         type="button"
-                                        class="btn btn-mb-info"
+                                        class="btn btn-block btn-mb-info"
                                         @click="addDrinkPreference(drink)"
                                         v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                                     >
@@ -170,11 +171,12 @@
 
                                     <button
                                         type="button"
-                                        class="btn btn-mb-success"
+                                        class="btn btn-block btn-mb-success"
                                         v-if="isLogged && currentUser.saved_drinks && currentUser.saved_drinks.checkFromAttr('id', drink.id)"
                                     >
                                         {{ translations.buttons.saved_drink }}
                                     </button>
+                                    -->
                                 </div>
 
                             </div>

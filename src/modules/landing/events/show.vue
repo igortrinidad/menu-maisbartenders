@@ -165,14 +165,6 @@
                                         >
                                             {{ translations.buttons.drink_details }}
                                         </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-mb-info"
-                                            @click="addDrinkPreference(drink)"
-                                            v-if="isLogged && currentUser.saved_drinks && !currentUser.saved_drinks.checkFromAttr('id', drink.id)"
-                                        >
-                                            {{ translations.buttons.save_drink }}
-                                        </button>
                                     </div>
 
                                 </div>

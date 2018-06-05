@@ -129,8 +129,6 @@
 
     import mainHeader from '@/components/main-header.vue'
 
-    var Swiper = require('swiper')
-
     export default {
         name: 'signup',
         components: {

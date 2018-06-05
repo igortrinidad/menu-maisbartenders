@@ -130,8 +130,6 @@
     import {cloneDeep} from 'lodash'
     import * as translations from '@/translations/user/show'
 
-    var Swiper = require('swiper')
-
     export default {
         name: 'show-user',
         components: {

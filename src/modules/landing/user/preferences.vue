@@ -133,8 +133,6 @@
 
     import userObj from '../../../models/User.js'
 
-    var Swiper = require('swiper')
-
     export default {
         name: 'user-preferences',
         components: {

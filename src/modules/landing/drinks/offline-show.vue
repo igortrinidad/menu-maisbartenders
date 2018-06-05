@@ -17,7 +17,18 @@
                     <div class="row">
                         <div class="col-lg-12 text-center">
 
-                            <h4 class="title-in-colored m-0">{{ drink.description }}</h4>
+                            <!-- drink description and created_by -->
+                            <div class="card m-t-30">
+                                <div class="card-body card-padding">
+
+                                    <div class="" v-if="drink.created_by">
+                                        <p>{{ translations.created_by }}</p>
+                                        <h4>{{drink.created_by}}</h4>
+                                    </div>
+
+                                    <p class="f-16">{{drink.description}}</p>
+                                </div>
+                            </div>  
 
                             <div class="card m-t-30">
                                 <div class="card-body card-padding">
