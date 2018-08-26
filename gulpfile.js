@@ -32,6 +32,9 @@ elixir(function(mix) {
 
 	], './static/build/js/vendor.js');
 
-    mix.copy('node_modules/font-awesome/fonts', './static/build/fonts');
+    mix.copy([
+        'node_modules/font-awesome/fonts',
+        '/assets/css/fonts'
+    ], './static/build/fonts');
 
 });

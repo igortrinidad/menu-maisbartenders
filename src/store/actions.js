@@ -1,5 +1,6 @@
 import * as TYPES from './mutations-types'
 import axios from 'axios'
+
 export const setLoading = ({ commit }, options) => {
 
     /**
@@ -18,11 +19,12 @@ export const setLanguage = ({ commit }, language) => {
 }
 
 export const setCategories = ({ commit }) => {
+
     var categories = JSON.parse(localStorage.getItem('categories'))
 
     //Se não encontrar categorias salvas
     if(!categories || !categories.length){
-        axios.get(`/categories/list/${localStorage.getItem('language')}`)
+        axios.get(`/categories/list/pt`)
             .then(function (response) {
                 var categories = response.data.categories
 
